@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Matt Ward]]></title>
-  <link href="http://mrward.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: T4 | Matt Ward]]></title>
+  <link href="http://mrward.github.com/blog/categories/t4/atom.xml" rel="self"/>
   <link href="http://mrward.github.com/"/>
   <updated>2012-09-05T22:38:46+01:00</updated>
   <id>http://mrward.github.com/</id>
