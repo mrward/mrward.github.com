@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://mrward.github.com/atom.xml" rel="self"/>
   <link href="http://mrward.github.com/"/>
-  <updated>2012-09-06T08:11:14+01:00</updated>
+  <updated>2012-09-06T20:11:31+01:00</updated>
   <id>http://mrward.github.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,325 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ASP.NET MVC 3 T4 Template Properties]]></title>
+    <link href="http://mrward.github.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/"/>
+    <updated>2011-10-13T21:30:00+01:00</updated>
+    <id>http://mrward.github.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3</id>
+    <content type="html"><![CDATA[<p>Here are the properties that ASP.NET MVC 3.0 provides to T4 templates when you use the Add View and Add Controller dialogs inside Visual Studio 2010.</p>
+
+<h2>Add Controller</h2>
+
+<table class="article" title="T4 template controller properties for ASP.NET MVC 3.0">
+  <thead>
+    <tr>
+      <th>Property Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AddActionMethods</td>
+      <td>Boolean</td>
+      <td>Adds action methods to the generated controller 
+      class.</td>
+    </tr>
+    <tr>
+      <td>AreaName</td>
+      <td>System.String</td>
+      <td>The name of the Area that the controller is created 
+      for.</td>
+    </tr>
+    <tr>
+      <td>ContextType</td>
+      <td>System.Type</td>
+      <td>The type of the data context.</td>
+    </tr>
+    <tr>
+      <td>ControllerName</td>
+      <td>String</td>
+      <td>The name of the controller class that will be 
+      generated.</td>
+    </tr>
+    <tr>
+      <td>ControllerRootName</td>
+      <td>String</td>
+      <td>The name of the controller class excluding the Controller 
+      part at the end of the name.</td>
+    </tr>
+    <tr>
+      <td>EntitySetName</td>
+      <td>String</td>
+      <td>Name of the property on the data context class containing 
+      the set of entities.</td>
+    </tr>
+    <tr>
+      <td>ModelType</td>
+      <td>System.Type</td>
+      <td>The type of the model class specified in the Add 
+      Controller dialog.</td>
+    </tr>
+    <tr>
+      <td>Namespace</td>
+      <td>String</td>
+      <td>Namespace that will be used for the generated controller 
+      class.</td>
+    </tr>
+    <tr>
+      <td>PrimaryKeys</td>
+      <td>
+        PrimaryKey[]
+        <br />
+        (Microsoft.
+        <br />
+        VisualStudio.
+        <br />
+        Web.Mvc.
+        <br />
+        Scaffolding.
+        <br />
+        BuiltIn)
+      </td>
+      <td>Primary keys for the model. See table at end for 
+      PrimaryKey properties.</td>
+    </tr>
+    <tr>
+      <td>RelatedProperties</td>
+      <td>
+        Dictionary&lt;String,
+        <br />
+        RelatedModel
+        <br />
+        (Microsoft.
+        <br />
+        VisualStudio.
+        <br />
+        Web.
+        <br />
+        Mvc.
+        <br />
+        Scaffolding.
+        <br />
+        BuiltIn)&gt;
+      </td>
+      <td>Related properties on the model. See table at end for 
+      RelatedModel properties.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2>Add View</h2>
+
+<table class="article" title="T4 template view properties for ASP.NET MVC 3.0">
+  <thead>
+    <tr>
+      <th>Property Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AreaName</td>
+      <td>System.String</td>
+      <td>The name of the Area that the view is being created 
+      for.</td>
+    </tr>
+    <tr>
+      <td>ContentPlaceHolderIDs</td>
+      <td>List&lt;string&gt;</td>
+      <td>List of content place holder IDs in the master page.</td>
+    </tr>
+    <tr>
+      <td>IsContentPage</td>
+      <td>Boolean</td>
+      <td>True if the generated view will be created with a master 
+      page or a Razor layout page.</td>
+    </tr>
+    <tr>
+      <td>IsPartialView</td>
+      <td>Boolean</td>
+      <td>True if the generated view is a partial view (e.g. an 
+      ASP.NET user control).</td>
+    </tr>
+    <tr>
+      <td>MasterPageFile</td>
+      <td>String</td>
+      <td>Master page file or Razor layout to be used with view 
+      (e.g. ~/Views/Shared/Site.Master).</td>
+    </tr>
+    <tr>
+      <td>Namespace</td>
+      <td>String</td>
+      <td>Namespace that will be used for the generated view.</td>
+    </tr>
+    <tr>
+      <td>PrimaryContentPlaceHolderID</td>
+      <td>String</td>
+      <td>Primary content place holder ID to be used when creating 
+      a view using a master page.</td>
+    </tr>
+    <tr>
+      <td>ReferenceScriptLibraries</td>
+      <td>Boolean</td>
+      <td>True if checked in the Add View dialog.</td>
+    </tr>
+    <tr>
+      <td>ViewDataType</td>
+      <td>System.Type</td>
+      <td>The view model&apos;s type.</td>
+    </tr>
+    <tr>
+      <td>ViewDataTypeName</td>
+      <td>String</td>
+      <td>Fully qualified name for the view model&apos;s type.</td>
+    </tr>
+    <tr>
+      <td>ViewName</td>
+      <td>String</td>
+      <td>Name of the view.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2>Common Properties</h2>
+
+<table class="article" title="T4 template common properties for ASP.NET MVC 3.0">
+  <thead>
+    <tr>
+      <th>Property Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AssemblyPath</td>
+      <td>List&lt;string&gt;</td>
+      <td>List of assemblies referenced by the project and the 
+      project&apos;s output assembly. Internal use.</td>
+    </tr>
+    <tr>
+      <td>Errors</td>
+      <td>
+        CompilerErrorCollection
+        <br />
+        (System.CodeDom.Compiler)
+      </td>
+      <td>Used to stored errors that occur whilst processing the T4 
+      template. Internal use.</td>
+    </tr>
+    <tr>
+      <td>FileEncoding</td>
+      <td>System.Text.Encoding</td>
+      <td>The encoding of the file that will be generated.</td>
+    </tr>
+    <tr>
+      <td>FileExtension</td>
+      <td>String</td>
+      <td>Not set.</td>
+    </tr>
+    <tr>
+      <td>FrameworkVersion</td>
+      <td>System.Version</td>
+      <td>The .NET framework version.</td>
+    </tr>
+    <tr>
+      <td>OutputFileExtension</td>
+      <td>System.String</td>
+      <td>The extension of the file that will be generated.</td>
+    </tr>
+    <tr>
+      <td>TemplateFile</td>
+      <td>System.String</td>
+      <td>The full path to the T4 template file being used.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2>Primary Key Properties</h2>
+
+<table class="article" title="T4 template common properties for ASP.NET MVC 3.0">
+  <thead>
+    <tr>
+      <th>Property Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Name</td>
+      <td>String</td>
+      <td/>
+    </tr>
+    <tr>
+      <td>ShortTypeName</td>
+      <td>String</td>
+      <td/>
+    </tr>
+    <tr>
+      <td>Type</td>
+      <td>System.Type</td>
+      <td/>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2>Related Model Properties</h2>
+
+<table class="article" title="T4 template common properties for ASP.NET MVC 3.0">
+  <thead>
+    <tr>
+      <th>Property Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DisplayPropertyName</td>
+      <td>String</td>
+      <td/>
+    </tr>
+    <tr>
+      <td>EntitySetName</td>
+      <td>String</td>
+      <td/>
+    </tr>
+    <tr>
+      <td>ForeignKeyPropertyName</td>
+      <td>String</td>
+      <td/>
+    </tr>
+    <tr>
+      <td>PrimaryKey</td>
+      <td>String</td>
+      <td/>
+    </tr>
+    <tr>
+      <td>PropertyName</td>
+      <td>String</td>
+      <td/>
+    </tr>
+    <tr>
+      <td>TypeName</td>
+      <td>String</td>
+      <td/>
+    </tr>
+  </tbody>
+</table>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[T4 Import Directive - Namespace Alias]]></title>
