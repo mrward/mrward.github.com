@@ -1,2 +1,31 @@
 // This File is imported last, and will override other styles in the cascade
 // Add styles here to make changes without digging in too much
+
+table.article
+{
+	border-color: darkgrey;
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	text-align: left;
+}
+
+table.article th
+{
+	background-color: #888888;
+	color: #F2F2F2;
+	border-width: 1px 1px 1px 1px;
+	border-style: solid;
+	border-color: darkgrey;
+	padding: 2px 3px;
+	background: #888888;
+}
+
+table.article td
+{
+	border-width: 1px 1px 1px 1px;
+	border-color: darkgrey;
+	border-style: solid;
+	padding: 2px 3px;
+}
