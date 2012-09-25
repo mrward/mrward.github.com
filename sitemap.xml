@@ -1,23 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://mrward.github.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/</loc>
+        <loc>http://lastexitcode.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/</loc>
         <lastmod>2012-09-06T08:10:58+01:00</lastmod>
     </url>
     <url>
-        <loc>http://mrward.github.com/blog/2011/10/04/T4ImportNamespaceAlias/</loc>
+        <loc>http://lastexitcode.com/blog/2011/10/04/T4ImportNamespaceAlias/</loc>
         <lastmod>2012-09-05T22:38:03+01:00</lastmod>
     </url>
     <url>
-        <loc>http://mrward.github.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/</loc>
+        <loc>http://lastexitcode.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/</loc>
         <lastmod>2012-09-06T19:58:30+01:00</lastmod>
     </url>
     <url>
-        <loc>http://mrward.github.com/blog/archives/</loc>
-        <lastmod>2012-09-06T19:58:30+01:00</lastmod>
+        <loc>
+            http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts/
+        </loc>
+        <lastmod>2012-09-25T17:53:54+01:00</lastmod>
     </url>
     <url>
-        <loc>http://mrward.github.com/</loc>
-        <lastmod>2012-09-06T19:58:30+01:00</lastmod>
+        <loc>http://lastexitcode.com/blog/archives/</loc>
+        <lastmod>2012-09-25T17:53:54+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://lastexitcode.com/</loc>
+        <lastmod>2012-09-25T17:53:54+01:00</lastmod>
     </url>
 </urlset>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Matt Ward]]></title>
-  <link href="http://mrward.github.com/atom.xml" rel="self"/>
-  <link href="http://mrward.github.com/"/>
-  <updated>2012-09-06T20:11:31+01:00</updated>
-  <id>http://mrward.github.com/</id>
+  <link href="http://lastexitcode.com/atom.xml" rel="self"/>
+  <link href="http://lastexitcode.com/"/>
+  <updated>2012-09-25T17:56:44+01:00</updated>
+  <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
     
@@ -14,10 +14,42 @@
 
   
   <entry>
+    <title type="html"><![CDATA[ExecutionEngineException thrown when using Code Contracts]]></title>
+    <link href="http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts/"/>
+    <updated>2012-09-25T17:35:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts</id>
+    <content type="html"><![CDATA[<p>Whilst changing the Entity Framework 5.0 NuGet package to work with <a href="http://www.icsharpcode.net/OpenSource/SD/">SharpDevelop</a> a custom build of the NuGet package was causing Visual Studio 2010 to crash when the package was being installed. Debugging the crash by attaching another instance of Visual Studio revealed that an <a href="http://msdn.microsoft.com/en-us/library/system.executionengineexception.aspx">ExecutionEngineException</a> was being thrown when the following line of code was being executed.</p>
+
+<pre><code>Contract.Requires(project != null);
+</code></pre>
+
+<p>The exception itself had no other information. The exception&#8217;s message just repeated the exception that was being thrown: &#8220;Exception of type &#8216;System.ExecutionEngineException&#8217; was thrown.&#8221;. This exception indicates an internal error occurred in the CLR execution engine.</p>
+
+<p>The real problem is the use of <a href="http://research.microsoft.com/en-us/projects/contracts/">Code Contracts</a> and not following the <a href="http://entityframework.codeplex.com/documentation">Entity Framework documentation on how to build it from source code</a>.</p>
+
+<p>The <a href="http://msdn.microsoft.com/en-us/library/system.diagnostics.contracts.contract.aspx">Contract</a> class is used to define required preconditions and postconditions for a method and is used when defining Code Contracts. It is part of the .NET Framework 4.0 and can be found in mscorlib.dll in the System.Diagnostics.Contracts namespace.</p>
+
+<p>The problem with the custom build of Entity Framework is that there are parts of Code Contracts included with .NET Framework 4.0 so you can compile a project that uses Code Contracts without any errors but on running the application you can have an ExecutionEngineException thrown. This can occur if you do not have the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts Visual Studio extension</a> installed when the project is built. With this extension installed your assembly will be modified when it is compiled by the code contracts binary rewriter.  The rewriter will inject the contracts into your assembly so the checks will be run when the code is executed.</p>
+
+<h2>Solution</h2>
+
+<p>To get around this problem you have two options.</p>
+
+<ol>
+<li><p>Install the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts</a> Visual Studio extension and then rebuild your project. After installing you should have a Code Contracts page in your project options.</p></li>
+<li><p>Remove <a href="http://msmvps.com/blogs/luisabreu/archive/2008/11/12/code-contracts-and-runtime-rewriting.aspx">CONTRACTS_FULL</a> from the conditional compilation symbols in the project&#8217;s options.</p></li>
+</ol>
+
+
+<p>CONTRACTS_FULL is used to enable runtime checking of the code contracts. If this is not defined then the calls made to the any of Contract methods are ignored by the compiler when building your project.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[ASP.NET MVC 3 T4 Template Properties]]></title>
-    <link href="http://mrward.github.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/"/>
+    <link href="http://lastexitcode.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/"/>
     <updated>2011-10-13T21:30:00+01:00</updated>
-    <id>http://mrward.github.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3</id>
+    <id>http://lastexitcode.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3</id>
     <content type="html"><![CDATA[<p>Here are the properties that ASP.NET MVC 3.0 provides to T4 templates when you use the Add View and Add Controller dialogs inside Visual Studio 2010.</p>
 
 <h2>Add Controller</h2>
@@ -334,9 +366,9 @@
   
   <entry>
     <title type="html"><![CDATA[T4 Import Directive - Namespace Alias]]></title>
-    <link href="http://mrward.github.com/blog/2011/10/04/T4ImportNamespaceAlias/"/>
+    <link href="http://lastexitcode.com/blog/2011/10/04/T4ImportNamespaceAlias/"/>
     <updated>2011-10-04T19:54:00+01:00</updated>
-    <id>http://mrward.github.com/blog/2011/10/04/T4ImportNamespaceAlias</id>
+    <id>http://lastexitcode.com/blog/2011/10/04/T4ImportNamespaceAlias</id>
     <content type="html"><![CDATA[<p>How do you specify a namespace alias when using the <a href="http://msdn.microsoft.com/en-us/library/gg586948.aspx">Import directive</a> in a T4 template?</p>
 
 <p>The <a href="http://msdn.microsoft.com/en-us/library/gg586948.aspx">Import directive</a> in a T4 template is used to bring a namespace  into scope for any code that will be run when the T4 template is processed. Here is an example template that imports the System.IO namespace without using a namespace alias.</p>
@@ -371,9 +403,9 @@ File content: &lt;#= text #&gt;
   
   <entry>
     <title type="html"><![CDATA[Creating a JavaScript Parser with ANTLR that can be used from CSharp]]></title>
-    <link href="http://mrward.github.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/"/>
+    <link href="http://lastexitcode.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/"/>
     <updated>2011-08-21T19:30:00+01:00</updated>
-    <id>http://mrward.github.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp</id>
+    <id>http://lastexitcode.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp</id>
     <content type="html"><![CDATA[<p>How do you create a JavaScript parser that you can use from C#? One way is to use <a href="http://www.antlr.org/about.html">ANTLR</a>. ANother Tool for Language Recognition (ANTLR) is a parser generated created and maintained by Terence Parr.</p>
 
 <p>The ANTLR website has a JavaScript grammar already defined so we will take that grammar, get ANTLR to create a parser, and then use that parser to parse some JavaScript code. The following guide is based on using <a href="http://www.antlr.org/works/index.html">ANTLRWorks 1.4.2</a>, which includes ANTLR 3.3, and the CSharp3 code generator version 3.3.1.</p>

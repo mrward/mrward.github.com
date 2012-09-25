@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: JavaScript | Matt Ward]]></title>
-  <link href="http://mrward.github.com/blog/categories/javascript/atom.xml" rel="self"/>
-  <link href="http://mrward.github.com/"/>
-  <updated>2012-09-06T20:11:31+01:00</updated>
-  <id>http://mrward.github.com/</id>
+  <link href="http://lastexitcode.com/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://lastexitcode.com/"/>
+  <updated>2012-09-25T17:56:44+01:00</updated>
+  <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Creating a JavaScript Parser with ANTLR that can be used from CSharp]]></title>
-    <link href="http://mrward.github.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/"/>
+    <link href="http://lastexitcode.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/"/>
     <updated>2011-08-21T19:30:00+01:00</updated>
-    <id>http://mrward.github.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp</id>
+    <id>http://lastexitcode.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp</id>
     <content type="html"><![CDATA[<p>How do you create a JavaScript parser that you can use from C#? One way is to use <a href="http://www.antlr.org/about.html">ANTLR</a>. ANother Tool for Language Recognition (ANTLR) is a parser generated created and maintained by Terence Parr.</p>
 
 <p>The ANTLR website has a JavaScript grammar already defined so we will take that grammar, get ANTLR to create a parser, and then use that parser to parse some JavaScript code. The following guide is based on using <a href="http://www.antlr.org/works/index.html">ANTLRWorks 1.4.2</a>, which includes ANTLR 3.3, and the CSharp3 code generator version 3.3.1.</p>

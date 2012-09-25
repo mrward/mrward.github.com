@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ASP.NET | Matt Ward]]></title>
-  <link href="http://mrward.github.com/blog/categories/asp-net/atom.xml" rel="self"/>
-  <link href="http://mrward.github.com/"/>
-  <updated>2012-09-06T20:11:31+01:00</updated>
-  <id>http://mrward.github.com/</id>
+  <link href="http://lastexitcode.com/blog/categories/asp-net/atom.xml" rel="self"/>
+  <link href="http://lastexitcode.com/"/>
+  <updated>2012-09-25T17:56:44+01:00</updated>
+  <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ASP.NET MVC 3 T4 Template Properties]]></title>
-    <link href="http://mrward.github.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/"/>
+    <link href="http://lastexitcode.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/"/>
     <updated>2011-10-13T21:30:00+01:00</updated>
-    <id>http://mrward.github.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3</id>
+    <id>http://lastexitcode.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3</id>
     <content type="html"><![CDATA[<p>Here are the properties that ASP.NET MVC 3.0 provides to T4 templates when you use the Add View and Add Controller dialogs inside Visual Studio 2010.</p>
 
 <h2>Add Controller</h2>
