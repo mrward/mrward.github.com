@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: CodeContracts | Matt Ward]]></title>
+  <link href="http://lastexitcode.com/blog/categories/codecontracts/atom.xml" rel="self"/>
+  <link href="http://lastexitcode.com/"/>
+  <updated>2012-09-26T14:29:45+01:00</updated>
+  <id>http://lastexitcode.com/</id>
+  <author>
+    <name><![CDATA[Matt Ward]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[ExecutionEngineException thrown when using Code Contracts]]></title>
+    <link href="http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts/"/>
+    <updated>2012-09-25T17:35:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts</id>
+    <content type="html"><![CDATA[<p>Whilst changing the Entity Framework 5.0 NuGet package to work with <a href="http://www.icsharpcode.net/OpenSource/SD/">SharpDevelop</a> a custom build of the NuGet package was causing Visual Studio 2010 to crash when the package was being installed. Debugging the crash by attaching another instance of Visual Studio revealed that an <a href="http://msdn.microsoft.com/en-us/library/system.executionengineexception.aspx">ExecutionEngineException</a> was being thrown when the following line of code was being executed.</p>
+
+<pre><code>Contract.Requires(project != null);
+</code></pre>
+
+<p>The exception itself had no other information. The exception's message just repeated the exception that was being thrown: "Exception of type 'System.ExecutionEngineException' was thrown.". This exception indicates an internal error occurred in the CLR execution engine.</p>
+
+<p>The real problem is the use of <a href="http://research.microsoft.com/en-us/projects/contracts/">Code Contracts</a> and not following the <a href="http://entityframework.codeplex.com/documentation">Entity Framework documentation on how to build it from source code</a>.</p>
+
+<p>The <a href="http://msdn.microsoft.com/en-us/library/system.diagnostics.contracts.contract.aspx">Contract</a> class is used to define required preconditions and postconditions for a method and is used when defining Code Contracts. It is part of the .NET Framework 4.0 and can be found in mscorlib.dll in the System.Diagnostics.Contracts namespace.</p>
+
+<p>The problem with the custom build of Entity Framework is that there are parts of Code Contracts included with .NET Framework 4.0 so you can compile a project that uses Code Contracts without any errors but on running the application you can have an ExecutionEngineException thrown. This can occur if you do not have the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts Visual Studio extension</a> installed when the project is built. With this extension installed your assembly will be modified when it is compiled by the code contracts binary rewriter.  The rewriter will inject the contracts into your assembly so the checks will be run when the code is executed.</p>
+
+<h2>Solution</h2>
+
+<p>To get around this problem you have two options.</p>
+
+<ol>
+<li><p>Install the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts</a> Visual Studio extension and then rebuild your project. After installing you should have a Code Contracts page in your project options.</p></li>
+<li><p>Remove <a href="http://msmvps.com/blogs/luisabreu/archive/2008/11/12/code-contracts-and-runtime-rewriting.aspx">CONTRACTS_FULL</a> from the conditional compilation symbols in the project's options.</p></li>
+</ol>
+
+
+<p>CONTRACTS_FULL is used to enable runtime checking of the code contracts. If this is not defined then the calls made to the any of Contract methods are ignored by the compiler when building your project.</p>
+]]></content>
+  </entry>
+  
+</feed>
