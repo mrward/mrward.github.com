@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2012-09-26T14:29:45+01:00</updated>
+  <updated>2012-09-26T16:46:48+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cloning a CodePlex Repository over to GitHub]]></title>
+    <link href="http://lastexitcode.com/blog/2012/09/26/CloneCodePlexRepositoryToGitHub/"/>
+    <updated>2012-09-26T16:36:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2012/09/26/CloneCodePlexRepositoryToGitHub</id>
+    <content type="html"><![CDATA[<p>How do you clone a CodePlex Git repository over to GitHub?</p>
+
+<p>Here we take a look at how to clone the<a href="http://entityframework.codeplex.com/"> Entity Framework Git repository</a>, which is available on CodePlex, over to GitHub. The goal is to be able to take new commits from the original CodePlex Git repository and update the repository being hosted on GitHub.</p>
+
+<ol>
+<li><p>Create a repository on GitHub.</p>
+
+<p> Do not initialise the repository with a readme file just create the repository. We are going to call this repository entityframework-sharpdevelop since this will be a port of the Entity Framework which will work with SharpDevelop.</p></li>
+<li><p>Clone the CodePlex repository to your local machine.</p>
+
+<p> Using your favourite Git client clone the Entity Framework repository at CodePlex to your local machine.</p>
+
+<pre><code> git clone https://git01.codeplex.com/entityframework entityframework
+</code></pre></li>
+<li><p>Configure Git Remotes</p>
+
+<p> Our goal is to have a setup similar to the following.</p>
+
+<pre><code> git remote -v
+
+ origin  git@github.com:mrward/entityframework-sharpdevelop.git (fetch)
+ origin  git@github.com:mrward/entityframework-sharpdevelop.git (push)
+ upstream        https://git01.codeplex.com/entityframework (fetch)
+ upstream        https://git01.codeplex.com/entityframework (push)
+</code></pre>
+
+<p> We want an upstream remote that points to the original Entity Framework repository on CodePlex. We also want an origin remote that points our GitHub repository</p>
+
+<p> First we create the upstream remote by renaming the origin remote. From inside the entityframework folder we run the following command.</p>
+
+<pre><code> git remote rename origin upstream
+</code></pre>
+
+<p> Now we add the new origin remote.</p>
+
+<pre><code> git remote add origin git@github.com:mrward/entityframework-sharpdevelop.git
+</code></pre>
+
+<p> Run <strong>git remote -v</strong> to check that the configuration is correct.</p></li>
+<li><p>Push the code to GitHub</p>
+
+<pre><code> git push -u origin master
+</code></pre></li>
+<li><p>Get the latest Entity Framework Commits into GitHub</p>
+
+<p> Now when you want to get the latest Entity Framework commits from CodePlex you can run the following commands to merge these commits into your local master branch.</p>
+
+<pre><code> git fetch upstream
+ git merge upstream/master
+</code></pre>
+
+<p> Then you can push the changes up to GitHub.</p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Creating a GitHub hosted blog with Octopress]]></title>

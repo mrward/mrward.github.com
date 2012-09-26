@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>ExecutionEngineException thrown when using Code Contracts - Matt Ward</title>
+  <title>Cloning a CodePlex Repository over to GitHub - Matt Ward</title>
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Whilst changing the Entity Framework 5.0 NuGet package to work with SharpDevelop a custom build of the NuGet package was causing Visual Studio 2010 &hellip;">
+  <meta name="description" content="How do you clone a CodePlex Git repository over to GitHub? Here we take a look at how to clone the Entity Framework Git repository, which is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts/">
+  <link rel="canonical" href="http://lastexitcode.com/blog/2012/09/26/CloneCodePlexRepositoryToGitHub/">
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -77,7 +77,7 @@
   
   <header>
     
-      <h1 class="entry-title">ExecutionEngineException thrown when using Code Contracts</h1>
+      <h1 class="entry-title">Cloning a CodePlex Repository over to GitHub</h1>
     
     
       <p class="meta">
@@ -93,37 +93,67 @@
   
 
 
-<time datetime="2012-09-25T17:35:00+01:00" pubdate data-updated="true">Sep 25<span>th</span>, 2012</time>
+<time datetime="2012-09-26T16:36:00+01:00" pubdate data-updated="true">Sep 26<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Whilst changing the Entity Framework 5.0 NuGet package to work with <a href="http://www.icsharpcode.net/OpenSource/SD/">SharpDevelop</a> a custom build of the NuGet package was causing Visual Studio 2010 to crash when the package was being installed. Debugging the crash by attaching another instance of Visual Studio revealed that an <a href="http://msdn.microsoft.com/en-us/library/system.executionengineexception.aspx">ExecutionEngineException</a> was being thrown when the following line of code was being executed.</p>
+<div class="entry-content"><p>How do you clone a CodePlex Git repository over to GitHub?</p>
 
-<pre><code>Contract.Requires(project != null);
-</code></pre>
-
-<p>The exception itself had no other information. The exception&#8217;s message just repeated the exception that was being thrown: &#8220;Exception of type &#8216;System.ExecutionEngineException&#8217; was thrown.&#8221;. This exception indicates an internal error occurred in the CLR execution engine.</p>
-
-<p>The real problem is the use of <a href="http://research.microsoft.com/en-us/projects/contracts/">Code Contracts</a> and not following the <a href="http://entityframework.codeplex.com/documentation">Entity Framework documentation on how to build it from source code</a>.</p>
-
-<p>The <a href="http://msdn.microsoft.com/en-us/library/system.diagnostics.contracts.contract.aspx">Contract</a> class is used to define required preconditions and postconditions for a method and is used when defining Code Contracts. It is part of the .NET Framework 4.0 and can be found in mscorlib.dll in the System.Diagnostics.Contracts namespace.</p>
-
-<p>The problem with the custom build of Entity Framework is that there are parts of Code Contracts included with .NET Framework 4.0 so you can compile a project that uses Code Contracts without any errors but on running the application you can have an ExecutionEngineException thrown. This can occur if you do not have the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts Visual Studio extension</a> installed when the project is built. With this extension installed your assembly will be modified when it is compiled by the code contracts binary rewriter.  The rewriter will inject the contracts into your assembly so the checks will be run when the code is executed.</p>
-
-<h2>Solution</h2>
-
-<p>To get around this problem you have two options.</p>
+<p>Here we take a look at how to clone the<a href="http://entityframework.codeplex.com/"> Entity Framework Git repository</a>, which is available on CodePlex, over to GitHub. The goal is to be able to take new commits from the original CodePlex Git repository and update the repository being hosted on GitHub.</p>
 
 <ol>
-<li><p>Install the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts</a> Visual Studio extension and then rebuild your project. After installing you should have a Code Contracts page in your project options.</p></li>
-<li><p>Remove <a href="http://msmvps.com/blogs/luisabreu/archive/2008/11/12/code-contracts-and-runtime-rewriting.aspx">CONTRACTS_FULL</a> from the conditional compilation symbols in the project&#8217;s options.</p></li>
+<li><p>Create a repository on GitHub.</p>
+
+<p> Do not initialise the repository with a readme file just create the repository. We are going to call this repository entityframework-sharpdevelop since this will be a port of the Entity Framework which will work with SharpDevelop.</p></li>
+<li><p>Clone the CodePlex repository to your local machine.</p>
+
+<p> Using your favourite Git client clone the Entity Framework repository at CodePlex to your local machine.</p>
+
+<pre><code> git clone https://git01.codeplex.com/entityframework entityframework
+</code></pre></li>
+<li><p>Configure Git Remotes</p>
+
+<p> Our goal is to have a setup similar to the following.</p>
+
+<pre><code> git remote -v
+
+ origin  git@github.com:mrward/entityframework-sharpdevelop.git (fetch)
+ origin  git@github.com:mrward/entityframework-sharpdevelop.git (push)
+ upstream        https://git01.codeplex.com/entityframework (fetch)
+ upstream        https://git01.codeplex.com/entityframework (push)
+</code></pre>
+
+<p> We want an upstream remote that points to the original Entity Framework repository on CodePlex. We also want an origin remote that points our GitHub repository</p>
+
+<p> First we create the upstream remote by renaming the origin remote. From inside the entityframework folder we run the following command.</p>
+
+<pre><code> git remote rename origin upstream
+</code></pre>
+
+<p> Now we add the new origin remote.</p>
+
+<pre><code> git remote add origin git@github.com:mrward/entityframework-sharpdevelop.git
+</code></pre>
+
+<p> Run <strong>git remote -v</strong> to check that the configuration is correct.</p></li>
+<li><p>Push the code to GitHub</p>
+
+<pre><code> git push -u origin master
+</code></pre></li>
+<li><p>Get the latest Entity Framework Commits into GitHub</p>
+
+<p> Now when you want to get the latest Entity Framework commits from CodePlex you can run the following commands to merge these commits into your local master branch.</p>
+
+<pre><code> git fetch upstream
+ git merge upstream/master
+</code></pre>
+
+<p> Then you can push the changes up to GitHub.</p></li>
 </ol>
 
-
-<p>CONTRACTS_FULL is used to enable runtime checking of the code contracts. If this is not defined then the calls made to the any of Contract methods are ignored by the compiler when building your project.</p>
 </div>
 
 
@@ -146,12 +176,12 @@
   
 
 
-<time datetime="2012-09-25T17:35:00+01:00" pubdate data-updated="true">Sep 25<span>th</span>, 2012</time>
+<time datetime="2012-09-26T16:36:00+01:00" pubdate data-updated="true">Sep 26<span>th</span>, 2012</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/codecontracts/'>CodeContracts</a>
+    <a class='category' href='/blog/categories/codeplex/'>codeplex</a>, <a class='category' href='/blog/categories/github/'>github</a>
   
 </span>
 
@@ -160,7 +190,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts/" data-via="" data-counturl="http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2012/09/26/CloneCodePlexRepositoryToGitHub/" data-via="" data-counturl="http://lastexitcode.com/blog/2012/09/26/CloneCodePlexRepositoryToGitHub/" >Tweet</a>
   
   
   
@@ -169,10 +199,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/" title="Previous Post: ASP.NET MVC 3 T4 Template Properties">&laquo; ASP.NET MVC 3 T4 Template Properties</a>
+        <a class="basic-alignment left" href="/blog/2012/09/26/CreatingAGitHubHostedBlogWithOctopress/" title="Previous Post: Creating a GitHub hosted blog with Octopress">&laquo; Creating a GitHub hosted blog with Octopress</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/09/26/CreatingAGitHubHostedBlogWithOctopress/" title="Next Post: Creating a GitHub hosted blog with Octopress">Creating a GitHub hosted blog with Octopress &raquo;</a>
       
     </p>
   </footer>
