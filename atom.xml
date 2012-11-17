@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2012-09-26T16:46:48+01:00</updated>
+  <updated>2012-11-17T15:52:02+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[IronPython Error: Attribute of Namespace Object is Read-Only]]></title>
+    <link href="http://lastexitcode.com/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly/"/>
+    <updated>2012-11-17T14:40:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly</id>
+    <content type="html"><![CDATA[<p>If you are seeing an AttributeError, as shown below, when running IronPython 2.7 then check you have added all the required assembly reference to your application.</p>
+
+<pre><code>AttributeError: attribute 'Xml' of 'namespace#' object is read-only
+</code></pre>
+
+<p>The attribute name displayed will most likely be different but the underlying problem is that you are trying to use a type that exists in an assembly that is not referenced. Here is a simple example that reproduces the error.</p>
+
+<pre><code>import System
+doc = System.Xml.XmlDocument()
+</code></pre>
+
+<p>The code above is importing the System namespace and then attempting to create an XmlDocument object. Running the above code with ipy.exe will result in the AttributeError being displayed.</p>
+
+<pre><code>D:\projects&gt;ipy
+IronPython 2.7.3 (2.7.0.40) on .NET 4.0.30319.296 (32-bit)
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; import System
+&gt;&gt;&gt; doc = System.Xml.Document()
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+AttributeError: attribute 'Xml' of 'namespace#' object is read-only
+&gt;&gt;&gt;
+</code></pre>
+
+<p>The cryptic error message indicates that we do not have a reference to the System.Xml assembly. To fix the problem we add the following two lines of code before the code that creates the XmlDocument object.</p>
+
+<pre><code>import clr
+clr.AddReference("System.Xml")
+</code></pre>
+
+<p>Running the code again will now cause the XmlDocument object to be created without an error.</p>
+
+<pre><code>D:\projects&gt;ipy
+IronPython 2.7.3 (2.7.0.40) on .NET 4.0.30319.296 (32-bit)
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; import clr
+&gt;&gt;&gt; clr.AddReference("System.Xml")
+&gt;&gt;&gt; import System
+&gt;&gt;&gt; doc = System.Xml.XmlDocument()
+&gt;&gt;&gt; doc.ToString()
+'System.Xml.XmlDocument'
+&gt;&gt;&gt;
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cloning a CodePlex Repository over to GitHub]]></title>

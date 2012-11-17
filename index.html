@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="How do you clone a CodePlex Git repository over to GitHub? Here we take a look at how to clone the Entity Framework Git repository, which is &hellip;">
+  <meta name="description" content="If you are seeing an AttributeError, as shown below, when running IronPython 2.7 then check you have added all the required assembly reference to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,84 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly/">IronPython Error: Attribute of Namespace Object is Read-Only</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-17T14:40:00+00:00" pubdate data-updated="true">Nov 17<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If you are seeing an AttributeError, as shown below, when running IronPython 2.7 then check you have added all the required assembly reference to your application.</p>
+
+<pre><code>AttributeError: attribute 'Xml' of 'namespace#' object is read-only
+</code></pre>
+
+<p>The attribute name displayed will most likely be different but the underlying problem is that you are trying to use a type that exists in an assembly that is not referenced. Here is a simple example that reproduces the error.</p>
+
+<pre><code>import System
+doc = System.Xml.XmlDocument()
+</code></pre>
+
+<p>The code above is importing the System namespace and then attempting to create an XmlDocument object. Running the above code with ipy.exe will result in the AttributeError being displayed.</p>
+
+<pre><code>D:\projects&gt;ipy
+IronPython 2.7.3 (2.7.0.40) on .NET 4.0.30319.296 (32-bit)
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; import System
+&gt;&gt;&gt; doc = System.Xml.Document()
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+AttributeError: attribute 'Xml' of 'namespace#' object is read-only
+&gt;&gt;&gt;
+</code></pre>
+
+<p>The cryptic error message indicates that we do not have a reference to the System.Xml assembly. To fix the problem we add the following two lines of code before the code that creates the XmlDocument object.</p>
+
+<pre><code>import clr
+clr.AddReference("System.Xml")
+</code></pre>
+
+<p>Running the code again will now cause the XmlDocument object to be created without an error.</p>
+
+<pre><code>D:\projects&gt;ipy
+IronPython 2.7.3 (2.7.0.40) on .NET 4.0.30319.296 (32-bit)
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; import clr
+&gt;&gt;&gt; clr.AddReference("System.Xml")
+&gt;&gt;&gt; import System
+&gt;&gt;&gt; doc = System.Xml.XmlDocument()
+&gt;&gt;&gt; doc.ToString()
+'System.Xml.XmlDocument'
+&gt;&gt;&gt;
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1139,6 +1217,10 @@ public interface IAstRuleReturnScope : IRuleReturnScope
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly/">IronPython Error: Attribute of Namespace Object is Read-Only</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/26/CloneCodePlexRepositoryToGitHub/">Cloning a CodePlex Repository over to GitHub</a>
       </li>
     
@@ -1152,10 +1234,6 @@ public interface IAstRuleReturnScope : IRuleReturnScope
     
       <li class="post">
         <a href="/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/">ASP.NET MVC 3 T4 Template Properties</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/10/04/T4ImportNamespaceAlias/">T4 Import Directive - Namespace Alias</a>
       </li>
     
   </ul>
