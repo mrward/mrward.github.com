@@ -7,7 +7,7 @@ sharing: true
 footer: true
 ---
 
-## [Version 0.4](Releases/0.4/)
+## [Version 0.4](0.4/)
 
 2013-02-09
 
