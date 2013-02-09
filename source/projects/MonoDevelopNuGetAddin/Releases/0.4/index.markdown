@@ -13,7 +13,7 @@ footer: true
 
 The Manage Packages dialog has been updated to support paging through the list of packages. By clicking the arrows and numbers, on the bottom left under the packages list, you can move to a particular numbered page, the next page or the previous one.
 
-![Manage Packages Dialog](ManagePackagesDialogWithPackageDependencies.png)
+![Manage Packages Dialog](./ManagePackagesDialogWithPackageDependencies.png)
 
 The package information on the right hand side of the dialog now includes a **Dependencies** section which shows the NuGet packages that the currently selected package depends on.
 
@@ -21,7 +21,7 @@ The package information on the right hand side of the dialog now includes a **De
 
 There is a new options panel for general NuGet options. This options panel can be viewed by selecting Preferences from the Edit menu, then selecting NuGet and General on the left hand side of the Options dialog.
 
-![Manage Packages Dialog](NuGetGeneralOptions.png)
+![Manage Packages Dialog](./NuGetGeneralOptions.png)
 
 The options panel can be used to enable or disable NuGet package restore. This updates a property in the NuGet.config file which can be found in your **~/.config/NuGet/** folder.
 
