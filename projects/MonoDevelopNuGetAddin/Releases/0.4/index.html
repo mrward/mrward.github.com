@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: T4 - Matt Ward</title>
+  <title>MonoDevelop NuGet Addin 0.4 - Matt Ward</title>
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Category: T4">
+  <meta name="description" content="MonoDevelop NuGet Addin 0.4 Feb 9th, 2013 New Features Manage Packages Dialog The Manage Packages dialog has been updated to support paging through &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lastexitcode.comblog/categories/t4/">
+  <link rel="canonical" href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.4/">
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -77,45 +77,88 @@
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Category: T4</h1>
-    
+    <h1 class="entry-title">MonoDevelop NuGet Addin 0.4</h1>
+    <p class="meta">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-09T13:55:00+00:00" pubdate data-updated="true">Feb 9<span>th</span>, 2013</time></p>
   </header>
   
-  <div id="blog-archives" class="category">
+  <h2>New Features</h2>
+
+<h3>Manage Packages Dialog</h3>
+
+<p>The Manage Packages dialog has been updated to support paging through the list of packages. By clicking the arrows and numbers, on the bottom left under the packages list, you can move to a particular numbered page, the next page or the previous one.</p>
+
+<p><img src="ManagePackagesDialogWithPackageDependencies.png" alt="Manage Packages Dialog" /></p>
+
+<p>The package information on the right hand side of the dialog now includes a <strong>Dependencies</strong> section which shows the NuGet packages that the currently selected package depends on.</p>
+
+<h3>NuGet General Options</h3>
+
+<p>There is a new options panel for general NuGet options. This options panel can be viewed by selecting Preferences from the Edit menu, then selecting NuGet and General on the left hand side of the Options dialog.</p>
+
+<p><img src="NuGetGeneralOptions.png" alt="Manage Packages Dialog" /></p>
+
+<p>The options panel can be used to enable or disable NuGet package restore. This updates a property in the NuGet.config file which can be found in your <strong>~/.config/NuGet/</strong> folder.</p>
+
+<p>The NuGet packages cache can be cleared from this option panel by clicking the Clear Package Cache button. The Browse button will open the folder where the NuGet packages are cached.</p>
+
+<p>The recent packages list in the Manage Packages dialog can be cleared by clicking the Clear Recent Packages button.</p>
+
+<h2>Bug Fixes</h2>
+
+<ol>
+<li>The Last Published Date is now shown without the time in the Manage Packages dialog.</li>
+<li>web.config transforms are now being applied when a NuGet package is installed.  Previously the addin was not recognising the project as a web project and not applying the transforms. There is still a bug with transforms creating a new web.config file instead of updating the existing file due to a filename case sensitivity problem.</li>
+</ol>
+
+
+<h2>Download</h2>
+
+<p>The source code for the addin is available on <a href="https://github.com/mrward/monodevelop-nuget-addin">GitHub</a>.</p>
+
+<p>The addin is also available to download from a <a href="http://mrward.github.com/monodevelop-nuget-addin-repository/3.0.5/main.mrep">custom MonoDevelop repository</a>.</p>
+
+  
+    <footer>
+      <p class="meta">
+        
+        
+
+
+
+
+
 
 
 
   
-  <h2>2011</h2>
 
-<article>
+
+<time datetime="2013-02-09T13:55:00+00:00" pubdate data-updated="true">Feb 9<span>th</span>, 2013</time>
+        
+      </p>
+      
+        <div class="sharing">
   
-<h1><a href="/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/">ASP.NET MVC 3 T4 Template Properties</a></h1>
-<time datetime="2011-10-13T21:30:00+01:00" pubdate><span class='month'>Oct</span> <span class='day'>13</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/asp-net/'>ASP.NET</a>, <a class='category' href='/blog/categories/mvc/'>MVC</a>, <a class='category' href='/blog/categories/t4/'>T4</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.4/index.html" data-via="" data-counturl="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.4/index.html" >Tweet</a>
   
-<h1><a href="/blog/2011/10/04/T4ImportNamespaceAlias/">T4 Import Directive - Namespace Alias</a></h1>
-<time datetime="2011-10-04T19:54:00+01:00" pubdate><span class='month'>Oct</span> <span class='day'>04</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/t4/'>T4</a></span>
-</footer>
-
-
-</article>
-
+  
+  
 </div>
 
+      
+    </footer>
   
 </article>
 
