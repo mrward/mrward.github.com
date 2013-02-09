@@ -17,7 +17,7 @@ The Manage Packages dialog has been updated to support paging through the list o
 
 The package information on the right hand side of the dialog now includes a **Dependencies** section which shows the NuGet packages that the currently selected package depends on.
 
-### NuGet General Options
+### General NuGet Options
 
 There is a new options panel for general NuGet options. This options panel can be viewed by selecting Preferences from the Edit menu, then selecting NuGet and General on the left hand side of the Options dialog.
 
