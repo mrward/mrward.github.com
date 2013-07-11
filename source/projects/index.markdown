@@ -7,6 +7,6 @@ sharing: true
 footer: true
 ---
 
- * [MonoDevelop NuGet Addin](https://github.com/mrward/monodevelop-nuget-addin)
+ * [MonoDevelop NuGet Addin](MonoDevelopNuGetAddin/)
  * [SharpDevelop](http://www.icsharpcode.net/OpenSource/SD/)
  
