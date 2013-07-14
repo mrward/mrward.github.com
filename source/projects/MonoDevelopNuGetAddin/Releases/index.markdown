@@ -7,6 +7,20 @@ sharing: true
 footer: true
 ---
 
+## [Version 0.5](0.5/)
+
+2013-07-14
+
+ * Update to NuGet 2.6
+ * Support XML document transformations (XDTs).
+ * Add Update All button to Manage Packages dialog.
+ * Support authenticated feeds with credentials in NuGet.config.
+ * Support pre-release NuGet packages in Manage Packages dialog.
+ * Support NuGet packages containing MSBuild targets and props files.
+ * Add file conflict dialog.
+ * Show package install error message in Manage Packages dialog.
+ * Show NuGet package title and package id in Manage Packages dialog.
+
 ## [Version 0.4](0.4/)
 
 2013-02-09
