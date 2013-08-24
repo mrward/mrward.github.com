@@ -20,4 +20,4 @@ A new version of the NuGet addin for Xamarin Studio 4.0 has been released.
 * Update All button added to Manage Packages dialog so all packages can be updated in a project or solution in one step.
 * Package title displayed in the list of packages instead of the package id. The package id displayed when a package is selected on the right hand side of the dialog.
 
-For a detailed look at the new features please read the [release note](/Projects/MonoDevelopNuGetAddin/Releases/0.5/).
+For a detailed look at the new features please read the [release note](/projects/MonoDevelopNuGetAddin/Releases/0.5/).
