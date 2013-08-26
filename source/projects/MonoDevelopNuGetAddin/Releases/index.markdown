@@ -7,6 +7,15 @@ sharing: true
 footer: true
 ---
 
+## [Version 0.6](0.6/)
+
+2013-08-26
+
+ * Updated to NuGet 2.7
+ * Add support for restoring NuGet packages.
+ * Added message to show that the Manage Packages dialog is looking for packages.
+ * Fixed rootnamespace not being replaced in source code transforms.
+
 ## [Version 0.5](0.5/)
 
 2013-07-14
