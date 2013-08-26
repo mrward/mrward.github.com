@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: codeplex - Matt Ward</title>
+  <title>MonoDevelop NuGet Addin 0.6 - Matt Ward</title>
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Category: codeplex">
+  <meta name="description" content="MonoDevelop NuGet Addin 0.6 Aug 26th, 2013 New Features NuGet 2.7 support.
+Support for restoring NuGet packages.
+Added message to show that the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lastexitcode.comblog/categories/codeplex/">
+  <link rel="canonical" href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.6/">
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -77,31 +79,95 @@
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Category: codeplex</h1>
-    
+    <h1 class="entry-title">MonoDevelop NuGet Addin 0.6</h1>
+    <p class="meta">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-26T12:58:00+01:00" pubdate data-updated="true">Aug 26<span>th</span>, 2013</time></p>
   </header>
   
-  <div id="blog-archives" class="category">
+  <h2>New Features</h2>
+
+<ul>
+<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.7">NuGet 2.7</a> support.</li>
+<li>Support for restoring NuGet packages.</li>
+<li>Added message to show that the Manage Packages dialog is searching for packages.</li>
+</ul>
+
+
+<h3>Restoring NuGet Packages</h3>
+
+<p>To restore NuGet packages for your solution, from the <strong>Solution</strong> window right click the solution, project or References, and select <strong>Restore NuGet Packages</strong>.</p>
+
+<p><img src="./RestoreNuGetPackagesMenuItem.png" alt="Restore NuGet Packages menu item" /></p>
+
+<p>This will run NuGet.exe and uses the new <strong>restore</strong> argument that has been added to NuGet 2.7. The full command line will be similar to the following:</p>
+
+<pre><code>mono --runtime=v4.0 NuGet.exe restore YourSolution.sln
+</code></pre>
+
+<p>The output from this command will be shown in the NuGet output window. In the screenshot below you can see jQuery, Json.NET and NUnit being restored.</p>
+
+<p><img src="./NuGetPackageRestoreOutputWindow.png" alt="NuGet Restore Output Window" /></p>
+
+<p>This feature assumes that your path environment variable includes the path to the mono runtime so the mono command line can be run without having to specify the full path.</p>
+
+<h2>Bug Fixes</h2>
+
+<p>Fixed rootnamespace not being replaced in <a href="http://docs.nuget.org/docs/creating-packages/configuration-file-and-source-code-transformations">source code transforms</a> (.pp).</p>
+
+<h2>Download</h2>
+
+<p>The source code for the addin is available on <a href="https://github.com/mrward/monodevelop-nuget-addin">GitHub</a>.</p>
+
+<p>The addin is also available to download from a custom MonoDevelop repository:</p>
+
+<ul>
+<li><a href="http://mrward.github.com/monodevelop-nuget-addin-repository/4.1/main.mrep">Xamarin Studio 4.1</a></li>
+<li><a href="http://mrward.github.com/monodevelop-nuget-addin-repository/4.0/main.mrep">Xamarin Studio 4.0</a></li>
+<li><a href="http://mrward.github.com/monodevelop-nuget-addin-repository/3.0.5/main.mrep">MonoDevelop 3.0</a></li>
+</ul>
+
+
+  
+    <footer>
+      <p class="meta">
+        
+        
+
+
+
+
+
 
 
 
   
-  <h2>2012</h2>
 
-<article>
+
+<time datetime="2013-08-26T12:58:00+01:00" pubdate data-updated="true">Aug 26<span>th</span>, 2013</time>
+        
+      </p>
+      
+        <div class="sharing">
   
-<h1><a href="/blog/2012/09/26/CloneCodePlexRepositoryToGitHub/">Cloning a CodePlex Repository over to GitHub</a></h1>
-<time datetime="2012-09-26T16:36:00+01:00" pubdate><span class='month'>Sep</span> <span class='day'>26</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/codeplex/'>codeplex</a>, <a class='category' href='/blog/categories/github/'>github</a></span>
-</footer>
-
-
-</article>
-
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.6/index.html" data-via="" data-counturl="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.6/index.html" >Tweet</a>
+  
+  
+  
 </div>
 
+      
+    </footer>
   
 </article>
 
