@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2013-08-26T13:29:56+01:00</updated>
+  <updated>2013-11-03T16:54:39+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MonoDevelop NuGet Addin 0.7 Released]]></title>
+    <link href="http://lastexitcode.com/blog/2013/11/03/MonoDevelopNuGetAddin0-7Released/"/>
+    <updated>2013-11-03T15:28:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2013/11/03/MonoDevelopNuGetAddin0-7Released</id>
+    <content type="html"><![CDATA[<p>A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released.</p>
+
+<h2>New Features</h2>
+
+<ul>
+<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.7.1">NuGet 2.7.1</a> support.</li>
+<li>Improved support for Portable Class Libraries (PCLs) on Linux and Mac.</li>
+<li>Support using package restore with different parallel mono environments (Thanks to <a href="https://github.com/kjohnphillip">Kevin John-Philip</a>).</li>
+</ul>
+
+
+<p>For a detailed look at the new features please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.7/">release note</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MonoDevelop NuGet Addin 0.6 Released]]></title>

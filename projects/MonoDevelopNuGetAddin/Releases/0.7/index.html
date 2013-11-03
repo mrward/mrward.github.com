@@ -5,13 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>MonoDevelop NuGet Addin Releases - Matt Ward</title>
+  <title>MonoDevelop NuGet Addin 0.7 - Matt Ward</title>
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="MonoDevelop NuGet Addin Releases Feb 9th, 2013 Version 0.7 2013-11-03 Updated to NuGet 2.7.1
-Improved PCL support on Linux and Mac.
-Support &hellip;">
+  <meta name="description" content="MonoDevelop NuGet Addin 0.7 Nov 3rd, 2013 New Features NuGet 2.7.1 support.
+Improved support for Portable Class Libraries (PCLs) on Linux and Mac. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +19,7 @@ Support &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/">
+  <link rel="canonical" href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.7/">
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +78,7 @@ Support &hellip;">
 <article role="article">
   
   <header>
-    <h1 class="entry-title">MonoDevelop NuGet Addin Releases</h1>
+    <h1 class="entry-title">MonoDevelop NuGet Addin 0.7</h1>
     <p class="meta">
 
 
@@ -92,96 +91,63 @@ Support &hellip;">
   
 
 
-<time datetime="2013-02-09T13:55:00+00:00" pubdate data-updated="true">Feb 9<span>th</span>, 2013</time></p>
+<time datetime="2013-11-03T15:20:00+00:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2013</time></p>
   </header>
   
-  <h2><a href="0.7/">Version 0.7</a></h2>
-
-<p>2013-11-03</p>
+  <h2>New Features</h2>
 
 <ul>
-<li>Updated to NuGet 2.7.1</li>
-<li>Improved PCL support on Linux and Mac.</li>
-<li>Support installing Json.NET into project targeting PCL profile that includes Mono.</li>
-<li>Fix updated pre-release packages not being shown in Updated tab.</li>
+<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.7.1">NuGet 2.7.1</a> support.</li>
+<li>Improved support for Portable Class Libraries (PCLs) on Linux and Mac.</li>
 <li>Support using package restore with different parallel mono environments.</li>
 </ul>
 
 
-<h2><a href="0.6/">Version 0.6</a></h2>
+<h2>Bug Fixes</h2>
 
-<p>2013-08-26</p>
+<p>Fixed updated pre-release packages not being shown in the Updated tab of the Manage Packages dialog.</p>
+
+<h2>Thanks</h2>
 
 <ul>
-<li>Updated to NuGet 2.7</li>
-<li>Add support for restoring NuGet packages.</li>
-<li>Added message to show that the Manage Packages dialog is looking for packages.</li>
-<li>Fixed rootnamespace not being replaced in source code transforms.</li>
+<li><a href="https://github.com/kjohnphillip">Kevin John-Philip</a> - adding support for using package restore with different parallel mono environments.</li>
+<li><a href="https://github.com/takoyakich">Urs Keller</a> - investigation and initial implementation of PCL support on Mac.</li>
 </ul>
 
 
-<h2><a href="0.5/">Version 0.5</a></h2>
+<h3>Improved PCL Support</h3>
 
-<p>2013-07-14</p>
+<p>PCL support has been improved with this version of the addin. NuGet has been customised so it can now find the PCL profiles on both Linux and Mac. NuGet has also been modified to support installing a portable NuGet package into a portable .NET project when one or both of these support Mono frameworks.</p>
 
-<ul>
-<li>Update to NuGet 2.6</li>
-<li>Support XML document transformations (XDTs).</li>
-<li>Add Update All button to Manage Packages dialog.</li>
-<li>Support authenticated feeds with credentials in NuGet.config.</li>
-<li>Support pre-release NuGet packages in Manage Packages dialog.</li>
-<li>Support NuGet packages containing MSBuild targets and props files.</li>
-<li>Add file conflict dialog.</li>
-<li>Show package install error message in Manage Packages dialog.</li>
-<li>Show NuGet package title and package id in Manage Packages dialog.</li>
-</ul>
+<p>Finding the PCL profiles on Linux and Mac is based on how <a href="https://github.com/mono/mono/blob/master/mcs/class/Microsoft.Build.Tasks/Microsoft.Build.Tasks/GetReferenceAssemblyPaths.cs">xbuild locates the portable reference assemblies</a> by checking certain directories. The following directories are checked for PCL profiles:</p>
+
+<ol>
+<li>Paths defined in the environment variable $XBUILD_FRAMEWORK_FOLDERS_PATH with the .NETPortable directory appended.</li>
+<li>/Library/Frameworks/Mono.framework/External/xbuild-frameworks/.NETPortable on Mac only</li>
+<li>$prefix/lib/mono/xbuild-frameworks/.NETPortable</li>
+</ol>
 
 
-<h2><a href="0.4/">Version 0.4</a></h2>
+<p>NuGet will use first directory that exists based on the above directories.</p>
 
-<p>2013-02-09</p>
+<p>NuGet has also been changed to allow the installation of a portable NuGet package, such as Json.NET, which does not explicitly support Mono frameworks, into a portable .NET project. To do this the Mono supported frameworks of a PCL are treated as optional. The mono frameworks will be used when checking compatibility only if both the NuGet package and the local machine have Mono supported frameworks.</p>
 
-<ul>
-<li>Fix web.config transforms not being applied when package installed.</li>
-<li>Add general NuGet options panel.</li>
-<li>Option to enable NuGet package restore.</li>
-<li>Add support for viewing and clearing NuGet packages cache.</li>
-<li>Add support for clearing recent packages list.</li>
-<li>Add paging to Manage Packages dialog.</li>
-<li>Show the Last Published Date without the time in Manage Packages dialog.</li>
-<li>Show package dependencies in Manage Packages dialog.</li>
-</ul>
+<p>There is currently no support for installing a portable NuGet package into a project that targets a Mono framework such as MonoAndroid. This is due to how NuGet embeds the supported frameworks into the NuGet package. If you want to do this the best approach will be to create a portable .NET project and add the NuGet package to that project. Then you can reference the portable .NET project.</p>
 
+<p>Installing a portable NuGet package into a project that targets .NET 4.0 or .NET 4.5 worked in previous versions of NuGet and is still supported.</p>
 
-<h2><a href="http://community.sharpdevelop.net/blogs/mattward/archive/2013/01/07/MonoDevelopNuGetAddin.aspx">Version 0.3</a></h2>
+<p><a href="https://nuget.codeplex.com/workitem/2926">NuGet 2.7.2 should have a fix for portable packages being installed when the corresponding profile has had additional platforms added</a> so hopefully this can be used instead of the workaround added to the version of NuGet that is included with the addin.</p>
 
-<p>2013-01-07</p>
+<h2>Download</h2>
+
+<p>The source code for the addin is available on <a href="https://github.com/mrward/monodevelop-nuget-addin">GitHub</a>.</p>
+
+<p>The addin is also available to download from a custom MonoDevelop repository:</p>
 
 <ul>
-<li>Fix packages.config being added to the project with BuildAction of Compile.</li>
-</ul>
-
-
-<h2>Version 0.2</h2>
-
-<p>2013-01-07</p>
-
-<ul>
-<li>Fix NuGet package id not displayed in logging output in Manage Packages dialog.</li>
-<li>Show feed error message in package list in Manage Packages dialog.</li>
-<li>Fix disabled package sources being used in Manage Packages dialog</li>
-<li>Show package sources drop down in updated packages tab.</li>
-<li>Remove all from package source combo box when only one source.</li>
-<li>Always show package sources in Available and Updates tab.</li>
-</ul>
-
-
-<h2>Version 0.1</h2>
-
-<p>2013-01-06</p>
-
-<ul>
-<li>First Release</li>
+<li><a href="http://mrward.github.com/monodevelop-nuget-addin-repository/4.1/main.mrep">Xamarin Studio 4.1</a></li>
+<li><a href="http://mrward.github.com/monodevelop-nuget-addin-repository/4.0/main.mrep">Xamarin Studio 4.0</a></li>
+<li><a href="http://mrward.github.com/monodevelop-nuget-addin-repository/3.0.5/main.mrep">MonoDevelop 3.0</a></li>
 </ul>
 
 
@@ -201,13 +167,13 @@ Support &hellip;">
   
 
 
-<time datetime="2013-02-09T13:55:00+00:00" pubdate data-updated="true">Feb 9<span>th</span>, 2013</time>
+<time datetime="2013-11-03T15:20:00+00:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2013</time>
         
       </p>
       
         <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/index.html" data-via="" data-counturl="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/index.html" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.7/index.html" data-via="" data-counturl="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.7/index.html" >Tweet</a>
   
   
   
