@@ -7,6 +7,15 @@ sharing: true
 footer: true
 ---
 
+## [Version 0.8](0.8/)
+
+2013-12-15
+
+ * Updated to NuGet 2.7.2
+ * Fix old NuGet packages showing as installed in solution when they are not installed.
+ * Fix old NuGet packages not being removed on updating to a new package.
+ * Fix exception when NuGet feed results returned after dialog is closed.
+ 
 ## [Version 0.7](0.7/)
 
 2013-11-03
