@@ -4,7 +4,7 @@
   <title><![CDATA[Category: MonoDevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2013-11-03T16:54:39+00:00</updated>
+  <updated>2013-12-15T19:31:58+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MonoDevelop NuGet Addin 0.8 Released]]></title>
+    <link href="http://lastexitcode.com/blog/2013/12/15/MonoDevelopNuGetAddin0-8Released/"/>
+    <updated>2013-12-15T18:22:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2013/12/15/MonoDevelopNuGetAddin0-8Released</id>
+    <content type="html"><![CDATA[<p>A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released.</p>
+
+<h2>New Features</h2>
+
+<p>The main change is support for <a href="http://docs.nuget.org/docs/release-notes/nuget-2.7.2">NuGet 2.7.2</a> so you can now add NuGet packages, that include Portable Class Libraries (PCLs), to projects that target MonoAndroid.</p>
+
+<p>For a detailed look at the changes please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.8/">release note</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MonoDevelop NuGet Addin 0.7 Released]]></title>

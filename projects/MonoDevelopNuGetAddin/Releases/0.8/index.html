@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>IronPython Error: Attribute of Namespace Object is Read-Only - Matt Ward</title>
+  <title>MonoDevelop NuGet Addin 0.8 - Matt Ward</title>
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="If you are seeing an AttributeError, as shown below, when running IronPython 2.7 then check you have added all the required assembly reference to &hellip;">
+  <meta name="description" content="MonoDevelop NuGet Addin 0.8 Dec 15th, 2013 New Features NuGet 2.7.2 support. NuGet 2.7.2 and PCL Support With the upgrade to NuGet 2.7.2 the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lastexitcode.com/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly/">
+  <link rel="canonical" href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.8/">
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -74,15 +74,62 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">IronPython Error: Attribute of Namespace Object is Read-Only</h1>
-    
-    
+    <h1 class="entry-title">MonoDevelop NuGet Addin 0.8</h1>
+    <p class="meta">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-15T18:22:00+00:00" pubdate data-updated="true">Dec 15<span>th</span>, 2013</time></p>
+  </header>
+  
+  <h2>New Features</h2>
+
+<ul>
+<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.7.2">NuGet 2.7.2</a> support.</li>
+</ul>
+
+
+<h3>NuGet 2.7.2 and PCL Support</h3>
+
+<p>With the upgrade to NuGet 2.7.2 the Portable Class Library support has been improved further. You can now add a NuGet package, containing a PCL, such as <a href="https://www.nuget.org/packages/Newtonsoft.Json/">Json.NET</a>, to a project that targets MonoAndroid. Previous versions of the addin would fail with an error message indicating that it was not possible to install Json.NET into a project targeting MonoAndroid.</p>
+
+<h2>Bug Fixes</h2>
+
+<ul>
+<li>Fix old NuGet packages showing as installed in solution when they are not installed.</li>
+<li>Fix old NuGet packages not being removed on updating to a new package.</li>
+<li>Fix exception when NuGet feed results returned after the Manage Packages dialog is closed.</li>
+</ul>
+
+
+<h2>Download</h2>
+
+<p>The source code for the addin is available on <a href="https://github.com/mrward/monodevelop-nuget-addin">GitHub</a>.</p>
+
+<p>The addin is also available to download from a custom MonoDevelop repository:</p>
+
+<ul>
+<li><a href="http://mrward.github.com/monodevelop-nuget-addin-repository/4.0/main.mrep">Xamarin Studio 4.0 and 4.2</a></li>
+<li><a href="http://mrward.github.com/monodevelop-nuget-addin-repository/3.0.5/main.mrep">MonoDevelop 3.0</a></li>
+</ul>
+
+
+  
+    <footer>
       <p class="meta">
         
+        
 
 
 
@@ -94,108 +141,21 @@
   
 
 
-<time datetime="2012-11-17T14:40:00+00:00" pubdate data-updated="true">Nov 17<span>th</span>, 2012</time>
+<time datetime="2013-12-15T18:22:00+00:00" pubdate data-updated="true">Dec 15<span>th</span>, 2013</time>
         
       </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>If you are seeing an AttributeError, as shown below, when running IronPython 2.7 then check you have added all the required assembly reference to your application.</p>
-
-<pre><code>AttributeError: attribute 'Xml' of 'namespace#' object is read-only
-</code></pre>
-
-<p>The attribute name displayed will most likely be different but the underlying problem is that you are trying to use a type that exists in an assembly that is not referenced. Here is a simple example that reproduces the error.</p>
-
-<pre><code>import System
-doc = System.Xml.XmlDocument()
-</code></pre>
-
-<p>The code above is importing the System namespace and then attempting to create an XmlDocument object. Running the above code with ipy.exe will result in the AttributeError being displayed.</p>
-
-<pre><code>D:\projects&gt;ipy
-IronPython 2.7.3 (2.7.0.40) on .NET 4.0.30319.296 (32-bit)
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; import System
-&gt;&gt;&gt; doc = System.Xml.Document()
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-AttributeError: attribute 'Xml' of 'namespace#' object is read-only
-&gt;&gt;&gt;
-</code></pre>
-
-<p>The cryptic error message indicates that we do not have a reference to the System.Xml assembly. To fix the problem we add the following two lines of code before the code that creates the XmlDocument object.</p>
-
-<pre><code>import clr
-clr.AddReference("System.Xml")
-</code></pre>
-
-<p>Running the code again will now cause the XmlDocument object to be created without an error.</p>
-
-<pre><code>D:\projects&gt;ipy
-IronPython 2.7.3 (2.7.0.40) on .NET 4.0.30319.296 (32-bit)
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; import clr
-&gt;&gt;&gt; clr.AddReference("System.Xml")
-&gt;&gt;&gt; import System
-&gt;&gt;&gt; doc = System.Xml.XmlDocument()
-&gt;&gt;&gt; doc.ToString()
-'System.Xml.XmlDocument'
-&gt;&gt;&gt;
-</code></pre>
-</div>
-
-
-  <footer>
-    <p class="meta">
       
+        <div class="sharing">
   
-
-<span class="byline author vcard">Posted by <span class="fn">Matt Ward</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-17T14:40:00+00:00" pubdate data-updated="true">Nov 17<span>th</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/ironpython/'>IronPython</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly/" data-via="" data-counturl="http://lastexitcode.com/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.8/index.html" data-via="" data-counturl="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.8/index.html" >Tweet</a>
   
   
   
 </div>
 
-    
-    <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/09/26/CloneCodePlexRepositoryToGitHub/" title="Previous Post: Cloning a CodePlex Repository over to GitHub">&laquo; Cloning a CodePlex Repository over to GitHub</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/07/14/MonoDevelopNuGetAddin0-5Released/" title="Next Post: MonoDevelop NuGet Addin 0.5 Released">MonoDevelop NuGet Addin 0.5 Released &raquo;</a>
-      
-    </p>
-  </footer>
+    </footer>
+  
 </article>
 
 </div>
