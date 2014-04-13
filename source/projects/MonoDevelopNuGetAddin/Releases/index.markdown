@@ -7,6 +7,13 @@ sharing: true
 footer: true
 ---
 
+## [Version 0.9](0.9/)
+
+2014-04-13
+
+ * Updated to NuGet 2.8.1
+ * Fix target framework for dependency being ignored.
+
 ## [Version 0.8](0.8/)
 
 2013-12-15
