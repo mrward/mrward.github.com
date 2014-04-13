@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: ASP.NET - Matt Ward</title>
+  <title>MonoDevelop NuGet Addin 0.9 - Matt Ward</title>
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Category: ASP.NET">
+  <meta name="description" content="MonoDevelop NuGet Addin 0.9 Apr 13th, 2014 New Features NuGet 2.8.1 support. NuGet 2.8.1 NuGet 2.8.1 includes support for Windows Phone 8.1 projects &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lastexitcode.comblog/categories/asp-net/">
+  <link rel="canonical" href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.9/">
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -77,31 +77,102 @@
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Category: ASP.NET</h1>
-    
+    <h1 class="entry-title">MonoDevelop NuGet Addin 0.9</h1>
+    <p class="meta">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-13T14:54:00+01:00" pubdate data-updated="true">Apr 13<span>th</span>, 2014</time></p>
   </header>
   
-  <div id="blog-archives" class="category">
+  <h2>New Features</h2>
+
+<ul>
+<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.8.1">NuGet 2.8.1</a> support.</li>
+</ul>
+
+
+<h2>NuGet 2.8.1</h2>
+
+<p>NuGet 2.8.1 includes support for Windows Phone 8.1 projects with the new target frameworks:</p>
+
+<ul>
+<li>WindowsPhone81 / WP81 (for Silverlight-based Windows Phone projects)</li>
+<li>WindowsPhoneApp81 / WPA81 (for WinRT-based Windows Phone App projects)</li>
+</ul>
+
+
+<h2>Bug Fixes</h2>
+
+<ul>
+<li>Fix target framework for dependency being ignored.</li>
+</ul>
+
+
+<p>A NuGet package can specify a dependency on another NuGet package when
+a particular target framework is being installed:</p>
+
+<pre><code>&lt;dependencies&gt;
+   &lt;group targetFramework="net40"&gt;
+      &lt;dependency id="MyDependency" version="1.0"/&gt;
+   &lt;/group&gt;
+&lt;/dependencies&gt;
+</code></pre>
+
+<p>Installing this NuGet package into a project that targets net20, with
+the MyDependency NuGet package being unavailable on any NuGet feed, will now no longer fail.
+Only when installing the NuGet package into a project that targets net40
+will this dependency be resolved.</p>
+
+<h2>Download</h2>
+
+<p>The source code for the addin is available on <a href="https://github.com/mrward/monodevelop-nuget-addin">GitHub</a>.</p>
+
+<p>The addin is also available to download from a custom MonoDevelop repository:</p>
+
+<ul>
+<li><a href="http://mrward.github.com/monodevelop-nuget-addin-repository/4.0/main.mrep">Xamarin Studio 4.x</a></li>
+</ul>
+
+
+  
+    <footer>
+      <p class="meta">
+        
+        
+
+
+
+
+
 
 
 
   
-  <h2>2011</h2>
 
-<article>
+
+<time datetime="2014-04-13T14:54:00+01:00" pubdate data-updated="true">Apr 13<span>th</span>, 2014</time>
+        
+      </p>
+      
+        <div class="sharing">
   
-<h1><a href="/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/">ASP.NET MVC 3 T4 Template Properties</a></h1>
-<time datetime="2011-10-13T21:30:00+01:00" pubdate><span class='month'>Oct</span> <span class='day'>13</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/asp-net/'>ASP.NET</a>, <a class='category' href='/blog/categories/mvc/'>MVC</a>, <a class='category' href='/blog/categories/t4/'>T4</a></span>
-</footer>
-
-
-</article>
-
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.9/index.html" data-via="" data-counturl="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.9/index.html" >Tweet</a>
+  
+  
+  
 </div>
 
+      
+    </footer>
   
 </article>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: MonoDevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2013-12-15T19:31:58+00:00</updated>
+  <updated>2014-04-13T15:19:25+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MonoDevelop NuGet Addin 0.9 Released]]></title>
+    <link href="http://lastexitcode.com/blog/2014/04/13/MonoDevelopNuGetAddin0-9Released/"/>
+    <updated>2014-04-13T14:51:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2014/04/13/MonoDevelopNuGetAddin0-9Released</id>
+    <content type="html"><![CDATA[<p>A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released.</p>
+
+<h2>New Features</h2>
+
+<p>The main change is to include <a href="http://docs.nuget.org/docs/release-notes/nuget-2.8.1">NuGet 2.8.1</a> which adds support for Windows Phone 8.1 projects.
+Also some of the newer NuGet packages, such as Microsoft.Bcl.Immutable 1.1.20-beta, which the <a href="https://www.nuget.org/packages/Microsoft.CodeAnalysis">Roslyn NuGet packages</a> depend on, will not install unless NuGet 2.8.1 is being used.</p>
+
+<p>For a detailed look at the changes please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.9/">release note</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MonoDevelop NuGet Addin 0.8 Released]]></title>
