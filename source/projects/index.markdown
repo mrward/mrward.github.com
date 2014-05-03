@@ -8,5 +8,6 @@ footer: true
 ---
 
  * [MonoDevelop NuGet Addin](MonoDevelopNuGetAddin/)
+ * [NuGet](NuGet/)
  * [SharpDevelop](http://www.icsharpcode.net/OpenSource/SD/)
  
