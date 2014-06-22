@@ -7,6 +7,21 @@ sharing: true
 footer: true
 ---
 
+## Version 0.5
+
+2014-06-22
+
+ * Implement most of the EnvDTE project model which can be used from the Package Console Extension window.
+ * Fix new Package Console not showing projects in drop down if opened after the solution is opened.
+ * Standard aliases (e.g. ls, pwd, cd) for commands now defined in Package Console Extension window.
+ * Modify addin so it works with MonoDevelop 5.0, 5.1 and 5.2.
+
+## Version 0.4
+
+2014-06-11
+
+ * Add a Package Console Extension window that supports the PowerShell cmdlets Install-Package, Uninstall-Package, Get-Project, Update-Package and Get-Package. Uses [Pash](http://pash-project.github.io/).
+
 ## Version 0.3
 
 2014-06-08
