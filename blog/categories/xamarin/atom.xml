@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-06-14T16:50:27+01:00</updated>
+  <updated>2014-06-22T22:22:31+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet PowerShell Console for Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/"/>
+    <updated>2014-06-22T21:05:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio 5.0 now has <a href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/">NuGet support built in</a>. There are also some experimental NuGet features that are available for Xamarin Studio 5.0 and MonoDevelop 5.0 as part of a separate <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a>. One such experimental feature is a new PowerShell console window that provides Xamarin Studio with the standard NuGet commands and also works on the Mac, not just Windows.</p>
+
+<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindow.png" title="NuGet PowerShell Console Window" alt="NuGet PowerShell Console Window"></p>
+
+<p>The new console window is powered by Pash. Pash is a open source reimplementation of PowerShell that works with Mono and runs on Windows, Mac and Linux. It was created by <a href="https://twitter.com/igor_moochnick">Igor Moochnick</a> and more recently development has been restarted by <a href="https://twitter.com/jaybazuzi">Jay Bazuzi</a>.</p>
+
+<h2>PowerShell Console Features</h2>
+
+<ul>
+<li> Standard NuGet PowerShell commands available - Install-Package, Update-Package, Uninstall-Package, Get-Project and Get-Package</li>
+<li> Integrates with the existing NuGet addin that ships with Xamarin Studio.</li>
+<li> Cross platform - works on Windows and Mac.</li>
+<li> Powered by <a href="https://github.com/Pash-Project/Pash">Pash</a>.</li>
+<li> Partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model EnvDTE</a>.</li>
+</ul>
+
+
+<h2>Limitations</h2>
+
+<ul>
+<li> PowerShell support is not fully implemented in Pash so PowerShell scripts may not fully work.</li>
+<li> Xamarin Studio needs to be closed and re-opened before the console can be used. Otherwise the Xamarin Studio will crash.</li>
+<li> Some standard parameters are missing from the NuGet commands (e.g. -verbose).</li>
+<li> The NuGet commands are not fully up to date compared with the commands available in Visual Studio. One example is <strong>Update-Package -Reinstall</strong> which is currently not supported.</li>
+</ul>
+
+
+<h2>Installation</h2>
+
+<p>The NuGet extensions addin is available from the <a href="http://addins.monodevelop.com/Project/Index/121">MonoDevelop addin repository</a>. To install the addin:</p>
+
+<ul>
+<li>Open the <strong>Add-in Manager</strong> dialog.</li>
+<li>Select the <strong>Gallery</strong> tab.</li>
+<li>Select <strong>Xamarin Studio Add-in Repository (Alpha channel)</strong> from the drop down list.</li>
+<li>Expand <strong>IDE extensions</strong>.</li>
+<li>Select <strong>NuGet Package Management Extensions</strong>.</li>
+<li>Click the <strong>Refresh</strong> button if the addin is not visible.</li>
+<li>Click <strong>Install...</strong> to install the addin.</li>
+</ul>
+
+
+<p>Please close and re-open Xamarin Studio before trying to open the PowerShell Console window otherwise Xamarin Studio will crash.</p>
+
+<h2>Using the PowerShell Console</h2>
+
+<p>To open the console window, from the <strong>View</strong> menu select <strong>Pads</strong> and then select <strong>Package Console Extension</strong>.</p>
+
+<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/ViewPackageConsoleExtensionPadMenuItem.png" title="View - Package Console Extension menu item" alt="View - Package Console Extension menu item"></p>
+
+<p>The top of the console window has drop downs allowing you to choose a different default package source or default project. At the top right there is a Clear Console button which will clear all the text from the console.</p>
+
+<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowInstallingJsonNet.png" title="PowerShell Console Window - Installing Json.NET" alt="PowerShell Console Window - Installing Json.NET"></p>
+
+<p>The standard <a href="http://docs.nuget.org/docs/reference/package-manager-console-powershell-reference">NuGet PowerShell commands</a> are available from the console window:</p>
+
+<ul>
+<li>Install-Package</li>
+<li>Uninstall-Package</li>
+<li>Update-Package</li>
+<li>Get-Package</li>
+<li>Get-Project</li>
+</ul>
+
+
+<p>There is also a partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model (EnvDTE)</a> which you can use from the console and from PowerShell scripts inside a NuGet package. Currently the Solution object and the CodeModel is not fully implemented when compared with SharpDevelop.</p>
+
+<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowUsingEnvDTEProjectModel.png" title="PowerShell Console Window - Using EnvDTE project model" alt="PowerShell Console Window - Using EnvDTE project model"></p>
+
+<p>When you install a NuGet package from the console and the NuGet package has an <strong>init.ps1</strong> or an <strong>install.ps1</strong> PowerShell script then these scripts will be run. Similarly on uninstalling a NuGet package if it contains an <strong>uninstall.ps1</strong> script then this will be run in the console. However there are some areas of PowerShell that are not fully implemented in Pash so the script may well fail. The failure will be logged in the console window but it will not prevent the package from being installed or uninstalled.</p>
+
+<p>That concludes the introduction to the experimental NuGet Package Console in Xamarin Studio.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.0]]></title>
@@ -276,26 +356,6 @@ Also some of the newer NuGet packages, such as Microsoft.Bcl.Immutable 1.1.20-be
 
 
 <p>For a detailed look at the new features please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.7/">release note</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MonoDevelop NuGet Addin 0.6 Released]]></title>
-    <link href="http://lastexitcode.com/blog/2013/08/26/MonoDevelopNuGetAddin0-6Released/"/>
-    <updated>2013-08-26T13:21:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2013/08/26/MonoDevelopNuGetAddin0-6Released</id>
-    <content type="html"><![CDATA[<p>A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.7">NuGet 2.7</a> support.</li>
-<li>Support for restoring NuGet packages.</li>
-<li>Added message to show that the Manage Packages dialog is searching for packages.</li>
-</ul>
-
-
-<p>For a detailed look at the new features please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.6/">release note</a>.</p>
 ]]></content>
   </entry>
   

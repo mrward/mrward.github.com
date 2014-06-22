@@ -57,12 +57,16 @@
         <lastmod>2014-06-01T23:23:12+01:00</lastmod>
     </url>
     <url>
+        <loc>http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/</loc>
+        <lastmod>2014-06-22T22:22:08+01:00</lastmod>
+    </url>
+    <url>
         <loc>http://lastexitcode.com/blog/archives/</loc>
-        <lastmod>2014-06-01T23:23:12+01:00</lastmod>
+        <lastmod>2014-06-22T22:22:08+01:00</lastmod>
     </url>
     <url>
         <loc>http://lastexitcode.com/</loc>
-        <lastmod>2014-06-01T23:23:12+01:00</lastmod>
+        <lastmod>2014-06-22T22:22:08+01:00</lastmod>
     </url>
     <url>
         <loc>http://lastexitcode.com/projects/</loc>
@@ -106,7 +110,7 @@
     </url>
     <url>
         <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddinExtensions/Releases/</loc>
-        <lastmod>2014-06-14T16:49:13+01:00</lastmod>
+        <lastmod>2014-06-22T20:10:20+01:00</lastmod>
     </url>
     <url>
         <loc>http://lastexitcode.com/projects/NuGet/FileLocations/</loc>

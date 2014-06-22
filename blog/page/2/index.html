@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Here are the properties that ASP.NET MVC 3.0 provides to T4 templates when you use the Add View and Add Controller dialogs inside Visual Studio 2010 &hellip;">
+  <meta name="description" content="Whilst changing the Entity Framework 5.0 NuGet package to work with SharpDevelop a custom build of the NuGet package was causing Visual Studio 2010 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -75,6 +75,65 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts/">ExecutionEngineException thrown when using Code Contracts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-25T17:35:00+01:00" pubdate data-updated="true">Sep 25<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Whilst changing the Entity Framework 5.0 NuGet package to work with <a href="http://www.icsharpcode.net/OpenSource/SD/">SharpDevelop</a> a custom build of the NuGet package was causing Visual Studio 2010 to crash when the package was being installed. Debugging the crash by attaching another instance of Visual Studio revealed that an <a href="http://msdn.microsoft.com/en-us/library/system.executionengineexception.aspx">ExecutionEngineException</a> was being thrown when the following line of code was being executed.</p>
+
+<pre><code>Contract.Requires(project != null);
+</code></pre>
+
+<p>The exception itself had no other information. The exception&#8217;s message just repeated the exception that was being thrown: &#8220;Exception of type &#8216;System.ExecutionEngineException&#8217; was thrown.&#8221;. This exception indicates an internal error occurred in the CLR execution engine.</p>
+
+<p>The real problem is the use of <a href="http://research.microsoft.com/en-us/projects/contracts/">Code Contracts</a> and not following the <a href="http://entityframework.codeplex.com/documentation">Entity Framework documentation on how to build it from source code</a>.</p>
+
+<p>The <a href="http://msdn.microsoft.com/en-us/library/system.diagnostics.contracts.contract.aspx">Contract</a> class is used to define required preconditions and postconditions for a method and is used when defining Code Contracts. It is part of the .NET Framework 4.0 and can be found in mscorlib.dll in the System.Diagnostics.Contracts namespace.</p>
+
+<p>The problem with the custom build of Entity Framework is that there are parts of Code Contracts included with .NET Framework 4.0 so you can compile a project that uses Code Contracts without any errors but on running the application you can have an ExecutionEngineException thrown. This can occur if you do not have the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts Visual Studio extension</a> installed when the project is built. With this extension installed your assembly will be modified when it is compiled by the code contracts binary rewriter.  The rewriter will inject the contracts into your assembly so the checks will be run when the code is executed.</p>
+
+<h2>Solution</h2>
+
+<p>To get around this problem you have two options.</p>
+
+<ol>
+<li><p>Install the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts</a> Visual Studio extension and then rebuild your project. After installing you should have a Code Contracts page in your project options.</p></li>
+<li><p>Remove <a href="http://msmvps.com/blogs/luisabreu/archive/2008/11/12/code-contracts-and-runtime-rewriting.aspx">CONTRACTS_FULL</a> from the conditional compilation symbols in the project&#8217;s options.</p></li>
+</ol>
+
+
+<p>CONTRACTS_FULL is used to enable runtime checking of the code contracts. If this is not defined then the calls made to the any of Contract methods are ignored by the compiler when building your project.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -860,6 +919,10 @@ public interface IAstRuleReturnScope : IRuleReturnScope
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/">NuGet PowerShell Console for Xamarin Studio</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/">NuGet Support in Xamarin Studio 5.0</a>
       </li>
     
@@ -873,10 +936,6 @@ public interface IAstRuleReturnScope : IRuleReturnScope
     
       <li class="post">
         <a href="/blog/2013/11/03/MonoDevelopNuGetAddin0-7Released/">MonoDevelop NuGet Addin 0.7 Released</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/26/MonoDevelopNuGetAddin0-6Released/">MonoDevelop NuGet Addin 0.6 Released</a>
       </li>
     
   </ul>
