@@ -4,7 +4,7 @@
   <title><![CDATA[Category: MonoDevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-06-22T22:22:31+01:00</updated>
+  <updated>2014-07-06T20:51:18+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.1]]></title>
+    <link href="http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1/"/>
+    <updated>2014-07-06T10:48:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1</id>
+    <content type="html"><![CDATA[<p><a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">Xamarin Studio 5.1</a> was released last week and it includes some new features for the NuGet addin.</p>
+
+<h2>New Features</h2>
+
+<ul>
+<li> Searching and installing a specific version of a NuGet package.</li>
+<li> Support for NuGet package sources defined in a solution specific NuGet.Config file.</li>
+</ul>
+
+
+<p>More details on all the new features and changes in Xamarin Studio 5.1 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">release notes</a>. Now let us take a look at the new NuGet features.</p>
+
+<h2>Searching and installing a specific version of a NuGet package</h2>
+
+<p>The Add Packages dialog can now be used to search and install a specific version of a NuGet package. You can search for all versions, a range of versions, or a specific version of a NuGet package. To do this the following search syntax is used:</p>
+
+<pre><code>PackageId version:VersionNumber
+</code></pre>
+
+<p>The packages are shown in the Add Packages dialog with the most recent version at the top. At the top right of each package in the package list you will see the package version instead of the download count allowing you to find the particular version you want to install.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAllAutoMapperPackageVersions.png" title="Add Packages dialog - all AutoMapper package versions" alt="Add Packages dialog - all AutoMapper package versions"></p>
+
+<p>To search for all versions of the AutoMapper NuGet package you can use an asterisk or leave the version number blank.</p>
+
+<pre><code>AutoMapper version:*
+</code></pre>
+
+<p>To search for all the 2.1 versions of the AutoMapper NuGet package you can use the search:</p>
+
+<pre><code>AutoMapper version:2.1
+</code></pre>
+
+<p>This will return a range of versions from 2.1.0 up to but not including 2.2.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAutoMapperPackageVersions21.png" title="Add Packages dialog - AutoMapper 2.1 package versions" alt="Add Packages dialog - AutoMapper 2.1 package versions"></p>
+
+<p>The package id used in the search must match the id of the NuGet package otherwise no results will be returned.</p>
+
+<p>Searching for package versions is also supported in the universal search at the top right of Xamarin Studio.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/PackageVersionSearchInUniversalSearch.png" title="Package version search in universal search" alt="Package version search in universal search"></p>
+
+<h2>Package sources defined in a solution specific NuGet.Config file</h2>
+
+<p> If package sources are defined in the solution's NuGet.Config file then these will be available in the Add Packages dialog when this solution is opened. The NuGet.Config file can be in the solution directory or in the .nuget subdirectory. An example NuGet.Config file is shown below.</p>
+
+<pre><code>&lt;configuration&gt;
+  &lt;packageSources&gt;
+    &lt;add key="ASP.NET vNext - MyGet" value="https://www.myget.org/F/aspnetvnext/" /&gt;
+  &lt;/packageSources&gt;
+&lt;/configuration&gt;
+</code></pre>
+
+<p>When the solution is opened the package sources defined in the NuGet.config file are available in the drop down list at the top left of the Add Packages dialog.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesWithPackageSourceFromSolutionLevelNuGetConfig.png" title="Add Packages dialog - package sources from solution NuGet.Config" alt="Add Packages dialog - package sources from solution NuGet.config"></p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Proxy credentials not being requested for a https package source.</strong></p>
+
+<p>   Added a workaround to NuGet to handle Mono returning a different http response when proxy authentication is required.</p>
+
+<p><strong>Web.config transforms not being applied when installing NuGet packages such as Nancy.Hosting.Aspnet.</strong></p>
+
+<p>   Projects were not being recognised as web projects so transforms were only being applied to app.config files.</p>
+
+<p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
+
+<p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft's .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet PowerShell Console for Xamarin Studio]]></title>
@@ -336,26 +415,6 @@ Also some of the newer NuGet packages, such as Microsoft.Bcl.Immutable 1.1.20-be
 <p>The main change is support for <a href="http://docs.nuget.org/docs/release-notes/nuget-2.7.2">NuGet 2.7.2</a> so you can now add NuGet packages, that include Portable Class Libraries (PCLs), to projects that target MonoAndroid.</p>
 
 <p>For a detailed look at the changes please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.8/">release note</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MonoDevelop NuGet Addin 0.7 Released]]></title>
-    <link href="http://lastexitcode.com/blog/2013/11/03/MonoDevelopNuGetAddin0-7Released/"/>
-    <updated>2013-11-03T15:28:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2013/11/03/MonoDevelopNuGetAddin0-7Released</id>
-    <content type="html"><![CDATA[<p>A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.7.1">NuGet 2.7.1</a> support.</li>
-<li>Improved support for Portable Class Libraries (PCLs) on Linux and Mac.</li>
-<li>Support using package restore with different parallel mono environments (Thanks to <a href="https://github.com/kjohnphillip">Kevin John-Philip</a>).</li>
-</ul>
-
-
-<p>For a detailed look at the new features please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.7/">release note</a>.</p>
 ]]></content>
   </entry>
   
