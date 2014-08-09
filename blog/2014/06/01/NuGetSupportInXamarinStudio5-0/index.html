@@ -18,17 +18,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/">
+  <link rel="canonical" href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0">
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -45,7 +46,7 @@
 
 </head>
 
-<body   >
+<body   class="collapse-sidebar sidebar-footer" >
   <header role="banner"><hgroup>
   <h1><a href="/">Matt Ward</a></h1>
   
@@ -57,7 +58,12 @@
   
 </ul>
   
-<form action="http://google.com/search" method="get">
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
   <fieldset role="search">
     <input type="hidden" name="q" value="site:lastexitcode.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
@@ -78,7 +84,9 @@
   
   <header>
     
-      <h1 class="entry-title">NuGet Support in Xamarin Studio 5.0</h1>
+      
+        <h1 class="entry-title">NuGet Support in Xamarin Studio 5.0</h1>
+      
     
     
       <p class="meta">
@@ -94,26 +102,26 @@
   
 
 
-<time datetime="2014-06-01T18:25:00+01:00" pubdate data-updated="true">Jun 1<span>st</span>, 2014</time>
+<time datetime="2014-06-01T18:25:00+01:00" pubdate data-updated="true">Jun 1<sup>st</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Xamarin Studio 5.0 was released last week as part of the <a href="http://blog.xamarin.com/announcing-xamarin-3/">Xamarin 3.0 release</a> and it now has built-in support for NuGet. There is no need to install the NuGet addin separately into Xamarin Studio 5.0 or MonoDevelop 5.0 since it is now &#8220;in the box&#8221;.</p>
+<div class="entry-content"><p>Xamarin Studio 5.0 was released last week as part of the <a href="http://blog.xamarin.com/announcing-xamarin-3/">Xamarin 3.0 release</a> and it now has built-in support for NuGet. There is no need to install the NuGet addin separately into Xamarin Studio 5.0 or MonoDevelop 5.0 since it is now &ldquo;in the box&rdquo;.</p>
 
 <h2>New Features</h2>
 
 <ul>
 <li> Re-designed user interface.</li>
 <li> More integrated with the Solution window.</li>
-<li> Supports <a href="http://docs.nuget.org/docs/reference/search-syntax">NuGet&#8217;s search syntax</a>.</li>
+<li> Supports <a href="http://docs.nuget.org/docs/reference/search-syntax">NuGet&rsquo;s search syntax</a>.</li>
 <li> Background package installation.</li>
-<li> Integrates with Xamarin Studio&#8217;s unified search.</li>
+<li> Integrates with Xamarin Studio&rsquo;s unified search.</li>
 <li> Support for NuGet packages in project templates.</li>
 <li> Package restore on opening a solution.</li>
-<li> Integrates with Xamarin Studio&#8217;s credential provider to provide proxy and package source authentication.</li>
+<li> Integrates with Xamarin Studio&rsquo;s credential provider to provide proxy and package source authentication.</li>
 </ul>
 
 
@@ -125,14 +133,14 @@
 
 <ul>
 <li>From the <strong>Project</strong> menu select <strong>Add Packages</strong>. The project will need to be selected in the <strong>Solution</strong> window.</li>
-<li>From the <strong>Solution</strong> window, right click the project and select <strong>Add - Add Packages</strong>.</li>
+<li>From the <strong>Solution</strong> window, right click the project and select <strong>Add &ndash; Add Packages</strong>.</li>
 </ul>
 
 
 <p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesMenuOptionSolutionWindow.png" title="Solution Window right click Add Packages menu" alt="Solution Window right click Add Packages menu"></p>
 
 <ul>
-<li>From Xamarin Studio&#8217;s unified search, available in the top right of the main window, enter the name of the package you would like to search for, then select <strong>Search Packages</strong>.</li>
+<li>From Xamarin Studio&rsquo;s unified search, available in the top right of the main window, enter the name of the package you would like to search for, then select <strong>Search Packages</strong>.</li>
 </ul>
 
 
@@ -180,7 +188,7 @@
 
 <p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageAddedPackageConsole.png" title="NUnit package added messages in Package Console" alt="NUnit package added messages in Package Console"></p>
 
-<p>The Package Console can be opened by clicking on a package status message in the status bar or from the <strong>View</strong> menu by selecting <strong>Pads - Package Console</strong>. If there is an error when installing a NuGet package then the Package Console will automatically open to show more information about the error.</p>
+<p>The Package Console can be opened by clicking on a package status message in the status bar or from the <strong>View</strong> menu by selecting <strong>Pads &ndash; Package Console</strong>. If there is an error when installing a NuGet package then the Package Console will automatically open to show more information about the error.</p>
 
 <p>On adding the first NuGet package to a project a <strong>Packages</strong> folder will be displayed in the Solution window.</p>
 
@@ -316,7 +324,7 @@ author:xamarin
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Matt Ward</span></span>
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
 
       
 
@@ -330,12 +338,12 @@ author:xamarin
   
 
 
-<time datetime="2014-06-01T18:25:00+01:00" pubdate data-updated="true">Jun 1<span>st</span>, 2014</time>
+<time datetime="2014-06-01T18:25:00+01:00" pubdate data-updated="true">Jun 1<sup>st</sup>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/monodevelop/'>MonoDevelop</a>, <a class='category' href='/blog/categories/nuget/'>NuGet</a>, <a class='category' href='/blog/categories/xamarin/'>Xamarin</a>
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
   
 </span>
 
@@ -344,7 +352,7 @@ author:xamarin
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/" data-via="" data-counturl="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/" data-via="" data-counturl="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/" >Tweet</a>
   
   
   
@@ -362,42 +370,12 @@ author:xamarin
   </footer>
 </article>
 
+
 </div>
 
 <aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2014/07/06/NuGetSupportInXamarinStudio5-1/">NuGet Support in Xamarin Studio 5.1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/">NuGet PowerShell Console for Xamarin Studio</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/">NuGet Support in Xamarin Studio 5.0</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/13/MonoDevelopNuGetAddin0-9Released/">MonoDevelop NuGet Addin 0.9 Released</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/15/MonoDevelopNuGetAddin0-8Released/">MonoDevelop NuGet Addin 0.8 Released</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-
   
 </aside>
 
@@ -406,11 +384,14 @@ author:xamarin
   </div>
   <footer role="contentinfo"><p>
   Copyright &copy; 2014 - Matt Ward -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 
 </footer>
   
+
+
+
 
 
 
@@ -423,7 +404,7 @@ author:xamarin
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

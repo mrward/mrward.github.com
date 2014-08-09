@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Xamarin | Matt Ward]]></title>
+  <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-07-06T20:51:18+01:00</updated>
+  <updated>2014-08-09T12:27:26+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -39,7 +39,7 @@
 
 <p>The packages are shown in the Add Packages dialog with the most recent version at the top. At the top right of each package in the package list you will see the package version instead of the download count allowing you to find the particular version you want to install.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAllAutoMapperPackageVersions.png" title="Add Packages dialog - all AutoMapper package versions" alt="Add Packages dialog - all AutoMapper package versions"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAllAutoMapperPackageVersions.png" title="&lsquo;Add Packages dialog &ndash; all AutoMapper package versions&rsquo; &lsquo;Add Packages dialog &ndash; all AutoMapper package versions&rsquo;" ></p>
 
 <p>To search for all versions of the AutoMapper NuGet package you can use an asterisk or leave the version number blank.</p>
 
@@ -53,17 +53,17 @@
 
 <p>This will return a range of versions from 2.1.0 up to but not including 2.2.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAutoMapperPackageVersions21.png" title="Add Packages dialog - AutoMapper 2.1 package versions" alt="Add Packages dialog - AutoMapper 2.1 package versions"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAutoMapperPackageVersions21.png" title="&lsquo;Add Packages dialog &ndash; AutoMapper 2.1 package versions&rsquo; &lsquo;Add Packages dialog &ndash; AutoMapper 2.1 package versions&rsquo;" ></p>
 
 <p>The package id used in the search must match the id of the NuGet package otherwise no results will be returned.</p>
 
 <p>Searching for package versions is also supported in the universal search at the top right of Xamarin Studio.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/PackageVersionSearchInUniversalSearch.png" title="Package version search in universal search" alt="Package version search in universal search"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/PackageVersionSearchInUniversalSearch.png" title="&lsquo;Package version search in universal search&rsquo; &lsquo;Package version search in universal search&rsquo;" ></p>
 
 <h2>Package sources defined in a solution specific NuGet.Config file</h2>
 
-<p> If package sources are defined in the solution's NuGet.Config file then these will be available in the Add Packages dialog when this solution is opened. The NuGet.Config file can be in the solution directory or in the .nuget subdirectory. An example NuGet.Config file is shown below.</p>
+<p> If package sources are defined in the solution&rsquo;s NuGet.Config file then these will be available in the Add Packages dialog when this solution is opened. The NuGet.Config file can be in the solution directory or in the .nuget subdirectory. An example NuGet.Config file is shown below.</p>
 
 <pre><code>&lt;configuration&gt;
   &lt;packageSources&gt;
@@ -74,7 +74,7 @@
 
 <p>When the solution is opened the package sources defined in the NuGet.config file are available in the drop down list at the top left of the Add Packages dialog.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesWithPackageSourceFromSolutionLevelNuGetConfig.png" title="Add Packages dialog - package sources from solution NuGet.Config" alt="Add Packages dialog - package sources from solution NuGet.config"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesWithPackageSourceFromSolutionLevelNuGetConfig.png" title="&lsquo;Add Packages dialog &ndash; package sources from solution NuGet.Config&rsquo; &lsquo;Add Packages dialog &ndash; package sources from solution NuGet.config&rsquo;" ></p>
 
 <h2>Bug Fixes</h2>
 
@@ -88,7 +88,7 @@
 
 <p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
 
-<p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft's .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
+<p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&rsquo;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
 ]]></content>
   </entry>
   
@@ -99,16 +99,16 @@
     <id>http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio</id>
     <content type="html"><![CDATA[<p>Xamarin Studio 5.0 now has <a href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/">NuGet support built in</a>. There are also some experimental NuGet features that are available for Xamarin Studio 5.0 and MonoDevelop 5.0 as part of a separate <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a>. One such experimental feature is a new PowerShell console window that provides Xamarin Studio with the standard NuGet commands and also works on the Mac, not just Windows.</p>
 
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindow.png" title="NuGet PowerShell Console Window" alt="NuGet PowerShell Console Window"></p>
+<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindow.png" title="&lsquo;NuGet PowerShell Console Window&rsquo; &lsquo;NuGet PowerShell Console Window&rsquo;" ></p>
 
 <p>The new console window is powered by Pash. Pash is a open source reimplementation of PowerShell that works with Mono and runs on Windows, Mac and Linux. It was created by <a href="https://twitter.com/igor_moochnick">Igor Moochnick</a> and more recently development has been restarted by <a href="https://twitter.com/jaybazuzi">Jay Bazuzi</a>.</p>
 
 <h2>PowerShell Console Features</h2>
 
 <ul>
-<li> Standard NuGet PowerShell commands available - Install-Package, Update-Package, Uninstall-Package, Get-Project and Get-Package</li>
+<li> Standard NuGet PowerShell commands available &ndash; Install-Package, Update-Package, Uninstall-Package, Get-Project and Get-Package</li>
 <li> Integrates with the existing NuGet addin that ships with Xamarin Studio.</li>
-<li> Cross platform - works on Windows and Mac.</li>
+<li> Cross platform &ndash; works on Windows and Mac.</li>
 <li> Powered by <a href="https://github.com/Pash-Project/Pash">Pash</a>.</li>
 <li> Partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model EnvDTE</a>.</li>
 </ul>
@@ -135,7 +135,7 @@
 <li>Expand <strong>IDE extensions</strong>.</li>
 <li>Select <strong>NuGet Package Management Extensions</strong>.</li>
 <li>Click the <strong>Refresh</strong> button if the addin is not visible.</li>
-<li>Click <strong>Install...</strong> to install the addin.</li>
+<li>Click <strong>Install&hellip;</strong> to install the addin.</li>
 </ul>
 
 
@@ -145,11 +145,11 @@
 
 <p>To open the console window, from the <strong>View</strong> menu select <strong>Pads</strong> and then select <strong>Package Console Extension</strong>.</p>
 
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/ViewPackageConsoleExtensionPadMenuItem.png" title="View - Package Console Extension menu item" alt="View - Package Console Extension menu item"></p>
+<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/ViewPackageConsoleExtensionPadMenuItem.png" title="&lsquo;View &ndash; Package Console Extension menu item&rsquo; &lsquo;View &ndash; Package Console Extension menu item&rsquo;" ></p>
 
 <p>The top of the console window has drop downs allowing you to choose a different default package source or default project. At the top right there is a Clear Console button which will clear all the text from the console.</p>
 
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowInstallingJsonNet.png" title="PowerShell Console Window - Installing Json.NET" alt="PowerShell Console Window - Installing Json.NET"></p>
+<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowInstallingJsonNet.png" title="&lsquo;PowerShell Console Window &ndash; Installing Json.NET&rsquo; &lsquo;PowerShell Console Window &ndash; Installing Json.NET&rsquo;" ></p>
 
 <p>The standard <a href="http://docs.nuget.org/docs/reference/package-manager-console-powershell-reference">NuGet PowerShell commands</a> are available from the console window:</p>
 
@@ -164,7 +164,7 @@
 
 <p>There is also a partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model (EnvDTE)</a> which you can use from the console and from PowerShell scripts inside a NuGet package. Currently the Solution object and the CodeModel is not fully implemented when compared with SharpDevelop.</p>
 
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowUsingEnvDTEProjectModel.png" title="PowerShell Console Window - Using EnvDTE project model" alt="PowerShell Console Window - Using EnvDTE project model"></p>
+<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowUsingEnvDTEProjectModel.png" title="&lsquo;PowerShell Console Window &ndash; Using EnvDTE project model&rsquo; &lsquo;PowerShell Console Window &ndash; Using EnvDTE project model&rsquo;" ></p>
 
 <p>When you install a NuGet package from the console and the NuGet package has an <strong>init.ps1</strong> or an <strong>install.ps1</strong> PowerShell script then these scripts will be run. Similarly on uninstalling a NuGet package if it contains an <strong>uninstall.ps1</strong> script then this will be run in the console. However there are some areas of PowerShell that are not fully implemented in Pash so the script may well fail. The failure will be logged in the console window but it will not prevent the package from being installed or uninstalled.</p>
 
@@ -177,19 +177,19 @@
     <link href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/"/>
     <updated>2014-06-01T18:25:00+01:00</updated>
     <id>http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.0 was released last week as part of the <a href="http://blog.xamarin.com/announcing-xamarin-3/">Xamarin 3.0 release</a> and it now has built-in support for NuGet. There is no need to install the NuGet addin separately into Xamarin Studio 5.0 or MonoDevelop 5.0 since it is now "in the box".</p>
+    <content type="html"><![CDATA[<p>Xamarin Studio 5.0 was released last week as part of the <a href="http://blog.xamarin.com/announcing-xamarin-3/">Xamarin 3.0 release</a> and it now has built-in support for NuGet. There is no need to install the NuGet addin separately into Xamarin Studio 5.0 or MonoDevelop 5.0 since it is now &ldquo;in the box&rdquo;.</p>
 
 <h2>New Features</h2>
 
 <ul>
 <li> Re-designed user interface.</li>
 <li> More integrated with the Solution window.</li>
-<li> Supports <a href="http://docs.nuget.org/docs/reference/search-syntax">NuGet's search syntax</a>.</li>
+<li> Supports <a href="http://docs.nuget.org/docs/reference/search-syntax">NuGet&rsquo;s search syntax</a>.</li>
 <li> Background package installation.</li>
-<li> Integrates with Xamarin Studio's unified search.</li>
+<li> Integrates with Xamarin Studio&rsquo;s unified search.</li>
 <li> Support for NuGet packages in project templates.</li>
 <li> Package restore on opening a solution.</li>
-<li> Integrates with Xamarin Studio's credential provider to provide proxy and package source authentication.</li>
+<li> Integrates with Xamarin Studio&rsquo;s credential provider to provide proxy and package source authentication.</li>
 </ul>
 
 
@@ -201,18 +201,18 @@
 
 <ul>
 <li>From the <strong>Project</strong> menu select <strong>Add Packages</strong>. The project will need to be selected in the <strong>Solution</strong> window.</li>
-<li>From the <strong>Solution</strong> window, right click the project and select <strong>Add - Add Packages</strong>.</li>
+<li>From the <strong>Solution</strong> window, right click the project and select <strong>Add &ndash; Add Packages</strong>.</li>
 </ul>
 
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesMenuOptionSolutionWindow.png" title="Solution Window right click Add Packages menu" alt="Solution Window right click Add Packages menu"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesMenuOptionSolutionWindow.png" title="&lsquo;Solution Window right click Add Packages menu&rsquo; &lsquo;Solution Window right click Add Packages menu&rsquo;" ></p>
 
 <ul>
-<li>From Xamarin Studio's unified search, available in the top right of the main window, enter the name of the package you would like to search for, then select <strong>Search Packages</strong>.</li>
+<li>From Xamarin Studio&rsquo;s unified search, available in the top right of the main window, enter the name of the package you would like to search for, then select <strong>Search Packages</strong>.</li>
 </ul>
 
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SearchPackagesUsingUnifiedSearch.png" title="Search packages using unified search" alt="Search packages using unified search"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SearchPackagesUsingUnifiedSearch.png" title="&lsquo;Search packages using unified search&rsquo; &lsquo;Search packages using unified search&rsquo;" ></p>
 
 <ul>
 <li>Double clicking the <strong>Packages</strong> folder in the <strong>Solution</strong> window will also open the Add Packages dialog (note the Packages folder is only displayed if you have a NuGet package installed in your project).</li>
@@ -221,7 +221,7 @@
 
 <p>On opening the Add Packages dialog you will see a re-designed user interface.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesDialog.png" title="Add Packages dialog" alt="Add Packages dialog"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesDialog.png" title="&lsquo;Add Packages dialog&rsquo; &lsquo;Add Packages dialog&rsquo;" ></p>
 
 <p>If a NuGet package has an associated image then it will now be displayed in the list of packages.</p>
 
@@ -229,7 +229,7 @@
 
 <p>The package source combo box at the top left of the dialog now includes a new <strong>Configure Sources</strong> item which allows you to quickly switch to the configured package sources in preferences and back again to the Add Packages dialog.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesDialogConfigureSources.png" title="Configuring sources from Add Packages dialog" alt="Configuring sources from Add Packages dialog"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesDialogConfigureSources.png" title="&lsquo;Configuring sources from Add Packages dialog&rsquo; &lsquo;Configuring sources from Add Packages dialog&rsquo;" ></p>
 
 <p>The list of packages now has infinite scroll support. As you scroll down the list new packages will be retrieved from the package source and displayed. Previously you had to click a button to move to the next page.</p>
 
@@ -244,32 +244,32 @@
 
 <p>To install two or more NuGet packages you can click the check box next to the package and then select the <strong>Add Packages</strong> button.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesDialogTwoPackagesChecked.png" title="Two packages checked in Add Packages dialog" alt="Two packages checked in Add Packages dialog"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesDialogTwoPackagesChecked.png" title="&lsquo;Two packages checked in Add Packages dialog&rsquo; &lsquo;Two packages checked in Add Packages dialog&rsquo;" ></p>
 
 <p>On adding the NuGet package the Add Packages dialog will close and the package installation will complete in the background. You will see status messages appear in the status bar at top of the main window as the installation progresses. The screenshots below show the status messages that are displayed when the NUnit NuGet package is installed.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddNUnitPackageStatusBarMessage.png" title="Adding NUnit package status bar message" alt="Adding NUnit package status bar message"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddNUnitPackageStatusBarMessage.png" title="&lsquo;Adding NUnit package status bar message&rsquo; &lsquo;Adding NUnit package status bar message&rsquo;" ></p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageAddedSuccessfullyStatusBarMessage.png" title="NUnit package added successfully status bar message" alt="NUnit package added successfully status bar message"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageAddedSuccessfullyStatusBarMessage.png" title="&lsquo;NUnit package added successfully status bar message&rsquo; &lsquo;NUnit package added successfully status bar message&rsquo;" ></p>
 
 <p>More detailed information about the installation can be seen in the <strong>Package Console</strong> window.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageAddedPackageConsole.png" title="NUnit package added messages in Package Console" alt="NUnit package added messages in Package Console"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageAddedPackageConsole.png" title="&lsquo;NUnit package added messages in Package Console&rsquo; &lsquo;NUnit package added messages in Package Console&rsquo;" ></p>
 
-<p>The Package Console can be opened by clicking on a package status message in the status bar or from the <strong>View</strong> menu by selecting <strong>Pads - Package Console</strong>. If there is an error when installing a NuGet package then the Package Console will automatically open to show more information about the error.</p>
+<p>The Package Console can be opened by clicking on a package status message in the status bar or from the <strong>View</strong> menu by selecting <strong>Pads &ndash; Package Console</strong>. If there is an error when installing a NuGet package then the Package Console will automatically open to show more information about the error.</p>
 
 <p>On adding the first NuGet package to a project a <strong>Packages</strong> folder will be displayed in the Solution window.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowPackagesFolder.png" title="Solution window - Packages folder" alt="Solution window - Packages folder"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowPackagesFolder.png" title="&lsquo;Solution window &ndash; Packages folder&rsquo; &lsquo;Solution window &ndash; Packages folder&rsquo;" ></p>
 
 <p>Any assembly references that a NuGet package adds to your project will be displayed in
 the <strong>From Packages</strong> folder inside <strong>References</strong>.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowFromPackagesFolder.png" title="Solution window - From Packages folder" alt="Solution window - From Packages folder"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowFromPackagesFolder.png" title="&lsquo;Solution window &ndash; From Packages folder&rsquo; &lsquo;Solution window &ndash; From Packages folder&rsquo;" ></p>
 
 <p>Whilst the NuGet package is being installed the package id text will be highlighted.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowPackagesBeingAdded.png" title="Solution window - packages being added" alt="Solution window - packages being added"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowPackagesBeingAdded.png" title="&lsquo;Solution window &ndash; packages being added&rsquo; &lsquo;Solution window &ndash; packages being added&rsquo;" ></p>
 
 <p>After the NuGet package is installed the text will be changed to black and a status message will be shown in the status bar.</p>
 
@@ -290,23 +290,23 @@ author:xamarin
 
 <p>You can remove a NuGet package from the Solution window. Expand the <strong>Packages</strong> folder for your project, select the package, right click and select <strong>Remove</strong>, or press the delete key.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowPackageBeingRemoved.png" title="Solution window - remove package menu" alt="Solution window - package remove menu"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowPackageBeingRemoved.png" title="&lsquo;Solution window &ndash; remove package menu&rsquo; &lsquo;Solution window &ndash; package remove menu&rsquo;" ></p>
 
 <p>The package will then be uninstalled in the background. Status information will appear in the status bar and more detailed information will be shown in the Package Console window.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/RemovingNUnitPackageStatusBarMessage.png" title="Removing package status bar message" alt="Removing package status bar message"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/RemovingNUnitPackageStatusBarMessage.png" title="&lsquo;Removing package status bar message&rsquo; &lsquo;Removing package status bar message&rsquo;" ></p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageRemovedSuccessfullyStatusBarMessage.png" title="Package removed status bar message" alt="Package removed status bar message"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageRemovedSuccessfullyStatusBarMessage.png" title="&lsquo;Package removed status bar message&rsquo; &lsquo;Package removed status bar message&rsquo;" ></p>
 
 <h2>Updating NuGet Packages</h2>
 
 <p>You can update an individual NuGet package by selecting it in the <strong>Solution</strong> window, right clicking and selecting <strong>Update</strong>.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowUpdatePackageMenu.png" title="Solution window - update package menu" alt="Solution window update package menu"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowUpdatePackageMenu.png" title="&lsquo;Solution window &ndash; update package menu&rsquo; &lsquo;Solution window update package menu&rsquo;" ></p>
 
 <p>You can update all the packages in a project by right clicking the <strong>Packages</strong> folder and selecting <strong>Update</strong>.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowUpdateAllProjectPackagesMenu.png" title="Solution window - update all packages in project menu" alt="Solution window update all packages in project menu"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowUpdateAllProjectPackagesMenu.png" title="&lsquo;Solution window &ndash; update all packages in project menu&rsquo; &lsquo;Solution window update all packages in project menu&rsquo;" ></p>
 
 <p>To update all the packages in the solution, either right click the solution in the <strong>Solution</strong> window and select <strong>Update Packages</strong>, or from the <strong>Project</strong> menu select <strong>Update Packages</strong>.</p>
 
@@ -316,13 +316,13 @@ author:xamarin
 
 <p>By default NuGet packages will be automatically restored when a solution is opened.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/RestorePackagesStatusBarMessage.png" title="Packages being restored status bar message" alt="Packages being restored status bar message"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/RestorePackagesStatusBarMessage.png" title="&lsquo;Packages being restored status bar message&rsquo; &lsquo;Packages being restored status bar message&rsquo;" ></p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/PackagesRestoredSuccessfullyStatusBarMessage.png" title="Packages restored status bar message" alt="Packages restored status bar message"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/PackagesRestoredSuccessfullyStatusBarMessage.png" title="&lsquo;Packages restored status bar message&rsquo; &lsquo;Packages restored status bar message&rsquo;" ></p>
 
 <p>You can disable this by going into preferences and unchecking <strong>Automatically restore packages when opening a solution</strong>.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/PreferencesAutomaticPackageRestore.png" title="Preferences - automatic package restore" alt="Preferences - automatic package restore"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/PreferencesAutomaticPackageRestore.png" title="&lsquo;Preferences &ndash; automatic package restore&rsquo; &lsquo;Preferences &ndash; automatic package restore&rsquo;" ></p>
 
 <p>With automatic package restore disabled you can manually restore NuGet packages in the following ways:</p>
 
@@ -333,7 +333,7 @@ author:xamarin
 </ul>
 
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowRestorePackagesMenu.png" title="Solution window - restore packages menu" alt="Solution window - restore packages menu"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowRestorePackagesMenu.png" title="&lsquo;Solution window &ndash; restore packages menu&rsquo; &lsquo;Solution window &ndash; restore packages menu&rsquo;" ></p>
 
 <p>The status bar will be updated with information on the progress of the restore. More detailed information can be seen in the Package Console window.</p>
 
@@ -371,7 +371,7 @@ author:xamarin
 
 <p>If a NuGet package source or a proxy needs authentication then Xamarin Studio will prompt for credentials.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesProxyCredentialPrompt.png" title="Proxy credentials dialog prompt" alt="Proxy credentials dialog prompt"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesProxyCredentialPrompt.png" title="&lsquo;Proxy credentials dialog prompt&rsquo; &lsquo;Proxy credentials dialog prompt&rsquo;" ></p>
 
 <p>Please note that there is a bug that currently prevents proxy authentication with package sources that use https which will be fixed in the next release of Xamarin Studio.</p>
 
@@ -379,7 +379,7 @@ author:xamarin
 
 <p>NuGet package sources can be configured in preferences.</p>
 
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/PreferencesAddPackageSource.png" title="Preferences - adding package source" alt="Preferences - adding package source"></p>
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/PreferencesAddPackageSource.png" title="&lsquo;Preferences &ndash; adding package source&rsquo; &lsquo;Preferences &ndash; adding package source&rsquo;" ></p>
 
 <p>A new feature here is the ability to specify a username and password for a package source that requires authentication. The username and passwords are encrypted and stored in the NuGet.config file in the same way that NuGet.exe will if you use it on the command line.</p>
 

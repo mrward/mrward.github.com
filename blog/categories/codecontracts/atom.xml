@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: CodeContracts | Matt Ward]]></title>
+  <title><![CDATA[Category: codecontracts | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/codecontracts/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-07-06T20:51:18+01:00</updated>
+  <updated>2014-08-09T12:27:26+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -23,7 +23,7 @@
 <pre><code>Contract.Requires(project != null);
 </code></pre>
 
-<p>The exception itself had no other information. The exception's message just repeated the exception that was being thrown: "Exception of type 'System.ExecutionEngineException' was thrown.". This exception indicates an internal error occurred in the CLR execution engine.</p>
+<p>The exception itself had no other information. The exception&rsquo;s message just repeated the exception that was being thrown: &ldquo;Exception of type &lsquo;System.ExecutionEngineException&rsquo; was thrown.&rdquo;. This exception indicates an internal error occurred in the CLR execution engine.</p>
 
 <p>The real problem is the use of <a href="http://research.microsoft.com/en-us/projects/contracts/">Code Contracts</a> and not following the <a href="http://entityframework.codeplex.com/documentation">Entity Framework documentation on how to build it from source code</a>.</p>
 
@@ -37,7 +37,7 @@
 
 <ol>
 <li><p>Install the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts</a> Visual Studio extension and then rebuild your project. After installing you should have a Code Contracts page in your project options.</p></li>
-<li><p>Remove <a href="http://msmvps.com/blogs/luisabreu/archive/2008/11/12/code-contracts-and-runtime-rewriting.aspx">CONTRACTS_FULL</a> from the conditional compilation symbols in the project's options.</p></li>
+<li><p>Remove <a href="http://msmvps.com/blogs/luisabreu/archive/2008/11/12/code-contracts-and-runtime-rewriting.aspx">CONTRACTS_FULL</a> from the conditional compilation symbols in the project&rsquo;s options.</p></li>
 </ol>
 
 

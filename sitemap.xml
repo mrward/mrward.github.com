@@ -1,127 +1,202 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
-    <url>
-        <loc>http://lastexitcode.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2011/10/04/T4ImportNamespaceAlias/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts/
-        </loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2012/09/26/CreatingAGitHubHostedBlogWithOctopress/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2012/09/26/CloneCodePlexRepositoryToGitHub/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://lastexitcode.com/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly/
-        </loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2013/07/14/MonoDevelopNuGetAddin0-5Released/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2013/08/26/MonoDevelopNuGetAddin0-6Released/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2013/11/03/MonoDevelopNuGetAddin0-7Released/</loc>
-        <lastmod>2013-11-03T16:46:44+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2013/12/15/MonoDevelopNuGetAddin0-8Released/</loc>
-        <lastmod>2013-12-15T18:55:28+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2014/04/13/MonoDevelopNuGetAddin0-9Released/</loc>
-        <lastmod>2014-04-13T15:16:01+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/</loc>
-        <lastmod>2014-06-01T23:23:12+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/</loc>
-        <lastmod>2014-07-06T14:40:59+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1/</loc>
-        <lastmod>2014-07-06T14:48:05+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/blog/archives/</loc>
-        <lastmod>2014-07-06T14:48:05+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/</loc>
-        <lastmod>2014-07-06T14:48:05+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/</loc>
-        <lastmod>2014-06-14T16:28:09+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.4/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.6/</loc>
-        <lastmod>2013-08-28T21:48:25+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.7/</loc>
-        <lastmod>2013-11-03T16:54:18+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.8/</loc>
-        <lastmod>2013-12-15T19:30:05+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.9/</loc>
-        <lastmod>2014-04-13T15:18:46+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/</loc>
-        <lastmod>2014-04-13T14:53:38+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddinExtensions/</loc>
-        <lastmod>2014-06-14T16:47:27+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddinExtensions/Releases/</loc>
-        <lastmod>2014-06-22T20:10:20+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/NuGet/FileLocations/</loc>
-        <lastmod>2014-05-03T13:07:10+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://lastexitcode.com/projects/NuGet/</loc>
-        <lastmod>2014-05-03T13:10:08+01:00</lastmod>
-    </url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1/</loc>
+    <lastmod>2014-07-06T10:48:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/</loc>
+    <lastmod>2014-06-22T21:05:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/</loc>
+    <lastmod>2014-06-01T18:25:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2014/04/13/MonoDevelopNuGetAddin0-9Released/</loc>
+    <lastmod>2014-04-13T14:51:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2013/12/15/MonoDevelopNuGetAddin0-8Released/</loc>
+    <lastmod>2013-12-15T18:22:00+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2013/11/03/MonoDevelopNuGetAddin0-7Released/</loc>
+    <lastmod>2013-11-03T15:28:00+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2013/08/26/MonoDevelopNuGetAddin0-6Released/</loc>
+    <lastmod>2013-08-26T13:21:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2013/07/14/MonoDevelopNuGetAddin0-5Released/</loc>
+    <lastmod>2013-07-14T15:40:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly/</loc>
+    <lastmod>2012-11-17T14:40:00+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2012/09/26/CloneCodePlexRepositoryToGitHub/</loc>
+    <lastmod>2012-09-26T16:36:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2012/09/26/CreatingAGitHubHostedBlogWithOctopress/</loc>
+    <lastmod>2012-09-26T13:55:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2012/09/25/ExecutionEngineExceptionThrownWhenUsingCodeContracts/</loc>
+    <lastmod>2012-09-25T17:35:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/</loc>
+    <lastmod>2011-10-13T21:30:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2011/10/04/T4ImportNamespaceAlias/</loc>
+    <lastmod>2011-10-04T19:54:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/</loc>
+    <lastmod>2011-08-21T19:30:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  
+  <url>
+    <loc>http://lastexitcode.com/blog/archives/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.6/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.4/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.7/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.8/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.9/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddinExtensions/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddinExtensions/Releases/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/NuGet/FileLocations/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://lastexitcode.com/projects/NuGet/</loc>
+    <lastmod>2014-08-09T12:27:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  
 </urlset>

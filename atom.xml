@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-07-06T20:51:18+01:00</updated>
+  <updated>2014-08-09T12:27:26+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -63,7 +63,7 @@
 
 <h2>Package sources defined in a solution specific NuGet.Config file</h2>
 
-<p> If package sources are defined in the solution&#8217;s NuGet.Config file then these will be available in the Add Packages dialog when this solution is opened. The NuGet.Config file can be in the solution directory or in the .nuget subdirectory. An example NuGet.Config file is shown below.</p>
+<p> If package sources are defined in the solution&rsquo;s NuGet.Config file then these will be available in the Add Packages dialog when this solution is opened. The NuGet.Config file can be in the solution directory or in the .nuget subdirectory. An example NuGet.Config file is shown below.</p>
 
 <pre><code>&lt;configuration&gt;
   &lt;packageSources&gt;
@@ -88,7 +88,7 @@
 
 <p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
 
-<p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&#8217;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
+<p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&rsquo;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
 ]]></content>
   </entry>
   
@@ -106,9 +106,9 @@
 <h2>PowerShell Console Features</h2>
 
 <ul>
-<li> Standard NuGet PowerShell commands available - Install-Package, Update-Package, Uninstall-Package, Get-Project and Get-Package</li>
+<li> Standard NuGet PowerShell commands available &ndash; Install-Package, Update-Package, Uninstall-Package, Get-Project and Get-Package</li>
 <li> Integrates with the existing NuGet addin that ships with Xamarin Studio.</li>
-<li> Cross platform - works on Windows and Mac.</li>
+<li> Cross platform &ndash; works on Windows and Mac.</li>
 <li> Powered by <a href="https://github.com/Pash-Project/Pash">Pash</a>.</li>
 <li> Partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model EnvDTE</a>.</li>
 </ul>
@@ -135,7 +135,7 @@
 <li>Expand <strong>IDE extensions</strong>.</li>
 <li>Select <strong>NuGet Package Management Extensions</strong>.</li>
 <li>Click the <strong>Refresh</strong> button if the addin is not visible.</li>
-<li>Click <strong>Install&#8230;</strong> to install the addin.</li>
+<li>Click <strong>Install&hellip;</strong> to install the addin.</li>
 </ul>
 
 
@@ -177,19 +177,19 @@
     <link href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/"/>
     <updated>2014-06-01T18:25:00+01:00</updated>
     <id>http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.0 was released last week as part of the <a href="http://blog.xamarin.com/announcing-xamarin-3/">Xamarin 3.0 release</a> and it now has built-in support for NuGet. There is no need to install the NuGet addin separately into Xamarin Studio 5.0 or MonoDevelop 5.0 since it is now &#8220;in the box&#8221;.</p>
+    <content type="html"><![CDATA[<p>Xamarin Studio 5.0 was released last week as part of the <a href="http://blog.xamarin.com/announcing-xamarin-3/">Xamarin 3.0 release</a> and it now has built-in support for NuGet. There is no need to install the NuGet addin separately into Xamarin Studio 5.0 or MonoDevelop 5.0 since it is now &ldquo;in the box&rdquo;.</p>
 
 <h2>New Features</h2>
 
 <ul>
 <li> Re-designed user interface.</li>
 <li> More integrated with the Solution window.</li>
-<li> Supports <a href="http://docs.nuget.org/docs/reference/search-syntax">NuGet&#8217;s search syntax</a>.</li>
+<li> Supports <a href="http://docs.nuget.org/docs/reference/search-syntax">NuGet&rsquo;s search syntax</a>.</li>
 <li> Background package installation.</li>
-<li> Integrates with Xamarin Studio&#8217;s unified search.</li>
+<li> Integrates with Xamarin Studio&rsquo;s unified search.</li>
 <li> Support for NuGet packages in project templates.</li>
 <li> Package restore on opening a solution.</li>
-<li> Integrates with Xamarin Studio&#8217;s credential provider to provide proxy and package source authentication.</li>
+<li> Integrates with Xamarin Studio&rsquo;s credential provider to provide proxy and package source authentication.</li>
 </ul>
 
 
@@ -201,14 +201,14 @@
 
 <ul>
 <li>From the <strong>Project</strong> menu select <strong>Add Packages</strong>. The project will need to be selected in the <strong>Solution</strong> window.</li>
-<li>From the <strong>Solution</strong> window, right click the project and select <strong>Add - Add Packages</strong>.</li>
+<li>From the <strong>Solution</strong> window, right click the project and select <strong>Add &ndash; Add Packages</strong>.</li>
 </ul>
 
 
 <p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesMenuOptionSolutionWindow.png" title="Solution Window right click Add Packages menu" alt="Solution Window right click Add Packages menu"></p>
 
 <ul>
-<li>From Xamarin Studio&#8217;s unified search, available in the top right of the main window, enter the name of the package you would like to search for, then select <strong>Search Packages</strong>.</li>
+<li>From Xamarin Studio&rsquo;s unified search, available in the top right of the main window, enter the name of the package you would like to search for, then select <strong>Search Packages</strong>.</li>
 </ul>
 
 
@@ -256,7 +256,7 @@
 
 <p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageAddedPackageConsole.png" title="NUnit package added messages in Package Console" alt="NUnit package added messages in Package Console"></p>
 
-<p>The Package Console can be opened by clicking on a package status message in the status bar or from the <strong>View</strong> menu by selecting <strong>Pads - Package Console</strong>. If there is an error when installing a NuGet package then the Package Console will automatically open to show more information about the error.</p>
+<p>The Package Console can be opened by clicking on a package status message in the status bar or from the <strong>View</strong> menu by selecting <strong>Pads &ndash; Package Console</strong>. If there is an error when installing a NuGet package then the Package Console will automatically open to show more information about the error.</p>
 
 <p>On adding the first NuGet package to a project a <strong>Packages</strong> folder will be displayed in the Solution window.</p>
 
@@ -675,7 +675,7 @@ Type "help", "copyright", "credits" or "license" for more information.
  rake deploy
 </code></pre>
 
-<p> The deploy command will cause your blog to be pushed to the master branch of your GitHub repository. Your blog will then be published and accessible via http://username.github.com (where username is replaced with your GitHub username).</p>
+<p> The deploy command will cause your blog to be pushed to the master branch of your GitHub repository. Your blog will then be published and accessible via <a href="http://username.github.com">http://username.github.com</a> (where username is replaced with your GitHub username).</p>
 
 <p> Then you will need to commit your changes made in the source branch and push them to GitHub.</p>
 
@@ -714,7 +714,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 <pre><code>Contract.Requires(project != null);
 </code></pre>
 
-<p>The exception itself had no other information. The exception&#8217;s message just repeated the exception that was being thrown: &#8220;Exception of type &#8216;System.ExecutionEngineException&#8217; was thrown.&#8221;. This exception indicates an internal error occurred in the CLR execution engine.</p>
+<p>The exception itself had no other information. The exception&rsquo;s message just repeated the exception that was being thrown: &ldquo;Exception of type &lsquo;System.ExecutionEngineException&rsquo; was thrown.&rdquo;. This exception indicates an internal error occurred in the CLR execution engine.</p>
 
 <p>The real problem is the use of <a href="http://research.microsoft.com/en-us/projects/contracts/">Code Contracts</a> and not following the <a href="http://entityframework.codeplex.com/documentation">Entity Framework documentation on how to build it from source code</a>.</p>
 
@@ -728,7 +728,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 <ol>
 <li><p>Install the <a href="http://msdn.microsoft.com/en-us/devlabs/dd491992.aspx">Code Contracts</a> Visual Studio extension and then rebuild your project. After installing you should have a Code Contracts page in your project options.</p></li>
-<li><p>Remove <a href="http://msmvps.com/blogs/luisabreu/archive/2008/11/12/code-contracts-and-runtime-rewriting.aspx">CONTRACTS_FULL</a> from the conditional compilation symbols in the project&#8217;s options.</p></li>
+<li><p>Remove <a href="http://msmvps.com/blogs/luisabreu/archive/2008/11/12/code-contracts-and-runtime-rewriting.aspx">CONTRACTS_FULL</a> from the conditional compilation symbols in the project&rsquo;s options.</p></li>
 </ol>
 
 
@@ -1116,13 +1116,13 @@ File content: &lt;#= text #&gt;
 
 <h2>Generating a JavaScript Parser</h2>
 
-<p>Download a JavaScript grammar from http://www.antlr.org/grammar/list](http://www.antlr.org/grammar/list).</p>
+<p>Download a JavaScript grammar from <a href="http://www.antlr.org/grammar/list">http://www.antlr.org/grammar/list</a>](<a href="http://www.antlr.org/grammar/list">http://www.antlr.org/grammar/list</a>).</p>
 
-<p>I used <a href="http://www.antlr.org/grammar/1206736738015/JavaScript.g">Chris Lambrou&#8217;s JavaScript grammar</a> since this was the most recent.</p>
+<p>I used <a href="http://www.antlr.org/grammar/1206736738015/JavaScript.g">Chris Lambrou&rsquo;s JavaScript grammar</a> since this was the most recent.</p>
 
 <p>Open the JavaScript.g file in ANTLRWorks by selecting Open from the File menu.</p>
 
-<p>Edit the JavaScript.g file and add &#8220;language=CSharp3&#8221; to the options section.</p>
+<p>Edit the JavaScript.g file and add &ldquo;language=CSharp3&rdquo; to the options section.</p>
 
 <pre><code>options 
 { 
@@ -1176,7 +1176,7 @@ File content: &lt;#= text #&gt;
 
 <p>If you receive an error about HIDDEN being undefined then rename HIDDEN to Hidden in the JavaScriptLexer.cs file.</p>
 
-<p>Remove the &#8220;[System.CLSCompliant(false)]&#8221; from the lexer and parser files to fix the warning about not requiring CLSCompliant to be set.</p>
+<p>Remove the &ldquo;[System.CLSCompliant(false)]&rdquo; from the lexer and parser files to fix the warning about not requiring CLSCompliant to be set.</p>
 
 <p>In order to get access to the results the parser generates you will need to make a modification to the JavaScriptParser.cs. Make the program() method public, as shown below.</p>
 
@@ -1319,7 +1319,7 @@ namespace JavaScriptParserConsole
 } 
 </code></pre>
 
-<p>We have taken the program_return class that is returned from the parser&#8217;s program method and displayed its tree.</p>
+<p>We have taken the program_return class that is returned from the parser&rsquo;s program method and displayed its tree.</p>
 
 <pre><code>public class program_return 
     : ParserRuleReturnScope&lt;IToken&gt;, IAstRuleReturnScope&lt;object&gt; 
@@ -1332,7 +1332,7 @@ namespace JavaScriptParserConsole
 }
 </code></pre>
 
-<p>The Tree property is a CommonTree but by default ANTLR returns this as an object. We then pass this tree to a method that displays a few properties from the tree and then looks at the tree&#8217;s children and displays them. Each child is also a tree so we call the WriteTree method recursively. With the simple javascript code of &#8220;var a = 1;&#8221; we get the following output when running this code:</p>
+<p>The Tree property is a CommonTree but by default ANTLR returns this as an object. We then pass this tree to a method that displays a few properties from the tree and then looks at the tree&rsquo;s children and displays them. Each child is also a tree so we call the WriteTree method recursively. With the simple javascript code of &ldquo;var a = 1;&rdquo; we get the following output when running this code:</p>
 
 <pre><code>Tree.Text: 
 Tree.Type: 0 
@@ -1377,7 +1377,7 @@ Tree.ChildCount: 4
 } 
 </code></pre>
 
-<p>So we can set the tree&#8217;s type to be CommonTree and we would not need to convert the Tree property from an Object to a CommonTree each time. With this change made the lexer and parser class files need to be regenerated with AntlrWorks. We also have to make the fixes described above (HIDDEN and ClsCompliant) to the generated code.</p>
+<p>So we can set the tree&rsquo;s type to be CommonTree and we would not need to convert the Tree property from an Object to a CommonTree each time. With this change made the lexer and parser class files need to be regenerated with AntlrWorks. We also have to make the fixes described above (HIDDEN and ClsCompliant) to the generated code.</p>
 
 <p>Now the program_return class has been changed:</p>
 
@@ -1394,7 +1394,7 @@ Tree.ChildCount: 4
 
 <p>Unfortunately this code does not compile and we get the error shown below.</p>
 
-<p>Error CS0738:  &#8216;ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return&#8217; does not implement interface member &#8216;Antlr.Runtime.IAstRuleReturnScope.Tree&#8217;. ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return.Tree&#8217; cannot implement &#8216;Antlr.Runtime.IAstRuleReturnScope.Tree&#8217; because it does not have the matching return type of &#8216;object&#8217;.</p>
+<p>Error CS0738:  &lsquo;ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return&rsquo; does not implement interface member &lsquo;Antlr.Runtime.IAstRuleReturnScope.Tree&rsquo;. ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return.Tree&#8217; cannot implement &lsquo;Antlr.Runtime.IAstRuleReturnScope.Tree&rsquo; because it does not have the matching return type of &lsquo;object&rsquo;.</p>
 
 <p>Looking at the interface definitions it looks like there is a problem with the code generation since the new program_return class does not implement the IAstRuleReturnScope interface completely:</p>
 
@@ -1416,7 +1416,7 @@ public interface IAstRuleReturnScope : IRuleReturnScope
 }
 </code></pre>
 
-<p>So we will have to switch back to not defining the tree&#8217;s type by not using the ASTLabelType option.</p>
+<p>So we will have to switch back to not defining the tree&rsquo;s type by not using the ASTLabelType option.</p>
 
 <h2>Summary</h2>
 

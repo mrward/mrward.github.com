@@ -20,17 +20,18 @@ Support for packages using XML Document &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5/">
+  <link rel="canonical" href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5">
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -47,7 +48,7 @@ Support for packages using XML Document &hellip;">
 
 </head>
 
-<body   >
+<body   class="collapse-sidebar sidebar-footer" >
   <header role="banner"><hgroup>
   <h1><a href="/">Matt Ward</a></h1>
   
@@ -59,7 +60,12 @@ Support for packages using XML Document &hellip;">
   
 </ul>
   
-<form action="http://google.com/search" method="get">
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
   <fieldset role="search">
     <input type="hidden" name="q" value="site:lastexitcode.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
@@ -92,7 +98,7 @@ Support for packages using XML Document &hellip;">
   
 
 
-<time datetime="2013-07-13T17:26:00+01:00" pubdate data-updated="true">Jul 13<span>th</span>, 2013</time></p>
+<time datetime="2013-07-13T17:26:00+01:00" pubdate data-updated="true">Jul 13<sup>th</sup>, 2013</time></p>
   </header>
   
   <h2>New Features</h2>
@@ -120,7 +126,7 @@ Support for packages using XML Document &hellip;">
 
 <h3>XML Document Transformations</h3>
 
-<p><a href="http://docs.nuget.org/docs/release-notes/nuget-2.6">NuGet 2.6</a> added support for XDTs. This allows complex transformations of a project&#8217;s app.config or web.config when a NuGet package is installed or uninstalled. In the NuGet package you can add XDTs by using naming your file after one or more of the following:</p>
+<p><a href="http://docs.nuget.org/docs/release-notes/nuget-2.6">NuGet 2.6</a> added support for XDTs. This allows complex transformations of a project&rsquo;s app.config or web.config when a NuGet package is installed or uninstalled. In the NuGet package you can add XDTs by using naming your file after one or more of the following:</p>
 
 <ul>
 <li>web.config.install.xdt</li>
@@ -154,7 +160,7 @@ Support for packages using XML Document &hellip;">
 <pre><code>mono --runtime=v4.0.30319 NuGet.exe sources update -name FeedName -username user -password pass
 </code></pre>
 
-<p>Note that if you are using a version of Mono older than version 3.0.12 then you will need to use a custom build of NuGet.exe otherwise you will get an InvalidOperation error message &#8220;This XmlWriter does not accept Text at this state Prolog.&#8221; when running the above command. The custom build of <a href="http://mrward.github.com/monodevelop-nuget-addin-repository/NuGet/2.6/NuGet.exe">NuGet.exe is available on GitHub</a> as well as the <a href="https://github.com/mrward/nuget/tree/2.6-monodevelop">source code</a>.</p>
+<p>Note that if you are using a version of Mono older than version 3.0.12 then you will need to use a custom build of NuGet.exe otherwise you will get an InvalidOperation error message &ldquo;This XmlWriter does not accept Text at this state Prolog.&rdquo; when running the above command. The custom build of <a href="http://mrward.github.com/monodevelop-nuget-addin-repository/NuGet/2.6/NuGet.exe">NuGet.exe is available on GitHub</a> as well as the <a href="https://github.com/mrward/nuget/tree/2.6-monodevelop">source code</a>.</p>
 
 <p>After adding your username and password to NuGet.config you will need to restart Xamarin Studio since the information held in the NuGet.config file is cached.</p>
 
@@ -195,13 +201,13 @@ Support for packages using XML Document &hellip;">
   
 
 
-<time datetime="2013-07-13T17:26:00+01:00" pubdate data-updated="true">Jul 13<span>th</span>, 2013</time>
+<time datetime="2013-07-13T17:26:00+01:00" pubdate data-updated="true">Jul 13<sup>th</sup>, 2013</time>
         
       </p>
       
         <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5/index.html" data-via="" data-counturl="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5/index.html" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5/index.html" data-via="" data-counturl="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5/index.html" >Tweet</a>
   
   
   
@@ -212,42 +218,12 @@ Support for packages using XML Document &hellip;">
   
 </article>
 
+
 </div>
 
 <aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2014/07/06/NuGetSupportInXamarinStudio5-1/">NuGet Support in Xamarin Studio 5.1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/">NuGet PowerShell Console for Xamarin Studio</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/">NuGet Support in Xamarin Studio 5.0</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/13/MonoDevelopNuGetAddin0-9Released/">MonoDevelop NuGet Addin 0.9 Released</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/15/MonoDevelopNuGetAddin0-8Released/">MonoDevelop NuGet Addin 0.8 Released</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-
   
 </aside>
 
@@ -256,11 +232,14 @@ Support for packages using XML Document &hellip;">
   </div>
   <footer role="contentinfo"><p>
   Copyright &copy; 2014 - Matt Ward -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 
 </footer>
   
+
+
+
 
 
 
@@ -273,7 +252,7 @@ Support for packages using XML Document &hellip;">
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>

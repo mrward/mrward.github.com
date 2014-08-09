@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: ANTLR | Matt Ward]]></title>
+  <title><![CDATA[Category: antlr | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/antlr/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-07-06T20:51:18+01:00</updated>
+  <updated>2014-08-09T12:27:26+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -37,13 +37,13 @@
 
 <h2>Generating a JavaScript Parser</h2>
 
-<p>Download a JavaScript grammar from http://www.antlr.org/grammar/list](http://www.antlr.org/grammar/list).</p>
+<p>Download a JavaScript grammar from <a href="http://www.antlr.org/grammar/list">http://www.antlr.org/grammar/list</a>](<a href="http://www.antlr.org/grammar/list">http://www.antlr.org/grammar/list</a>).</p>
 
-<p>I used <a href="http://www.antlr.org/grammar/1206736738015/JavaScript.g">Chris Lambrou's JavaScript grammar</a> since this was the most recent.</p>
+<p>I used <a href="http://www.antlr.org/grammar/1206736738015/JavaScript.g">Chris Lambrou&rsquo;s JavaScript grammar</a> since this was the most recent.</p>
 
 <p>Open the JavaScript.g file in ANTLRWorks by selecting Open from the File menu.</p>
 
-<p>Edit the JavaScript.g file and add "language=CSharp3" to the options section.</p>
+<p>Edit the JavaScript.g file and add &ldquo;language=CSharp3&rdquo; to the options section.</p>
 
 <pre><code>options 
 { 
@@ -97,7 +97,7 @@
 
 <p>If you receive an error about HIDDEN being undefined then rename HIDDEN to Hidden in the JavaScriptLexer.cs file.</p>
 
-<p>Remove the "[System.CLSCompliant(false)]" from the lexer and parser files to fix the warning about not requiring CLSCompliant to be set.</p>
+<p>Remove the &ldquo;[System.CLSCompliant(false)]&rdquo; from the lexer and parser files to fix the warning about not requiring CLSCompliant to be set.</p>
 
 <p>In order to get access to the results the parser generates you will need to make a modification to the JavaScriptParser.cs. Make the program() method public, as shown below.</p>
 
@@ -240,7 +240,7 @@ namespace JavaScriptParserConsole
 } 
 </code></pre>
 
-<p>We have taken the program_return class that is returned from the parser's program method and displayed its tree.</p>
+<p>We have taken the program_return class that is returned from the parser&rsquo;s program method and displayed its tree.</p>
 
 <pre><code>public class program_return 
     : ParserRuleReturnScope&lt;IToken&gt;, IAstRuleReturnScope&lt;object&gt; 
@@ -253,7 +253,7 @@ namespace JavaScriptParserConsole
 }
 </code></pre>
 
-<p>The Tree property is a CommonTree but by default ANTLR returns this as an object. We then pass this tree to a method that displays a few properties from the tree and then looks at the tree's children and displays them. Each child is also a tree so we call the WriteTree method recursively. With the simple javascript code of "var a = 1;" we get the following output when running this code:</p>
+<p>The Tree property is a CommonTree but by default ANTLR returns this as an object. We then pass this tree to a method that displays a few properties from the tree and then looks at the tree&rsquo;s children and displays them. Each child is also a tree so we call the WriteTree method recursively. With the simple javascript code of &ldquo;var a = 1;&rdquo; we get the following output when running this code:</p>
 
 <pre><code>Tree.Text: 
 Tree.Type: 0 
@@ -298,7 +298,7 @@ Tree.ChildCount: 4
 } 
 </code></pre>
 
-<p>So we can set the tree's type to be CommonTree and we would not need to convert the Tree property from an Object to a CommonTree each time. With this change made the lexer and parser class files need to be regenerated with AntlrWorks. We also have to make the fixes described above (HIDDEN and ClsCompliant) to the generated code.</p>
+<p>So we can set the tree&rsquo;s type to be CommonTree and we would not need to convert the Tree property from an Object to a CommonTree each time. With this change made the lexer and parser class files need to be regenerated with AntlrWorks. We also have to make the fixes described above (HIDDEN and ClsCompliant) to the generated code.</p>
 
 <p>Now the program_return class has been changed:</p>
 
@@ -315,7 +315,7 @@ Tree.ChildCount: 4
 
 <p>Unfortunately this code does not compile and we get the error shown below.</p>
 
-<p>Error CS0738:  'ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return' does not implement interface member 'Antlr.Runtime.IAstRuleReturnScope.Tree'. ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return.Tree' cannot implement 'Antlr.Runtime.IAstRuleReturnScope.Tree' because it does not have the matching return type of 'object'.</p>
+<p>Error CS0738:  &lsquo;ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return&rsquo; does not implement interface member &lsquo;Antlr.Runtime.IAstRuleReturnScope.Tree&rsquo;. ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return.Tree' cannot implement &lsquo;Antlr.Runtime.IAstRuleReturnScope.Tree&rsquo; because it does not have the matching return type of &lsquo;object&rsquo;.</p>
 
 <p>Looking at the interface definitions it looks like there is a problem with the code generation since the new program_return class does not implement the IAstRuleReturnScope interface completely:</p>
 
@@ -337,7 +337,7 @@ public interface IAstRuleReturnScope : IRuleReturnScope
 }
 </code></pre>
 
-<p>So we will have to switch back to not defining the tree's type by not using the ASTLabelType option.</p>
+<p>So we will have to switch back to not defining the tree&rsquo;s type by not using the ASTLabelType option.</p>
 
 <h2>Summary</h2>
 

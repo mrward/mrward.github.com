@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: http://lastexitcode.com/sitemap.xml
