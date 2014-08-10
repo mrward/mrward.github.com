@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-08-09T12:27:26+01:00</updated>
+  <updated>2014-08-10T13:21:40+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,146 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.2]]></title>
+    <link href="http://lastexitcode.com/blog/2014/08/10/NuGetSupportInXamarinStudio5-2/"/>
+    <updated>2014-08-10T12:44:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2014/08/10/NuGetSupportInXamarinStudio5-2</id>
+    <content type="html"><![CDATA[<h2>New Features</h2>
+
+<ul>
+<li> Automatic package update check</li>
+<li> Package framework retargeting</li>
+<li> Support for custom packages directory in NuGet.Config</li>
+<li> Add all checked packages even if they are not visible</li>
+</ul>
+
+
+<p>More details on all the new features and changes in Xamarin Studio 5.2 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.2/xamarin.studio_5.2/">release notes</a>. Now let us take a more detailed look at the new NuGet features.</p>
+
+<h2>Automatic package update check</h2>
+
+<p>On opening a solution Xamarin Studio will check in the background for updated packages used by your projects. When the update check begins the status bar will show a <strong>Checking for package updates</strong> message.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-2/CheckingForPackageUpdatesStatusBarMessage.png" title="Checking for package updates status bar message" alt="Checking for package updates status bar message"></p>
+
+<p>If Xamarin Studio finds there are new updated packages available then the status bar will show a <strong>Package Updates are available</strong> message.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-2/PackageUpdatesAreAvailableStatusBarMessage.png" title="Package updates are available status bar message" alt="Package updates are available status bar message"></p>
+
+<p>The <strong>Solution</strong> window will show information about the updates in the Packages folder.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-2/PackageUpdatesInSolutionWindow.png" title="Package updates shown in Solution window" alt="Package updates shown in Solution window"></p>
+
+<p>The <strong>Packages</strong> folder will show the number of updated packages available for a project. For each package inside the Packages folder you can see the version number for the update.</p>
+
+<p>Note that Xamarin Studio will only show updates that are for non-pre-release packages.</p>
+
+<p>The automatic package update feature can be disabled in <strong>Preferences</strong> by unchecking <strong>Check for package updates when opening a solution</strong>.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-2/CheckForPackageUpdatesOptionInPreferences.png" title="Preferences dialog - Check for package updates when opening a solution" alt="Preferences dialog - Check for package updates when opening a solution"></p>
+
+<h2>Framework retargeting</h2>
+
+<p>A NuGet package will often contain assemblies for several target frameworks. Json.NET, for example, contains assemblies for:</p>
+
+<ul>
+<li>.NET 2.0</li>
+<li>.NET 3.5</li>
+<li>.NET 4.0</li>
+<li>.NET 4.5</li>
+<li>.NET Core 4.5 (Windows Store)</li>
+<li>Portable Class Library (PCL)
+
+<ul>
+<li>.NET 4, Silverlight 5, Windows Phone 8, Windows 8, Windows Phone   Application 8.1</li>
+</ul>
+</li>
+<li>Portable Class Library (PCL)
+
+<ul>
+<li>.NET 4.5, Windows Phone 8, Windows 8, Windows Phone Application 8.1</li>
+</ul>
+</li>
+</ul>
+
+
+<p>When you install this NuGet package into your project the assembly that is referenced is determined by your project&rsquo;s target framework. NuGet will reference the assembly which it considers to be the best match for your project&rsquo;s target framework. So if you install Json.NET into a project that targets .NET 4.5 the Json.NET assembly referenced will be taken from the .NET 4.5 folder inside the NuGet package.</p>
+
+<p>If you change your project&rsquo;s target framework after you have installed the NuGet package your project may be referencing a different assembly compared with what would have been referenced if you had installed it after changing the project&rsquo;s target framework. In some cases the project&rsquo;s target framework may not be compatible with the NuGet package. For example, your project targeted .NET 4.5 and you then changed it to .NET 2.0. In this case you would be referencing a .NET 4.5 assembly that would not work with .NET 2.0. Another example is if you change the PCL profile of your project which could affect which PCL assemblies are used from the NuGet package.</p>
+
+<p>In Xamarin Studio 5.2 if you change your project&rsquo;s target framework then the NuGet packages referenced by your project are checked to see if they are still compatible. The result of this check is displayed in the <strong>Package Console</strong>.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-2/PackagesNeedRetargetingMessagesInPackageConsole.png" title="Packages need retargeting messages in Package Console" alt="Packages need retargeting messages in Package Console"></p>
+
+<p>In the screenshot above the project&rsquo;s target framework was changed from .NET 4.5 to .NET 2.0 whilst the project had the Json.NET and Moq NuGet packages installed. Json.NET is compatible with .NET 2.0 and can be retargeted. Moq does not support .NET 2.0 and is not compatible.</p>
+
+<p>To retarget an individual NuGet package you can select the package in the <strong>Solution</strong> window, right click and select <strong>Retarget</strong>.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-2/RetargetSinglePackageSolutionWindowMenuItem.png" title="Solution window - Retarget menu item" alt="Solution window - Retarget menu item"></p>
+
+<p>To retarget all packages in the project you can select <strong>Packages</strong> in the <strong>Solution</strong> window, right click and select <strong>Retarget</strong>.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-2/RetargetAllProjectPackagesSolutionWindowMenuItem.png" title="Solution window - Retarget project packages menu item" alt="Solution window - Retarget project packages menu item"></p>
+
+<p>Selecting <strong>Retarget</strong> will remove the NuGet package and then add it again so the correct assembly is referenced by your project. The status bar will be updated as the package is retargeted and full details can be seen in the Package Console.</p>
+
+<p>The Retarget menu item is only available if NuGet packages need to be retargeted.</p>
+
+<p>Note that if you retarget a NuGet package that is incompatible with your project&rsquo;s target framework then the retargeting will fail and the NuGet package will be removed from the project.</p>
+
+<h2>Support for custom packages directory in NuGet.Config</h2>
+
+<p>When a NuGet package is installed into a project the NuGet packages are by default downloaded into a packages directory inside the solution directory. The location and name of this packages directory can be configured by specifying the repositoryPath in the NuGet.config file.</p>
+
+<pre><code>&lt;configuration&gt;
+  &lt;config&gt;
+    &lt;add key="repositoryPath" value="../../MyPackages" /&gt;
+  &lt;/config&gt;
+&lt;/configuration&gt;
+</code></pre>
+
+<p>If you create a NuGet.config file and put it the .nuget directory inside the solution, or in the project&rsquo;s directory, then Xamarin Studio will read the repositoryPath and use it when downloading NuGet packages. The path is relative to the NuGet.config file but you can specify a full path if you need to.</p>
+
+<p>Note that if you make a change to the repositoryPath whilst the solution is open you will need to close and re-open the solution for the changes to be detected.</p>
+
+<h2>Add all checked packages even if they are not visible</h2>
+
+<p>The Add Packages dialog will now add all packages that were checked when you click the Add Packages button even if they are not currently being displayed in the dialog. This allows you to run multiple searches in the dialog, check multiple packages and then add them to the project in one step without having to open the Add Packages dialog multiple times. Previously only the checked packages that were displayed in the list of packages would be added to your project.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Incorrect path separator used for MSBuild Import</strong></p>
+
+<p>A NuGet package can contain custom MSBuild .targets and .props files. Previously when a NuGet package was installed on the Mac a forward slash path separator was used when adding the paths for custom MSBuild .targets file. This would cause Xamarin Studio on Windows to fail to compile the project. Now backslashes are used for all paths added to the project file.</p>
+
+<p>Xamarin Studio will also now add a Condition to the project file that checks the imported MSBuild .targets file exists. Without this condition the project cannot be opened in Visual Studio if the NuGet packages are missing.</p>
+
+<p>As an example, if Xamarin.Forms 1.1.1.6206 is installed into a project the following Import element will be added.</p>
+
+<pre><code>&lt;Import 
+    Project="packages\Xamarin.Forms.1.1.1.6206\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets"
+    Condition="Exists('packages\Xamarin.Forms.1.1.1.6206\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" /&gt;
+</code></pre>
+
+<p><strong>Repositories.config not restored</strong></p>
+
+<p>When NuGet packages were restored for the solution the repositories.config file was not being restored. The repositories.config file contains references to all the projects in the solution that have NuGet packages. This information is used by NuGet to determine whether a NuGet package can be removed from the packages directory when a NuGet package is removed from a project. Without this information a NuGet package that is still referenced by other projects could be removed from the packages directory and cause the compilation to fail.</p>
+
+<p><strong>Package Dependencies not resolved from enabled package sources</strong></p>
+
+<p>Xamarin Studio will now use all enabled package sources when resolving dependencies for a NuGet package even if a single package source is selected in the Add Packages dialog. This allows the use of a NuGet package source that has packages that have dependencies that are not available from that particular package source but are available from another package source.</p>
+
+<p><strong>Packages are up to date status bar message</strong></p>
+
+<p>If you have the automatic check for updates disabled and update one or more NuGet packages the status bar will now display a message indicating that the packages are up to date if there are no updates available. Previously Xamarin Studio would show a message that the packages were updated when they were not.</p>
+
+<p><strong>Updating an unrestored package</strong></p>
+
+<p>If you have automatic package restore disabled and you attempt to update a NuGet package the package will now be restored before the update is attempted. Previously this would fail when an update was available since NuGet looks at the old package to work out how to remove it from the project before updating to the new NuGet package.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.1]]></title>
