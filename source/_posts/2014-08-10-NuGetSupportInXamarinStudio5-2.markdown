@@ -47,13 +47,13 @@ A NuGet package will often contain assemblies for several target frameworks. Jso
  * .NET 4.5
  * .NET Core 4.5 (Windows Store)
  * Portable Class Library (PCL)
-   * .NET 4, Silverlight 5, Windows Phone 8, Windows 8, Windows Phone   Application 8.1)
+   * .NET 4, Silverlight 5, Windows Phone 8, Windows 8, Windows Phone   Application 8.1
  * Portable Class Library (PCL)
    * .NET 4.5, Windows Phone 8, Windows 8, Windows Phone Application 8.1
 
 When you install this NuGet package into your project the assembly that is referenced is determined by your project's target framework. NuGet will reference the assembly which it considers to be the best match for your project's target framework. So if you install Json.NET into a project that targets .NET 4.5 the Json.NET assembly referenced will be taken from the .NET 4.5 folder inside the NuGet package.
 
-If you change your project's target framework after you have installed the NuGet package your project may be referencing a different assembly compared with what would have been referenced if you had installed it after changing the project's target framework. In some cases the project's target framework may not be compatible with the NuGet package. For example, your project targeted .NET 4.5 and you then changed it to .NET 2.0. In this case you would be referencing an .NET 4.5 assembly that would not work with .NET 2.0. Another example is if you change the PCL profile of your project which could affect which PCL assemblies are used from the NuGet package.
+If you change your project's target framework after you have installed the NuGet package your project may be referencing a different assembly compared with what would have been referenced if you had installed it after changing the project's target framework. In some cases the project's target framework may not be compatible with the NuGet package. For example, your project targeted .NET 4.5 and you then changed it to .NET 2.0. In this case you would be referencing a .NET 4.5 assembly that would not work with .NET 2.0. Another example is if you change the PCL profile of your project which could affect which PCL assemblies are used from the NuGet package.
 
 In Xamarin Studio 5.2 if you change your project's target framework then the NuGet packages referenced by your project are checked to see if they are still compatible. The result of this check is displayed in the **Package Console**.
 
@@ -70,7 +70,9 @@ To retarget all packages in the project you can select **Packages** in the **Sol
 {% img /images/blog/NuGetSupportInXamarinStudio5-2/RetargetAllProjectPackagesSolutionWindowMenuItem.png 'Solution window - Retarget project packages menu item' 'Solution window - Retarget project packages menu item' %}
 
 Selecting **Retarget** will remove the NuGet package and then add it again so the correct assembly is referenced by your project. The status bar will be updated as the package is retargeted and full details can be seen in the Package Console.
- 
+
+The Retarget menu item is only available if NuGet packages need to be retargeted.
+
 Note that if you retarget a NuGet package that is incompatible with your project's target framework then the retargeting will fail and the NuGet package will be removed from the project.
 
 ## Support for custom packages directory in NuGet.Config
