@@ -13,6 +13,7 @@ Extends the NuGet Addin for MonoDevelop and Xamarin Studio with some experimenta
  * Install a NuGet package from the unified search.
  * List Portable Class Libraries available on local machine from unified search.
  * Manage Packages at the solution level.
+ * PowerShell Console window.
 
 Available from the [MonoDevelop Add-in Repository](http://addins.monodevelop.com/Project/Index/121) on the alpha channel.
 
