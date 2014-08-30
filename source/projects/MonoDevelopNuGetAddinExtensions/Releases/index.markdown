@@ -7,6 +7,12 @@ sharing: true
 footer: true
 ---
 
+## Version 0.6
+
+2014-08-30
+
+ * Fix type load exception due to interface being changed in Xamarin Studio 5.3 which was preventing the addin from working.
+
 ## Version 0.5
 
 2014-06-22
