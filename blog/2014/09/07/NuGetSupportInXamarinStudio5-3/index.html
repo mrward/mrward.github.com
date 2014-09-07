@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Xamarin Studio 5.3 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes NuGet package restore is now part of Xamarin Studio and no longer uses NuGet.exe Add Packages dialog &ndash; Package sources could not be &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2014/09/07/NuGetSupportInXamarinStudio5-3">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Xamarin Studio 5.3</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-07T10:00:00+01:00" pubdate data-updated="true">Sep 7<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet package restore is now part of Xamarin Studio and no longer uses NuGet.exe</li>
+<li> Add Packages dialog &ndash; Package sources could not be reached shown for failing package sources</li>
+<li> Packages restored for the selected project instead of the solution</li>
+<li> Show packages added to solution in Add Packages dialog</li>
+<li> Show packages up to date message in status bar if there are no package updates available</li>
+<li> Show status bar warning message when no updates found and package sources are unavailable</li>
+<li> Restore missing packages before updating a package</li>
+<li> Do not check for updated packages if the project has no packages</li>
+<li> Fix version shown as download count in Add Packages dialog when searching for package versions</li>
+<li> Fix empty source being selected in Add Packages dialog when package source disabled and All Sources selected</li>
+<li> Fix packages.config marked as deleted by Git when updating packages</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 5.3 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.3/xamarin.studio_5.3/">release notes</a>. Now let us take a more detailed look at the new NuGet changes.</p>
+
+<h2>NuGet package restore no longer uses NuGet.exe</h2>
+
+<p>The NuGet package restore is now a part of Xamarin Studio and no longer uses NuGet.exe. This allows the package restore to integrate with the Xamarin Studio credential provider and provides more control over the package restore process. So if a package source needs authentication, or uses a proxy, then Xamarin Studio will now show a dialog asking for credentials if the credentials are not stored. Previously the package restore would fail with an error message logged in the Package Console.</p>
+
+<h2>Add Packages dialog &ndash; Package sources could not be reached</h2>
+
+<p>Previously when All Sources was selected and if any package source could not be reached then an error message would be displayed and no packages would be shown in the list. Now packages will be displayed with a warning even if one package source could not be reached.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/AddPackagesDialogPackageSourcesCouldNotBeReachedWarning.png" title="Add Packages dialog - package sources could not be reached warning" alt="Add Packages dialog - package sources could not be reached warning"></p>
+
+<h2>Packages restored for the selected project instead of the solution</h2>
+
+<p>Xamarin Studio will now restore packages for the selected project instead of the entire solution. When you right click the <strong>Packages</strong> folder in the Solution window and select <strong>Restore</strong> only the packages for that project will be restored.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowRestorePackagesMenu.png" title="Packages folder - Restore menu" alt="Packages folder - Restore menu"></p>
+
+<p>This is now possible since Xamarin Studio is now responsible for restoring packages instead of using NuGet.exe which would only restore for the entire solution.</p>
+
+<p>To restore packages for the entire solution you can still use the <strong>Restore Packages</strong> menu which is available from the Project menu or by right clicking the solution in the Solution window.</p>
+
+<h2>Show packages added to solution in Add Packages dialog</h2>
+
+<p>Opening the Add Packages dialog will now show the packages added to all projects in the current solution.</p>
+
+<p>The order of the items displayed in the Add Packages dialog is recent packages first, then solution packages, and then the packages from the active package source.</p>
+
+<h2>Show packages up to date message in status bar if there are no package updates available</h2>
+
+<p>When you try to update a package and there are no package updates available then the status bar now displays a message indicating that the package is already up to date.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/PackageUpToDateStatusBarMessage.png" title="Package up to date status bar message" alt="Package up to date status bar message"></p>
+
+<p>Similarly if you update multiple packages and there are no updates available then the status bar will now show a packages are up to date message.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/PackagesAreUpToDateStatusBarMessage.png" title="Packages are up to date status bar message" alt="Packages are up to date status bar message"></p>
+
+<p>Previously the status bar would show a message that the package was updated successfully even if nothing was updated.</p>
+
+<h2>Show status bar warning message when no updates found and package sources are unavailable</h2>
+
+<p>When one or more of the package sources is unavailable or invalid then Xamarin Studio will now report a warning in the status bar after checking for updates.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/NoUpdateFoundButWarningsReportedStatusBarMessage.png" title="No update but warnings reported status bar message" alt="No updated found but warnings reported status bar message"></p>
+
+<h2>Restoring missing packages before updating packages</h2>
+
+<p>Previously when NuGet packages were unrestored and an attempt was made to update a NuGet package, which had updates available from the package source, the update would fail with a message indicating that the package was installed successfully but the project did not reference the package.</p>
+
+<p>To prevent the update from failing Xamarin Studio will now check that the packages are restored for the project before trying to update and restore any missing packages. In the status bar a <strong>Restoring packages before update</strong> message will be displayed when a restore must be completed first.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/RestoringPackagesBeforeUpdateStatusBarMessage.png" title="Restoring packages before update status bar message" alt="Restoring packages before update status bar message"></p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Do not check for updated packages if the project has no packages</strong></p>
+
+<p>Xamarin Studio was checking for package updates in all projects even if they had no packages.config file when the solution was opened. This would result in the <strong>Packages are up to date</strong> message being displayed in the status bar even when no projects were using any NuGet packages.</p>
+
+<p>Now if the project has no packages.config file then Xamarin Studio will not check for updates.</p>
+
+<p><strong>Fix version shown as download count in Add Packages dialog when searching for package versions</strong></p>
+
+<p>When running a package version search, such as <strong>Xamarin.Forms version:</strong>*, the right hand side of the dialog was showing the version number instead of the download count.</p>
+
+<p>Now the dialog shows the download count. Ideally it would show the download count of that particular version but this is not currently available from the Package object returned by NuGet. It is returned in the results back from the package source but it is not available on the Package object.</p>
+
+<p>Also the download counts are different for the same package if you compare the normal search result with a package version search result. The package version search shows a larger download count number. This may be related to the <a href="http://blog.nuget.org/20140603/nuget-stats.html">stats problem</a> NuGet had recently. Currently Xamarin Studio is showing the download count it receives. The standard search download counts match those shown in Visual Studio&rsquo;s Manage Packages dialog. For the package version search the download count value matches that shown on the NuGet.org website for an individual package (e.g. <a href="https://www.nuget.org/packages/jQuery">https://www.nuget.org/packages/jQuery</a>).</p>
+
+<p><strong>Fix empty source being selected in Add Packages dialog when package source disabled and All Sources selected</strong></p>
+
+<p>An empty package source selected in the Add Packages dialog could occur when All Sources was selected in the Add Packages dialog and one of the enabled package sources was unchecked in Preferences. On opening the Add Packages dialog again an empty package source would be displayed as the selected package source.</p>
+
+<p>Now the Add Packages dialog will have the remaining enabled package source selected.</p>
+
+<p><strong>Fix packages.config marked as deleted by Git when updating packages</strong></p>
+
+<p>On updating packages in a project, and the project is using Git for version control, then the update was causing Git to show the packages.config file as deleted. This would occur if all the NuGet packages were uninstalled as part of the update which caused NuGet to see that there were no NuGet packages referenced and delete the packages.config file.</p>
+
+<p>Now the packages.config file is shown as modified instead of deleted.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-07T10:00:00+01:00" pubdate data-updated="true">Sep 7<sup>th</sup>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2014/09/07/NuGetSupportInXamarinStudio5-3/" data-via="" data-counturl="http://lastexitcode.com/blog/2014/09/07/NuGetSupportInXamarinStudio5-3/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/08/10/NuGetSupportInXamarinStudio5-2/" title="Previous Post: NuGet Support in Xamarin Studio 5.2">&laquo; NuGet Support in Xamarin Studio 5.2</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
