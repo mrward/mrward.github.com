@@ -158,7 +158,7 @@ You can now have a project template that will install NuGet packages. To do this
 
 You can specify an exact version for the NuGet package. If the version is not specified then the latest version of the NuGet package will be installed.
 
-By default Xamarin Studio will look for the NuGet packages from the main NuGet.org package source. To use your own package source instead you can create an addin and define the package source in its .addin.xml file. Inside your .addin.xml file you can add an **Extension* element which supports both online NuGet package sources and local directory package sources.
+By default Xamarin Studio will look for the NuGet packages from the main NuGet.org package source. To use your own package source instead you can create an addin and define the package source in its .addin.xml file. Inside your .addin.xml file you can add an **Extension** element which supports both online NuGet package sources and local directory package sources.
 
 To define an online NuGet package source you can use the **url** attribute in your .addin.xml file:
 
