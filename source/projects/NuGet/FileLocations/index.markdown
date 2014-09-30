@@ -41,8 +41,8 @@ Machine wide configurations are used to define NuGet package sources specific to
 
 Inside this directory there may be a NuGet.Config file or subdirectories for IDE specific NuGet.Config files. The files are checked for in the following order:
 
- 1. %ProgramData%\NuGet\Config\IDE\Version\SKU\*.config
- 2. %ProgramData%\NuGet\Config\IDE\Version\*.config
- 3. %ProgramData%\NuGet\Config\IDE\*.config
- 4. %ProgramData%\NuGet\Config\*.config
+ 1. %ProgramData%\NuGet\Config\IDE\Version\SKU\\*.config
+ 2. %ProgramData%\NuGet\Config\IDE\Version\\*.config
+ 3. %ProgramData%\NuGet\Config\IDE\\*.config
+ 4. %ProgramData%\NuGet\Config\\*.config
  
