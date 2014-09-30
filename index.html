@@ -9,7 +9,8 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes NuGet package restore is now part of Xamarin Studio and no longer uses NuGet.exe Add Packages dialog &ndash; Package sources could not be &hellip;">
+  <meta name="description" content="New Feature Added support for the new Unified target frameworks for iOS and Mac Xamarin.iOS
+Xamarin.Mac More details on all the new features and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +82,103 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/29/NuGetSupportInXamarinStudio5-4/">NuGet Support in Xamarin Studio 5.4</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-29T19:00:00+01:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>New Feature</h2>
+
+<ul>
+<li> Added support for the new Unified target frameworks for iOS and Mac
+
+<ul>
+<li>Xamarin.iOS</li>
+<li>Xamarin.Mac</li>
+</ul>
+</li>
+</ul>
+
+
+<p>More details on all the new features and changes in Xamarin Studio 5.4 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.4/xamarin.studio_5.4/">release notes</a>.</p>
+
+<h2>New Unified iOS and Mac Target Frameworks</h2>
+
+<p>Xamarin recently announced <a href="http://blog.xamarin.com/unified-api-with-64-bit-support-for-ios-and-mac/">a new Unified API for its iOS and Mac products</a>. This new Unified API makes it easier to share code between Mac and iOS as well as allowing you to support 32 and 64 bit applications with the same binary.</p>
+
+<p>To use this new Unified API you can create a new Unified project for iOS, or for Mac, using one of the project templates available from Xamarin Studio&rsquo;s New Project Dialog.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-4/UnifiedMacAndIOSProjectsInNewProjectDialog.png" title="Unified iOS and Mac Projects in New Project Dialog" alt="Unified iOS and Mac Projects in New Project Dialog"></p>
+
+<p>These Unified projects now support MSBuild and use the following target frameworks:</p>
+
+<ul>
+<li>Xamarin.iOS</li>
+<li>Xamarin.Mac</li>
+</ul>
+
+
+<h2>NuGet Support for the New Unified Target Frameworks</h2>
+
+<p>In order to support these two new frameworks the following changes were made to NuGet.</p>
+
+<ul>
+<li>Add Xamarin.iOS and Xamarin.Mac as known frameworks.</li>
+<li>Make frameworks that have a name that starts with <strong>Xamarin</strong> optional when checking the compatibility of Portable Class Libraries (PCLs) inside a NuGet package with a Portable Class Library project.</li>
+</ul>
+
+
+<p>With these new Unified frameworks being recognised by NuGet you can now create a NuGet package with assemblies that specifically target these frameworks.  The following shows part of a .nuspec file with framework specific assemblies for iOS and Mac being copied into the appropriate target lib folder inside the NuGet package.</p>
+
+<pre><code>&lt;files&gt;
+    &lt;file src="lib\Xamarin.iOS\*.dll" target="lib\Xamarin.iOS10" /&gt;
+    &lt;file src="lib\Xamarin.Mac\*.dll" target="lib\Xamarin.Mac20" /&gt;
+&lt;/files&gt;
+</code></pre>
+
+<p>The <a href="https://www.nuget.org/packages/Splat/">Splat NuGet package</a>, created by Paul Betts, is one NuGet package available from the main NuGet gallery that explicitly targets both of the new Unified frameworks.</p>
+
+<p>Having the Xamarin frameworks treated as optional by NuGet allows you to install a NuGet package containing PCL assemblies into a Portable Class Library project, on a machine with the Xamarin PCL profiles registered. Without the Xamarin frameworks being treated as optional the NuGet package would fail to be installed since NuGet would find them incompatible unless the NuGet package explicitly included the Xamarin frameworks as part of its PCL profile.</p>
+
+<p>Support for the new Xamarin frameworks will be available in the official NuGet from Microsoft in version 2.8.3. <a href="https://nuget.codeplex.com/releases/view/133091">NuGet 2.8.3</a> is currently available as alpha release. Xamarin Studio 5.4 includes its own build of NuGet which has support for the new Xamarin frameworks.</p>
+
+<h2>Portable Class Libraries</h2>
+
+<p>In order to be able to install a NuGet package containing PCL assemblies, such as Json.NET, into a Unified iOS or Unified Mac project you will need to have the PCL profile XML files for Unified iOS and Mac installed on your machine.</p>
+
+<p>On the Mac you can get these new PCL profile XML files by installing Mono 3.10.0, which is currently available from Xamarin Studio on the alpha and beta channels.</p>
+
+<p>On Windows, since NuGet 2.8.3 is currently only available as an alpha release, there is a <a href="http://xvs.xamarin.com/Xamarin.iOS.PortableNuGet.msi">separate installer</a> which will register the Unified iOS framework with the PCL profiles on your machine and will also install an alpha version of Microsoft&rsquo;s NuGet Package Manager 2.8.3 into Visual Studio.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -795,7 +893,7 @@ author:xamarin
 
 <p>You can specify an exact version for the NuGet package. If the version is not specified then the latest version of the NuGet package will be installed.</p>
 
-<p>By default Xamarin Studio will look for the NuGet packages from the main NuGet.org package source. To use your own package source instead you can create an addin and define the package source in its .addin.xml file. Inside your .addin.xml file you can add an <em>*Extension</em> element which supports both online NuGet package sources and local directory package sources.</p>
+<p>By default Xamarin Studio will look for the NuGet packages from the main NuGet.org package source. To use your own package source instead you can create an addin and define the package source in its .addin.xml file. Inside your .addin.xml file you can add an <strong>Extension</strong> element which supports both online NuGet package sources and local directory package sources.</p>
 
 <p>To define an online NuGet package source you can use the <strong>url</strong> attribute in your .addin.xml file:</p>
 
@@ -1009,59 +1107,6 @@ Also some of the newer NuGet packages, such as Microsoft.Bcl.Immutable 1.1.20-be
 
 
 <p>For a detailed look at the new features please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.6/">release note</a>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/14/MonoDevelopNuGetAddin0-5Released/">MonoDevelop NuGet Addin 0.5 Released</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-14T15:40:00+01:00" pubdate data-updated="true">Jul 14<sup>th</sup>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>A new version of the NuGet addin for Xamarin Studio 4.0 has been released.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.6">NuGet 2.6</a> support.</li>
-<li>Support for prerelease packages.</li>
-<li>Support for packages using <a href="https://xdt.codeplex.com/">XML Document Transformations</a> (XDTs).</li>
-<li>File conflict dialog when installing a package that is trying to add files that already exist in the project.</li>
-<li>Installation errors now displayed in the Manage Packages dialog.</li>
-<li>Support for packages that include MSBuild targets and properties files.</li>
-<li>Support for accessing authenticated feeds.</li>
-<li>Update All button added to Manage Packages dialog so all packages can be updated in a project or solution in one step.</li>
-<li>Package title displayed in the list of packages instead of the package id. The package id displayed when a package is selected on the right hand side of the dialog.</li>
-</ul>
-
-
-<p>For a detailed look at the new features please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.5/">release note</a>.</p>
 </div>
   
   
