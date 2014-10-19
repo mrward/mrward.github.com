@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-09-30T19:58:57+01:00</updated>
+  <updated>2014-10-19T17:28:37+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.5]]></title>
+    <link href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/"/>
+    <updated>2014-10-19T14:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5</id>
+    <content type="html"><![CDATA[<h2>New Features</h2>
+
+<ul>
+<li> Package version constraints in packages.config files are now supported</li>
+<li> <a href="https://components.xamarin.com/">Xamarin Components</a> can now have NuGet package dependencies</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 5.5 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.5/xamarin.studio_5.5/">release notes</a>.</p>
+
+<h2>NuGet Package Version Constraints</h2>
+
+<p>NuGet allows you to <a href="http://docs.nuget.org/docs/reference/versioning">define a range of package versions that are allowed in your project</a> using the <strong>allowedVersions</strong> attribute in the packages.config file.</p>
+
+<pre><code>&lt;packages&gt;
+  &lt;package id="Newtonsoft.Json" version="5.0.1" allowedVersions="[5.0,6.0)" targetFramework="MonoAndroid44" /&gt;
+&lt;/packages&gt;
+</code></pre>
+
+<p>In the above packages.config file the project has Json.NET 5.0.1 installed and will only allow updates to versions of Json.NET that are below 6.0.</p>
+
+<p>When you open the solution in Xamarin Studio, and check for updates is enabled in preferences, you will see updates in the Solution window that are valid given the constraint defined in the packages.config file. In the screenshot below an update is shown for Json.NET 5.0.8 in the Solution window even though Json.NET currently has version 6.0.5 available.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageUpdateAvailableInSolutionWindow.png" title="&lsquo;Json.NET 5.0.8 package update available shown in Solution window&rsquo; &lsquo;Json.NET 5.0.8 package update available shown in Solution window&rsquo;" ></p>
+
+<p>When you update the NuGet packages from the Solution window Xamarin Studio will now update to a NuGet package that meets the version constraints defined in the packages.config. In the Package Console screenshot below the Json.NET package was updated, with the constraint in place, and Json.NET 5.0.8 was installed.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageInstalledInPackageConsole.png" title="&lsquo;Json.NET package updated to 5.0.8 &ndash; Package Console output&rsquo; &lsquo;Json.NET package updated to 5.0.8 &ndash; Package Console output&rsquo;" ></p>
+
+<p>Note that if you install a NuGet package from the Add Packages dialog you can override the constraint and install a NuGet package with a version outside of the range of the constraint.</p>
+
+<h2>Components with NuGet Packages</h2>
+
+<p>A Component from <a href="https://components.xamarin.com/">Xamarin&rsquo;s Component Store</a> can now declare a dependency on one or more NuGet packages which will be installed into the project when the Component is installed. The <a href="https://components.xamarin.com/view/xamandroidsupportv13-18">Android Support Library v13 Component</a> is one example that has a NuGet package dependency.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInStore.png" title="&lsquo;Android Support Library v13 Component in Component Store&rsquo; &lsquo;Android Support Library v13 Component in Component Store&rsquo;" ></p>
+
+<p>When you install this Component you will see that it installs the <a href="https://www.nuget.org/packages/Xamarin.Android.Support.v13/">Xamarin.Android.Support.v13 NuGet package</a>.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInstalledInSolutionWindow.png" title="&lsquo;Android Support Library v13 Component in Solution window&rsquo; &lsquo;Android Support Library v13 Component in Solution window&rsquo;" ></p>
+
+<p>In older versions of Xamarin Studio the NuGet package will not be installed and instead the project will reference the Xamarin.Android.Support.v13.dll which is included with the Component.</p>
+
+<p>The NuGet packages a Component depends on are displayed in the <strong>Packages</strong> tab on the Component Details page, which you can open by double clicking the Component in the Solution window, or by right clicking the Component and selecting <strong>Details</strong>.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithPackagesTab.png" title="&lsquo;Android Support Library v13 Packages in Component Details page&rsquo; &lsquo;Android Support Library v13 Packages in Component Details page&rsquo;" ></p>
+
+<p>From the <strong>Packages</strong> tab you can also install a NuGet package that a Component depends on if it was removed from the project. So if the Xamarin.Android.Support.v13 NuGet package is removed from the project the Component will be highlighted in red to indicate that there is a problem.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentErrorInSolutionWindow.png" title="&lsquo;Android Support Library v13 Component error in Solution window&rsquo; &lsquo;Android Support Library v13 Component error in Solution window&rsquo;" ></p>
+
+<p>If you then open the Component Details page you will see in the <strong>Packages</strong> tab that the NuGet package is missing.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithMissingNuGetPackage.png" title="&lsquo;Android Support Library v13 Component Details page with missing NuGet Package&rsquo; &lsquo;Android Support Library v13 CComponent Details page with missing NuGet Package&rsquo;" ></p>
+
+<p>To add the NuGet package back to the project you can hover the mouse over the warning icon and click the Add Package button that appears in the pop-up window.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithAddPackagePopUpWindow.png" title="&lsquo;Android Support Library v13 Component Details page with Add Package pop-up window&rsquo; &lsquo;Android Support Library v13 CComponent Details page with Add Package pop-up window&rsquo;" ></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.4]]></title>
@@ -279,7 +345,7 @@
 
 <h2>Support for custom packages directory in NuGet.Config</h2>
 
-<p>When a NuGet package is installed into a project the NuGet packages are by default downloaded into a packages directory inside the solution directory. The location and name of this packages directory can be configured by specifying the repositoryPath in the NuGet.config file.</p>
+<p>When a NuGet package is installed into a project the NuGet packages are by default downloaded into a packages directory inside the solution directory. The location and name of this packages directory can be configured by specifying the repositoryPath in the NuGet.Config file.</p>
 
 <pre><code>&lt;configuration&gt;
   &lt;config&gt;
@@ -288,7 +354,7 @@
 &lt;/configuration&gt;
 </code></pre>
 
-<p>If you create a NuGet.config file and put it the .nuget directory inside the solution, or in the project&rsquo;s directory, then Xamarin Studio will read the repositoryPath and use it when downloading NuGet packages. The path is relative to the NuGet.config file but you can specify a full path if you need to.</p>
+<p>If you create a NuGet.Config file and put it the .nuget directory inside the solution, or in the solution&rsquo;s directory, then Xamarin Studio will read the repositoryPath and use it when downloading NuGet packages. The path is relative to the NuGet.Config file but you can specify a full path if you need to.</p>
 
 <p>Note that if you make a change to the repositoryPath whilst the solution is open you will need to close and re-open the solution for the changes to be detected.</p>
 
@@ -405,86 +471,6 @@
 <p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
 
 <p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&rsquo;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet PowerShell Console for Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/"/>
-    <updated>2014-06-22T21:05:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.0 now has <a href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/">NuGet support built in</a>. There are also some experimental NuGet features that are available for Xamarin Studio 5.0 and MonoDevelop 5.0 as part of a separate <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a>. One such experimental feature is a new PowerShell console window that provides Xamarin Studio with the standard NuGet commands and also works on the Mac, not just Windows.</p>
-
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindow.png" title="&lsquo;NuGet PowerShell Console Window&rsquo; &lsquo;NuGet PowerShell Console Window&rsquo;" ></p>
-
-<p>The new console window is powered by Pash. Pash is a open source reimplementation of PowerShell that works with Mono and runs on Windows, Mac and Linux. It was created by <a href="https://twitter.com/igor_moochnick">Igor Moochnick</a> and more recently development has been restarted by <a href="https://twitter.com/jaybazuzi">Jay Bazuzi</a>.</p>
-
-<h2>PowerShell Console Features</h2>
-
-<ul>
-<li> Standard NuGet PowerShell commands available &ndash; Install-Package, Update-Package, Uninstall-Package, Get-Project and Get-Package</li>
-<li> Integrates with the existing NuGet addin that ships with Xamarin Studio.</li>
-<li> Cross platform &ndash; works on Windows and Mac.</li>
-<li> Powered by <a href="https://github.com/Pash-Project/Pash">Pash</a>.</li>
-<li> Partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model EnvDTE</a>.</li>
-</ul>
-
-
-<h2>Limitations</h2>
-
-<ul>
-<li> PowerShell support is not fully implemented in Pash so PowerShell scripts may not fully work.</li>
-<li> Xamarin Studio needs to be closed and re-opened before the console can be used. Otherwise the Xamarin Studio will crash.</li>
-<li> Some standard parameters are missing from the NuGet commands (e.g. -verbose).</li>
-<li> The NuGet commands are not fully up to date compared with the commands available in Visual Studio. One example is <strong>Update-Package -Reinstall</strong> which is currently not supported.</li>
-</ul>
-
-
-<h2>Installation</h2>
-
-<p>The NuGet extensions addin is available from the <a href="http://addins.monodevelop.com/Project/Index/121">MonoDevelop addin repository</a>. To install the addin:</p>
-
-<ul>
-<li>Open the <strong>Add-in Manager</strong> dialog.</li>
-<li>Select the <strong>Gallery</strong> tab.</li>
-<li>Select <strong>Xamarin Studio Add-in Repository (Alpha channel)</strong> from the drop down list.</li>
-<li>Expand <strong>IDE extensions</strong>.</li>
-<li>Select <strong>NuGet Package Management Extensions</strong>.</li>
-<li>Click the <strong>Refresh</strong> button if the addin is not visible.</li>
-<li>Click <strong>Install&hellip;</strong> to install the addin.</li>
-</ul>
-
-
-<p>Please close and re-open Xamarin Studio before trying to open the PowerShell Console window otherwise Xamarin Studio will crash.</p>
-
-<h2>Using the PowerShell Console</h2>
-
-<p>To open the console window, from the <strong>View</strong> menu select <strong>Pads</strong> and then select <strong>Package Console Extension</strong>.</p>
-
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/ViewPackageConsoleExtensionPadMenuItem.png" title="&lsquo;View &ndash; Package Console Extension menu item&rsquo; &lsquo;View &ndash; Package Console Extension menu item&rsquo;" ></p>
-
-<p>The top of the console window has drop downs allowing you to choose a different default package source or default project. At the top right there is a Clear Console button which will clear all the text from the console.</p>
-
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowInstallingJsonNet.png" title="&lsquo;PowerShell Console Window &ndash; Installing Json.NET&rsquo; &lsquo;PowerShell Console Window &ndash; Installing Json.NET&rsquo;" ></p>
-
-<p>The standard <a href="http://docs.nuget.org/docs/reference/package-manager-console-powershell-reference">NuGet PowerShell commands</a> are available from the console window:</p>
-
-<ul>
-<li>Install-Package</li>
-<li>Uninstall-Package</li>
-<li>Update-Package</li>
-<li>Get-Package</li>
-<li>Get-Project</li>
-</ul>
-
-
-<p>There is also a partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model (EnvDTE)</a> which you can use from the console and from PowerShell scripts inside a NuGet package. Currently the Solution object and the CodeModel is not fully implemented when compared with SharpDevelop.</p>
-
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowUsingEnvDTEProjectModel.png" title="&lsquo;PowerShell Console Window &ndash; Using EnvDTE project model&rsquo; &lsquo;PowerShell Console Window &ndash; Using EnvDTE project model&rsquo;" ></p>
-
-<p>When you install a NuGet package from the console and the NuGet package has an <strong>init.ps1</strong> or an <strong>install.ps1</strong> PowerShell script then these scripts will be run. Similarly on uninstalling a NuGet package if it contains an <strong>uninstall.ps1</strong> script then this will be run in the console. However there are some areas of PowerShell that are not fully implemented in Pash so the script may well fail. The failure will be logged in the console window but it will not prevent the package from being installed or uninstalled.</p>
-
-<p>That concludes the introduction to the experimental NuGet Package Console in Xamarin Studio.</p>
 ]]></content>
   </entry>
   

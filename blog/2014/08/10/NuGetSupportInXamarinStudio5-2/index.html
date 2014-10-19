@@ -194,7 +194,7 @@
 
 <h2>Support for custom packages directory in NuGet.Config</h2>
 
-<p>When a NuGet package is installed into a project the NuGet packages are by default downloaded into a packages directory inside the solution directory. The location and name of this packages directory can be configured by specifying the repositoryPath in the NuGet.config file.</p>
+<p>When a NuGet package is installed into a project the NuGet packages are by default downloaded into a packages directory inside the solution directory. The location and name of this packages directory can be configured by specifying the repositoryPath in the NuGet.Config file.</p>
 
 <pre><code>&lt;configuration&gt;
   &lt;config&gt;
@@ -203,7 +203,7 @@
 &lt;/configuration&gt;
 </code></pre>
 
-<p>If you create a NuGet.config file and put it the .nuget directory inside the solution, or in the project&rsquo;s directory, then Xamarin Studio will read the repositoryPath and use it when downloading NuGet packages. The path is relative to the NuGet.config file but you can specify a full path if you need to.</p>
+<p>If you create a NuGet.Config file and put it the .nuget directory inside the solution, or in the solution&rsquo;s directory, then Xamarin Studio will read the repositoryPath and use it when downloading NuGet packages. The path is relative to the NuGet.Config file but you can specify a full path if you need to.</p>
 
 <p>Note that if you make a change to the repositoryPath whilst the solution is open you will need to close and re-open the solution for the changes to be detected.</p>
 

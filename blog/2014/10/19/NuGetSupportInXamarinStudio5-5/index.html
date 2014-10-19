@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Xamarin Studio 5.5 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="New Features Package version constraints in packages.config files are now supported Xamarin Components can now have NuGet package dependencies More &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Xamarin Studio 5.5</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-19T14:00:00+01:00" pubdate data-updated="true">Oct 19<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>New Features</h2>
+
+<ul>
+<li> Package version constraints in packages.config files are now supported</li>
+<li> <a href="https://components.xamarin.com/">Xamarin Components</a> can now have NuGet package dependencies</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 5.5 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.5/xamarin.studio_5.5/">release notes</a>.</p>
+
+<h2>NuGet Package Version Constraints</h2>
+
+<p>NuGet allows you to <a href="http://docs.nuget.org/docs/reference/versioning">define a range of package versions that are allowed in your project</a> using the <strong>allowedVersions</strong> attribute in the packages.config file.</p>
+
+<pre><code>&lt;packages&gt;
+  &lt;package id="Newtonsoft.Json" version="5.0.1" allowedVersions="[5.0,6.0)" targetFramework="MonoAndroid44" /&gt;
+&lt;/packages&gt;
+</code></pre>
+
+<p>In the above packages.config file the project has Json.NET 5.0.1 installed and will only allow updates to versions of Json.NET that are below 6.0.</p>
+
+<p>When you open the solution in Xamarin Studio, and check for updates is enabled in preferences, you will see updates in the Solution window that are valid given the constraint defined in the packages.config file. In the screenshot below an update is shown for Json.NET 5.0.8 in the Solution window even though Json.NET currently has version 6.0.5 available.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageUpdateAvailableInSolutionWindow.png" title="Json.NET 5.0.8 package update available shown in Solution window" alt="Json.NET 5.0.8 package update available shown in Solution window"></p>
+
+<p>When you update the NuGet packages from the Solution window Xamarin Studio will now update to a NuGet package that meets the version constraints defined in the packages.config. In the Package Console screenshot below the Json.NET package was updated, with the constraint in place, and Json.NET 5.0.8 was installed.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageInstalledInPackageConsole.png" title="Json.NET package updated to 5.0.8 - Package Console output" alt="Json.NET package updated to 5.0.8 - Package Console output"></p>
+
+<p>Note that if you install a NuGet package from the Add Packages dialog you can override the constraint and install a NuGet package with a version outside of the range of the constraint.</p>
+
+<h2>Components with NuGet Packages</h2>
+
+<p>A Component from <a href="https://components.xamarin.com/">Xamarin&rsquo;s Component Store</a> can now declare a dependency on one or more NuGet packages which will be installed into the project when the Component is installed. The <a href="https://components.xamarin.com/view/xamandroidsupportv13-18">Android Support Library v13 Component</a> is one example that has a NuGet package dependency.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInStore.png" title="Android Support Library v13 Component in Component Store" alt="Android Support Library v13 Component in Component Store"></p>
+
+<p>When you install this Component you will see that it installs the <a href="https://www.nuget.org/packages/Xamarin.Android.Support.v13/">Xamarin.Android.Support.v13 NuGet package</a>.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInstalledInSolutionWindow.png" title="Android Support Library v13 Component in Solution window" alt="Android Support Library v13 Component in Solution window"></p>
+
+<p>In older versions of Xamarin Studio the NuGet package will not be installed and instead the project will reference the Xamarin.Android.Support.v13.dll which is included with the Component.</p>
+
+<p>The NuGet packages a Component depends on are displayed in the <strong>Packages</strong> tab on the Component Details page, which you can open by double clicking the Component in the Solution window, or by right clicking the Component and selecting <strong>Details</strong>.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithPackagesTab.png" title="Android Support Library v13 Packages in Component Details page" alt="Android Support Library v13 Packages in Component Details page"></p>
+
+<p>From the <strong>Packages</strong> tab you can also install a NuGet package that a Component depends on if it was removed from the project. So if the Xamarin.Android.Support.v13 NuGet package is removed from the project the Component will be highlighted in red to indicate that there is a problem.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentErrorInSolutionWindow.png" title="Android Support Library v13 Component error in Solution window" alt="Android Support Library v13 Component error in Solution window"></p>
+
+<p>If you then open the Component Details page you will see in the <strong>Packages</strong> tab that the NuGet package is missing.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithMissingNuGetPackage.png" title="Android Support Library v13 Component Details page with missing NuGet Package" alt="Android Support Library v13 CComponent Details page with missing NuGet Package"></p>
+
+<p>To add the NuGet package back to the project you can hover the mouse over the warning icon and click the Add Package button that appears in the pop-up window.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithAddPackagePopUpWindow.png" title="Android Support Library v13 Component Details page with Add Package pop-up window" alt="Android Support Library v13 CComponent Details page with Add Package pop-up window"></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-19T14:00:00+01:00" pubdate data-updated="true">Oct 19<sup>th</sup>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/" data-via="" data-counturl="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/09/29/NuGetSupportInXamarinStudio5-4/" title="Previous Post: NuGet Support in Xamarin Studio 5.4">&laquo; NuGet Support in Xamarin Studio 5.4</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

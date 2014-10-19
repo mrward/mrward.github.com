@@ -9,8 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="New Feature Added support for the new Unified target frameworks for iOS and Mac Xamarin.iOS
-Xamarin.Mac More details on all the new features and &hellip;">
+  <meta name="description" content="New Features Package version constraints in packages.config files are now supported Xamarin Components can now have NuGet package dependencies More &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +81,99 @@ Xamarin.Mac More details on all the new features and &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/">NuGet Support in Xamarin Studio 5.5</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-19T14:00:00+01:00" pubdate data-updated="true">Oct 19<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>New Features</h2>
+
+<ul>
+<li> Package version constraints in packages.config files are now supported</li>
+<li> <a href="https://components.xamarin.com/">Xamarin Components</a> can now have NuGet package dependencies</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 5.5 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.5/xamarin.studio_5.5/">release notes</a>.</p>
+
+<h2>NuGet Package Version Constraints</h2>
+
+<p>NuGet allows you to <a href="http://docs.nuget.org/docs/reference/versioning">define a range of package versions that are allowed in your project</a> using the <strong>allowedVersions</strong> attribute in the packages.config file.</p>
+
+<pre><code>&lt;packages&gt;
+  &lt;package id="Newtonsoft.Json" version="5.0.1" allowedVersions="[5.0,6.0)" targetFramework="MonoAndroid44" /&gt;
+&lt;/packages&gt;
+</code></pre>
+
+<p>In the above packages.config file the project has Json.NET 5.0.1 installed and will only allow updates to versions of Json.NET that are below 6.0.</p>
+
+<p>When you open the solution in Xamarin Studio, and check for updates is enabled in preferences, you will see updates in the Solution window that are valid given the constraint defined in the packages.config file. In the screenshot below an update is shown for Json.NET 5.0.8 in the Solution window even though Json.NET currently has version 6.0.5 available.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageUpdateAvailableInSolutionWindow.png" title="Json.NET 5.0.8 package update available shown in Solution window" alt="Json.NET 5.0.8 package update available shown in Solution window"></p>
+
+<p>When you update the NuGet packages from the Solution window Xamarin Studio will now update to a NuGet package that meets the version constraints defined in the packages.config. In the Package Console screenshot below the Json.NET package was updated, with the constraint in place, and Json.NET 5.0.8 was installed.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageInstalledInPackageConsole.png" title="Json.NET package updated to 5.0.8 - Package Console output" alt="Json.NET package updated to 5.0.8 - Package Console output"></p>
+
+<p>Note that if you install a NuGet package from the Add Packages dialog you can override the constraint and install a NuGet package with a version outside of the range of the constraint.</p>
+
+<h2>Components with NuGet Packages</h2>
+
+<p>A Component from <a href="https://components.xamarin.com/">Xamarin&rsquo;s Component Store</a> can now declare a dependency on one or more NuGet packages which will be installed into the project when the Component is installed. The <a href="https://components.xamarin.com/view/xamandroidsupportv13-18">Android Support Library v13 Component</a> is one example that has a NuGet package dependency.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInStore.png" title="Android Support Library v13 Component in Component Store" alt="Android Support Library v13 Component in Component Store"></p>
+
+<p>When you install this Component you will see that it installs the <a href="https://www.nuget.org/packages/Xamarin.Android.Support.v13/">Xamarin.Android.Support.v13 NuGet package</a>.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInstalledInSolutionWindow.png" title="Android Support Library v13 Component in Solution window" alt="Android Support Library v13 Component in Solution window"></p>
+
+<p>In older versions of Xamarin Studio the NuGet package will not be installed and instead the project will reference the Xamarin.Android.Support.v13.dll which is included with the Component.</p>
+
+<p>The NuGet packages a Component depends on are displayed in the <strong>Packages</strong> tab on the Component Details page, which you can open by double clicking the Component in the Solution window, or by right clicking the Component and selecting <strong>Details</strong>.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithPackagesTab.png" title="Android Support Library v13 Packages in Component Details page" alt="Android Support Library v13 Packages in Component Details page"></p>
+
+<p>From the <strong>Packages</strong> tab you can also install a NuGet package that a Component depends on if it was removed from the project. So if the Xamarin.Android.Support.v13 NuGet package is removed from the project the Component will be highlighted in red to indicate that there is a problem.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentErrorInSolutionWindow.png" title="Android Support Library v13 Component error in Solution window" alt="Android Support Library v13 Component error in Solution window"></p>
+
+<p>If you then open the Component Details page you will see in the <strong>Packages</strong> tab that the NuGet package is missing.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithMissingNuGetPackage.png" title="Android Support Library v13 Component Details page with missing NuGet Package" alt="Android Support Library v13 CComponent Details page with missing NuGet Package"></p>
+
+<p>To add the NuGet package back to the project you can hover the mouse over the warning icon and click the Add Package button that appears in the pop-up window.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithAddPackagePopUpWindow.png" title="Android Support Library v13 Component Details page with Add Package pop-up window" alt="Android Support Library v13 CComponent Details page with Add Package pop-up window"></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -426,7 +518,7 @@ Xamarin.Mac More details on all the new features and &hellip;">
 
 <h2>Support for custom packages directory in NuGet.Config</h2>
 
-<p>When a NuGet package is installed into a project the NuGet packages are by default downloaded into a packages directory inside the solution directory. The location and name of this packages directory can be configured by specifying the repositoryPath in the NuGet.config file.</p>
+<p>When a NuGet package is installed into a project the NuGet packages are by default downloaded into a packages directory inside the solution directory. The location and name of this packages directory can be configured by specifying the repositoryPath in the NuGet.Config file.</p>
 
 <pre><code>&lt;configuration&gt;
   &lt;config&gt;
@@ -435,7 +527,7 @@ Xamarin.Mac More details on all the new features and &hellip;">
 &lt;/configuration&gt;
 </code></pre>
 
-<p>If you create a NuGet.config file and put it the .nuget directory inside the solution, or in the project&rsquo;s directory, then Xamarin Studio will read the repositoryPath and use it when downloading NuGet packages. The path is relative to the NuGet.config file but you can specify a full path if you need to.</p>
+<p>If you create a NuGet.Config file and put it the .nuget directory inside the solution, or in the solution&rsquo;s directory, then Xamarin Studio will read the repositoryPath and use it when downloading NuGet packages. The path is relative to the NuGet.Config file but you can specify a full path if you need to.</p>
 
 <p>Note that if you make a change to the repositoryPath whilst the solution is open you will need to close and re-open the solution for the changes to be detected.</p>
 
@@ -1060,53 +1152,6 @@ Also some of the newer NuGet packages, such as Microsoft.Bcl.Immutable 1.1.20-be
 
 
 <p>For a detailed look at the new features please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.7/">release note</a>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/26/MonoDevelopNuGetAddin0-6Released/">MonoDevelop NuGet Addin 0.6 Released</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-26T13:21:00+01:00" pubdate data-updated="true">Aug 26<sup>th</sup>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.7">NuGet 2.7</a> support.</li>
-<li>Support for restoring NuGet packages.</li>
-<li>Added message to show that the Manage Packages dialog is searching for packages.</li>
-</ul>
-
-
-<p>For a detailed look at the new features please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.6/">release note</a>.</p>
 </div>
   
   
