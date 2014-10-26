@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nuget | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/nuget/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-10-19T17:28:37+01:00</updated>
+  <updated>2014-10-26T17:22:54+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,120 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xamarin Components and NuGet]]></title>
+    <link href="http://lastexitcode.com/blog/2014/10/26/XamarinComponentsAndNuGet/"/>
+    <updated>2014-10-26T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2014/10/26/XamarinComponentsAndNuGet</id>
+    <content type="html"><![CDATA[<p><a href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/">Xamarin Studio 5.5</a> and <a href="http://developer.xamarin.com/releases/vs/xamarin.vs_3/xamarin.vs_3.7/">Xamarin for Visual Studio 3.7</a> have support for <a href="https://components.xamarin.com/">Xamarin Components</a> with NuGet package dependencies. So you can now have Xamarin Studio or Visual Studio add NuGet packages to a project when a Component is installed from <a href="https://components.xamarin.com/">Xamarin&rsquo;s Component Store</a>.</p>
+
+<p>The <a href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/">NuGet Support in Xamarin Studio 5.5 post</a> looked at installing a Component with a NuGet package dependency into a project but did not cover how to create one of these Components. So let us take a look at how to modify an existing Component so it has NuGet package dependencies.</p>
+
+<h2>Adding a NuGet Package Dependency to a Component</h2>
+
+<p>In this section we will look at modifying a Component so when it is installed it adds NuGet packages to the project as well as referencing the assemblies that are included in the Component.</p>
+
+<p>First download the latest version of the <a href="https://components.xamarin.com/submit/xpkg">xamarin-component command line application</a> which has been updated to support Component&rsquo;s with NuGet packages dependencies.</p>
+
+<p>The downloaded xpkg file is a zip file containing xamarin-component.exe. So rename the file to have a .zip file extension and then extract the executable.</p>
+
+<p>Now let us see how to add a single NuGet package dependency to the Component. If you are using a component.yaml file to generate your Component you can add the NuGet package dependency by adding the following to your component.yaml:</p>
+
+<pre><code>packages:
+  "": Newtonsoft.Json, Version=5.0.8
+</code></pre>
+
+<p>With the above defined in your component.yaml file you can run the xamarin-component.exe <strong>package</strong> command to generate your Component&rsquo;s .xam file.</p>
+
+<p>Windows:</p>
+
+<pre><code>xamarin-component.exe package path\to\directory-with-component-yaml
+</code></pre>
+
+<p>Mac:</p>
+
+<pre><code>mono xamarin-component.exe package path/to/directory-with-component-yaml
+</code></pre>
+
+<p>If you then look inside your generated Component file (.xam), which you can do by renaming its file extension to .zip, you will see the package defined in the component/Manifest.xml file:</p>
+
+<pre><code>&lt;packages&gt;
+  &lt;package id="Newtonsoft.Json" version="5.0.8" /&gt;
+&lt;/packages&gt;
+</code></pre>
+
+<p>If you are using the xamarin-component.exe <strong>create-manually</strong> command line you can add the same NuGet package dependency by adding the following command line argument:</p>
+
+<pre><code>--package="":"Newtonsoft.Json, Version=5.0.8"
+</code></pre>
+
+<p>This packaged Component will install the Newtonsoft.Json NuGet package into any Android, iOS or Windows Phone project. If you need to install a particular NuGet package for a particular project type you can specify the target project type for the NuGet package dependency. Shown below is a more complicated example from a component.yaml file where NUnit and Newtonsoft.Json are configured so they will only be installed into Android projects, whilst log4net is only installed into iOS projects, and finally Ninject will be installed into all project types.</p>
+
+<pre><code>packages:
+  android:
+    - NUnit, Version=2.6.2
+    - Newtonsoft.Json, Version=5.0.8
+  mobile: Ninject, Version=3.2.0
+  ios: log4net, Version=2.0.0
+</code></pre>
+
+<p>Note that <strong>mobile</strong> used here is equivalent to the empty double quoted string &ldquo;&rdquo; which was used in the previous example with the single NuGet package.</p>
+
+<p>If you then generate the Component again using the xamarin-component.exe package command you will see the Component&rsquo;s manifest file now contains the following:</p>
+
+<pre><code>  &lt;packages&gt;
+    &lt;package id="NUnit" version="2.6.2" framework="android" /&gt;
+    &lt;package id="Newtonsoft.Json" version="5.0.8" framework="android" /&gt;
+    &lt;package id="log4net" version="2.0.0" framework="ios" /&gt;
+    &lt;package id="Ninject" version="3.2.0" framework="mobile" /&gt;
+  &lt;/packages&gt;
+</code></pre>
+
+<p>If you are using the xamarin-component.exe create-manually command line you can add the same NuGet package dependencies to your Component by adding the following command line arguments:</p>
+
+<pre><code>--package="android":"NUnit, Version=2.6.2"
+--package="android":"Newtonsoft.Json, Version=5.0.8"
+--package="mobile":"Ninject, Version=3.2.0"
+--package="ios":"log4net, Version=2.0.0"
+</code></pre>
+
+<p>With the NuGet package dependencies defined as shown in the previous examples when you install the Component into a project the NuGet package will be installed and a reference will be added to the assemblies in the <strong>lib</strong> directory of the Component. If you want to only add the NuGet package to the project and not the assemblies in the lib directory then you can create a Shell Component which we will look at in the following section.</p>
+
+<h2>Creating a Shell Component</h2>
+
+<p>A Shell Component is special type Component that is basically a wrapper around one or more NuGet packages. It will only install the NuGet package into the project and not add references to any assemblies in the Component&rsquo;s <strong>lib</strong> directory.</p>
+
+<p>To configure a component to be a Shell Component you can add the following to your component.yaml file:</p>
+
+<pre><code>is_shell: true
+</code></pre>
+
+<p>When you generate your Component&rsquo;s .xam file you will see that the Component&rsquo;s Manifest.xml file now contains the <strong>is-shell</strong> attribute in the component element:</p>
+
+<pre><code>&lt;component format="1" id="mycomponent" is-shell="true"&gt;
+</code></pre>
+
+<p>If you are using the xamarin-component.exe create-manually command line argument you can do the same thing by passing the following argument:</p>
+
+<pre><code>--is-shell
+</code></pre>
+
+<p>Backwards compatibility is something to consider if you decide to create a Shell Component. If you need a Shell Component to work with older versions of Xamarin Studio and Xamarin for Visual Studio that do not support Component&rsquo;s with NuGet package dependencies then you should also include the assemblies in the lib directory of the Component. The <a href="https://components.xamarin.com/view/xamandroidsupportv13-18">Android Support Library v13 Component</a> is one example that has a NuGet package dependency and also includes an assembly in its lib/android directory. When installing the Android Support Library v13 Component into an older version of Xamarin Studio the NuGet package will not be installed and instead the assembly will be referenced from the Component&rsquo;s lib/android directory. If the Android Support Library v13 Component is installed with Xamarin Studio 5.5 or above then the NuGet package will be installed but the assembly from the lib/android directory will not be referenced.</p>
+
+<h2>NuGet Package Sources</h2>
+
+<p>The NuGet package dependencies that a Component has must be available from the <a href="https://nuget.org">official NuGet Gallery</a> before your Component is submitted to the Component Store.</p>
+
+<p>If you are testing a NuGet package that is not currently available from the <a href="https://nuget.org">official NuGet Gallery</a> then you can copy it into the <a href="http://lastexitcode.com/projects/NuGet/FileLocations/">local machine&rsquo;s NuGet cache directory</a>. Xamarin Studio and Xamarin for Visual Studio should find the NuGet package in the local NuGet cache instead of trying to download it from the NuGet Gallery.</p>
+
+<h2>Creating a Component</h2>
+
+<p>There are some example Component&rsquo;s that have NuGet package dependencies available on my <a href="https://github.com/mrward/xamarin-test-components">GitHub page</a>. The <a href="https://github.com/mrward/xamarin-test-components/tree/master/AwesomeComponent">Awesome Component example</a> is a Shell Component that uses a rakefile and the xamarin-component create-manually command line to generate the Component. The <a href="https://github.com/mrward/xamarin-test-components/tree/master/MyComponent">My Component example</a> is another Shell Component that uses a component.yaml file that defines NuGet package dependencies.</p>
+
+<p>For more detailed information on how to create a Component please see the <a href="http://developer.xamarin.com/guides/cross-platform/advanced/submitting_components/">Submitting Components</a> page.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.5]]></title>
@@ -392,85 +506,6 @@
 <p><strong>Updating an unrestored package</strong></p>
 
 <p>If you have automatic package restore disabled and you attempt to update a NuGet package the package will now be restored before the update is attempted. Previously this would fail when an update was available since NuGet looks at the old package to work out how to remove it from the project before updating to the new NuGet package.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.1]]></title>
-    <link href="http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1/"/>
-    <updated>2014-07-06T10:48:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1</id>
-    <content type="html"><![CDATA[<p><a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">Xamarin Studio 5.1</a> was released last week and it includes some new features for the NuGet addin.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li> Searching and installing a specific version of a NuGet package.</li>
-<li> Support for NuGet package sources defined in a solution specific NuGet.Config file.</li>
-</ul>
-
-
-<p>More details on all the new features and changes in Xamarin Studio 5.1 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">release notes</a>. Now let us take a look at the new NuGet features.</p>
-
-<h2>Searching and installing a specific version of a NuGet package</h2>
-
-<p>The Add Packages dialog can now be used to search and install a specific version of a NuGet package. You can search for all versions, a range of versions, or a specific version of a NuGet package. To do this the following search syntax is used:</p>
-
-<pre><code>PackageId version:VersionNumber
-</code></pre>
-
-<p>The packages are shown in the Add Packages dialog with the most recent version at the top. At the top right of each package in the package list you will see the package version instead of the download count allowing you to find the particular version you want to install.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAllAutoMapperPackageVersions.png" title="&lsquo;Add Packages dialog &ndash; all AutoMapper package versions&rsquo; &lsquo;Add Packages dialog &ndash; all AutoMapper package versions&rsquo;" ></p>
-
-<p>To search for all versions of the AutoMapper NuGet package you can use an asterisk or leave the version number blank.</p>
-
-<pre><code>AutoMapper version:*
-</code></pre>
-
-<p>To search for all the 2.1 versions of the AutoMapper NuGet package you can use the search:</p>
-
-<pre><code>AutoMapper version:2.1
-</code></pre>
-
-<p>This will return a range of versions from 2.1.0 up to but not including 2.2.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAutoMapperPackageVersions21.png" title="&lsquo;Add Packages dialog &ndash; AutoMapper 2.1 package versions&rsquo; &lsquo;Add Packages dialog &ndash; AutoMapper 2.1 package versions&rsquo;" ></p>
-
-<p>The package id used in the search must match the id of the NuGet package otherwise no results will be returned.</p>
-
-<p>Searching for package versions is also supported in the universal search at the top right of Xamarin Studio.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/PackageVersionSearchInUniversalSearch.png" title="&lsquo;Package version search in universal search&rsquo; &lsquo;Package version search in universal search&rsquo;" ></p>
-
-<h2>Package sources defined in a solution specific NuGet.Config file</h2>
-
-<p> If package sources are defined in the solution&rsquo;s NuGet.Config file then these will be available in the Add Packages dialog when this solution is opened. The NuGet.Config file can be in the solution directory or in the .nuget subdirectory. An example NuGet.Config file is shown below.</p>
-
-<pre><code>&lt;configuration&gt;
-  &lt;packageSources&gt;
-    &lt;add key="ASP.NET vNext - MyGet" value="https://www.myget.org/F/aspnetvnext/" /&gt;
-  &lt;/packageSources&gt;
-&lt;/configuration&gt;
-</code></pre>
-
-<p>When the solution is opened the package sources defined in the NuGet.config file are available in the drop down list at the top left of the Add Packages dialog.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesWithPackageSourceFromSolutionLevelNuGetConfig.png" title="&lsquo;Add Packages dialog &ndash; package sources from solution NuGet.Config&rsquo; &lsquo;Add Packages dialog &ndash; package sources from solution NuGet.config&rsquo;" ></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Proxy credentials not being requested for a https package source.</strong></p>
-
-<p>   Added a workaround to NuGet to handle Mono returning a different http response when proxy authentication is required.</p>
-
-<p><strong>Web.config transforms not being applied when installing NuGet packages such as Nancy.Hosting.Aspnet.</strong></p>
-
-<p>   Projects were not being recognised as web projects so transforms were only being applied to app.config files.</p>
-
-<p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
-
-<p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&rsquo;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
 ]]></content>
   </entry>
   
