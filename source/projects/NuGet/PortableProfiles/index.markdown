@@ -25,6 +25,288 @@ List of .NET Portable Profiles available with different installers.
       <td>Profile 1</td>
       <td></td>
     </tr>
+    <tr>
+      <td>Profile 2</td>
+      <td></td>
+      <td>Profile 2</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 3</td>
+      <td></td>
+      <td>Profile 3</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 4</td>
+      <td></td>
+      <td>Profile 4</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 5</td>
+      <td>Profile 5</td>
+      <td>Profile 5</td>
+      <td>Profile 5</td>
+    </tr>
+    <tr>
+      <td>Profile 6</td>
+      <td>Profile 6</td>
+      <td>Profile 6</td>
+      <td>Profile 6</td>
+    </tr>
+    <tr>
+      <td>Profile 7</td>
+      <td>Profile 7</td>
+      <td>Profile 7</td>
+      <td>Profile 7</td>
+    </tr>
+    <tr>
+      <td>Profile 10</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 13</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 14</td>
+      <td>Profile 14</td>
+      <td>Profile 14</td>
+      <td>Profile 14</td>
+    </tr>
+    <tr>
+      <td>Profile 18</td>
+      <td></td>
+      <td>Profile 18</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 19</td>
+      <td>Profile 19</td>
+      <td>Profile 19</td>
+      <td>Profile 19</td>
+    </tr>
+    <tr>
+      <td>Profile 23</td>
+      <td></td>
+      <td>Profile 23</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 24</td>
+      <td>Profile 24</td>
+      <td>Profile 24</td>
+      <td>Profile 24</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 31</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 32</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 36</td>
+      <td></td>
+      <td>Profile 36</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 37</td>
+      <td>Profile 37</td>
+      <td>Profile 37</td>
+      <td>Profile 37</td>
+    </tr>
+    <tr>
+      <td>Profile 41</td>
+      <td></td>
+      <td>Profile 41</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 42</td>
+      <td>Profile 42</td>
+      <td>Profile 42</td>
+      <td>Profile 42</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Profile 44</td>
+      <td>Profile 44</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 46</td>
+      <td></td>
+      <td>Profile 46</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 47</td>
+      <td>Profile 47</td>
+      <td>Profile 47</td>
+      <td>Profile 47</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Profile 49</td>
+      <td>Profile 49</td>
+      <td>Profile 49</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Profile 78</td>
+      <td>Profile 78</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 84</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 88</td>
+      <td></td>
+      <td>Profile 88</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 92</td>
+      <td>Profile 92</td>
+    </tr>
+    <tr>
+      <td>Profile 95</td>
+      <td></td>
+      <td>Profile 95</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Profile 96</td>
+      <td></td>
+      <td>Profile 96</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 102</td>
+      <td>Profile 102</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 104</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 111</td>
+      <td>Profile 111</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 131</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Profile 136</td>
+      <td>Profile 136</td>
+      <td>Profile 136</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 143</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Profile 147</td>
+      <td>Profile 147</td>
+      <td>Profile 147</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 151</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 154</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 157</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Profile 158</td>
+      <td>Profile 158</td>
+      <td>Profile 158</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 225</td>
+      <td>Profile 225</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 240</td>
+      <td>Profile 240</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 255</td>
+      <td>Profile 255</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 259</td>
+      <td>Profile 259</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 328</td>
+      <td>Profile 328</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 336</td>
+      <td>Profile 336</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Profile 344</td>
+      <td>Profile 344</td>
+    </tr>
   </tbody>
 </table>
 
