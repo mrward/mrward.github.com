@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-10-26T17:22:54+00:00</updated>
+  <updated>2014-11-16T10:35:05+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,110 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Installing Portable Class Libraries for Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2014/11/16/InstallingPortableClassLibrariesForXamarinStudio/"/>
+    <updated>2014-11-16T10:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2014/11/16/InstallingPortableClassLibrariesForXamarinStudio</id>
+    <content type="html"><![CDATA[<p>In order to use Portable Class Libraries (PCLs) with Xamarin Studio you need to have the following installed:</p>
+
+<ul>
+<li>Portable Class Library Reference Assemblies.</li>
+<li>Portable Class Library MSBuild targets.</li>
+<li>Xamarin&rsquo;s Portable Class Library Profiles.</li>
+</ul>
+
+
+<p>If you do not all of the above installed then you may run into the following problems when using Xamarin Studio.</p>
+
+<ol>
+<li>Unable to create a Portable Library project since the project template is not available.</li>
+<li><p>Unable to install a NuGet package, such as Json.NET, that contains PCL assemblies into an Android or iOS project. Example error message below:</p>
+
+<p>Could not install package &lsquo;Newtonsoft.Json 6.0.6&rsquo;. You are trying to install this package into a project that targets &lsquo;MonoAndroid,Version=v4.4&rsquo;, but the package does not contain any assembly references or content files that are compatible with that framework. For more information, contact the package author.</p></li>
+</ol>
+
+
+<p>On the Mac the Portable Class Libraries for Mono 3.10.0 are installed into the directory:</p>
+
+<pre><code>/Library/Frameworks/Mono.framework/Versions/3.10.0/lib/mono/xbuild-frameworks/.NETPortable
+</code></pre>
+
+<p>On Windows the Portable Class Libraries are installed into the directory:</p>
+
+<pre><code>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable
+</code></pre>
+
+<p>So let us take a look at how to install everything required to get PCLs fully supported within Xamarin Studio.</p>
+
+<h2>Mac &ndash; Installing Portable Class Libraries</h2>
+
+<p>The Portable Class Libraries are included with the <a href="http://www.mono-project.com/download/">Mono Development Kit (MDK)</a> but not with the Mono Runtime Environment (MRE). If you are installing Mono yourself instead of using Xamarin&rsquo;s Universal Installer then you will want to install the MDK instead of the MRE. The MDK includes the MRE as well as extra tools, libraries and the .NET Portable Class Library profiles.</p>
+
+<p>If Mono is updated from within Xamarin Studio using <strong>Check for updates</strong> then the MDK should be installed.</p>
+
+<h2>Windows &ndash; Installing Portable Class Libraries</h2>
+
+<p>Xamarin Studio on Windows uses Microsoft&rsquo;s .NET Framework instead of Mono so the Portable Class Libraries need to be installed separately. To install the Portable Class Libraries on Windows you have three options:</p>
+
+<ol>
+<li> Install Visual Studio 2013 (full or <a href="http://www.microsoft.com/en-us/download/details.aspx?id=43733">Express version</a>). Update 2 or above is required.</li>
+<li> Install the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a> and the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40727">Portable Library Reference Assemblies 4.6</a>.</li>
+<li> Install the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a> and copy the .NETPortable directory from Mono over to Windows.</li>
+</ol>
+
+
+<p>If you do not want to install Visual Studio 2013 then you should look at options 2 or 3.</p>
+
+<p>One problem with option 2 is that not all the .NET Portable profiles, such as Profile 259, will be installed. The full list of what .NET Portable profiles are installed by each of the installers listed above is available from the <a href="http://lastexitcode.com/projects/NuGet/PortableProfiles/">.NET Portable Profiles page</a></p>
+
+<p>Let us take a look in more detail at the option 2 since this has a few manual steps.</p>
+
+<p><strong>Windows &ndash; Installing the Portable Library Tools and the Portable Library Reference Assemblies 4.6</strong></p>
+
+<p>Before you start make sure Xamarin Studio is not running.</p>
+
+<p>Download the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a>.</p>
+
+<p>To install the Portable Library Tools open a command prompt where PortableLibraryTools.exe was downloaded and run:</p>
+
+<pre><code>PortableLibraryTools /buildmachine
+</code></pre>
+
+<p>Download the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40727">Portable Library Reference Assemblies 4.6</a> and run the NetFx_PortableLibraryReferenceAssemblies46.msi installer. This will install a PortableReferenceAssemblies.zip file into the directory:</p>
+
+<pre><code>C:\Program Files (x86)\Microsoft .NET Portable Library Reference Assemblies 4.6
+</code></pre>
+
+<p>This PortableReferenceAssemblies.zip file contains three directories (4.0, 4.5 and 4.6) which need to be extracted and copied into the PCLs directory:</p>
+
+<pre><code> C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable
+</code></pre>
+
+<p>The PortableReferenceAssemblies.zip file contains files which already exist in the above folder and you should replace the existing files with the new versions from the .zip file.</p>
+
+<p>If you installed Xamarin Studio before you installed the Portable Class Libraries you will now need to reinstall the Xamarin PCL profiles. The Xamarin PCL profiles will only be installed if the Portable Class Libraries were already installed. The simplest way to do this is to find <strong>Xamarin</strong> in the Control Panel&rsquo;s <strong>Programs and Features</strong>, right click it and select <strong>Repair</strong>.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/InstallingPortableClassLibrariesForXamarinStudio/AddRemoveProgramsRepairXamarinInstall.png" title="Repairing Xamarin in Programs and Features" alt="Repairing Xamarin in Programs and Features"></p>
+
+<p>This will add a set of Xamarin .xml files into the profiles that are compatible with the Xamarin frameworks. For example looking at the Profile78 directory we see:</p>
+
+<pre><code>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile78\SupportedFrameworks
+</code></pre>
+
+<ul>
+<li>.NET Framework 4.5.xml</li>
+<li>Windows 8.xml</li>
+<li>Windows Phone Silverlight 8.xml</li>
+<li>Xamarin.Android.xml</li>
+<li>Xamarin.iOS.xml</li>
+</ul>
+
+
+<p>Now you should have full support for Portable Class Libraries in Xamarin Studio.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Xamarin Components and NuGet]]></title>
@@ -1585,338 +1689,6 @@ File content: &lt;#= text #&gt;
 <h2>Why does this Work?</h2>
 
 <p>T4 templates use the  <a href="http://msdn.microsoft.com/en-us/library/y2k85ax6.aspx">CodeDom</a> to generate C# or VB.NET code which is then executed as the template is processed. When the T4 templating engine processes the Import directive it creates a    <a href="http://msdn.microsoft.com/en-us/library/system.codedom.codenamespaceimport.aspx">CodeNamespaceImport</a> Object and passes it the Namespace attribute&apos;s value. The CodeNamespaceImport object supports generating a namespace alias when you specify a string of the form &quot;Alias = Namespace&quot; and pass this to its constructor.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Creating a JavaScript Parser with ANTLR that can be used from CSharp]]></title>
-    <link href="http://lastexitcode.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/"/>
-    <updated>2011-08-21T19:30:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp</id>
-    <content type="html"><![CDATA[<p>How do you create a JavaScript parser that you can use from C#? One way is to use <a href="http://www.antlr.org/about.html">ANTLR</a>. ANother Tool for Language Recognition (ANTLR) is a parser generated created and maintained by Terence Parr.</p>
-
-<p>The ANTLR website has a JavaScript grammar already defined so we will take that grammar, get ANTLR to create a parser, and then use that parser to parse some JavaScript code. The following guide is based on using <a href="http://www.antlr.org/works/index.html">ANTLRWorks 1.4.2</a>, which includes ANTLR 3.3, and the CSharp3 code generator version 3.3.1.</p>
-
-<h2>Installing ANTLR</h2>
-
-<ol>
-<li>Install the <a href="http://www.oracle.com/technetwork/java/javase/downloads/index-jdk5-jsp-142662.html">Java JDK 1.5</a>. Newer versions than 1.5 may work with ANTLR.</li>
-<li>Download <a href="http://www.antlr.org/download/antlrworks-1.4.2.jar">ANTLRWorks 1.4.2</a> (which includes Antlr 3.3).</li>
-</ol>
-
-
-<p>Check ANTLRWorks can be started by either double clicking the antlrworks-1.4.2.jar file or opening a command prompt and running the following command.</p>
-
-<pre><code>java -jar antlrworks-1.4.2.jar
-</code></pre>
-
-<h2>Generating a JavaScript Parser</h2>
-
-<p>Download a JavaScript grammar from <a href="http://www.antlr.org/grammar/list">http://www.antlr.org/grammar/list</a>](<a href="http://www.antlr.org/grammar/list">http://www.antlr.org/grammar/list</a>).</p>
-
-<p>I used <a href="http://www.antlr.org/grammar/1206736738015/JavaScript.g">Chris Lambrou&rsquo;s JavaScript grammar</a> since this was the most recent.</p>
-
-<p>Open the JavaScript.g file in ANTLRWorks by selecting Open from the File menu.</p>
-
-<p>Edit the JavaScript.g file and add &ldquo;language=CSharp3&rdquo; to the options section.</p>
-
-<pre><code>options 
-{ 
-    output=AST; 
-    backtrack=true; 
-    memoize=true; 
-    language=CSharp3; 
-}
-</code></pre>
-
-<p>The language determines what language the parser code will be generated in. To generate C# there are 3 choices for the language.</p>
-
-<ol>
-<li><a href="http://www.antlr.org/wiki/display/ANTLR3/Antlr+3+CSharp+Target">CSharp</a>  (.NET 1.1 code generated)</li>
-<li>CSharp2 (.NET 2.0 code generated)</li>
-<li><a href="http://www.antlr.org/wiki/display/ANTLR3/Antlr3CSharpReleases">CSharp3</a> (.NET 3 code generated)</li>
-</ol>
-
-
-<p>To specify a namespace for the generated C# classes add another line to the JavaScript.g file.</p>
-
-<pre><code>@namespace { ICSharpCode.JavaScriptBinding }
-</code></pre>
-
-<p> In ANTLRWorks select Generate Code from the Generate menu. Three files should be generated in an output directory below where  JavaScript.g file is located</p>
-
-<ul>
-<li>JavaScript.tokens</li>
-<li>JavaScriptLexer.cs</li>
-<li>JavaScriptParser.cs</li>
-</ul>
-
-
-<p>The two C# files are the ones we are interested in and we will now take a look at how we can use them in a C# application.</p>
-
-<h2>Using the JavaScript Parser</h2>
-
-<p>The C# files that were generated depend on another set of assemblies.</p>
-
-<p>If you generated code using the CSharp3 target then download the <a href="http://www.tunnelvisionlabs.com/downloads/antlr/antlr-dotnet-tool-3.3.1.7705.7z">CSharp3 assemblies</a>.</p>
-
-<p>For code generated using the CSharp2 and CSharp then download <a href="http://www.antlr.org/download/CSharp">CSharp2 assemblies</a>.</p>
-
-<p>In both cases the assembly you need is Antlr3.Runtime.dll so extract that file from the downloaded zip file.</p>
-
-<p>Now we need to use our parser and lexer.</p>
-
-<p>Create a C# console project and add the JavaScriptLexer.cs and JavaScriptParser.cs files into the project. Add a reference to the Antlr3.Runtime.dll.</p>
-
-<p>Compile the project.</p>
-
-<p>If you receive an error about HIDDEN being undefined then rename HIDDEN to Hidden in the JavaScriptLexer.cs file.</p>
-
-<p>Remove the &ldquo;[System.CLSCompliant(false)]&rdquo; from the lexer and parser files to fix the warning about not requiring CLSCompliant to be set.</p>
-
-<p>In order to get access to the results the parser generates you will need to make a modification to the JavaScriptParser.cs. Make the program() method public, as shown below.</p>
-
-<pre><code>public JavaScriptParser.program_return program()
-</code></pre>
-
-<p>If you generate the parser and lexer as java source code files this method is public but for it is private when using any of the CSharp targets.</p>
-
-<p>The correct way to fix the problem with the program method being private is to modify the JavaScript grammar file. If you add the public keyword to JavaScript.g grammar file as shown below then after regenerating the lexer and parser files using ANTLRWorks the  program method will be public.</p>
-
-<pre><code> public program 
-      : LT!* sourceElements LT!* EOF! 
-      ; 
-</code></pre>
-
-<p>Now how do we use the parser? The following code shows you  how.</p>
-
-<pre><code>using System; 
-using Antlr.Runtime; 
-using Antlr.Runtime.Tree; 
-using ICSharpCode.JavaScriptBinding; 
-
-namespace JavaScriptParserConsole 
-{ 
-    class Program 
-    { 
-        public static void Main(string[] args) 
-        { 
-            try { 
-                string text = "var a = 1;"; 
-
-                var stream = new ANTLRStringStream(text); 
-                var lexer = new JavaScriptLexer(stream); 
-                var tokenStream = new CommonTokenStream(lexer); 
-                var parser = new JavaScriptParser(tokenStream); 
-                JavaScriptParser.program_return programReturn = parser.program(); 
-
-            } catch (Exception ex) { 
-                Console.WriteLine(ex.ToString()); 
-            } 
-
-            Console.Write("Press any key to continue..."); 
-            Console.ReadKey(true); 
-        } 
-    } 
-} 
-</code></pre>
-
-<p>First we have some JavaScript code to parse. In this case we have a simple variable assignment. This JavaScript code is then passed to a ANTLRStringStream class. The lexer takes this stream and produces a set of tokens. We turn the lexer into a CommonTokenStream and then this is passed to the parser. The program_return class returned from the parser is an <a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> (AST). Getting access to the AST will depend on how the grammar has been defined. In the JavaScript grammar the top part of the AST is called program.</p>
-
-<pre><code>  public program 
-      : LT!* sourceElements LT!* EOF! 
-      ;
-</code></pre>
-
-<p>This maps to a method called program in our parser class.</p>
-
-<p>Does a grammar always create an AST? It depends on the grammar options. For the JavaScript grammar we are using:</p>
-
-<pre><code>options 
-{ 
-    output=AST; 
-    backtrack=true; 
-    memoize=true; 
-    language=CSharp3; 
-}
-</code></pre>
-
-<p>The output is defined to be AST so ANTLR generates classes to produce an AST after parsing the source code. There are two <a href="http://www.antlr.org/wiki/display/ANTLR3/Grammar+options">options</a> for output: AST and template. If this option is not specified the default is AST.</p>
-
-<p>Now we still have not done anything useful with the parse results. So let us display the AST.</p>
-
-<pre><code>using System; 
-using Antlr.Runtime; 
-using Antlr.Runtime.Tree; 
-using ICSharpCode.JavaScriptBinding; 
-
-namespace JavaScriptParserConsole 
-{ 
-    class Program 
-    { 
-        public static void Main(string[] args) 
-        { 
-            try { 
-                string text = "var a = 1;"; 
-
-                var stream = new ANTLRStringStream(text); 
-                var lexer = new JavaScriptLexer(stream); 
-                var tokenStream = new CommonTokenStream(lexer); 
-                var parser = new JavaScriptParser(tokenStream); 
-                JavaScriptParser.program_return programReturn = parser.program(); 
-
-                var tree = programReturn.Tree as CommonTree; 
-                WriteTree(tree); 
-
-            } catch (Exception ex) { 
-                Console.WriteLine(ex.ToString()); 
-            } 
-
-            Console.Write("Press any key to continue..."); 
-            Console.ReadKey(true); 
-        } 
-
-        static void WriteTree(CommonTree tree) 
-        { 
-            WriteLine("Tree.Text: " + tree.Text); 
-            WriteLine("Tree.Type: " + tree.Type); 
-            WriteLine("Tree.Line: " + tree.Line); 
-            WriteLine("Tree.CharPositionInLine: " + tree.CharPositionInLine); 
-            WriteLine("Tree.ChildCount: " + tree.ChildCount); 
-            WriteLine(""); 
-
-            if (tree.Children != null) { 
-                IncreaseIndent(); 
-                foreach (CommonTree child in tree.Children) { 
-                    WriteTree(child); 
-                } 
-                DecreaseIndent(); 
-            } 
-        } 
-
-        static int indent = 0; 
-
-        static void WriteLine(string text) 
-        { 
-            string indentText = String.Empty.PadRight(indent * 2); 
-            Console.WriteLine(indentText + text); 
-        } 
-
-        static void IncreaseIndent() 
-        { 
-            indent++; 
-        } 
-
-        static void DecreaseIndent() 
-        { 
-            indent--; 
-        } 
-    } 
-} 
-</code></pre>
-
-<p>We have taken the program_return class that is returned from the parser&rsquo;s program method and displayed its tree.</p>
-
-<pre><code>public class program_return 
-    : ParserRuleReturnScope&lt;IToken&gt;, IAstRuleReturnScope&lt;object&gt; 
-{ 
-    private object _tree; 
-    public object Tree { 
-        get { return _tree; } 
-        set { _tree = value; } 
-    } 
-}
-</code></pre>
-
-<p>The Tree property is a CommonTree but by default ANTLR returns this as an object. We then pass this tree to a method that displays a few properties from the tree and then looks at the tree&rsquo;s children and displays them. Each child is also a tree so we call the WriteTree method recursively. With the simple javascript code of &ldquo;var a = 1;&rdquo; we get the following output when running this code:</p>
-
-<pre><code>Tree.Text: 
-Tree.Type: 0 
-Tree.Line: 1 
-Tree.CharPositionInLine: 0 
-Tree.ChildCount: 4 
-
-  Tree.Text: var 
-  Tree.Type: 37 
-  Tree.Line: 1 
-  Tree.CharPositionInLine: 0 
-  Tree.ChildCount: 0 
-
-  Tree.Text: a 
-  Tree.Type: 5 
-  Tree.Line: 1 
-  Tree.CharPositionInLine: 4 
-  Tree.ChildCount: 0 
-
-  Tree.Text: = 
-  Tree.Type: 39 
-  Tree.Line: 1 
-  Tree.CharPositionInLine: 6 
-  Tree.ChildCount: 0 
-
-  Tree.Text: 1 
-  Tree.Type: 7 
-  Tree.Line: 1 
-  Tree.CharPositionInLine: 8 
-  Tree.ChildCount: 0 
-</code></pre>
-
-<p>Can we specify the type of the Tree? The answer is yes. In the  JavaScript grammar we can specify the type to be used for the Tree property by using the ASTLabelType.</p>
-
-<pre><code>options 
-{ 
-    output=AST; 
-    backtrack=true; 
-    memoize=true; 
-    ASTLabelType=CommonTree; 
-    language=CSharp3; 
-} 
-</code></pre>
-
-<p>So we can set the tree&rsquo;s type to be CommonTree and we would not need to convert the Tree property from an Object to a CommonTree each time. With this change made the lexer and parser class files need to be regenerated with AntlrWorks. We also have to make the fixes described above (HIDDEN and ClsCompliant) to the generated code.</p>
-
-<p>Now the program_return class has been changed:</p>
-
-<pre><code>public class program_return 
-    : ParserRuleReturnScope&lt;IToken&gt;, IAstRuleReturnScope&lt;CommonTree&gt; 
-{ 
-    private CommonTree _tree; 
-    public CommonTree Tree {
-        get { return _tree; } 
-        set { _tree = value; }
-    } 
-} 
-</code></pre>
-
-<p>Unfortunately this code does not compile and we get the error shown below.</p>
-
-<p>Error CS0738:  &lsquo;ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return&rsquo; does not implement interface member &lsquo;Antlr.Runtime.IAstRuleReturnScope.Tree&rsquo;. ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return.Tree&#8217; cannot implement &lsquo;Antlr.Runtime.IAstRuleReturnScope.Tree&rsquo; because it does not have the matching return type of &lsquo;object&rsquo;.</p>
-
-<p>Looking at the interface definitions it looks like there is a problem with the code generation since the new program_return class does not implement the IAstRuleReturnScope interface completely:</p>
-
-<pre><code>public interface IAstRuleReturnScope&lt;TAstLabel&gt; 
-    : IAstRuleReturnScope, IRuleReturnScope 
-{ 
-    TAstLabel Tree 
-    { 
-        get; 
-    } 
-} 
-
-public interface IAstRuleReturnScope : IRuleReturnScope 
-{ 
-    object Tree 
-    { 
-        get; 
-    } 
-}
-</code></pre>
-
-<p>So we will have to switch back to not defining the tree&rsquo;s type by not using the ASTLabelType option.</p>
-
-<h2>Summary</h2>
-
-<p>In summary we have taken an existing JavaScript grammar, generated a parser using ANTLR and then used this parser to parse some JavaScript code and display the results held in the AST.</p>
 ]]></content>
   </entry>
   

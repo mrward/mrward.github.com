@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Installing Portable Class Libraries for Xamarin Studio - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="In order to use Portable Class Libraries (PCLs) with Xamarin Studio you need to have the following installed: Portable Class Library Reference &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2014/11/16/InstallingPortableClassLibrariesForXamarinStudio">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Installing Portable Class Libraries for Xamarin Studio</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-16T10:00:00+00:00" pubdate data-updated="true">Nov 16<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In order to use Portable Class Libraries (PCLs) with Xamarin Studio you need to have the following installed:</p>
+
+<ul>
+<li>Portable Class Library Reference Assemblies.</li>
+<li>Portable Class Library MSBuild targets.</li>
+<li>Xamarin&rsquo;s Portable Class Library Profiles.</li>
+</ul>
+
+
+<p>If you do not all of the above installed then you may run into the following problems when using Xamarin Studio.</p>
+
+<ol>
+<li>Unable to create a Portable Library project since the project template is not available.</li>
+<li><p>Unable to install a NuGet package, such as Json.NET, that contains PCL assemblies into an Android or iOS project. Example error message below:</p>
+
+<p>Could not install package &lsquo;Newtonsoft.Json 6.0.6&rsquo;. You are trying to install this package into a project that targets &lsquo;MonoAndroid,Version=v4.4&rsquo;, but the package does not contain any assembly references or content files that are compatible with that framework. For more information, contact the package author.</p></li>
+</ol>
+
+
+<p>On the Mac the Portable Class Libraries for Mono 3.10.0 are installed into the directory:</p>
+
+<pre><code>/Library/Frameworks/Mono.framework/Versions/3.10.0/lib/mono/xbuild-frameworks/.NETPortable
+</code></pre>
+
+<p>On Windows the Portable Class Libraries are installed into the directory:</p>
+
+<pre><code>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable
+</code></pre>
+
+<p>So let us take a look at how to install everything required to get PCLs fully supported within Xamarin Studio.</p>
+
+<h2>Mac &ndash; Installing Portable Class Libraries</h2>
+
+<p>The Portable Class Libraries are included with the <a href="http://www.mono-project.com/download/">Mono Development Kit (MDK)</a> but not with the Mono Runtime Environment (MRE). If you are installing Mono yourself instead of using Xamarin&rsquo;s Universal Installer then you will want to install the MDK instead of the MRE. The MDK includes the MRE as well as extra tools, libraries and the .NET Portable Class Library profiles.</p>
+
+<p>If Mono is updated from within Xamarin Studio using <strong>Check for updates</strong> then the MDK should be installed.</p>
+
+<h2>Windows &ndash; Installing Portable Class Libraries</h2>
+
+<p>Xamarin Studio on Windows uses Microsoft&rsquo;s .NET Framework instead of Mono so the Portable Class Libraries need to be installed separately. To install the Portable Class Libraries on Windows you have three options:</p>
+
+<ol>
+<li> Install Visual Studio 2013 (full or <a href="http://www.microsoft.com/en-us/download/details.aspx?id=43733">Express version</a>). Update 2 or above is required.</li>
+<li> Install the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a> and the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40727">Portable Library Reference Assemblies 4.6</a>.</li>
+<li> Install the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a> and copy the .NETPortable directory from Mono over to Windows.</li>
+</ol>
+
+
+<p>If you do not want to install Visual Studio 2013 then you should look at options 2 or 3.</p>
+
+<p>One problem with option 2 is that not all the .NET Portable profiles, such as Profile 259, will be installed. The full list of what .NET Portable profiles are installed by each of the installers listed above is available from the <a href="/projects/NuGet/PortableProfiles/">.NET Portable Profiles page</a></p>
+
+<p>Let us take a look in more detail at the option 2 since this has a few manual steps.</p>
+
+<p><strong>Windows &ndash; Installing the Portable Library Tools and the Portable Library Reference Assemblies 4.6</strong></p>
+
+<p>Before you start make sure Xamarin Studio is not running.</p>
+
+<p>Download the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a>.</p>
+
+<p>To install the Portable Library Tools open a command prompt where PortableLibraryTools.exe was downloaded and run:</p>
+
+<pre><code>PortableLibraryTools /buildmachine
+</code></pre>
+
+<p>Download the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40727">Portable Library Reference Assemblies 4.6</a> and run the NetFx_PortableLibraryReferenceAssemblies46.msi installer. This will install a PortableReferenceAssemblies.zip file into the directory:</p>
+
+<pre><code>C:\Program Files (x86)\Microsoft .NET Portable Library Reference Assemblies 4.6
+</code></pre>
+
+<p>This PortableReferenceAssemblies.zip file contains three directories (4.0, 4.5 and 4.6) which need to be extracted and copied into the PCLs directory:</p>
+
+<pre><code> C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable
+</code></pre>
+
+<p>The PortableReferenceAssemblies.zip file contains files which already exist in the above folder and you should replace the existing files with the new versions from the .zip file.</p>
+
+<p>If you installed Xamarin Studio before you installed the Portable Class Libraries you will now need to reinstall the Xamarin PCL profiles. The Xamarin PCL profiles will only be installed if the Portable Class Libraries were already installed. The simplest way to do this is to find <strong>Xamarin</strong> in the Control Panel&rsquo;s <strong>Programs and Features</strong>, right click it and select <strong>Repair</strong>.</p>
+
+<p><img src="/images/blog/InstallingPortableClassLibrariesForXamarinStudio/AddRemoveProgramsRepairXamarinInstall.png" title="Repairing Xamarin in Programs and Features" alt="Repairing Xamarin in Programs and Features"></p>
+
+<p>This will add a set of Xamarin .xml files into the profiles that are compatible with the Xamarin frameworks. For example looking at the Profile78 directory we see:</p>
+
+<pre><code>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile78\SupportedFrameworks
+</code></pre>
+
+<ul>
+<li>.NET Framework 4.5.xml</li>
+<li>Windows 8.xml</li>
+<li>Windows Phone Silverlight 8.xml</li>
+<li>Xamarin.Android.xml</li>
+<li>Xamarin.iOS.xml</li>
+</ul>
+
+
+<p>Now you should have full support for Portable Class Libraries in Xamarin Studio.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-16T10:00:00+00:00" pubdate data-updated="true">Nov 16<sup>th</sup>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/pcl/'>pcl</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2014/11/16/InstallingPortableClassLibrariesForXamarinStudio/" data-via="" data-counturl="http://lastexitcode.com/blog/2014/11/16/InstallingPortableClassLibrariesForXamarinStudio/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/26/XamarinComponentsAndNuGet/" title="Previous Post: Xamarin Components and NuGet">&laquo; Xamarin Components and NuGet</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
