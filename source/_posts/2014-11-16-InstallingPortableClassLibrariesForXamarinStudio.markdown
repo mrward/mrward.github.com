@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Installing Portable Class Libraries for Xamarin Studio"
-date: 2014-11-09 12:00
+date: 2014-11-16 10:00
 comments: true
 categories: NuGet Xamarin PCL
 ---
@@ -31,15 +31,13 @@ So let us take a look at how to install everything required to get PCLs fully su
 
 ## Mac - Installing Portable Class Libraries
 
-The Portable Class Libraries are included with the [Mono Development Kit (MDK)](http://www.mono-project.com/download/) but not with the Mono Runtime Environment (MRE).
+The Portable Class Libraries are included with the [Mono Development Kit (MDK)](http://www.mono-project.com/download/) but not with the Mono Runtime Environment (MRE). If you are installing Mono yourself instead of using Xamarin's Universal Installer then you will want to install the MDK instead of the MRE. The MDK includes the MRE as well as extra tools, libraries and the .NET Portable Class Library profiles.
 
-If you are installing Mono yourself instead of using Xamarin's Universal Installer then you will want to install the MDK instead of the MRE. The MDK includes the MRE as well as extra tools, libraries and the .NET Portable Class Library profiles.
-
-If Mono is updated from within Xamarin Studio using "Check for updates" then the MDK should be installed.
+If Mono is updated from within Xamarin Studio using **Check for updates** then the MDK should be installed.
 
 ## Windows - Installing Portable Class Libraries
 
-Xamarin Studio on Windows uses Microsoft's .NET Framework and not Mono so the Portable Class Libraries need to be installed separately. To install the Portable Class Libraries on Windows you have two options:
+Xamarin Studio on Windows uses Microsoft's .NET Framework instead of Mono so the Portable Class Libraries need to be installed separately. To install the Portable Class Libraries on Windows you have three options:
 
   1. Install Visual Studio 2013 (full or [Express version](http://www.microsoft.com/en-us/download/details.aspx?id=43733)). Update 2 or above is required.
   2. Install the [Portable Library Tools](https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/) and the [Portable Library Reference Assemblies 4.6](http://www.microsoft.com/en-us/download/details.aspx?id=40727).
@@ -47,11 +45,13 @@ Xamarin Studio on Windows uses Microsoft's .NET Framework and not Mono so the Po
 
 If you do not want to install Visual Studio 2013 then you should look at options 2 or 3.
 
-One problem with option 2 is that not all the .NET Portable profiles, such as Profile 259, will be installed. The full list of what .NET Portable profiles are installed by each of the separate installers above is available from the [.NET Portable Profiles page](http://lastexitcode.com/NuGet/PortableProfiles/)
+One problem with option 2 is that not all the .NET Portable profiles, such as Profile 259, will be installed. The full list of what .NET Portable profiles are installed by each of the installers listed above is available from the [.NET Portable Profiles page](/projects/NuGet/PortableProfiles/)
 
 Let us take a look in more detail at the option 2 since this has a few manual steps.
 
-First make sure Xamarin Studio is not running.
+**Windows - Installing the Portable Library Tools and the Portable Library Reference Assemblies 4.6**
+
+Before you start make sure Xamarin Studio is not running.
 
 Download the [Portable Library Tools](https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/).
 
@@ -63,7 +63,7 @@ Download the [Portable Library Reference Assemblies 4.6](http://www.microsoft.co
 
     C:\Program Files (x86)\Microsoft .NET Portable Library Reference Assemblies 4.6
 
-This PortableReferenceAssemblies.zip file contains three directories (4.0, 4.5 and 4.6) which need to be extracted and copied into the directory:
+This PortableReferenceAssemblies.zip file contains three directories (4.0, 4.5 and 4.6) which need to be extracted and copied into the PCLs directory:
 
      C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable
 
@@ -83,4 +83,4 @@ This will add a set of Xamarin .xml files into the profiles that are compatible 
  * Xamarin.Android.xml
  * Xamarin.iOS.xml
 
-Now you should be ready to use Portable Class Libraries in Xamarin Studio.
+Now you should have full support for Portable Class Libraries in Xamarin Studio.
