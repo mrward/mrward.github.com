@@ -167,7 +167,7 @@ List of .NET Portable Profiles available with different installers.
       <td></td>
       <td>Profile 78</td>
       <td>Profile 78</td>
-      <td></td>
+      <td>Profile 78</td>
     </tr>
     <tr>
       <td></td>
