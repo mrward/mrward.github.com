@@ -20,7 +20,7 @@ More information on all the new features and changes in Xamarin Studio 5.7 can b
 
 ## NuGet menus renamed
 
-The menus have been changed so they now include the word NuGet to make it easier to find and use NuGet.
+The menus have been changed so they now include the word NuGet to make them easier to discover.
 
 ### Project menu
 
@@ -34,9 +34,9 @@ The menus have been changed so they now include the word NuGet to make it easier
 
 {% img /images/blog/NuGetSupportInXamarinStudio5-7/ProjectContextMenuNuGetMenuItems.png 'NuGet menu items in the Project context menu' 'NuGet menu items in the Project context menu' '' %}
 
-## Solution Window UI Changes
+## Solution Window
 
-The error and warning icons used in the Solution window have been changed so they are consistent with the rest of icons used.
+The warning icon used in the Solution window has been changed so it is consistent with other Solution window items.
 
 ### Package not restored
 
@@ -44,13 +44,13 @@ The error and warning icons used in the Solution window have been changed so the
 
 {% img /images/blog/NuGetSupportInXamarinStudio5-7/SolutionWindowNuGetPackageMissingWithTooltip.png 'Solution Window - NuGet package not restored with tooltip' 'Solution Window - NuGet package not restored with tooltip' %}
 
-A new warning icon is used for packages that are not restored, the text is greyed out and hovering over the warning icon shows a message that the package is not restored.
+A new warning icon is used for packages that are not restored, the text is greyed out and hovering over the warning icon shows information about the warning.
 
 ### Package installing
 
 {% img /images/blog/NuGetSupportInXamarinStudio5-7/SolutionWindowNuGetPackageInstalling.png 'Solution Window - NuGet package installing' 'Solution Window - NuGet package installing' %}
 
-The text is greyed out to indicate that the package is not currently available in the project and the text shows (installing) to distinguish between an unrestored package.
+When a package is being installed the text is greyed out to indicate that the package is not currently available in the project and the text shows (installing) to distinguish between a package being installed and a package that is not restored.
 
 ### Package needs retargeting
 
@@ -86,55 +86,39 @@ project in Xamarin Studio the project will fail to build after
 restoring the NuGet package since the references in the MSBuild targets file were not being refreshed.
 
 Now after a NuGet package restore the MSBuild host used by Xamarin Studio is
-stopped and restarted which allows the references in the MSBuild targets file to be found and the project to compile without any build errors.
+refreshed which allows the references in the MSBuild targets file to be found and the project to compile without any build errors.
 
 **Types imported by MSBuild target not recognised after NuGet package installed**
 
 If a NuGet package had an MSBuild target that added extra references to the project then on installing the
-NuGet package the types from those references were still unavailable to Xamarin Studio and so the types would be highlighted in red
-in the text editor. To fix this the solution had to be closed and re-opened. This problem occurs with the the MonoGame.Binaries NuGet package.
+NuGet package the types from those references were still unavailable to Xamarin Studio and would be highlighted in red
+in the text editor. To fix this the solution had to be closed and re-opened. This problem occurs with the MonoGame.Binaries NuGet package.
 
-Now after a NuGet package is installed and it contains MSBuild targets
-file then the type system will be refreshed for that project. The
-types will then be known by Xamarin Studio and no longer show as red
-text in the text editor.
+Now after a NuGet package is installed and it contains a MSBuild targets
+file then Xamarin Studio's type system will be refreshed for that project. The
+types will then be known by Xamarin Studio and no longer be highlighted in red in the text editor.
 
 **Solution window cannot be opened when access to NuGet.Config is denied**
 
-Handling failure to read NuGet.Config
+If the NuGet directory containing the NuGet.Config file cannot be created or read by NuGet then an exception is thrown. This exception was not being handled by Xamarin Studio and would prevent the
+solution window from opening.
 
-If the NuGet directory containing the NuGet.Config file can be created or read by NuGet then an
-unhandled UnauthorizedAccessException is thrown. This exception was not being handled by Xamarin Studio and would prevent the
-solution window from opening. Now if there is any error creating this
-directory or trying to load the NuGet.Config file then the error is now caught and logged which allows the Solution window to open. If the NuGet directory containing the NuGet.Config file cannot be created then it will not be possible to use NuGet in the
-Xamarin Studio but it will not prevent the solution pad from being used.
+Now if there is any error creating this
+directory, or trying to load the NuGet.Config file, then the exception is caught which allows the Solution window to open. If the NuGet directory containing the NuGet.Config file cannot be created then it will not be possible to use NuGet in Xamarin Studio but it will not prevent the solution pad from being used.
 
 **Updating all packages not updating dependencies**
 
-Updating NuGet packages for new Xamarin.Forms project would not install the Xamarin.Android.Support.v13 NuGet package.
+Updating NuGet packages for the entire solution would not install the Xamarin.Android.Support.v13 NuGet package which was added as a new dependency to the Xamarin.Android.Support.v4 NuGet package.
 
-The existing Xamarin.Forms project template used an older version of
-Xamarin.Android.Support.v4 which does not depend on
-Xamarin.Android.Support.v13. The latest Xamarin.Android.Support.v4
-has a dependency on Xamarin.Android.Support.v13. When updating the
-Xamarin.Android.Support.v4 NuGet package installed by the existing
-Xamarin.Forms project template the Xamarin.Android.Support.v13 NuGet
-package was not installed in a project that targets MonoAndroid 3.2
-when all the packages in the solution were updated (right click
-solution and select Update NuGet Packages). If the
-Xamarin.Android.Support.v4 NuGet package was updated itself (right
-click the package and select Update) or if all the packages for the
-project were updated (right click Packages folder and select Update)
-then Xamarin.Android.Support.v13 NuGet package would be installed.
-
-The problem was the NuGet package update was not set to update any
+The problem was that the NuGet package update was not configured to update any
 NuGet package dependencies when updating all packages in the solution.
 Updating all packages in the project or the NuGet package individually
-was set to update package dependencies.
+would update package dependencies correctly.
+
+Note that this fix has introduced a bug where Xamarin Studio will show updates as available even though the updates have just been installed for the solution. This new bug should be fixed in Xamarin Studio 5.8.
 
 **Pre-release NuGet package being downgraded on update**
 
-When a pre-release NuGet package was installed that was newer than the latest stable NuGet package then updating the package would install the stable version even though it was a lower version. Now an explicit check is made to ensure that an older NuGet package is not being installed.
-
+When a pre-release NuGet package was installed that was newer than the latest stable NuGet package available then updating the package would install the stable version even though it was a lower version. Now an explicit check is made to ensure that an older NuGet package is not being installed.
 
 
