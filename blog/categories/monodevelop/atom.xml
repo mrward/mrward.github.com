@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2014-11-16T10:35:05+00:00</updated>
+  <updated>2015-01-18T13:53:02+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.7]]></title>
+    <link href="http://lastexitcode.com/blog/2015/01/18/NuGetSupportInXamarinStudio5-7/"/>
+    <updated>2015-01-18T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2015/01/18/NuGetSupportInXamarinStudio5-7</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet menus renamed to make them easier to discover</li>
+<li> Solution window icons made consistent</li>
+<li> Fix build errors after MSBuild target restored for package</li>
+<li> Fix types imported by MSBuild target not recognised after NuGet package installed</li>
+<li> Fix Solution window cannot be opened when access to NuGet.Config is denied</li>
+<li> Fix updating all packages not updating dependencies</li>
+<li> Fix pre-release NuGet package being downgraded on update</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 5.7 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.7/xamarin.studio_5.7/">release notes</a>.</p>
+
+<h2>NuGet menus renamed</h2>
+
+<p>The menus have been changed so they now include the word NuGet to make them easier to discover.</p>
+
+<h3>Project menu</h3>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-7/ProjectMenuNuGetMenuItems.png" title="&lsquo;NuGet menu items in the main Project menu&rsquo; &lsquo;NuGet menu items in the main Project menu&rsquo; &lsquo;&rsquo;" ></p>
+
+<h3>Solution context menu</h3>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-7/SolutionContextMenuNuGetMenuItems.png" title="&lsquo;NuGet menu items in the Solution context menu&rsquo; &lsquo;NuGet menu items in the Solution context menu&rsquo; &lsquo;&rsquo;" ></p>
+
+<h3>Project context menu</h3>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-7/ProjectContextMenuNuGetMenuItems.png" title="&lsquo;NuGet menu items in the Project context menu&rsquo; &lsquo;NuGet menu items in the Project context menu&rsquo; &lsquo;&rsquo;" ></p>
+
+<h2>Solution Window</h2>
+
+<p>The warning icon used in the Solution window has been changed so it is consistent with other Solution window items.</p>
+
+<h3>Package not restored</h3>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-7/SolutionWindowNuGetPackageMissing.png" title="&lsquo;Solution Window &ndash; NuGet package not restored&rsquo; &lsquo;Solution Window &ndash; NuGet package not restored&rsquo;" ></p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-7/SolutionWindowNuGetPackageMissingWithTooltip.png" title="&lsquo;Solution Window &ndash; NuGet package not restored with tooltip&rsquo; &lsquo;Solution Window &ndash; NuGet package not restored with tooltip&rsquo;" ></p>
+
+<p>A new warning icon is used for packages that are not restored, the text is greyed out and hovering over the warning icon shows information about the warning.</p>
+
+<h3>Package installing</h3>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-7/SolutionWindowNuGetPackageInstalling.png" title="&lsquo;Solution Window &ndash; NuGet package installing&rsquo; &lsquo;Solution Window &ndash; NuGet package installing&rsquo;" ></p>
+
+<p>When a package is being installed the text is greyed out to indicate that the package is not currently available in the project and the text shows (installing) to distinguish between a package being installed and a package that is not restored.</p>
+
+<h3>Package needs retargeting</h3>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-7/SolutionWindowNuGetPackageNeedsRetargetingWithTooltip.png" title="&lsquo;Solution Window &ndash; NuGet package needs retargeting&rsquo; &lsquo;Solution Window &ndash; NuGet package needs retargeting&rsquo;" ></p>
+
+<p>A new warning icon is used for packages that need retargeting. The package id text has changed to black text instead of orange. Hovering over warning icon shows a message that the package needs retargeting.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Build errors after MSBuild target restored for package</strong></p>
+
+<p>If a NuGet package had an MSBuild target that added extra references to the project then on restoring the
+NuGet package those references were still unavailable and the build would still fail.</p>
+
+<p>This problem occurs with the MonoGame.Binaries NuGet package. The MonoGame.Binaries NuGet package has a custom MSBuild .targets file that adds extra references:</p>
+
+<pre><code>&lt;Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"&gt;
+  &lt;ItemGroup&gt;
+    &lt;Reference Include="MonoGame.Framework"&gt;
+      &lt;HintPath&gt;$(MSBuildThisFileDirectory)\MonoGame.Framework.dll&lt;/HintPath&gt;
+    &lt;/Reference&gt;
+    &lt;Reference Include="Tao.Sdl"&gt;
+      &lt;HintPath&gt;$(MSBuildThisFileDirectory)\Tao.Sdl.dll&lt;/HintPath&gt;
+    &lt;/Reference&gt;
+    &lt;Reference Include="OpenTK"&gt;
+      &lt;HintPath&gt;$(MSBuildThisFileDirectory)\OpenTK.dll&lt;/HintPath&gt;
+    &lt;/Reference&gt;
+  &lt;/ItemGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+
+<p>If the MonoGame.Binaries NuGet package is not available on opening the
+project in Xamarin Studio the project will fail to build after
+restoring the NuGet package since the references in the MSBuild targets file were not being refreshed.</p>
+
+<p>Now after a NuGet package restore the MSBuild host used by Xamarin Studio is
+refreshed which allows the references in the MSBuild targets file to be found and the project to compile without any build errors.</p>
+
+<p><strong>Types imported by MSBuild target not recognised after NuGet package installed</strong></p>
+
+<p>If a NuGet package had an MSBuild target that added extra references to the project then on installing the
+NuGet package the types from those references were still unavailable to Xamarin Studio and would be highlighted in red
+in the text editor. To fix this the solution had to be closed and re-opened. This problem occurs with the MonoGame.Binaries NuGet package.</p>
+
+<p>Now after a NuGet package is installed and it contains a MSBuild targets
+file then Xamarin Studio&rsquo;s type system will be refreshed for that project. The
+types will then be known by Xamarin Studio and no longer be highlighted in red in the text editor.</p>
+
+<p><strong>Solution window cannot be opened when access to NuGet.Config is denied</strong></p>
+
+<p>If the NuGet directory containing the NuGet.Config file cannot be created or read by NuGet then an exception is thrown. This exception was not being handled by Xamarin Studio and would prevent the
+solution window from opening.</p>
+
+<p>Now if there is any error creating this
+directory, or trying to load the NuGet.Config file, then the exception is caught which allows the Solution window to open. If the NuGet directory containing the NuGet.Config file cannot be created then it will not be possible to use NuGet in Xamarin Studio but it will not prevent the solution pad from being used.</p>
+
+<p><strong>Updating all packages not updating dependencies</strong></p>
+
+<p>Updating NuGet packages for the entire solution would not install the Xamarin.Android.Support.v13 NuGet package which was added as a new dependency to the Xamarin.Android.Support.v4 NuGet package.</p>
+
+<p>The problem was that the NuGet package update was not configured to update any
+NuGet package dependencies when updating all packages in the solution.
+Updating all packages in the project or the NuGet package individually
+would update package dependencies correctly.</p>
+
+<p>Note that this fix has introduced a bug where Xamarin Studio will show updates as available even though the updates have just been installed for the solution. This new bug should be fixed in Xamarin Studio 5.8.</p>
+
+<p><strong>Pre-release NuGet package being downgraded on update</strong></p>
+
+<p>When a pre-release NuGet package was installed that was newer than the latest stable NuGet package available then updating the package would install the stable version even though it was a lower version. Now an explicit check is made to ensure that an older NuGet package is not being installed.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.5]]></title>
@@ -392,85 +518,6 @@
 <p><strong>Updating an unrestored package</strong></p>
 
 <p>If you have automatic package restore disabled and you attempt to update a NuGet package the package will now be restored before the update is attempted. Previously this would fail when an update was available since NuGet looks at the old package to work out how to remove it from the project before updating to the new NuGet package.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.1]]></title>
-    <link href="http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1/"/>
-    <updated>2014-07-06T10:48:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1</id>
-    <content type="html"><![CDATA[<p><a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">Xamarin Studio 5.1</a> was released last week and it includes some new features for the NuGet addin.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li> Searching and installing a specific version of a NuGet package.</li>
-<li> Support for NuGet package sources defined in a solution specific NuGet.Config file.</li>
-</ul>
-
-
-<p>More details on all the new features and changes in Xamarin Studio 5.1 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">release notes</a>. Now let us take a look at the new NuGet features.</p>
-
-<h2>Searching and installing a specific version of a NuGet package</h2>
-
-<p>The Add Packages dialog can now be used to search and install a specific version of a NuGet package. You can search for all versions, a range of versions, or a specific version of a NuGet package. To do this the following search syntax is used:</p>
-
-<pre><code>PackageId version:VersionNumber
-</code></pre>
-
-<p>The packages are shown in the Add Packages dialog with the most recent version at the top. At the top right of each package in the package list you will see the package version instead of the download count allowing you to find the particular version you want to install.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAllAutoMapperPackageVersions.png" title="&lsquo;Add Packages dialog &ndash; all AutoMapper package versions&rsquo; &lsquo;Add Packages dialog &ndash; all AutoMapper package versions&rsquo;" ></p>
-
-<p>To search for all versions of the AutoMapper NuGet package you can use an asterisk or leave the version number blank.</p>
-
-<pre><code>AutoMapper version:*
-</code></pre>
-
-<p>To search for all the 2.1 versions of the AutoMapper NuGet package you can use the search:</p>
-
-<pre><code>AutoMapper version:2.1
-</code></pre>
-
-<p>This will return a range of versions from 2.1.0 up to but not including 2.2.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAutoMapperPackageVersions21.png" title="&lsquo;Add Packages dialog &ndash; AutoMapper 2.1 package versions&rsquo; &lsquo;Add Packages dialog &ndash; AutoMapper 2.1 package versions&rsquo;" ></p>
-
-<p>The package id used in the search must match the id of the NuGet package otherwise no results will be returned.</p>
-
-<p>Searching for package versions is also supported in the universal search at the top right of Xamarin Studio.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/PackageVersionSearchInUniversalSearch.png" title="&lsquo;Package version search in universal search&rsquo; &lsquo;Package version search in universal search&rsquo;" ></p>
-
-<h2>Package sources defined in a solution specific NuGet.Config file</h2>
-
-<p> If package sources are defined in the solution&rsquo;s NuGet.Config file then these will be available in the Add Packages dialog when this solution is opened. The NuGet.Config file can be in the solution directory or in the .nuget subdirectory. An example NuGet.Config file is shown below.</p>
-
-<pre><code>&lt;configuration&gt;
-  &lt;packageSources&gt;
-    &lt;add key="ASP.NET vNext - MyGet" value="https://www.myget.org/F/aspnetvnext/" /&gt;
-  &lt;/packageSources&gt;
-&lt;/configuration&gt;
-</code></pre>
-
-<p>When the solution is opened the package sources defined in the NuGet.config file are available in the drop down list at the top left of the Add Packages dialog.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesWithPackageSourceFromSolutionLevelNuGetConfig.png" title="&lsquo;Add Packages dialog &ndash; package sources from solution NuGet.Config&rsquo; &lsquo;Add Packages dialog &ndash; package sources from solution NuGet.config&rsquo;" ></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Proxy credentials not being requested for a https package source.</strong></p>
-
-<p>   Added a workaround to NuGet to handle Mono returning a different http response when proxy authentication is required.</p>
-
-<p><strong>Web.config transforms not being applied when installing NuGet packages such as Nancy.Hosting.Aspnet.</strong></p>
-
-<p>   Projects were not being recognised as web projects so transforms were only being applied to app.config files.</p>
-
-<p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
-
-<p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&rsquo;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
 ]]></content>
   </entry>
   
