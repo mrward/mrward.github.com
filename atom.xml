@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-01-18T13:53:02+00:00</updated>
+  <updated>2015-03-22T12:29:53+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.8]]></title>
+    <link href="http://lastexitcode.com/blog/2015/03/21/NuGetSupportInXamarinStudio5-8/"/>
+    <updated>2015-03-21T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2015/03/21/NuGetSupportInXamarinStudio5-8</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio 5.8 <a href="http://blog.xamarin.com/xamarin-releases-watch-kit-support-like-clockwork/">added support for Apple&rsquo;s Watch Kit</a> and it also includes some NuGet bug fixes.</p>
+
+<h2>Bug Fixes</h2>
+
+<ul>
+<li> Allow ASP.NET project templates to work offline.</li>
+<li> Build error after updating Xamarin.Forms in a project created by Visual Studio</li>
+<li> Custom MSBuild task not updated after updating Xamarin.Forms</li>
+<li> Update information in the Solution window incorrect after updating packages</li>
+<li> Check for package updates continues after closing a solution</li>
+<li> Check for package updates prevents packages from being removed</li>
+<li> Incorrect error message displayed when checking for package updates</li>
+<li> Exception when checking for package updates after changing target framework of a project</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 5.8 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.8/xamarin.studio_5.8/">release notes</a>.</p>
+
+<p><strong>Allow ASP.NET project templates to work offline</strong></p>
+
+<p>Previously it was not possible to create an ASP.NET project without an internet connection even if all the NuGet packages were available in the local machine&rsquo;s NuGet packages cache.</p>
+
+<p>Now the local machine&rsquo;s NuGet cache is used as the primary source of packages for project templates so it is possible to create an ASP.NET project without an internet connection if the NuGet packages are already in this cache.</p>
+
+<p>This problem did not affect project templates, such as Xamarin.Forms, which include the NuGet packages with their project templates.</p>
+
+<p><strong>Build error after updating Xamarin.Forms in a project created by Visual Studio</strong></p>
+
+<p>When a NuGet package that uses custom MSBuild targets file, such as Xamarin.Forms, is added to a project by Visual Studio the project file has an extra Target added, as shown below.</p>
+
+<pre><code>&lt;Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild"&gt;
+  &lt;PropertyGroup&gt;
+    &lt;ErrorText&gt;This project references NuGet package(s) that are missing on this computer.
+Enable NuGet Package Restore to download them.  For more information, see
+http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.&lt;/ErrorText&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;Error Condition="!Exists('packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets'))" /&gt;
+&lt;/Target&gt;
+</code></pre>
+
+<p>When the project was opened in a previous version of Xamarin Studio, and the NuGet package is updated or removed, the Error task was not updated. The project would then fail to compile with an error being reported that the old .targets file could not be found.</p>
+
+<p>Now when updating or removing a NuGet package the EnsureNuGetPackageBuildImports target is
+checked and the matching Error task will be removed. If there are no remaining Error tasks then the EnsureNuGetPackageBuildImports target is also removed. This prevents build errors after updating or uninstalling the old
+NuGet package from the project.</p>
+
+<p>Note that Xamarin Studio will not add an EnsureNuGetPackageBuildImports target and will not add Error tasks to a project when a NuGet package is added or updated.</p>
+
+<p><strong>Custom MSBuild task not updated after updating Xamarin.Forms</strong></p>
+
+<p>If a project that had a reference to Xamarin.Forms was compiled once, then the NuGet package was updated, the old MSBuild task was still being used when compiling.</p>
+
+<p>For Xamarin.Forms this could cause a &ldquo;XamlG Task failed unexpectedly&rdquo; build error to be reported. Also the Package Console would report not being able to access the Xamarin.Forms.Build.Tasks.dll when updating or removing the NuGet package.</p>
+
+<p>The problem was that MonoDevelop.Projects.Formats.MSBuild.exe that compiles the project would lock the MSBuild task assembly.</p>
+
+<p>Now when an MSBuild import is removed on updating a NuGet package Xamarin Studio will dispose the current project builder which will shutdown the MonoDevelop.Projects.Formats.MSBuild.exe process. This unlocks any custom MSBuild task assemblies loaded by this process,
+allowing the old NuGet package to be removed without any access denied errors, and when the project is recompiled again it will use the correct MSBuild task assembly.</p>
+
+<p><strong>Update information in the Solution window incorrect after updating packages</strong></p>
+
+<p>With check for updates enabled in Preferences, when an ASP.NET project is created, updates are shown as available for several packages. When
+the packages are updated the Solution window would still show updates as being available even though the packages had been updated.</p>
+
+<p>The problem was that a change was made in Xamarin Studio 5.7 to update package dependencies at the same time as the package was updated. This meant that an update event was not fired for each
+package being updated which would result in some package updates being shown as available in the Solution window even when they had been updated.</p>
+
+<p>Now Xamarin Studio will check all package references when a package is updated so if any package dependencies are updated the Solution
+window will show the correct status of the packages.</p>
+
+<p><strong>Check for package updates continues after closing a solution</strong></p>
+
+<p>Xamarin Studio will now stop checking for package updates when the current solution is closed. Previously this would continue until the check was completed.</p>
+
+<p><strong>Check for updates prevents packages from being removed</strong></p>
+
+<p>Previously when Xamarin Studio was checking for package updates all other NuGet actions, such as updating, adding or removing packages, would not be run until the check for updates had completed.
+Now the check for NuGet package updates is done on a separate thread so other NuGet actions can be run at the same time.</p>
+
+<p><strong>Incorrect error message displayed when checking for package updates</strong></p>
+
+<p>The Package Console would sometimes show the error message &ldquo;An exception was thrown while dispatching a method call in the UI thread.&rdquo; instead of the underlying error making it difficult to determine the cause of the problem.
+For example if there was a zero byte sized .nupkg file in the solution&rsquo;s package directory, and check for updates is enabled, then
+the wrong error was displayed in the Package Console.</p>
+
+<p><strong>Exception when checking for package updates after changing target framework of a project</strong></p>
+
+<p>Previously a null reference exception would be reported in the Package console window when doing the following:</p>
+
+<ol>
+<li> Create a project with one NuGet package added.</li>
+<li> Create two NuGet package sources in Preferences. Disable all other package sources.</li>
+<li> Open the Add Packages dialog and select All Sources.</li>
+<li> Go back to Preferences and uncheck both of the package sources.</li>
+<li> Change the target framework of the project in the project options.</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.7]]></title>
@@ -1459,325 +1564,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 
 <p>CONTRACTS_FULL is used to enable runtime checking of the code contracts. If this is not defined then the calls made to the any of Contract methods are ignored by the compiler when building your project.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ASP.NET MVC 3 T4 Template Properties]]></title>
-    <link href="http://lastexitcode.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3/"/>
-    <updated>2011-10-13T21:30:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2011/10/13/T4TemplatePropertiesAspNetMvc3</id>
-    <content type="html"><![CDATA[<p>Here are the properties that ASP.NET MVC 3.0 provides to T4 templates when you use the Add View and Add Controller dialogs inside Visual Studio 2010.</p>
-
-<h2>Add Controller</h2>
-
-<table class="article" title="T4 template controller properties for ASP.NET MVC 3.0">
-  <thead>
-    <tr>
-      <th>Property Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>AddActionMethods</td>
-      <td>Boolean</td>
-      <td>Adds action methods to the generated controller 
-      class.</td>
-    </tr>
-    <tr>
-      <td>AreaName</td>
-      <td>System.String</td>
-      <td>The name of the Area that the controller is created 
-      for.</td>
-    </tr>
-    <tr>
-      <td>ContextType</td>
-      <td>System.Type</td>
-      <td>The type of the data context.</td>
-    </tr>
-    <tr>
-      <td>ControllerName</td>
-      <td>String</td>
-      <td>The name of the controller class that will be 
-      generated.</td>
-    </tr>
-    <tr>
-      <td>ControllerRootName</td>
-      <td>String</td>
-      <td>The name of the controller class excluding the Controller 
-      part at the end of the name.</td>
-    </tr>
-    <tr>
-      <td>EntitySetName</td>
-      <td>String</td>
-      <td>Name of the property on the data context class containing 
-      the set of entities.</td>
-    </tr>
-    <tr>
-      <td>ModelType</td>
-      <td>System.Type</td>
-      <td>The type of the model class specified in the Add 
-      Controller dialog.</td>
-    </tr>
-    <tr>
-      <td>Namespace</td>
-      <td>String</td>
-      <td>Namespace that will be used for the generated controller 
-      class.</td>
-    </tr>
-    <tr>
-      <td>PrimaryKeys</td>
-      <td>
-        PrimaryKey[]
-        <br />
-        (Microsoft.
-        <br />
-        VisualStudio.
-        <br />
-        Web.Mvc.
-        <br />
-        Scaffolding.
-        <br />
-        BuiltIn)
-      </td>
-      <td>Primary keys for the model. See table at end for 
-      PrimaryKey properties.</td>
-    </tr>
-    <tr>
-      <td>RelatedProperties</td>
-      <td>
-        Dictionary&lt;String,
-        <br />
-        RelatedModel
-        <br />
-        (Microsoft.
-        <br />
-        VisualStudio.
-        <br />
-        Web.
-        <br />
-        Mvc.
-        <br />
-        Scaffolding.
-        <br />
-        BuiltIn)&gt;
-      </td>
-      <td>Related properties on the model. See table at end for 
-      RelatedModel properties.</td>
-    </tr>
-  </tbody>
-</table>
-
-
-<h2>Add View</h2>
-
-<table class="article" title="T4 template view properties for ASP.NET MVC 3.0">
-  <thead>
-    <tr>
-      <th>Property Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>AreaName</td>
-      <td>System.String</td>
-      <td>The name of the Area that the view is being created 
-      for.</td>
-    </tr>
-    <tr>
-      <td>ContentPlaceHolderIDs</td>
-      <td>List&lt;string&gt;</td>
-      <td>List of content place holder IDs in the master page.</td>
-    </tr>
-    <tr>
-      <td>IsContentPage</td>
-      <td>Boolean</td>
-      <td>True if the generated view will be created with a master 
-      page or a Razor layout page.</td>
-    </tr>
-    <tr>
-      <td>IsPartialView</td>
-      <td>Boolean</td>
-      <td>True if the generated view is a partial view (e.g. an 
-      ASP.NET user control).</td>
-    </tr>
-    <tr>
-      <td>MasterPageFile</td>
-      <td>String</td>
-      <td>Master page file or Razor layout to be used with view 
-      (e.g. ~/Views/Shared/Site.Master).</td>
-    </tr>
-    <tr>
-      <td>Namespace</td>
-      <td>String</td>
-      <td>Namespace that will be used for the generated view.</td>
-    </tr>
-    <tr>
-      <td>PrimaryContentPlaceHolderID</td>
-      <td>String</td>
-      <td>Primary content place holder ID to be used when creating 
-      a view using a master page.</td>
-    </tr>
-    <tr>
-      <td>ReferenceScriptLibraries</td>
-      <td>Boolean</td>
-      <td>True if checked in the Add View dialog.</td>
-    </tr>
-    <tr>
-      <td>ViewDataType</td>
-      <td>System.Type</td>
-      <td>The view model&apos;s type.</td>
-    </tr>
-    <tr>
-      <td>ViewDataTypeName</td>
-      <td>String</td>
-      <td>Fully qualified name for the view model&apos;s type.</td>
-    </tr>
-    <tr>
-      <td>ViewName</td>
-      <td>String</td>
-      <td>Name of the view.</td>
-    </tr>
-  </tbody>
-</table>
-
-
-<h2>Common Properties</h2>
-
-<table class="article" title="T4 template common properties for ASP.NET MVC 3.0">
-  <thead>
-    <tr>
-      <th>Property Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>AssemblyPath</td>
-      <td>List&lt;string&gt;</td>
-      <td>List of assemblies referenced by the project and the 
-      project&apos;s output assembly. Internal use.</td>
-    </tr>
-    <tr>
-      <td>Errors</td>
-      <td>
-        CompilerErrorCollection
-        <br />
-        (System.CodeDom.Compiler)
-      </td>
-      <td>Used to stored errors that occur whilst processing the T4 
-      template. Internal use.</td>
-    </tr>
-    <tr>
-      <td>FileEncoding</td>
-      <td>System.Text.Encoding</td>
-      <td>The encoding of the file that will be generated.</td>
-    </tr>
-    <tr>
-      <td>FileExtension</td>
-      <td>String</td>
-      <td>Not set.</td>
-    </tr>
-    <tr>
-      <td>FrameworkVersion</td>
-      <td>System.Version</td>
-      <td>The .NET framework version.</td>
-    </tr>
-    <tr>
-      <td>OutputFileExtension</td>
-      <td>System.String</td>
-      <td>The extension of the file that will be generated.</td>
-    </tr>
-    <tr>
-      <td>TemplateFile</td>
-      <td>System.String</td>
-      <td>The full path to the T4 template file being used.</td>
-    </tr>
-  </tbody>
-</table>
-
-
-<h2>Primary Key Properties</h2>
-
-<table class="article" title="T4 template common properties for ASP.NET MVC 3.0">
-  <thead>
-    <tr>
-      <th>Property Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Name</td>
-      <td>String</td>
-      <td/>
-    </tr>
-    <tr>
-      <td>ShortTypeName</td>
-      <td>String</td>
-      <td/>
-    </tr>
-    <tr>
-      <td>Type</td>
-      <td>System.Type</td>
-      <td/>
-    </tr>
-  </tbody>
-</table>
-
-
-<h2>Related Model Properties</h2>
-
-<table class="article" title="T4 template common properties for ASP.NET MVC 3.0">
-  <thead>
-    <tr>
-      <th>Property Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>DisplayPropertyName</td>
-      <td>String</td>
-      <td/>
-    </tr>
-    <tr>
-      <td>EntitySetName</td>
-      <td>String</td>
-      <td/>
-    </tr>
-    <tr>
-      <td>ForeignKeyPropertyName</td>
-      <td>String</td>
-      <td/>
-    </tr>
-    <tr>
-      <td>PrimaryKey</td>
-      <td>String</td>
-      <td/>
-    </tr>
-    <tr>
-      <td>PropertyName</td>
-      <td>String</td>
-      <td/>
-    </tr>
-    <tr>
-      <td>TypeName</td>
-      <td>String</td>
-      <td/>
-    </tr>
-  </tbody>
-</table>
-
-
-
 ]]></content>
   </entry>
   
