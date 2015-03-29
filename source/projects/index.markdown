@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Projects"
-date: 2013-02-09 13:55
+date: 2015-03-29 13:55
 comments: true
 sharing: true
 footer: true
@@ -9,6 +9,6 @@ footer: true
 
  * [MonoDevelop NuGet Addin](MonoDevelopNuGetAddin/)
  * [MonoDevelop NuGet Addin Extensions](MonoDevelopNuGetAddinExtensions/)
+ * [MonoDevelop TypeScript Addin](MonoDevelopTypeScriptAddin/) 
  * [NuGet](NuGet/)
  * [SharpDevelop](http://www.icsharpcode.net/OpenSource/SD/)
- 
