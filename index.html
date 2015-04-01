@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Xamarin Studio 5.8 added support for Apple&rsquo;s Watch Kit and it also includes some NuGet bug fixes. Bug Fixes Allow ASP.NET project templates to &hellip;">
+  <meta name="description" content="Xamarin Studio and MonoDevelop now have support for TypeScript on Linux, Mac and Windows with an alpha release of the TypeScript Addin. The &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,172 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/01/TypeScriptSupportInXamarinStudio/">TypeScript Support in Xamarin Studio</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-01T21:00:00+01:00" pubdate data-updated="true">Apr 1<sup>st</sup>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Xamarin Studio and MonoDevelop now have support for <a href="http://www.typescriptlang.org/">TypeScript</a> on Linux, Mac and Windows with an alpha release of the <a href="https://github.com/mrward/typescript-addin">TypeScript Addin</a>.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/EditingTypeScriptInTextEditor.png" title="Editing TypeScript in Xamarin Studio on the Mac" alt="Editing TypeScript in Xamarin Studio on the Mac"></p>
+
+<p>The TypeScript addin uses <a href="http://v8dotnet.codeplex.com">V8.NET</a> which is a library that allows a .NET application to host <a href="https://code.google.com/p/v8/">Google&rsquo;s V8 JavaScript engine</a> and have JavaScript interact with .NET objects in the host application.</p>
+
+<p>The ability to support Windows, Mac and Linux would not have been possible without the work done by <a href="http://jameswilkins.net">James Wilkins</a> and <a href="https://github.com/chrisber">Christian Bernasko</a>. <a href="http://jameswilkins.net">James Wilkins</a> created the <a href="http://v8dotnet.codeplex.com">V8.NET</a> library and when it was first released it supported only Windows. <a href="https://github.com/chrisber">Christian Bernasko</a> then took V8.NET and modified it to make it work with Mono on Linux and the Mac. The TypeScript addin is using V8.NET binaries built by Christian from his port of <a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET</a>.</p>
+
+<p>Please note that this is an alpha release and because V8.NET uses a native library it can cause Xamarin Studio or MonoDevelop to terminate if a bug is encountered.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>TypeScript compilation on save or build.</li>
+<li>Code completion.</li>
+<li>Find references.</li>
+<li>Rename refactoring.</li>
+<li>Go to declaration.</li>
+<li>Errors highlighted as you type.</li>
+<li>Code folding.</li>
+</ul>
+
+
+<p>The addin supports:</p>
+
+<ul>
+<li>Xamarin Studio MonoDevelop 5 and above.</li>
+<li>TypeScript 1.4</li>
+<li>Linux, Mac and Windows.</li>
+</ul>
+
+
+<h2>Installing the addin</h2>
+
+<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. By default the alpha repository is not enabled so you will have to enable it before you can find and install the addin.</p>
+
+<p>In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click <strong>Manage Repositories&hellip;</strong>. In the window that opens tick the check box next to <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> and then click the Close button.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/AddingAlphaChannelAddins.png" title="Enabling alpha channel addins" alt="Enabling alpha channel addins"></p>
+
+<p>Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in <strong>TypeScript</strong>.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/AddinManagerTypeScriptAddin.png" title="TypeScript addin selected in Addin Manager dialog" alt="TypeScript addin selected in Addin Manager dialog"></p>
+
+<p>Select the TypeScript addin and then click the <strong>Install&hellip;</strong> button.</p>
+
+<p>Note that if you are using Linux 32 bit then you should install the <strong>TypeScript Linux 32 bit</strong> addin. The other <strong>TypeScript</strong> addin listed supports Linux 64 bit. Hopefully in the future it will be possible to support both Linux 32 bit and 64 bit using the same addin.</p>
+
+<h2>Getting Started</h2>
+
+<p>Now that the TypeScript addin is installed let us create a TypeScript file.</p>
+
+<p>To add a TypeScript file open the New File dialog, select the <strong>Web</strong> category and select <strong>Empty TypeScript</strong> file.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/NewFileDialogNewTypeScriptFile.png" title="New File Dialog - New TypeScript File" alt="New File Dialog - New TypeScript File"></p>
+
+<p>Give the file a name and click the New button.</p>
+
+<p>Note that currently the TypeScript file needs to be included in a project. Standalone TypeScript project files are not supported. TypeScript files can be added to any .NET project.</p>
+
+<h2>Code Completion</h2>
+
+<p>When editing the TypeScript code you will have code completion when you press the dot character.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCodeCompletion.png" title="TypeScript dot code completion" alt="TypeScript dot code completion"></p>
+
+<p>Code completion also works when you type the opening bracket of a function.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptMethodCompletion.png" title="TypeScript method completion" alt="TypeScript method completion"></p>
+
+<h2>Go to Declaration</h2>
+
+<p>The text editor&rsquo;s right click menu has three TypeScript menus: Go to Declaration, Find References and Rename.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptTextEditorContextMenu.png" title="Text editor context menu with TypeScript menu options" alt="Text editor context menu with TypeScript menu options"></p>
+
+<p>The Go To Declaration menu option will open the corresponding definition in the text editor.</p>
+
+<h2>Find References</h2>
+
+<p>Find References will show the references in the Search Results window.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptReferencesInSearchResults.png" title="TypeScript references shown in Search Results window" alt="TypeScript references shown in Search Results window"></p>
+
+<h2>Rename</h2>
+
+<p>Selecting the Rename menu option in the text editor will open the Rename dialog where you can type in a new name and click OK to have it updated.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptRenameDialog.png" title="TypeScript rename dialog" alt="TypeScript rename dialog"></p>
+
+<p>Note that currently on Linux the Rename dialog will only be displayed if the keyboard shortcut F2 is used. Selecting the context menu will not show the Rename dialog on Linux but will work on Windows and on the Mac.</p>
+
+<h2>Error Highlighting</h2>
+
+<p>Errors in your TypeScript code will be highlighted as you are typing in the text editor.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptErrorsHighlightedInTextEditor.png" title="TypeScript errors highlighted in text editor" alt="TypeScript errors highlighted in text editor"></p>
+
+<h2>Code Folding</h2>
+
+<p>Code folding is supported for TypeScript classes, modules and interfaces.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCodeFolding.png" title="TypeScript code folding" alt="TypeScript code folding"></p>
+
+<p>Code folding by default is disabled. To enable code folding open the Preferences dialog and in the Text Editor section select the General category, then tick the <strong>Enable code folding</strong> check box.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/PreferencesEnableCodeFolding.png" title="Preferences - Enabling code folding" alt="Preferences - Enabling code folding"></p>
+
+<h2>Compiling to JavaScript</h2>
+
+<p>By default the TypeScript files will be compiled to JavaScript when the project is compiled.</p>
+
+<p>There are more compiler options available in the project options in the Build &ndash; TypeScript category.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCompilerOptions.png" title="TypeScript compiler options for the project" alt="TypeScript compiler options for the project"></p>
+
+<p>On this page you can change when the compiler is run and what options are passed to the compiler when generating JavaScript code.</p>
+
+<p>If an <strong>Output file</strong> is specified then all the TypeScript files will be compiled into a single JavaScript file. If an <strong>Output directory</strong> is specified then the JavaScript files will be generated in that directory instead of next to the TypeScript files.</p>
+
+<p>That is the end of our quick look at TypeScript support in Xamarin Studio and MonoDevelop.</p>
+
+<h2>Source Code</h2>
+
+<p>The source code for the addin and for the V8.NET engine that works on Mono are available on GitHub.</p>
+
+<ul>
+<li><p><a href="ttps://github.com/mrward/typescript-addin/tree/monodevelop-v8-dotnet">TypeScript addin source code</a>.</p></li>
+<li><p><a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET source code</a>.</p></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1228,113 +1394,6 @@ would update package dependencies correctly.</p>
 <p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
 
 <p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&rsquo;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/">NuGet PowerShell Console for Xamarin Studio</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-22T21:05:00+01:00" pubdate data-updated="true">Jun 22<sup>nd</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Xamarin Studio 5.0 now has <a href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/">NuGet support built in</a>. There are also some experimental NuGet features that are available for Xamarin Studio 5.0 and MonoDevelop 5.0 as part of a separate <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a>. One such experimental feature is a new PowerShell console window that provides Xamarin Studio with the standard NuGet commands and also works on the Mac, not just Windows.</p>
-
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindow.png" title="NuGet PowerShell Console Window" alt="NuGet PowerShell Console Window"></p>
-
-<p>The new console window is powered by Pash. Pash is a open source reimplementation of PowerShell that works with Mono and runs on Windows, Mac and Linux. It was created by <a href="https://twitter.com/igor_moochnick">Igor Moochnick</a> and more recently development has been restarted by <a href="https://twitter.com/jaybazuzi">Jay Bazuzi</a>.</p>
-
-<h2>PowerShell Console Features</h2>
-
-<ul>
-<li> Standard NuGet PowerShell commands available &ndash; Install-Package, Update-Package, Uninstall-Package, Get-Project and Get-Package</li>
-<li> Integrates with the existing NuGet addin that ships with Xamarin Studio.</li>
-<li> Cross platform &ndash; works on Windows and Mac.</li>
-<li> Powered by <a href="https://github.com/Pash-Project/Pash">Pash</a>.</li>
-<li> Partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model EnvDTE</a>.</li>
-</ul>
-
-
-<h2>Limitations</h2>
-
-<ul>
-<li> PowerShell support is not fully implemented in Pash so PowerShell scripts may not fully work.</li>
-<li> Xamarin Studio needs to be closed and re-opened before the console can be used. Otherwise the Xamarin Studio will crash.</li>
-<li> Some standard parameters are missing from the NuGet commands (e.g. -verbose).</li>
-<li> The NuGet commands are not fully up to date compared with the commands available in Visual Studio. One example is <strong>Update-Package -Reinstall</strong> which is currently not supported.</li>
-</ul>
-
-
-<h2>Installation</h2>
-
-<p>The NuGet extensions addin is available from the <a href="http://addins.monodevelop.com/Project/Index/121">MonoDevelop addin repository</a>. To install the addin:</p>
-
-<ul>
-<li>Open the <strong>Add-in Manager</strong> dialog.</li>
-<li>Select the <strong>Gallery</strong> tab.</li>
-<li>Select <strong>Xamarin Studio Add-in Repository (Alpha channel)</strong> from the drop down list.</li>
-<li>Expand <strong>IDE extensions</strong>.</li>
-<li>Select <strong>NuGet Package Management Extensions</strong>.</li>
-<li>Click the <strong>Refresh</strong> button if the addin is not visible.</li>
-<li>Click <strong>Install&hellip;</strong> to install the addin.</li>
-</ul>
-
-
-<p>Please close and re-open Xamarin Studio before trying to open the PowerShell Console window otherwise Xamarin Studio will crash.</p>
-
-<h2>Using the PowerShell Console</h2>
-
-<p>To open the console window, from the <strong>View</strong> menu select <strong>Pads</strong> and then select <strong>Package Console Extension</strong>.</p>
-
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/ViewPackageConsoleExtensionPadMenuItem.png" title="View - Package Console Extension menu item" alt="View - Package Console Extension menu item"></p>
-
-<p>The top of the console window has drop downs allowing you to choose a different default package source or default project. At the top right there is a Clear Console button which will clear all the text from the console.</p>
-
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowInstallingJsonNet.png" title="PowerShell Console Window - Installing Json.NET" alt="PowerShell Console Window - Installing Json.NET"></p>
-
-<p>The standard <a href="http://docs.nuget.org/docs/reference/package-manager-console-powershell-reference">NuGet PowerShell commands</a> are available from the console window:</p>
-
-<ul>
-<li>Install-Package</li>
-<li>Uninstall-Package</li>
-<li>Update-Package</li>
-<li>Get-Package</li>
-<li>Get-Project</li>
-</ul>
-
-
-<p>There is also a partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model (EnvDTE)</a> which you can use from the console and from PowerShell scripts inside a NuGet package. Currently the Solution object and the CodeModel is not fully implemented when compared with SharpDevelop.</p>
-
-<p><img src="/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowUsingEnvDTEProjectModel.png" title="PowerShell Console Window - Using EnvDTE project model" alt="PowerShell Console Window - Using EnvDTE project model"></p>
-
-<p>When you install a NuGet package from the console and the NuGet package has an <strong>init.ps1</strong> or an <strong>install.ps1</strong> PowerShell script then these scripts will be run. Similarly on uninstalling a NuGet package if it contains an <strong>uninstall.ps1</strong> script then this will be run in the console. However there are some areas of PowerShell that are not fully implemented in Pash so the script may well fail. The failure will be logged in the console window but it will not prevent the package from being installed or uninstalled.</p>
-
-<p>That concludes the introduction to the experimental NuGet Package Console in Xamarin Studio.</p>
 </div>
   
   

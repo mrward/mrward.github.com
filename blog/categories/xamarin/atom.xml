@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-03-22T12:29:53+00:00</updated>
+  <updated>2015-04-01T21:58:14+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,145 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[TypeScript Support in Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2015/04/01/TypeScriptSupportInXamarinStudio/"/>
+    <updated>2015-04-01T21:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2015/04/01/TypeScriptSupportInXamarinStudio</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio and MonoDevelop now have support for <a href="http://www.typescriptlang.org/">TypeScript</a> on Linux, Mac and Windows with an alpha release of the <a href="https://github.com/mrward/typescript-addin">TypeScript Addin</a>.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/EditingTypeScriptInTextEditor.png" title="&lsquo;Editing TypeScript in Xamarin Studio on the Mac&rsquo; &lsquo;Editing TypeScript in Xamarin Studio on the Mac&rsquo;" ></p>
+
+<p>The TypeScript addin uses <a href="http://v8dotnet.codeplex.com">V8.NET</a> which is a library that allows a .NET application to host <a href="https://code.google.com/p/v8/">Google&rsquo;s V8 JavaScript engine</a> and have JavaScript interact with .NET objects in the host application.</p>
+
+<p>The ability to support Windows, Mac and Linux would not have been possible without the work done by <a href="http://jameswilkins.net">James Wilkins</a> and <a href="https://github.com/chrisber">Christian Bernasko</a>. <a href="http://jameswilkins.net">James Wilkins</a> created the <a href="http://v8dotnet.codeplex.com">V8.NET</a> library and when it was first released it supported only Windows. <a href="https://github.com/chrisber">Christian Bernasko</a> then took V8.NET and modified it to make it work with Mono on Linux and the Mac. The TypeScript addin is using V8.NET binaries built by Christian from his port of <a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET</a>.</p>
+
+<p>Please note that this is an alpha release and because V8.NET uses a native library it can cause Xamarin Studio or MonoDevelop to terminate if a bug is encountered.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>TypeScript compilation on save or build.</li>
+<li>Code completion.</li>
+<li>Find references.</li>
+<li>Rename refactoring.</li>
+<li>Go to declaration.</li>
+<li>Errors highlighted as you type.</li>
+<li>Code folding.</li>
+</ul>
+
+
+<p>The addin supports:</p>
+
+<ul>
+<li>Xamarin Studio MonoDevelop 5 and above.</li>
+<li>TypeScript 1.4</li>
+<li>Linux, Mac and Windows.</li>
+</ul>
+
+
+<h2>Installing the addin</h2>
+
+<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. By default the alpha repository is not enabled so you will have to enable it before you can find and install the addin.</p>
+
+<p>In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click <strong>Manage Repositories&hellip;</strong>. In the window that opens tick the check box next to <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> and then click the Close button.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/AddingAlphaChannelAddins.png" title="&lsquo;Enabling alpha channel addins&rsquo; &lsquo;Enabling alpha channel addins&rsquo;" ></p>
+
+<p>Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in <strong>TypeScript</strong>.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/AddinManagerTypeScriptAddin.png" title="&lsquo;TypeScript addin selected in Addin Manager dialog&rsquo; &lsquo;TypeScript addin selected in Addin Manager dialog&rsquo;" ></p>
+
+<p>Select the TypeScript addin and then click the <strong>Install&hellip;</strong> button.</p>
+
+<p>Note that if you are using Linux 32 bit then you should install the <strong>TypeScript Linux 32 bit</strong> addin. The other <strong>TypeScript</strong> addin listed supports Linux 64 bit. Hopefully in the future it will be possible to support both Linux 32 bit and 64 bit using the same addin.</p>
+
+<h2>Getting Started</h2>
+
+<p>Now that the TypeScript addin is installed let us create a TypeScript file.</p>
+
+<p>To add a TypeScript file open the New File dialog, select the <strong>Web</strong> category and select <strong>Empty TypeScript</strong> file.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/NewFileDialogNewTypeScriptFile.png" title="&lsquo;New File Dialog &ndash; New TypeScript File&rsquo; &lsquo;New File Dialog &ndash; New TypeScript File&rsquo;" ></p>
+
+<p>Give the file a name and click the New button.</p>
+
+<p>Note that currently the TypeScript file needs to be included in a project. Standalone TypeScript project files are not supported. TypeScript files can be added to any .NET project.</p>
+
+<h2>Code Completion</h2>
+
+<p>When editing the TypeScript code you will have code completion when you press the dot character.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCodeCompletion.png" title="&lsquo;TypeScript dot code completion&rsquo; &lsquo;TypeScript dot code completion&rsquo;" ></p>
+
+<p>Code completion also works when you type the opening bracket of a function.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptMethodCompletion.png" title="&lsquo;TypeScript method completion&rsquo; &lsquo;TypeScript method completion&rsquo;" ></p>
+
+<h2>Go to Declaration</h2>
+
+<p>The text editor&rsquo;s right click menu has three TypeScript menus: Go to Declaration, Find References and Rename.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptTextEditorContextMenu.png" title="&lsquo;Text editor context menu with TypeScript menu options&rsquo; &lsquo;Text editor context menu with TypeScript menu options&rsquo;" ></p>
+
+<p>The Go To Declaration menu option will open the corresponding definition in the text editor.</p>
+
+<h2>Find References</h2>
+
+<p>Find References will show the references in the Search Results window.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptReferencesInSearchResults.png" title="&lsquo;TypeScript references shown in Search Results window&rsquo; &lsquo;TypeScript references shown in Search Results window&rsquo;" ></p>
+
+<h2>Rename</h2>
+
+<p>Selecting the Rename menu option in the text editor will open the Rename dialog where you can type in a new name and click OK to have it updated.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptRenameDialog.png" title="&lsquo;TypeScript rename dialog&rsquo; &lsquo;TypeScript rename dialog&rsquo;" ></p>
+
+<p>Note that currently on Linux the Rename dialog will only be displayed if the keyboard shortcut F2 is used. Selecting the context menu will not show the Rename dialog on Linux but will work on Windows and on the Mac.</p>
+
+<h2>Error Highlighting</h2>
+
+<p>Errors in your TypeScript code will be highlighted as you are typing in the text editor.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptErrorsHighlightedInTextEditor.png" title="&lsquo;TypeScript errors highlighted in text editor&rsquo; &lsquo;TypeScript errors highlighted in text editor&rsquo;" ></p>
+
+<h2>Code Folding</h2>
+
+<p>Code folding is supported for TypeScript classes, modules and interfaces.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCodeFolding.png" title="&lsquo;TypeScript code folding&rsquo; &lsquo;TypeScript code folding&rsquo;" ></p>
+
+<p>Code folding by default is disabled. To enable code folding open the Preferences dialog and in the Text Editor section select the General category, then tick the <strong>Enable code folding</strong> check box.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/PreferencesEnableCodeFolding.png" title="&lsquo;Preferences &ndash; Enabling code folding&rsquo; &lsquo;Preferences &ndash; Enabling code folding&rsquo;" ></p>
+
+<h2>Compiling to JavaScript</h2>
+
+<p>By default the TypeScript files will be compiled to JavaScript when the project is compiled.</p>
+
+<p>There are more compiler options available in the project options in the Build &ndash; TypeScript category.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCompilerOptions.png" title="&lsquo;TypeScript compiler options for the project&rsquo; &lsquo;TypeScript compiler options for the project&rsquo;" ></p>
+
+<p>On this page you can change when the compiler is run and what options are passed to the compiler when generating JavaScript code.</p>
+
+<p>If an <strong>Output file</strong> is specified then all the TypeScript files will be compiled into a single JavaScript file. If an <strong>Output directory</strong> is specified then the JavaScript files will be generated in that directory instead of next to the TypeScript files.</p>
+
+<p>That is the end of our quick look at TypeScript support in Xamarin Studio and MonoDevelop.</p>
+
+<h2>Source Code</h2>
+
+<p>The source code for the addin and for the V8.NET engine that works on Mono are available on GitHub.</p>
+
+<ul>
+<li><p><a href="ttps://github.com/mrward/typescript-addin/tree/monodevelop-v8-dotnet">TypeScript addin source code</a>.</p></li>
+<li><p><a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET source code</a>.</p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.8]]></title>
@@ -459,72 +598,6 @@ would update package dependencies correctly.</p>
 <p>There are some example Component&rsquo;s that have NuGet package dependencies available on my <a href="https://github.com/mrward/xamarin-test-components">GitHub page</a>. The <a href="https://github.com/mrward/xamarin-test-components/tree/master/AwesomeComponent">Awesome Component example</a> is a Shell Component that uses a rakefile and the xamarin-component create-manually command line to generate the Component. The <a href="https://github.com/mrward/xamarin-test-components/tree/master/MyComponent">My Component example</a> is another Shell Component that uses a component.yaml file that defines NuGet package dependencies.</p>
 
 <p>For more detailed information on how to create a Component please see the <a href="http://developer.xamarin.com/guides/cross-platform/advanced/submitting_components/">Submitting Components</a> page.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.5]]></title>
-    <link href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/"/>
-    <updated>2014-10-19T14:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5</id>
-    <content type="html"><![CDATA[<h2>New Features</h2>
-
-<ul>
-<li> Package version constraints in packages.config files are now supported</li>
-<li> <a href="https://components.xamarin.com/">Xamarin Components</a> can now have NuGet package dependencies</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.5 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.5/xamarin.studio_5.5/">release notes</a>.</p>
-
-<h2>NuGet Package Version Constraints</h2>
-
-<p>NuGet allows you to <a href="http://docs.nuget.org/docs/reference/versioning">define a range of package versions that are allowed in your project</a> using the <strong>allowedVersions</strong> attribute in the packages.config file.</p>
-
-<pre><code>&lt;packages&gt;
-  &lt;package id="Newtonsoft.Json" version="5.0.1" allowedVersions="[5.0,6.0)" targetFramework="MonoAndroid44" /&gt;
-&lt;/packages&gt;
-</code></pre>
-
-<p>In the above packages.config file the project has Json.NET 5.0.1 installed and will only allow updates to versions of Json.NET that are below 6.0.</p>
-
-<p>When you open the solution in Xamarin Studio, and check for updates is enabled in preferences, you will see updates in the Solution window that are valid given the constraint defined in the packages.config file. In the screenshot below an update is shown for Json.NET 5.0.8 in the Solution window even though Json.NET currently has version 6.0.5 available.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageUpdateAvailableInSolutionWindow.png" title="&lsquo;Json.NET 5.0.8 package update available shown in Solution window&rsquo; &lsquo;Json.NET 5.0.8 package update available shown in Solution window&rsquo;" ></p>
-
-<p>When you update the NuGet packages from the Solution window Xamarin Studio will now update to a NuGet package that meets the version constraints defined in the packages.config. In the Package Console screenshot below the Json.NET package was updated, with the constraint in place, and Json.NET 5.0.8 was installed.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageInstalledInPackageConsole.png" title="&lsquo;Json.NET package updated to 5.0.8 &ndash; Package Console output&rsquo; &lsquo;Json.NET package updated to 5.0.8 &ndash; Package Console output&rsquo;" ></p>
-
-<p>Note that if you install a NuGet package from the Add Packages dialog you can override the constraint and install a NuGet package with a version outside of the range of the constraint.</p>
-
-<h2>Components with NuGet Packages</h2>
-
-<p>A Component from <a href="https://components.xamarin.com/">Xamarin&rsquo;s Component Store</a> can now declare a dependency on one or more NuGet packages which will be installed into the project when the Component is installed. The <a href="https://components.xamarin.com/view/xamandroidsupportv13-18">Android Support Library v13 Component</a> is one example that has a NuGet package dependency.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInStore.png" title="&lsquo;Android Support Library v13 Component in Component Store&rsquo; &lsquo;Android Support Library v13 Component in Component Store&rsquo;" ></p>
-
-<p>When you install this Component you will see that it installs the <a href="https://www.nuget.org/packages/Xamarin.Android.Support.v13/">Xamarin.Android.Support.v13 NuGet package</a>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInstalledInSolutionWindow.png" title="&lsquo;Android Support Library v13 Component in Solution window&rsquo; &lsquo;Android Support Library v13 Component in Solution window&rsquo;" ></p>
-
-<p>In older versions of Xamarin Studio the NuGet package will not be installed and instead the project will reference the Xamarin.Android.Support.v13.dll which is included with the Component.</p>
-
-<p>The NuGet packages a Component depends on are displayed in the <strong>Packages</strong> tab on the Component Details page, which you can open by double clicking the Component in the Solution window, or by right clicking the Component and selecting <strong>Details</strong>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithPackagesTab.png" title="&lsquo;Android Support Library v13 Packages in Component Details page&rsquo; &lsquo;Android Support Library v13 Packages in Component Details page&rsquo;" ></p>
-
-<p>From the <strong>Packages</strong> tab you can also install a NuGet package that a Component depends on if it was removed from the project. So if the Xamarin.Android.Support.v13 NuGet package is removed from the project the Component will be highlighted in red to indicate that there is a problem.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentErrorInSolutionWindow.png" title="&lsquo;Android Support Library v13 Component error in Solution window&rsquo; &lsquo;Android Support Library v13 Component error in Solution window&rsquo;" ></p>
-
-<p>If you then open the Component Details page you will see in the <strong>Packages</strong> tab that the NuGet package is missing.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithMissingNuGetPackage.png" title="&lsquo;Android Support Library v13 Component Details page with missing NuGet Package&rsquo; &lsquo;Android Support Library v13 CComponent Details page with missing NuGet Package&rsquo;" ></p>
-
-<p>To add the NuGet package back to the project you can hover the mouse over the warning icon and click the Add Package button that appears in the pop-up window.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithAddPackagePopUpWindow.png" title="&lsquo;Android Support Library v13 Component Details page with Add Package pop-up window&rsquo; &lsquo;Android Support Library v13 CComponent Details page with Add Package pop-up window&rsquo;" ></p>
 ]]></content>
   </entry>
   

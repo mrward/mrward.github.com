@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-03-22T12:29:53+00:00</updated>
+  <updated>2015-04-01T21:58:14+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,145 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[TypeScript Support in Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2015/04/01/TypeScriptSupportInXamarinStudio/"/>
+    <updated>2015-04-01T21:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2015/04/01/TypeScriptSupportInXamarinStudio</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio and MonoDevelop now have support for <a href="http://www.typescriptlang.org/">TypeScript</a> on Linux, Mac and Windows with an alpha release of the <a href="https://github.com/mrward/typescript-addin">TypeScript Addin</a>.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/EditingTypeScriptInTextEditor.png" title="&lsquo;Editing TypeScript in Xamarin Studio on the Mac&rsquo; &lsquo;Editing TypeScript in Xamarin Studio on the Mac&rsquo;" ></p>
+
+<p>The TypeScript addin uses <a href="http://v8dotnet.codeplex.com">V8.NET</a> which is a library that allows a .NET application to host <a href="https://code.google.com/p/v8/">Google&rsquo;s V8 JavaScript engine</a> and have JavaScript interact with .NET objects in the host application.</p>
+
+<p>The ability to support Windows, Mac and Linux would not have been possible without the work done by <a href="http://jameswilkins.net">James Wilkins</a> and <a href="https://github.com/chrisber">Christian Bernasko</a>. <a href="http://jameswilkins.net">James Wilkins</a> created the <a href="http://v8dotnet.codeplex.com">V8.NET</a> library and when it was first released it supported only Windows. <a href="https://github.com/chrisber">Christian Bernasko</a> then took V8.NET and modified it to make it work with Mono on Linux and the Mac. The TypeScript addin is using V8.NET binaries built by Christian from his port of <a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET</a>.</p>
+
+<p>Please note that this is an alpha release and because V8.NET uses a native library it can cause Xamarin Studio or MonoDevelop to terminate if a bug is encountered.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>TypeScript compilation on save or build.</li>
+<li>Code completion.</li>
+<li>Find references.</li>
+<li>Rename refactoring.</li>
+<li>Go to declaration.</li>
+<li>Errors highlighted as you type.</li>
+<li>Code folding.</li>
+</ul>
+
+
+<p>The addin supports:</p>
+
+<ul>
+<li>Xamarin Studio MonoDevelop 5 and above.</li>
+<li>TypeScript 1.4</li>
+<li>Linux, Mac and Windows.</li>
+</ul>
+
+
+<h2>Installing the addin</h2>
+
+<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. By default the alpha repository is not enabled so you will have to enable it before you can find and install the addin.</p>
+
+<p>In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click <strong>Manage Repositories&hellip;</strong>. In the window that opens tick the check box next to <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> and then click the Close button.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/AddingAlphaChannelAddins.png" title="&lsquo;Enabling alpha channel addins&rsquo; &lsquo;Enabling alpha channel addins&rsquo;" ></p>
+
+<p>Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in <strong>TypeScript</strong>.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/AddinManagerTypeScriptAddin.png" title="&lsquo;TypeScript addin selected in Addin Manager dialog&rsquo; &lsquo;TypeScript addin selected in Addin Manager dialog&rsquo;" ></p>
+
+<p>Select the TypeScript addin and then click the <strong>Install&hellip;</strong> button.</p>
+
+<p>Note that if you are using Linux 32 bit then you should install the <strong>TypeScript Linux 32 bit</strong> addin. The other <strong>TypeScript</strong> addin listed supports Linux 64 bit. Hopefully in the future it will be possible to support both Linux 32 bit and 64 bit using the same addin.</p>
+
+<h2>Getting Started</h2>
+
+<p>Now that the TypeScript addin is installed let us create a TypeScript file.</p>
+
+<p>To add a TypeScript file open the New File dialog, select the <strong>Web</strong> category and select <strong>Empty TypeScript</strong> file.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/NewFileDialogNewTypeScriptFile.png" title="&lsquo;New File Dialog &ndash; New TypeScript File&rsquo; &lsquo;New File Dialog &ndash; New TypeScript File&rsquo;" ></p>
+
+<p>Give the file a name and click the New button.</p>
+
+<p>Note that currently the TypeScript file needs to be included in a project. Standalone TypeScript project files are not supported. TypeScript files can be added to any .NET project.</p>
+
+<h2>Code Completion</h2>
+
+<p>When editing the TypeScript code you will have code completion when you press the dot character.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCodeCompletion.png" title="&lsquo;TypeScript dot code completion&rsquo; &lsquo;TypeScript dot code completion&rsquo;" ></p>
+
+<p>Code completion also works when you type the opening bracket of a function.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptMethodCompletion.png" title="&lsquo;TypeScript method completion&rsquo; &lsquo;TypeScript method completion&rsquo;" ></p>
+
+<h2>Go to Declaration</h2>
+
+<p>The text editor&rsquo;s right click menu has three TypeScript menus: Go to Declaration, Find References and Rename.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptTextEditorContextMenu.png" title="&lsquo;Text editor context menu with TypeScript menu options&rsquo; &lsquo;Text editor context menu with TypeScript menu options&rsquo;" ></p>
+
+<p>The Go To Declaration menu option will open the corresponding definition in the text editor.</p>
+
+<h2>Find References</h2>
+
+<p>Find References will show the references in the Search Results window.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptReferencesInSearchResults.png" title="&lsquo;TypeScript references shown in Search Results window&rsquo; &lsquo;TypeScript references shown in Search Results window&rsquo;" ></p>
+
+<h2>Rename</h2>
+
+<p>Selecting the Rename menu option in the text editor will open the Rename dialog where you can type in a new name and click OK to have it updated.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptRenameDialog.png" title="&lsquo;TypeScript rename dialog&rsquo; &lsquo;TypeScript rename dialog&rsquo;" ></p>
+
+<p>Note that currently on Linux the Rename dialog will only be displayed if the keyboard shortcut F2 is used. Selecting the context menu will not show the Rename dialog on Linux but will work on Windows and on the Mac.</p>
+
+<h2>Error Highlighting</h2>
+
+<p>Errors in your TypeScript code will be highlighted as you are typing in the text editor.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptErrorsHighlightedInTextEditor.png" title="&lsquo;TypeScript errors highlighted in text editor&rsquo; &lsquo;TypeScript errors highlighted in text editor&rsquo;" ></p>
+
+<h2>Code Folding</h2>
+
+<p>Code folding is supported for TypeScript classes, modules and interfaces.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCodeFolding.png" title="&lsquo;TypeScript code folding&rsquo; &lsquo;TypeScript code folding&rsquo;" ></p>
+
+<p>Code folding by default is disabled. To enable code folding open the Preferences dialog and in the Text Editor section select the General category, then tick the <strong>Enable code folding</strong> check box.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/PreferencesEnableCodeFolding.png" title="&lsquo;Preferences &ndash; Enabling code folding&rsquo; &lsquo;Preferences &ndash; Enabling code folding&rsquo;" ></p>
+
+<h2>Compiling to JavaScript</h2>
+
+<p>By default the TypeScript files will be compiled to JavaScript when the project is compiled.</p>
+
+<p>There are more compiler options available in the project options in the Build &ndash; TypeScript category.</p>
+
+<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCompilerOptions.png" title="&lsquo;TypeScript compiler options for the project&rsquo; &lsquo;TypeScript compiler options for the project&rsquo;" ></p>
+
+<p>On this page you can change when the compiler is run and what options are passed to the compiler when generating JavaScript code.</p>
+
+<p>If an <strong>Output file</strong> is specified then all the TypeScript files will be compiled into a single JavaScript file. If an <strong>Output directory</strong> is specified then the JavaScript files will be generated in that directory instead of next to the TypeScript files.</p>
+
+<p>That is the end of our quick look at TypeScript support in Xamarin Studio and MonoDevelop.</p>
+
+<h2>Source Code</h2>
+
+<p>The source code for the addin and for the V8.NET engine that works on Mono are available on GitHub.</p>
+
+<ul>
+<li><p><a href="ttps://github.com/mrward/typescript-addin/tree/monodevelop-v8-dotnet">TypeScript addin source code</a>.</p></li>
+<li><p><a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET source code</a>.</p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.8]]></title>
@@ -377,112 +516,6 @@ would update package dependencies correctly.</p>
 <p>On the Mac you can get these new PCL profile XML files by installing Mono 3.10.0, which is currently available from Xamarin Studio on the alpha and beta channels.</p>
 
 <p>On Windows, since NuGet 2.8.3 is currently only available as an alpha release, there is a <a href="http://xvs.xamarin.com/Xamarin.iOS.PortableNuGet.msi">separate installer</a> which will register the Unified iOS framework with the PCL profiles on your machine and will also install an alpha version of Microsoft&rsquo;s NuGet Package Manager 2.8.3 into Visual Studio.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.3]]></title>
-    <link href="http://lastexitcode.com/blog/2014/09/07/NuGetSupportInXamarinStudio5-3/"/>
-    <updated>2014-09-07T10:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/09/07/NuGetSupportInXamarinStudio5-3</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet package restore is now part of Xamarin Studio and no longer uses NuGet.exe</li>
-<li> Add Packages dialog &ndash; Package sources could not be reached shown for failing package sources</li>
-<li> Packages restored for the selected project instead of the solution</li>
-<li> Show packages added to solution in Add Packages dialog</li>
-<li> Show packages up to date message in status bar if there are no package updates available</li>
-<li> Show status bar warning message when no updates found and package sources are unavailable</li>
-<li> Restore missing packages before updating a package</li>
-<li> Do not check for updated packages if the project has no packages</li>
-<li> Fix version shown as download count in Add Packages dialog when searching for package versions</li>
-<li> Fix empty source being selected in Add Packages dialog when package source disabled and All Sources selected</li>
-<li> Fix packages.config marked as deleted by Git when updating packages</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.3 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.3/xamarin.studio_5.3/">release notes</a>. Now let us take a more detailed look at the new NuGet changes.</p>
-
-<h2>NuGet package restore no longer uses NuGet.exe</h2>
-
-<p>The NuGet package restore is now a part of Xamarin Studio and no longer uses NuGet.exe. This allows the package restore to integrate with the Xamarin Studio credential provider and provides more control over the package restore process. So if a package source needs authentication, or uses a proxy, then Xamarin Studio will now show a dialog asking for credentials if the credentials are not stored. Previously the package restore would fail with an error message logged in the Package Console.</p>
-
-<h2>Add Packages dialog &ndash; Package sources could not be reached</h2>
-
-<p>Previously when All Sources was selected and if any package source could not be reached then an error message would be displayed and no packages would be shown in the list. Now packages will be displayed with a warning even if one package source could not be reached.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/AddPackagesDialogPackageSourcesCouldNotBeReachedWarning.png" title="&lsquo;Add Packages dialog &ndash; package sources could not be reached warning&rsquo; &lsquo;Add Packages dialog &ndash; package sources could not be reached warning&rsquo;" ></p>
-
-<h2>Packages restored for the selected project instead of the solution</h2>
-
-<p>Xamarin Studio will now restore packages for the selected project instead of the entire solution. When you right click the <strong>Packages</strong> folder in the Solution window and select <strong>Restore</strong> only the packages for that project will be restored.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowRestorePackagesMenu.png" title="&lsquo;Packages folder &ndash; Restore menu&rsquo; &lsquo;Packages folder &ndash; Restore menu&rsquo;" ></p>
-
-<p>This is now possible since Xamarin Studio is now responsible for restoring packages instead of using NuGet.exe which would only restore for the entire solution.</p>
-
-<p>To restore packages for the entire solution you can still use the <strong>Restore Packages</strong> menu which is available from the Project menu or by right clicking the solution in the Solution window.</p>
-
-<h2>Show packages added to solution in Add Packages dialog</h2>
-
-<p>Opening the Add Packages dialog will now show the packages added to all projects in the current solution.</p>
-
-<p>The order of the items displayed in the Add Packages dialog is recent packages first, then solution packages, and then the packages from the active package source.</p>
-
-<h2>Show packages up to date message in status bar if there are no package updates available</h2>
-
-<p>When you try to update a package and there are no package updates available then the status bar now displays a message indicating that the package is already up to date.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/PackageUpToDateStatusBarMessage.png" title="&lsquo;Package up to date status bar message&rsquo; &lsquo;Package up to date status bar message&rsquo;" ></p>
-
-<p>Similarly if you update multiple packages and there are no updates available then the status bar will now show a packages are up to date message.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/PackagesAreUpToDateStatusBarMessage.png" title="&lsquo;Packages are up to date status bar message&rsquo; &lsquo;Packages are up to date status bar message&rsquo;" ></p>
-
-<p>Previously the status bar would show a message that the package was updated successfully even if nothing was updated.</p>
-
-<h2>Show status bar warning message when no updates found and package sources are unavailable</h2>
-
-<p>When one or more of the package sources is unavailable or invalid then Xamarin Studio will now report a warning in the status bar after checking for updates.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/NoUpdateFoundButWarningsReportedStatusBarMessage.png" title="&lsquo;No update but warnings reported status bar message&rsquo; &lsquo;No updated found but warnings reported status bar message&rsquo;" ></p>
-
-<h2>Restoring missing packages before updating packages</h2>
-
-<p>Previously when NuGet packages were unrestored and an attempt was made to update a NuGet package, which had updates available from the package source, the update would fail with a message indicating that the package was installed successfully but the project did not reference the package.</p>
-
-<p>To prevent the update from failing Xamarin Studio will now check that the packages are restored for the project before trying to update and restore any missing packages. In the status bar a <strong>Restoring packages before update</strong> message will be displayed when a restore must be completed first.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/RestoringPackagesBeforeUpdateStatusBarMessage.png" title="&lsquo;Restoring packages before update status bar message&rsquo; &lsquo;Restoring packages before update status bar message&rsquo;" ></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Do not check for updated packages if the project has no packages</strong></p>
-
-<p>Xamarin Studio was checking for package updates in all projects even if they had no packages.config file when the solution was opened. This would result in the <strong>Packages are up to date</strong> message being displayed in the status bar even when no projects were using any NuGet packages.</p>
-
-<p>Now if the project has no packages.config file then Xamarin Studio will not check for updates.</p>
-
-<p><strong>Fix version shown as download count in Add Packages dialog when searching for package versions</strong></p>
-
-<p>When running a package version search, such as <strong>Xamarin.Forms version:</strong>*, the right hand side of the dialog was showing the version number instead of the download count.</p>
-
-<p>Now the dialog shows the download count. Ideally it would show the download count of that particular version but this is not currently available from the Package object returned by NuGet. It is returned in the results back from the package source but it is not available on the Package object.</p>
-
-<p>Also the download counts are different for the same package if you compare the normal search result with a package version search result. The package version search shows a larger download count number. This may be related to the <a href="http://blog.nuget.org/20140603/nuget-stats.html">stats problem</a> NuGet had recently. Currently Xamarin Studio is showing the download count it receives. The standard search download counts match those shown in Visual Studio&rsquo;s Manage Packages dialog. For the package version search the download count value matches that shown on the NuGet.org website for an individual package (e.g. <a href="https://www.nuget.org/packages/jQuery">https://www.nuget.org/packages/jQuery</a>).</p>
-
-<p><strong>Fix empty source being selected in Add Packages dialog when package source disabled and All Sources selected</strong></p>
-
-<p>An empty package source selected in the Add Packages dialog could occur when All Sources was selected in the Add Packages dialog and one of the enabled package sources was unchecked in Preferences. On opening the Add Packages dialog again an empty package source would be displayed as the selected package source.</p>
-
-<p>Now the Add Packages dialog will have the remaining enabled package source selected.</p>
-
-<p><strong>Fix packages.config marked as deleted by Git when updating packages</strong></p>
-
-<p>On updating packages in a project, and the project is using Git for version control, then the update was causing Git to show the packages.config file as deleted. This would occur if all the NuGet packages were uninstalled as part of the update which caused NuGet to see that there were no NuGet packages referenced and delete the packages.config file.</p>
-
-<p>Now the packages.config file is shown as modified instead of deleted.</p>
 ]]></content>
   </entry>
   
