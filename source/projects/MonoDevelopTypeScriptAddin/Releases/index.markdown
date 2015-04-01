@@ -1,11 +1,20 @@
 ---
 layout: page
 title: "MonoDevelop TypeScript Addin Releases"
-date: 2015-03-29 13:55
+date: 2015-04-01 21:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.5
+
+2015-04-01
+
+ * Use V8.NET as the JavaScript engine.
+ * Add support for Mac and Linux.
+ * Show syntax errors in the text editor.
+ * Fixed exception when renaming or finding references and none are found.
 
 ## Version 0.4
 

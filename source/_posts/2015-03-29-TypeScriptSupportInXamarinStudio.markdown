@@ -1,18 +1,20 @@
 ---
 layout: post
 title: "TypeScript Support in Xamarin Studio"
-date: 2015-03-29 12:00
+date: 2015-04-01 21:00
 comments: true
 categories: TypeScript Xamarin MonoDevelop
 ---
 
 Xamarin Studio and MonoDevelop now have support for [TypeScript](http://www.typescriptlang.org/) on Linux, Mac and Windows with an alpha release of the [TypeScript Addin](https://github.com/mrward/typescript-addin).
 
+{% img /images/blog/TypeScriptSupportInXamarinStudio/EditingTypeScriptInTextEditor.png 'Editing TypeScript in Xamarin Studio on the Mac' 'Editing TypeScript in Xamarin Studio on the Mac' %}
+
 The TypeScript addin uses [V8.NET](http://v8dotnet.codeplex.com) which is a library that allows a .NET application to host [Google's V8 JavaScript engine](https://code.google.com/p/v8/) and have JavaScript interact with .NET objects in the host application.
 
-The ability to support Windows, Mac and Linux would not have been possible without the work done by [James Wilkins](http://jameswilkins.net) and [Christian Bernasko](https://github.com/chrisber). [James Wilkins](http://jameswilkins.net) created the [V8.NET](http://v8dotnet.codeplex.com) library with the aim to have it work cross platform. When V8.NET was first released it supported only Windows. [Christian Bernasko](https://github.com/chrisber) then took V8.NET and got it working with Mono on Linux and the Mac. The TypeScript addin is using V8.NET binaries built by Christian from his port of [V8.NET](https://github.com/chrisber/v8dotnet/tree/development-mono).
+The ability to support Windows, Mac and Linux would not have been possible without the work done by [James Wilkins](http://jameswilkins.net) and [Christian Bernasko](https://github.com/chrisber). [James Wilkins](http://jameswilkins.net) created the [V8.NET](http://v8dotnet.codeplex.com) library and when it was first released it supported only Windows. [Christian Bernasko](https://github.com/chrisber) then took V8.NET and modified it to make it work with Mono on Linux and the Mac. The TypeScript addin is using V8.NET binaries built by Christian from his port of [V8.NET](https://github.com/chrisber/v8dotnet/tree/development-mono).
 
-Please note that this is an alpha release and because V8.NET uses a native library it can cause Xamarin Studio to terminate if a bug is encountered.
+Please note that this is an alpha release and because V8.NET uses a native library it can cause Xamarin Studio or MonoDevelop to terminate if a bug is encountered.
 
 ## Features
 
@@ -28,10 +30,11 @@ The addin supports:
 
  * Xamarin Studio MonoDevelop 5 and above.
  * TypeScript 1.4
+ * Linux, Mac and Windows.
 
 ## Installing the addin
 
-The addin is currently available from [MonoDevelop's Add-in Repository](http://addins.monodevelop.com/) in the alpha channel. By default this alpha repository is not enabled so you will have to enable it before you can find and install the addin.
+The addin is currently available from [MonoDevelop's Add-in Repository](http://addins.monodevelop.com/) in the alpha channel. By default the alpha repository is not enabled so you will have to enable it before you can find and install the addin.
 
 In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if **Xamarin Studio Add-in Repository (Alpha Channel)** is not displayed then click **Manage Repositories...**. In the window that opens tick the check box next to **Xamarin Studio Add-in Repository (Alpha Channel)** and then click the Close button.
 
@@ -39,7 +42,7 @@ In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the 
 
 Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in **TypeScript**.
 
-SCREENSHOT.
+{% img /images/blog/TypeScriptSupportInXamarinStudio/AddinManagerTypeScriptAddin.png 'TypeScript addin selected in Addin Manager dialog' 'TypeScript addin selected in Addin Manager dialog' %}
 
 Select the TypeScript addin and then click the **Install...** button.
 
@@ -55,7 +58,7 @@ To add a TypeScript file open the New File dialog, select the **Web** category a
 
 Give the file a name and click the New button.
 
-Note that currently the TypeScript file needs to be included in a project. Standalone TypeScript project files are not supported. TypeScript files are supported in any project type. 
+Note that currently the TypeScript file needs to be included in a project. Standalone TypeScript project files are not supported. TypeScript files can be added to any .NET project. 
 
 ## Code Completion
 
@@ -77,13 +80,13 @@ The Go To Declaration menu option will open the corresponding definition in the 
 
 ## Find References
 
-Find References will show the reference information in the Search Results window. 
+Find References will show the references in the Search Results window. 
 
 {% img /images/blog/TypeScriptSupportInXamarinStudio/TypeScriptReferencesInSearchResults.png 'TypeScript references shown in Search Results window' 'TypeScript references shown in Search Results window' %}
 
 ## Rename
 
-Selecting the Rename menu option in the text editor will open the Rename dialog box where you can type in the new name and click OK to have it updated.
+Selecting the Rename menu option in the text editor will open the Rename dialog where you can type in a new name and click OK to have it updated.
 
 {% img /images/blog/TypeScriptSupportInXamarinStudio/TypeScriptRenameDialog.png 'TypeScript rename dialog' 'TypeScript rename dialog' %}
 
@@ -101,7 +104,7 @@ Code folding is supported for TypeScript classes, modules and interfaces.
 
 {% img /images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCodeFolding.png 'TypeScript code folding' 'TypeScript code folding' %}
 
-Code folding by default is disabled. To enable code folding open the Preferences dialog, in the Text Editor section select the General category and tick the **Enable code folding** check box.
+Code folding by default is disabled. To enable code folding open the Preferences dialog and in the Text Editor section select the General category, then tick the **Enable code folding** check box.
 
 {% img /images/blog/TypeScriptSupportInXamarinStudio/PreferencesEnableCodeFolding.png 'Preferences - Enabling code folding' 'Preferences - Enabling code folding' %}
 
@@ -109,7 +112,7 @@ Code folding by default is disabled. To enable code folding open the Preferences
 
 By default the TypeScript files will be compiled to JavaScript when the project is compiled.
 
-There are more compiler options available in the project options in the Build category. 
+There are more compiler options available in the project options in the Build - TypeScript category. 
 
 {% img /images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCompilerOptions.png 'TypeScript compiler options for the project' 'TypeScript compiler options for the project'%}
 
@@ -120,6 +123,8 @@ If an **Output file** is specified then all the TypeScript files will be compile
 That is the end of our quick look at TypeScript support in Xamarin Studio and MonoDevelop.
 
 ## Source Code
+
+The source code for the addin and for the V8.NET engine that works on Mono are available on GitHub.
 
   - [TypeScript addin source code](ttps://github.com/mrward/typescript-addin/tree/monodevelop-v8-dotnet).
 
