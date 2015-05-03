@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Xamarin Studio 5.9 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes NuGet 2.8.3 support Always show Packages folder in Solution window Target framework change detected on project reload More information on all &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2015/05/03/NuGetSupportInXamarinStudio5-9">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Xamarin Studio 5.9</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-03T14:00:00+01:00" pubdate data-updated="true">May 3<sup>rd</sup>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 2.8.3 support</li>
+<li> Always show Packages folder in Solution window</li>
+<li> Target framework change detected on project reload</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 5.9 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.9/xamarin.studio_5.9/">release notes</a>.</p>
+
+<h2>NuGet 2.8.3 support</h2>
+
+<p>Xamarin Studio now supports NuGet 2.8.3. This allows a NuGet package to target NuGet 2.8.3 explicitly. For example the PCLStorage 1.0.1 NuGet package will not install into Xamarin Studio 5.8, since it requires NuGet 2.8.3, but will install into Xamarin Studio 5.9.</p>
+
+<p>NuGet packages, such as xunit, that target the new ASP.NET target frameworks, ASP.NetCore 5.0 and ASP.Net 5.0, can now be installed into Xamarin Studio now that it supports NuGet 2.8.3. Previously you would see an error message in the Package Console window:</p>
+
+<pre><code>'xunit.core' already has a dependency defined for 'xunit.extensibility.core'.
+</code></pre>
+
+<p>Support for NuGet 2.8.5 is planned for Xamarin Studio 5.9.1.</p>
+
+<h2>Always Show Packages Folder in Solution window</h2>
+
+<p>The Packages folder is now always shown in the Solution window even if the project has no NuGet packages. Previously the Packages folder would only be shown if one or more NuGet packages were installed in a project.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9/PackagesFolderInSolutionWindow.png" title="Packages folder in Solution window" alt="Packages folder in Solution window"></p>
+
+<h2>Target Framework Change Detected on Project Reload</h2>
+
+<p>Xamarin Studio will detect a project file has been changed outside of Xamarin Studio and will reload the project. Now Xamarin Studio on reloading will detect the project&rsquo;s target framework has been changed and will  check the NuGet packages are compatible with the new target framework. Previously Xamarin Studio would only check the compatibility of NuGet packages if the target framework was changed from within Xamarin Studio via the project options.</p>
+
+<p>This allows Xamarin Studio to check the NuGet packages are compatible when an iOS Classic project is converted to an iOS Unified project using Xamarin Studio&rsquo;s migration tool. The NuGet packages, such as Xamarin.Forms, can then be retargeted by Xamarin Studio using the <a href="blog/2014/08/10/NuGetSupportInXamarinStudio5-2/">Retarget menu</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-03T14:00:00+01:00" pubdate data-updated="true">May 3<sup>rd</sup>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2015/05/03/NuGetSupportInXamarinStudio5-9/" data-via="" data-counturl="http://lastexitcode.com/blog/2015/05/03/NuGetSupportInXamarinStudio5-9/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/04/01/TypeScriptSupportInXamarinStudio/" title="Previous Post: TypeScript Support in Xamarin Studio">&laquo; TypeScript Support in Xamarin Studio</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

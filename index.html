@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Xamarin Studio and MonoDevelop now have support for TypeScript on Linux, Mac and Windows with an alpha release of the TypeScript Addin. The &hellip;">
+  <meta name="description" content="Changes NuGet 2.8.3 support Always show Packages folder in Solution window Target framework change detected on project reload More information on all &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,74 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/03/NuGetSupportInXamarinStudio5-9/">NuGet Support in Xamarin Studio 5.9</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-03T14:00:00+01:00" pubdate data-updated="true">May 3<sup>rd</sup>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 2.8.3 support</li>
+<li> Always show Packages folder in Solution window</li>
+<li> Target framework change detected on project reload</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 5.9 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.9/xamarin.studio_5.9/">release notes</a>.</p>
+
+<h2>NuGet 2.8.3 support</h2>
+
+<p>Xamarin Studio now supports NuGet 2.8.3. This allows a NuGet package to target NuGet 2.8.3 explicitly. For example the PCLStorage 1.0.1 NuGet package will not install into Xamarin Studio 5.8, since it requires NuGet 2.8.3, but will install into Xamarin Studio 5.9.</p>
+
+<p>NuGet packages, such as xunit, that target the new ASP.NET target frameworks, ASP.NetCore 5.0 and ASP.Net 5.0, can now be installed into Xamarin Studio now that it supports NuGet 2.8.3. Previously you would see an error message in the Package Console window:</p>
+
+<pre><code>'xunit.core' already has a dependency defined for 'xunit.extensibility.core'.
+</code></pre>
+
+<p>Support for NuGet 2.8.5 is planned for Xamarin Studio 5.9.1.</p>
+
+<h2>Always Show Packages Folder in Solution window</h2>
+
+<p>The Packages folder is now always shown in the Solution window even if the project has no NuGet packages. Previously the Packages folder would only be shown if one or more NuGet packages were installed in a project.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9/PackagesFolderInSolutionWindow.png" title="Packages folder in Solution window" alt="Packages folder in Solution window"></p>
+
+<h2>Target Framework Change Detected on Project Reload</h2>
+
+<p>Xamarin Studio will detect a project file has been changed outside of Xamarin Studio and will reload the project. Now Xamarin Studio on reloading will detect the project&rsquo;s target framework has been changed and will  check the NuGet packages are compatible with the new target framework. Previously Xamarin Studio would only check the compatibility of NuGet packages if the target framework was changed from within Xamarin Studio via the project options.</p>
+
+<p>This allows Xamarin Studio to check the NuGet packages are compatible when an iOS Classic project is converted to an iOS Unified project using Xamarin Studio&rsquo;s migration tool. The NuGet packages, such as Xamarin.Forms, can then be retargeted by Xamarin Studio using the <a href="blog/2014/08/10/NuGetSupportInXamarinStudio5-2/">Retarget menu</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1288,112 +1356,6 @@ would update package dependencies correctly.</p>
 <p><strong>Updating an unrestored package</strong></p>
 
 <p>If you have automatic package restore disabled and you attempt to update a NuGet package the package will now be restored before the update is attempted. Previously this would fail when an update was available since NuGet looks at the old package to work out how to remove it from the project before updating to the new NuGet package.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/06/NuGetSupportInXamarinStudio5-1/">NuGet Support in Xamarin Studio 5.1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-06T10:48:00+01:00" pubdate data-updated="true">Jul 6<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">Xamarin Studio 5.1</a> was released last week and it includes some new features for the NuGet addin.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li> Searching and installing a specific version of a NuGet package.</li>
-<li> Support for NuGet package sources defined in a solution specific NuGet.Config file.</li>
-</ul>
-
-
-<p>More details on all the new features and changes in Xamarin Studio 5.1 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">release notes</a>. Now let us take a look at the new NuGet features.</p>
-
-<h2>Searching and installing a specific version of a NuGet package</h2>
-
-<p>The Add Packages dialog can now be used to search and install a specific version of a NuGet package. You can search for all versions, a range of versions, or a specific version of a NuGet package. To do this the following search syntax is used:</p>
-
-<pre><code>PackageId version:VersionNumber
-</code></pre>
-
-<p>The packages are shown in the Add Packages dialog with the most recent version at the top. At the top right of each package in the package list you will see the package version instead of the download count allowing you to find the particular version you want to install.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAllAutoMapperPackageVersions.png" title="Add Packages dialog - all AutoMapper package versions" alt="Add Packages dialog - all AutoMapper package versions"></p>
-
-<p>To search for all versions of the AutoMapper NuGet package you can use an asterisk or leave the version number blank.</p>
-
-<pre><code>AutoMapper version:*
-</code></pre>
-
-<p>To search for all the 2.1 versions of the AutoMapper NuGet package you can use the search:</p>
-
-<pre><code>AutoMapper version:2.1
-</code></pre>
-
-<p>This will return a range of versions from 2.1.0 up to but not including 2.2.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAutoMapperPackageVersions21.png" title="Add Packages dialog - AutoMapper 2.1 package versions" alt="Add Packages dialog - AutoMapper 2.1 package versions"></p>
-
-<p>The package id used in the search must match the id of the NuGet package otherwise no results will be returned.</p>
-
-<p>Searching for package versions is also supported in the universal search at the top right of Xamarin Studio.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/PackageVersionSearchInUniversalSearch.png" title="Package version search in universal search" alt="Package version search in universal search"></p>
-
-<h2>Package sources defined in a solution specific NuGet.Config file</h2>
-
-<p> If package sources are defined in the solution&rsquo;s NuGet.Config file then these will be available in the Add Packages dialog when this solution is opened. The NuGet.Config file can be in the solution directory or in the .nuget subdirectory. An example NuGet.Config file is shown below.</p>
-
-<pre><code>&lt;configuration&gt;
-  &lt;packageSources&gt;
-    &lt;add key="ASP.NET vNext - MyGet" value="https://www.myget.org/F/aspnetvnext/" /&gt;
-  &lt;/packageSources&gt;
-&lt;/configuration&gt;
-</code></pre>
-
-<p>When the solution is opened the package sources defined in the NuGet.config file are available in the drop down list at the top left of the Add Packages dialog.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesWithPackageSourceFromSolutionLevelNuGetConfig.png" title="Add Packages dialog - package sources from solution NuGet.Config" alt="Add Packages dialog - package sources from solution NuGet.config"></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Proxy credentials not being requested for a https package source.</strong></p>
-
-<p>   Added a workaround to NuGet to handle Mono returning a different http response when proxy authentication is required.</p>
-
-<p><strong>Web.config transforms not being applied when installing NuGet packages such as Nancy.Hosting.Aspnet.</strong></p>
-
-<p>   Projects were not being recognised as web projects so transforms were only being applied to app.config files.</p>
-
-<p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
-
-<p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&rsquo;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
 </div>
   
   

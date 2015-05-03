@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://lastexitcode.com/blog/2015/05/03/NuGetSupportInXamarinStudio5-9/</loc>
+    <lastmod>2015-05-03T14:00:00+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://lastexitcode.com/blog/2015/04/01/TypeScriptSupportInXamarinStudio/</loc>
     <lastmod>2015-04-01T21:00:00+01:00</lastmod>
     <priority>0.8</priority>
@@ -149,126 +155,126 @@
   
   <url>
     <loc>http://lastexitcode.com/blog/archives/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.8/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.4/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.6/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.7/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.9/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddinExtensions/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddinExtensions/Releases/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopTypeScriptAddin/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopTypeScriptAddin/Releases/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/NuGet/FileLocations/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/NuGet/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/NuGet/PortableProfiles/</loc>
-    <lastmod>2015-04-01T21:58:14+01:00</lastmod>
+    <lastmod>2015-05-03T16:42:06+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
