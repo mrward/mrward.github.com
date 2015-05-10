@@ -60,7 +60,7 @@ Xamarin Studio, when a solution is opened, will check for a components.config fi
   4. /Users/matt/components.config
   5. /Users/components.config
   6. /components.config
-  7. ~/Preferences/Xamarin/Components/components.config
+  7. ~/Library/Preferences/Xamarin/Components/components.config
   
 Note that on Windows the last location checked is:
 
