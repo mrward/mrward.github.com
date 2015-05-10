@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Xamarin Components Directory Configuration - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="One of the new features introduced in Xamarin Studio 5.9 is the ability to configure the directory where Xamarin Components are installed to when &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2015/05/10/XamarinComponentsDirectoryConfiguration">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Xamarin Components Directory Configuration</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-10T11:00:00+01:00" pubdate data-updated="true">May 10<sup>th</sup>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>One of the new features introduced in <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.9/xamarin.studio_5.9/">Xamarin Studio 5.9</a> is the ability to configure the directory where Xamarin Components are installed to when they are added to a project.</p>
+
+<p>By default, when a Component from the <a href="https://components.xamarin.com/">Xamarin Component store</a> is added to a project, the Component is installed to a Components directory inside the solution&rsquo;s directory.</p>
+
+<p><img src="/images/blog/XamarinComponentsDirectoryConfiguration/DefaultXamarinComponentsDirectoryForSolution.png" title="Default Components directory for a solution" alt="Default Components directory for a solution"></p>
+
+<p>The project will have references added that refer to assemblies inside this Components directory.</p>
+
+<pre><code>&lt;Reference Include="Microsoft.WindowsAzure.Mobile.Ext"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.Ext.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="Microsoft.WindowsAzure.Mobile"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="Newtonsoft.Json"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Newtonsoft.Json.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="System.Net.Http.Extensions"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\System.Net.Http.Extensions.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="System.Net.Http.Primitives"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\System.Net.Http.Primitives.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+</code></pre>
+
+<p>If a project is shared between multiple solutions then Xamarin Studio can have multiple different Components directories, one for each solution. This can cause Xamarin Studio to modify the hint paths in the project file to use a different Components directory depending on which solution was opened.</p>
+
+<p>A simple way to reproduce this problem is to create one solution with a project that has a Component, then create another solution in a different directory, and add the same project to this new solution. The Component will be downloaded again into the Components directory relative to the new solution and the assembly references in the project file will be modified to use this new Components location.</p>
+
+<p>Now let us take a look at how to solve this problem by configuring the Components directory.</p>
+
+<h2>Configuring the Components Directory</h2>
+
+<p>To configure the Components directory used by a project you can use a components.config file, as shown below.</p>
+
+<p>  <components></p>
+
+<pre><code>&lt;config&gt;
+  &lt;add key="cachePath" value="..\Components" /&gt;
+&lt;/config&gt;
+</code></pre>
+
+<p>  </components></p>
+
+<p>The path specified in the components.config file can be a full path or a relative path. If it is a relative path then it is relative to the directory containing the components.config file.</p>
+
+<p>The path in the components.config file will be normalized so it contains the correct directory separators on non-Windows operating systems, so you can use either a forward slash or a backslash in the path.</p>
+
+<p>Now let us take a look at how Xamarin Studio finds this components.config file.</p>
+
+<p>Xamarin Studio, when a solution is opened, will check for a components.config file in several locations based on the solution&rsquo;s directory. If we have a solution in the directory /Users/matt/Projects/MyAndroidApp/ then the full set of locations checked is as follows:</p>
+
+<ol>
+<li> /Users/matt/Projects/MyAndroidApp/.components/components.config</li>
+<li> /Users/matt/Projects/MyAndroidApp/components.config</li>
+<li> /Users/matt/Projects/components.config</li>
+<li> /Users/matt/components.config</li>
+<li> /Users/components.config</li>
+<li> /components.config</li>
+<li> ~/Preferences/Xamarin/Components/components.config</li>
+</ol>
+
+
+<p>Note that on Windows the last location checked is:</p>
+
+<p>  %AppData%\Xamarin\Components\components.config</p>
+
+<p>If you put the components.config file in a directory that is a parent of multiple solutions then all the solutions can use this common components.config file.</p>
+
+<p>If the components.config file is missing or cannot be read then the default Components directory is used, which is inside the solution&rsquo;s directory.</p>
+
+<p>If there is an error whilst reading the components.config file then the error will be logged by Xamarin Studio and the default Components directory will be used.</p>
+
+<p>The Components directory to be used is cached when the solution is loaded so changes made to the components.config file require the solution to be closed and re-opened before Xamarin Studio will use the new settings.</p>
+
+<p>To help diagnose problems when configuring the Components directory Xamarin Studio will log information in the Components.log file. The Components.log file can be found by selecting Open Log Directory from Xamarin Studio&rsquo;s Help menu. Two examples taken from the Components.log file are shown below. The first example shows the message logged when a components.config file cannot be found.</p>
+
+<pre><code>[2015-05-10 11:00:29.0] DEBUG: No components.config file found. Using default path. Files checked: /Users/matt/Projects/MyAndroidApp/.components/components.config
+/Users/matt/Projects/MyAndroidApp/components.config
+/Users/matt/Projects/components.config
+/Users/matt/components.config
+/Users/components.config
+/components.config
+/Users/matt/Library/Preferences/Xamarin/Components/components.config
+</code></pre>
+
+<p>The next example shows the message logged when a components.config file is found.</p>
+
+<pre><code>[2015-05-10 11:10:24.1] DEBUG: Using custom components cache path '/Users/matt/Projects/MyAndroidApp/Components'. components.config file found at '/Users/matt/Projects/MyAndroidApp/components.config'.
+</code></pre>
+
+<h2>Component Restore</h2>
+
+<p>The latest version of <a href="https://components.xamarin.com/submit/xpkg">xamarin-component.exe</a> also supports using the configured Components directory. Its restore command will restore the Components to the directory as specified in the components.config file.</p>
+
+<pre><code>mono xamarin-component.exe restore path/to/solution.sln
+</code></pre>
+
+<p>xamarin-component.exe will look for the components.config file in the same directories as Xamarin Studio.</p>
+
+<h2>Comparison with NuGet</h2>
+
+<p>NuGet has similar behaviour to Components in Xamarin Studio. All NuGet packages are downloaded to a packages directory inside the solution directory by default. To override this behaviour you can create a <a href="https://docs.nuget.org/consume/nuget-config-file">NuGet.Config file</a>. The NuGet.Config file allows the packages directory to be configured through a repositoryPath setting.</p>
+
+<p>  <configuration></p>
+
+<pre><code>&lt;config&gt;
+  &lt;add key="repositoryPath" value="../../packages" /&gt;
+&lt;/config&gt;
+</code></pre>
+
+<p>  </configuration></p>
+
+<p>NuGet will look for this NuGet.Config file in several places. Assuming the solution directory is /Users/matt/Projects/MyAndroidApp/ the NuGet.Config file will be looked for in the locations as shown below:</p>
+
+<ol>
+<li> /Users/matt/Projects/MyAndroidApp/.nuget/NuGet.Config</li>
+<li> /Users/matt/Projects/MyAndroidApp/NuGet.Config</li>
+<li> /Users/matt/Projects/NuGet.Config</li>
+<li> /Users/matt/NuGet.Config</li>
+<li> /Users/NuGet.Config</li>
+<li> /NuGet.config</li>
+<li> ~/.config/NuGet/NuGet.Config (Windows: %AppData%\NuGet\NuGet.Config)</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-10T11:00:00+01:00" pubdate data-updated="true">May 10<sup>th</sup>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2015/05/10/XamarinComponentsDirectoryConfiguration/" data-via="" data-counturl="http://lastexitcode.com/blog/2015/05/10/XamarinComponentsDirectoryConfiguration/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/03/NuGetSupportInXamarinStudio5-9/" title="Previous Post: NuGet Support in Xamarin Studio 5.9">&laquo; NuGet Support in Xamarin Studio 5.9</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

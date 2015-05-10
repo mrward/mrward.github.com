@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-05-03T16:42:06+01:00</updated>
+  <updated>2015-05-10T14:10:21+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,139 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xamarin Components Directory Configuration]]></title>
+    <link href="http://lastexitcode.com/blog/2015/05/10/XamarinComponentsDirectoryConfiguration/"/>
+    <updated>2015-05-10T11:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2015/05/10/XamarinComponentsDirectoryConfiguration</id>
+    <content type="html"><![CDATA[<p>One of the new features introduced in <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.9/xamarin.studio_5.9/">Xamarin Studio 5.9</a> is the ability to configure the directory where Xamarin Components are installed to when they are added to a project.</p>
+
+<p>By default, when a Component from the <a href="https://components.xamarin.com/">Xamarin Component store</a> is added to a project, the Component is installed to a Components directory inside the solution&rsquo;s directory.</p>
+
+<p><img src="/images/blog/XamarinComponentsDirectoryConfiguration/DefaultXamarinComponentsDirectoryForSolution.png" title="&lsquo;Default Components directory for a solution&rsquo; &lsquo;Default Components directory for a solution&rsquo; &lsquo;&rsquo;" ></p>
+
+<p>The project will have references added that refer to assemblies inside this Components directory.</p>
+
+<pre><code>&lt;Reference Include="Microsoft.WindowsAzure.Mobile.Ext"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.Ext.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="Microsoft.WindowsAzure.Mobile"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="Newtonsoft.Json"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Newtonsoft.Json.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="System.Net.Http.Extensions"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\System.Net.Http.Extensions.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="System.Net.Http.Primitives"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\System.Net.Http.Primitives.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+</code></pre>
+
+<p>If a project is shared between multiple solutions then Xamarin Studio can have multiple different Components directories, one for each solution. This can cause Xamarin Studio to modify the hint paths in the project file to use a different Components directory depending on which solution was opened.</p>
+
+<p>A simple way to reproduce this problem is to create one solution with a project that has a Component, then create another solution in a different directory, and add the same project to this new solution. The Component will be downloaded again into the Components directory relative to the new solution and the assembly references in the project file will be modified to use this new Components location.</p>
+
+<p>Now let us take a look at how to solve this problem by configuring the Components directory.</p>
+
+<h2>Configuring the Components Directory</h2>
+
+<p>To configure the Components directory used by a project you can use a components.config file, as shown below.</p>
+
+<p>  <components></p>
+
+<pre><code>&lt;config&gt;
+  &lt;add key="cachePath" value="..\Components" /&gt;
+&lt;/config&gt;
+</code></pre>
+
+<p>  </components></p>
+
+<p>The path specified in the components.config file can be a full path or a relative path. If it is a relative path then it is relative to the directory containing the components.config file.</p>
+
+<p>The path in the components.config file will be normalized so it contains the correct directory separators on non-Windows operating systems, so you can use either a forward slash or a backslash in the path.</p>
+
+<p>Now let us take a look at how Xamarin Studio finds this components.config file.</p>
+
+<p>Xamarin Studio, when a solution is opened, will check for a components.config file in several locations based on the solution&rsquo;s directory. If we have a solution in the directory /Users/matt/Projects/MyAndroidApp/ then the full set of locations checked is as follows:</p>
+
+<ol>
+<li> /Users/matt/Projects/MyAndroidApp/.components/components.config</li>
+<li> /Users/matt/Projects/MyAndroidApp/components.config</li>
+<li> /Users/matt/Projects/components.config</li>
+<li> /Users/matt/components.config</li>
+<li> /Users/components.config</li>
+<li> /components.config</li>
+<li> ~/Preferences/Xamarin/Components/components.config</li>
+</ol>
+
+
+<p>Note that on Windows the last location checked is:</p>
+
+<p>  %AppData%\Xamarin\Components\components.config</p>
+
+<p>If you put the components.config file in a directory that is a parent of multiple solutions then all the solutions can use this common components.config file.</p>
+
+<p>If the components.config file is missing or cannot be read then the default Components directory is used, which is inside the solution&rsquo;s directory.</p>
+
+<p>If there is an error whilst reading the components.config file then the error will be logged by Xamarin Studio and the default Components directory will be used.</p>
+
+<p>The Components directory to be used is cached when the solution is loaded so changes made to the components.config file require the solution to be closed and re-opened before Xamarin Studio will use the new settings.</p>
+
+<p>To help diagnose problems when configuring the Components directory Xamarin Studio will log information in the Components.log file. The Components.log file can be found by selecting Open Log Directory from Xamarin Studio&rsquo;s Help menu. Two examples taken from the Components.log file are shown below. The first example shows the message logged when a components.config file cannot be found.</p>
+
+<pre><code>[2015-05-10 11:00:29.0] DEBUG: No components.config file found. Using default path. Files checked: /Users/matt/Projects/MyAndroidApp/.components/components.config
+/Users/matt/Projects/MyAndroidApp/components.config
+/Users/matt/Projects/components.config
+/Users/matt/components.config
+/Users/components.config
+/components.config
+/Users/matt/Library/Preferences/Xamarin/Components/components.config
+</code></pre>
+
+<p>The next example shows the message logged when a components.config file is found.</p>
+
+<pre><code>[2015-05-10 11:10:24.1] DEBUG: Using custom components cache path '/Users/matt/Projects/MyAndroidApp/Components'. components.config file found at '/Users/matt/Projects/MyAndroidApp/components.config'.
+</code></pre>
+
+<h2>Component Restore</h2>
+
+<p>The latest version of <a href="https://components.xamarin.com/submit/xpkg">xamarin-component.exe</a> also supports using the configured Components directory. Its restore command will restore the Components to the directory as specified in the components.config file.</p>
+
+<pre><code>mono xamarin-component.exe restore path/to/solution.sln
+</code></pre>
+
+<p>xamarin-component.exe will look for the components.config file in the same directories as Xamarin Studio.</p>
+
+<h2>Comparison with NuGet</h2>
+
+<p>NuGet has similar behaviour to Components in Xamarin Studio. All NuGet packages are downloaded to a packages directory inside the solution directory by default. To override this behaviour you can create a <a href="https://docs.nuget.org/consume/nuget-config-file">NuGet.Config file</a>. The NuGet.Config file allows the packages directory to be configured through a repositoryPath setting.</p>
+
+<p>  <configuration></p>
+
+<pre><code>&lt;config&gt;
+  &lt;add key="repositoryPath" value="../../packages" /&gt;
+&lt;/config&gt;
+</code></pre>
+
+<p>  </configuration></p>
+
+<p>NuGet will look for this NuGet.Config file in several places. Assuming the solution directory is /Users/matt/Projects/MyAndroidApp/ the NuGet.Config file will be looked for in the locations as shown below:</p>
+
+<ol>
+<li> /Users/matt/Projects/MyAndroidApp/.nuget/NuGet.Config</li>
+<li> /Users/matt/Projects/MyAndroidApp/NuGet.Config</li>
+<li> /Users/matt/Projects/NuGet.Config</li>
+<li> /Users/matt/NuGet.Config</li>
+<li> /Users/NuGet.Config</li>
+<li> /NuGet.config</li>
+<li> ~/.config/NuGet/NuGet.Config (Windows: %AppData%\NuGet\NuGet.Config)</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.9]]></title>
@@ -421,110 +554,6 @@ would update package dependencies correctly.</p>
 <p><strong>Pre-release NuGet package being downgraded on update</strong></p>
 
 <p>When a pre-release NuGet package was installed that was newer than the latest stable NuGet package available then updating the package would install the stable version even though it was a lower version. Now an explicit check is made to ensure that an older NuGet package is not being installed.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Installing Portable Class Libraries for Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2014/11/16/InstallingPortableClassLibrariesForXamarinStudio/"/>
-    <updated>2014-11-16T10:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2014/11/16/InstallingPortableClassLibrariesForXamarinStudio</id>
-    <content type="html"><![CDATA[<p>In order to use Portable Class Libraries (PCLs) with Xamarin Studio you need to have the following installed:</p>
-
-<ul>
-<li>Portable Class Library Reference Assemblies.</li>
-<li>Portable Class Library MSBuild targets.</li>
-<li>Xamarin&rsquo;s Portable Class Library Profiles.</li>
-</ul>
-
-
-<p>If you do not all of the above installed then you may run into the following problems when using Xamarin Studio.</p>
-
-<ol>
-<li>Unable to create a Portable Library project since the project template is not available.</li>
-<li><p>Unable to install a NuGet package, such as Json.NET, that contains PCL assemblies into an Android or iOS project. Example error message below:</p>
-
-<p>Could not install package &lsquo;Newtonsoft.Json 6.0.6&rsquo;. You are trying to install this package into a project that targets &lsquo;MonoAndroid,Version=v4.4&rsquo;, but the package does not contain any assembly references or content files that are compatible with that framework. For more information, contact the package author.</p></li>
-</ol>
-
-
-<p>On the Mac the Portable Class Libraries for Mono 3.10.0 are installed into the directory:</p>
-
-<pre><code>/Library/Frameworks/Mono.framework/Versions/3.10.0/lib/mono/xbuild-frameworks/.NETPortable
-</code></pre>
-
-<p>On Windows the Portable Class Libraries are installed into the directory:</p>
-
-<pre><code>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable
-</code></pre>
-
-<p>So let us take a look at how to install everything required to get PCLs fully supported within Xamarin Studio.</p>
-
-<h2>Mac &ndash; Installing Portable Class Libraries</h2>
-
-<p>The Portable Class Libraries are included with the <a href="http://www.mono-project.com/download/">Mono Development Kit (MDK)</a> but not with the Mono Runtime Environment (MRE). If you are installing Mono yourself instead of using Xamarin&rsquo;s Universal Installer then you will want to install the MDK instead of the MRE. The MDK includes the MRE as well as extra tools, libraries and the .NET Portable Class Library profiles.</p>
-
-<p>If Mono is updated from within Xamarin Studio using <strong>Check for updates</strong> then the MDK should be installed.</p>
-
-<h2>Windows &ndash; Installing Portable Class Libraries</h2>
-
-<p>Xamarin Studio on Windows uses Microsoft&rsquo;s .NET Framework instead of Mono so the Portable Class Libraries need to be installed separately. To install the Portable Class Libraries on Windows you have three options:</p>
-
-<ol>
-<li> Install Visual Studio 2013 (full or <a href="http://www.microsoft.com/en-us/download/details.aspx?id=43733">Express version</a>). Update 2 or above is required.</li>
-<li> Install the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a> and the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40727">Portable Library Reference Assemblies 4.6</a>.</li>
-<li> Install the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a> and copy the .NETPortable directory from Mono over to Windows.</li>
-</ol>
-
-
-<p>If you do not want to install Visual Studio 2013 then you should look at options 2 or 3.</p>
-
-<p>One problem with option 2 is that not all the .NET Portable profiles, such as Profile 259, will be installed. The full list of what .NET Portable profiles are installed by each of the installers listed above is available from the <a href="/projects/NuGet/PortableProfiles/">.NET Portable Profiles page</a></p>
-
-<p>Let us take a look in more detail at the option 2 since this has a few manual steps.</p>
-
-<p><strong>Windows &ndash; Installing the Portable Library Tools and the Portable Library Reference Assemblies 4.6</strong></p>
-
-<p>Before you start make sure Xamarin Studio is not running.</p>
-
-<p>Download the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a>.</p>
-
-<p>To install the Portable Library Tools open a command prompt where PortableLibraryTools.exe was downloaded and run:</p>
-
-<pre><code>PortableLibraryTools /buildmachine
-</code></pre>
-
-<p>Download the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40727">Portable Library Reference Assemblies 4.6</a> and run the NetFx_PortableLibraryReferenceAssemblies46.msi installer. This will install a PortableReferenceAssemblies.zip file into the directory:</p>
-
-<pre><code>C:\Program Files (x86)\Microsoft .NET Portable Library Reference Assemblies 4.6
-</code></pre>
-
-<p>This PortableReferenceAssemblies.zip file contains three directories (4.0, 4.5 and 4.6) which need to be extracted and copied into the PCLs directory:</p>
-
-<pre><code> C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable
-</code></pre>
-
-<p>The PortableReferenceAssemblies.zip file contains files which already exist in the above folder and you should replace the existing files with the new versions from the .zip file.</p>
-
-<p>If you installed Xamarin Studio before you installed the Portable Class Libraries you will now need to reinstall the Xamarin PCL profiles. The Xamarin PCL profiles will only be installed if the Portable Class Libraries were already installed. The simplest way to do this is to find <strong>Xamarin</strong> in the Control Panel&rsquo;s <strong>Programs and Features</strong>, right click it and select <strong>Repair</strong>.</p>
-
-<p><img src="/images/blog/InstallingPortableClassLibrariesForXamarinStudio/AddRemoveProgramsRepairXamarinInstall.png" title="&lsquo;Repairing Xamarin in Programs and Features&rsquo; &lsquo;Repairing Xamarin in Programs and Features&rsquo;" ></p>
-
-<p>This will add a set of Xamarin .xml files into the profiles that are compatible with the Xamarin frameworks. For example looking at the Profile78 directory we see:</p>
-
-<pre><code>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile78\SupportedFrameworks
-</code></pre>
-
-<ul>
-<li>.NET Framework 4.5.xml</li>
-<li>Windows 8.xml</li>
-<li>Windows Phone Silverlight 8.xml</li>
-<li>Xamarin.Android.xml</li>
-<li>Xamarin.iOS.xml</li>
-</ul>
-
-
-<p>Now you should have full support for Portable Class Libraries in Xamarin Studio.</p>
 ]]></content>
   </entry>
   
