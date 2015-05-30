@@ -7,6 +7,29 @@ sharing: true
 footer: true
 ---
 
+## Version 0.8
+
+2015-05-30
+
+ * Update to NuGet 2.8.5 to support Xamarin Studio 5.9.2
+
+## Version 0.7
+
+2015-05-17
+
+ * Fix exception when import removed when unintalling AutoMapper. 
+ * Support PowerShell script that add imports to MSBuild global projects. 
+ * Support target framework specific NuGet PowerShell scripts. 
+ * Fix custom repository paths not used for Install-Package cmdlet.
+ * Colour text in Package Console Extension window. 
+ * Support -verbose parameter in PowerShell console. 
+
+## Version 0.6.1
+
+2015-04-21
+
+ * Update to NuGet 2.8.3 to support Xamarin Studio 5.9
+ 
 ## Version 0.6
 
 2014-08-30
