@@ -12,6 +12,7 @@ footer: true
 2015-05-30
 
  * Update to NuGet 2.8.5 to support Xamarin Studio 5.9.2
+ * Fix gtk critical errors when opening Manage Packages dialog.
 
 ## Version 0.7
 
