@@ -11,4 +11,5 @@ footer: true
  * [MonoDevelop NuGet Addin Extensions](MonoDevelopNuGetAddinExtensions/)
  * [MonoDevelop TypeScript Addin](MonoDevelopTypeScriptAddin/) 
  * [NuGet](NuGet/)
+ * [Pash](http://pash-project.github.io/)
  * [SharpDevelop](http://www.icsharpcode.net/OpenSource/SD/)
