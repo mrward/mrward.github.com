@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-05-10T14:10:21+01:00</updated>
+  <updated>2015-06-07T10:50:17+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.9.2]]></title>
+    <link href="http://lastexitcode.com/blog/2015/06/07/NuGetSupportInXamarinStudio5-9-2/"/>
+    <updated>2015-06-07T10:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2015/06/07/NuGetSupportInXamarinStudio5-9-2</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 2.8.5 support</li>
+<li> NuGet warning and error messages in Status Bar</li>
+</ul>
+
+
+<p>More information on all the changes in Xamarin Studio 5.9.2 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.9/xamarin.studio_5.9/">release notes</a>.</p>
+
+<h2>NuGet 2.8.5 support</h2>
+
+<p>Xamarin Studio now supports NuGet 2.8.5.</p>
+
+<p>NuGet 2.8.5 adds support for three new .NET target frameworks: DNX, DNXCore and Core.</p>
+
+<p>With NuGet 2.8.5 supported you can now install the <a href="https://www.nuget.org/packages/xunit/2.1.0-beta2-build2981">latest pre-release version of xUnit</a>.</p>
+
+<h2>NuGet warning and error messages in Status Bar.</h2>
+
+<p>Xamarin Studio 5.9 has a new native Status Bar on the Mac. This new Status Bar has a smaller width so the NuGet warning and error messages could be too long to be displayed. The screenshots below show a NuGet warning and error message in Xamarin Studio 5.9 that do not fit in the Status Bar.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetWarningMessageTruncatedInStatusBar.png" title="&lsquo;NuGet warning message truncated in status bar&rsquo; &lsquo;NuGet warning message truncated in status bar&rsquo;" ></p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetErrorMessageTruncatedInStatusBar.png" title="&lsquo;NuGet error message truncated in status bar&rsquo; &lsquo;NuGet error message truncated in status bar&rsquo;" ></p>
+
+<p>In Xamarin Studio 5.9.2 the NuGet Status Bar messages have been shortened so they can be displayed in the new Status Bar without being truncated. The screenshots below show the new format of the NuGet warning and error messages shown in the Status Bar.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetShortenedWarningMessageInStatusBar.png" title="&lsquo;Shortened NuGet warning message in status bar&rsquo; &lsquo;Shortened NuGet warning message in status bar&rsquo;" ></p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetShortenedErrorMessageInStatusBar.png" title="&lsquo;Shortened NuGet error message in status bar&rsquo; &lsquo;Shortened NuGet error message in status bar&rsquo;" ></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.9]]></title>
@@ -421,72 +460,6 @@ would update package dependencies correctly.</p>
 <p><strong>Pre-release NuGet package being downgraded on update</strong></p>
 
 <p>When a pre-release NuGet package was installed that was newer than the latest stable NuGet package available then updating the package would install the stable version even though it was a lower version. Now an explicit check is made to ensure that an older NuGet package is not being installed.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.5]]></title>
-    <link href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/"/>
-    <updated>2014-10-19T14:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5</id>
-    <content type="html"><![CDATA[<h2>New Features</h2>
-
-<ul>
-<li> Package version constraints in packages.config files are now supported</li>
-<li> <a href="https://components.xamarin.com/">Xamarin Components</a> can now have NuGet package dependencies</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.5 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.5/xamarin.studio_5.5/">release notes</a>.</p>
-
-<h2>NuGet Package Version Constraints</h2>
-
-<p>NuGet allows you to <a href="http://docs.nuget.org/docs/reference/versioning">define a range of package versions that are allowed in your project</a> using the <strong>allowedVersions</strong> attribute in the packages.config file.</p>
-
-<pre><code>&lt;packages&gt;
-  &lt;package id="Newtonsoft.Json" version="5.0.1" allowedVersions="[5.0,6.0)" targetFramework="MonoAndroid44" /&gt;
-&lt;/packages&gt;
-</code></pre>
-
-<p>In the above packages.config file the project has Json.NET 5.0.1 installed and will only allow updates to versions of Json.NET that are below 6.0.</p>
-
-<p>When you open the solution in Xamarin Studio, and check for updates is enabled in preferences, you will see updates in the Solution window that are valid given the constraint defined in the packages.config file. In the screenshot below an update is shown for Json.NET 5.0.8 in the Solution window even though Json.NET currently has version 6.0.5 available.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageUpdateAvailableInSolutionWindow.png" title="&lsquo;Json.NET 5.0.8 package update available shown in Solution window&rsquo; &lsquo;Json.NET 5.0.8 package update available shown in Solution window&rsquo;" ></p>
-
-<p>When you update the NuGet packages from the Solution window Xamarin Studio will now update to a NuGet package that meets the version constraints defined in the packages.config. In the Package Console screenshot below the Json.NET package was updated, with the constraint in place, and Json.NET 5.0.8 was installed.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageInstalledInPackageConsole.png" title="&lsquo;Json.NET package updated to 5.0.8 &ndash; Package Console output&rsquo; &lsquo;Json.NET package updated to 5.0.8 &ndash; Package Console output&rsquo;" ></p>
-
-<p>Note that if you install a NuGet package from the Add Packages dialog you can override the constraint and install a NuGet package with a version outside of the range of the constraint.</p>
-
-<h2>Components with NuGet Packages</h2>
-
-<p>A Component from <a href="https://components.xamarin.com/">Xamarin&rsquo;s Component Store</a> can now declare a dependency on one or more NuGet packages which will be installed into the project when the Component is installed. The <a href="https://components.xamarin.com/view/xamandroidsupportv13-18">Android Support Library v13 Component</a> is one example that has a NuGet package dependency.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInStore.png" title="&lsquo;Android Support Library v13 Component in Component Store&rsquo; &lsquo;Android Support Library v13 Component in Component Store&rsquo;" ></p>
-
-<p>When you install this Component you will see that it installs the <a href="https://www.nuget.org/packages/Xamarin.Android.Support.v13/">Xamarin.Android.Support.v13 NuGet package</a>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInstalledInSolutionWindow.png" title="&lsquo;Android Support Library v13 Component in Solution window&rsquo; &lsquo;Android Support Library v13 Component in Solution window&rsquo;" ></p>
-
-<p>In older versions of Xamarin Studio the NuGet package will not be installed and instead the project will reference the Xamarin.Android.Support.v13.dll which is included with the Component.</p>
-
-<p>The NuGet packages a Component depends on are displayed in the <strong>Packages</strong> tab on the Component Details page, which you can open by double clicking the Component in the Solution window, or by right clicking the Component and selecting <strong>Details</strong>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithPackagesTab.png" title="&lsquo;Android Support Library v13 Packages in Component Details page&rsquo; &lsquo;Android Support Library v13 Packages in Component Details page&rsquo;" ></p>
-
-<p>From the <strong>Packages</strong> tab you can also install a NuGet package that a Component depends on if it was removed from the project. So if the Xamarin.Android.Support.v13 NuGet package is removed from the project the Component will be highlighted in red to indicate that there is a problem.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentErrorInSolutionWindow.png" title="&lsquo;Android Support Library v13 Component error in Solution window&rsquo; &lsquo;Android Support Library v13 Component error in Solution window&rsquo;" ></p>
-
-<p>If you then open the Component Details page you will see in the <strong>Packages</strong> tab that the NuGet package is missing.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithMissingNuGetPackage.png" title="&lsquo;Android Support Library v13 Component Details page with missing NuGet Package&rsquo; &lsquo;Android Support Library v13 CComponent Details page with missing NuGet Package&rsquo;" ></p>
-
-<p>To add the NuGet package back to the project you can hover the mouse over the warning icon and click the Add Package button that appears in the pop-up window.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithAddPackagePopUpWindow.png" title="&lsquo;Android Support Library v13 Component Details page with Add Package pop-up window&rsquo; &lsquo;Android Support Library v13 CComponent Details page with Add Package pop-up window&rsquo;" ></p>
 ]]></content>
   </entry>
   
