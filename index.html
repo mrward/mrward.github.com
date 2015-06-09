@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes NuGet 2.8.5 support NuGet warning and error messages in Status Bar More information on all the changes in Xamarin Studio 5.9.2 can be found &hellip;">
+  <meta name="description" content="Xamarin Studio and MonoDevelop now have support for Paket with an alpha release of the Paket Addin. Paket is a dependency manager for .NET. The &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,184 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/06/09/PaketSupportInXamarinStudio/">Paket Support in Xamarin Studio</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-06-09T19:00:00+01:00" pubdate data-updated="true">Jun 9<sup>th</sup>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Xamarin Studio and MonoDevelop now have support for <a href="http://fsprojects.github.io/Paket/">Paket</a> with an alpha release of the <a href="https://github.com/mrward/monodevelop-paket-addin">Paket Addin</a>.</p>
+
+<p>Paket is a dependency manager for .NET. The dependencies it supports are <a href="http://fsprojects.github.io/Paket/nuget-dependencies.html">NuGet packages</a>, files from <a href="http://fsprojects.github.io/Paket/github-dependencies.html">GitHub, Gists</a> or files from any <a href="http://fsprojects.github.io/Paket/http-dependencies.html">HTTP source</a>. Paket can be used to maintain project dependencies completely from the command line.</p>
+
+<p>So let us take a look at the support for Paket in Xamarin Studio and MonoDevelop.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li> View dependencies and referenced NuGet packages in the Solution window.</li>
+<li> Add, remove, update NuGet packages from the Solution window.</li>
+<li> Install, restore, simplify NuGet packages from the Solution window.</li>
+<li> Check for updated NuGet packages from the Solution window.</li>
+<li> Syntax highlighting for all paket files.</li>
+<li> Code completion whilst editing the paket.dependencies file.</li>
+<li> Integrates with Xamarin Studio&rsquo;s unified search.</li>
+<li> paket.dependencies and paket.template file templates.</li>
+</ul>
+
+
+<h2>Installing the addin</h2>
+
+<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click <strong>Manage Repositories&hellip;</strong>. In the window that opens tick the check box next to <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> and then click the Close button.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/AddingAlphaChannelAddins.png" title="Enabling alpha channel addins" alt="Enabling alpha channel addins"></p>
+
+<p>Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in <strong>Paket</strong>.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/AddinManagerPaketAddin.png" title="Paket addin selected in Addin Manager dialog" alt="Paket addin selected in Addin Manager dialog"></p>
+
+<p>Select the Paket addin and then click the <strong>Install&hellip;</strong> button.</p>
+
+<p>Now let us take a look at adding a NuGet package to your project with Paket. This is a simple way to get started with Paket in Xamarin Studio without having to manually create any paket files.</p>
+
+<h2>Adding a NuGet Package</h2>
+
+<p>To add a NuGet package using Paket, right click the project in the Solution window, and select Add &ndash; Add NuGet Packages using Paket.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/AddNuGetPackagesUsingPaketSolutionWindowMenu.png" title="Add NuGet Package using Paket Solution window context menu" alt="Add NuGet Package using Paket Solution window context menu"></p>
+
+<p>The Add NuGet Packages using Paket menu is also available from the main Project menu.</p>
+
+<p>This opens the Add NuGet Packages dialog. Search for the NuGet package you want to use and click the Add Package button.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/AddNuGetPackagesDialog.png" title="Add NuGet Packages dialog" alt="Add NuGet Packages dialog"></p>
+
+<p>The Status Bar will update as the NuGet package is installed.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/JsonNetPackageAddedStatusBarMessage.png" title="Json.NET added status bar message" alt="Json.NET added status bar message"></p>
+
+<p>More detailed information about the installation can be found in the Paket Console window. This can be opened by clicking the Status Bar or from the View &ndash; Pads menu.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/JsonNetPackageAddedPaketConsole.png" title="Json.NET added Paket Console messages" alt="Json.NET added Paket Console messages"></p>
+
+<p>After the NuGet package has been installed successfully you will see two new items in the Solution window. A Paket Dependencies folder and a Paket References folder.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketFoldersInSolutionWindow.png" title="Paket folders in Solution window" alt="Paket folders in Solution window"></p>
+
+<p>These folders show the NuGet packages that are in the paket.dependencies and paket.references files.</p>
+
+<h2>Paket Dependencies Folder</h2>
+
+<p>The Paket Dependencies folder is shown in the Solution window if Xamarin Studio finds a paket.dependencies file in the same directory as the solution. The NuGet packages that are in the paket.dependencies file are shown under this folder.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderInSolutionWindow.png" title="Paket Dependencies folder in Solution window" alt="Paket Dependencies folder in Solution window"></p>
+
+<p>Double clicking the folder will open the paket.dependencies file into the text editor. The Paket Dependencies folder also has a context menu where you can run Paket commands.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderContextMenu.png" title="Paket Dependencies folder context menu" alt="Paket Dependencies folder context menu"></p>
+
+<p>From the context menu you can Add a NuGet Package as a dependency, install, restore, update, and simplify your dependencies, or check for updates. When you select Check for Updates the updated NuGet package information will be shown in the Paket Console and in the Solution window.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderNuGetPackageUpdateInformation.png" title="Paket Dependencies folder NuGet package update information" alt="Paket Dependencies folder NuGet package update information"></p>
+
+<p>To update a single NuGet package you can right click it and select Update. To remove the NuGet package as a dependency you can right click it and select Remove or press delete.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependencyNuGetPackageContextMenu.png" title="Paket Dependencies folder NuGet package context menu" alt="Paket Dependencies folder NuGet package context menu"></p>
+
+<h2>Paket References Folder</h2>
+
+<p>The Paket References folder is shown in the Solution window if Xamarin Studio finds a paket.references file in the same directory as the project. The NuGet packages that are in the paket.references file are shown under this folder. Double clicking the folder will open the paket.references file into the text editor.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderInSolutionWindow.png" title="Paket References folder in Solution window" alt="Paket References folder in Solution window"></p>
+
+<p>Right clicking the Paket References folder allows you to add a NuGet package to the project.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderAddPackagesMenu.png" title="Paket References folder context menu" alt="Paket References folder context menu"></p>
+
+<p>A NuGet package can be removed by right clicking it and selecting Remove or by pressing Delete.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderNuGetPackageContextMenu.png" title="Paket References folder NuGet package context menu" alt="Paket References folder NuGet package context menu"></p>
+
+<h2>Code Completion</h2>
+
+<p>When editing the paket.dependencies file you will get code completion as you type. You can also bring up the code completion list by pressing Ctrl+Enter.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordCompletion.png" title="paket.dependencies file keyword completion" alt="paket.dependencies file keyword completion"></p>
+
+<p>Keywords that have an associated value will also show code completion after a space is pressed or the first character is typed in.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordValueCompletion.png" title="paket.dependencies file keyword value completion" alt="paket.dependencies file keyword value completion"></p>
+
+<p>After the source keyword you will see a list of NuGet package sources that are defined in your NuGet.Config file.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileNuGetSourceCompletion.png" title="paket.dependencies file NuGet source completion" alt="paket.dependencies file NuGet source completion"></p>
+
+<p>After the nuget keyword you will see a list of NuGet packages.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileNuGetPackageCompletion.png" title="paket.dependencies file NuGet package completion" alt="paket.dependencies file NuGet package completion"></p>
+
+<p>This list of NuGet packages is currently taken from your local machine&rsquo;s NuGet cache. Currently there is no support for asynchronously searching an online NuGet package source to get the list of NuGet packages.</p>
+
+<h2>Running Paket commands</h2>
+
+<p>Paket commands can be run from the Unified search. If you type in paket you will see some of the Paket commands.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketCommandsInUnifiedSearch.png" title="Paket commands in unified search" alt="Paket commands in unified search"></p>
+
+<p>The syntax for each command is the similar to what the paket.exe console application supports but the commands do not support all the parameters.</p>
+
+<p>As you type more of the command the list of commands will be filtered. To run a command select it and then press the enter key. These commands directly run paket.exe and update the paket files and project files. The status of the current command is shown in the Status Bar and the output from paket.exe is shown in the Paket Console window.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesInstalledStatusBarMessage.png" title="Paket dependencies installed status bar message" alt="Paket dependencies installed status bar message"></p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesInstalledPaketConsoleOutput.png" title="Paket dependencies installed console message" alt="Paket dependencies installed console message"></p>
+
+<p>The Paket Console window will automatically be displayed if there was an error running a command and an error message will be displayed in the Status Bar.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/StatusBarAddNuGetPackagedErrorMessage.png" title="Paket error message in Status Bar" alt="Paket error message in Status Bar"></p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketConsoleAddNuGetPackagedErrorMessage.png" title="Paket console error message" alt="Paket console error message"></p>
+
+<p>Otherwise you can open the Paket Console by clicking the Status Bar.</p>
+
+<h2>Syntax highlighting</h2>
+
+<p>Syntax highlighting is available for all paket files &ndash; paket.dependencies, paket.references, paket.lock and paket.template.</p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileSyntaxHighlighting.png" title="paket.dependencies file syntax highlighting" alt="paket.dependencies file syntax highlighting"></p>
+
+<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketLockFileSyntaxHighlighting.png" title="paket.lock file syntax highlighting" alt="paket.lock file syntax highlighting"></p>
+
+<p>This brings us to the end of the introduction to Paket support in Xamarin Studio.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1185,103 +1363,6 @@ would update package dependencies correctly.</p>
 <p>To add the NuGet package back to the project you can hover the mouse over the warning icon and click the Add Package button that appears in the pop-up window.</p>
 
 <p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithAddPackagePopUpWindow.png" title="Android Support Library v13 Component Details page with Add Package pop-up window" alt="Android Support Library v13 CComponent Details page with Add Package pop-up window"></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/09/29/NuGetSupportInXamarinStudio5-4/">NuGet Support in Xamarin Studio 5.4</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-29T19:00:00+01:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>New Feature</h2>
-
-<ul>
-<li> Added support for the new Unified target frameworks for iOS and Mac
-
-<ul>
-<li>Xamarin.iOS</li>
-<li>Xamarin.Mac</li>
-</ul>
-</li>
-</ul>
-
-
-<p>More details on all the new features and changes in Xamarin Studio 5.4 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.4/xamarin.studio_5.4/">release notes</a>.</p>
-
-<h2>New Unified iOS and Mac Target Frameworks</h2>
-
-<p>Xamarin recently announced <a href="http://blog.xamarin.com/unified-api-with-64-bit-support-for-ios-and-mac/">a new Unified API for its iOS and Mac products</a>. This new Unified API makes it easier to share code between Mac and iOS as well as allowing you to support 32 and 64 bit applications with the same binary.</p>
-
-<p>To use this new Unified API you can create a new Unified project for iOS, or for Mac, using one of the project templates available from Xamarin Studio&rsquo;s New Project Dialog.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-4/UnifiedMacAndIOSProjectsInNewProjectDialog.png" title="Unified iOS and Mac Projects in New Project Dialog" alt="Unified iOS and Mac Projects in New Project Dialog"></p>
-
-<p>These Unified projects now support MSBuild and use the following target frameworks:</p>
-
-<ul>
-<li>Xamarin.iOS</li>
-<li>Xamarin.Mac</li>
-</ul>
-
-
-<h2>NuGet Support for the New Unified Target Frameworks</h2>
-
-<p>In order to support these two new frameworks the following changes were made to NuGet.</p>
-
-<ul>
-<li>Add Xamarin.iOS and Xamarin.Mac as known frameworks.</li>
-<li>Make frameworks that have a name that starts with <strong>Xamarin</strong> optional when checking the compatibility of Portable Class Libraries (PCLs) inside a NuGet package with a Portable Class Library project.</li>
-</ul>
-
-
-<p>With these new Unified frameworks being recognised by NuGet you can now create a NuGet package with assemblies that specifically target these frameworks.  The following shows part of a .nuspec file with framework specific assemblies for iOS and Mac being copied into the appropriate target lib folder inside the NuGet package.</p>
-
-<pre><code>&lt;files&gt;
-    &lt;file src="lib\Xamarin.iOS\*.dll" target="lib\Xamarin.iOS10" /&gt;
-    &lt;file src="lib\Xamarin.Mac\*.dll" target="lib\Xamarin.Mac20" /&gt;
-&lt;/files&gt;
-</code></pre>
-
-<p>The <a href="https://www.nuget.org/packages/Splat/">Splat NuGet package</a>, created by Paul Betts, is one NuGet package available from the main NuGet gallery that explicitly targets both of the new Unified frameworks.</p>
-
-<p>Having the Xamarin frameworks treated as optional by NuGet allows you to install a NuGet package containing PCL assemblies into a Portable Class Library project, on a machine with the Xamarin PCL profiles registered. Without the Xamarin frameworks being treated as optional the NuGet package would fail to be installed since NuGet would find them incompatible unless the NuGet package explicitly included the Xamarin frameworks as part of its PCL profile.</p>
-
-<p>Support for the new Xamarin frameworks will be available in the official NuGet from Microsoft in version 2.8.3. <a href="https://nuget.codeplex.com/releases/view/133091">NuGet 2.8.3</a> is currently available as alpha release. Xamarin Studio 5.4 includes its own build of NuGet which has support for the new Xamarin frameworks.</p>
-
-<h2>Portable Class Libraries</h2>
-
-<p>In order to be able to install a NuGet package containing PCL assemblies, such as Json.NET, into a Unified iOS or Unified Mac project you will need to have the PCL profile XML files for Unified iOS and Mac installed on your machine.</p>
-
-<p>On the Mac you can get these new PCL profile XML files by installing Mono 3.10.0, which is currently available from Xamarin Studio on the alpha and beta channels.</p>
-
-<p>On Windows, since NuGet 2.8.3 is currently only available as an alpha release, there is a <a href="http://xvs.xamarin.com/Xamarin.iOS.PortableNuGet.msi">separate installer</a> which will register the Unified iOS framework with the PCL profiles on your machine and will also install an alpha version of Microsoft&rsquo;s NuGet Package Manager 2.8.3 into Visual Studio.</p>
 </div>
   
   
