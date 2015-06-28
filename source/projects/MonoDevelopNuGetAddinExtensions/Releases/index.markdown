@@ -1,11 +1,19 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2014-06-14 16:30
+date: 2015-06-28 13:24
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.9
+
+2015-06-28
+
+ * Allow solution level packages to be uninstalled from console.
+ * Fix argument cannot be null message when uninstalling unknown package from console.
+ * Support version constraints in packages.config file when using Update-Package in console.
 
 ## Version 0.8
 
