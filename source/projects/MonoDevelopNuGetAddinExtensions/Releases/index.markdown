@@ -1,12 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2015-06-28 13:24
+date: 2015-07-18 13:24
 comments: true
 sharing: true
 footer: true
 ---
 
+## Version 0.10
+
+2015-07-18
+
+ * Support DependencyVersion parameter in Install-Package PowerShell command.
+ 
 ## Version 0.9
 
 2015-06-28
