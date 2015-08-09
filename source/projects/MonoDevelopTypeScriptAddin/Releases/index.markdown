@@ -1,11 +1,22 @@
 ---
 layout: page
 title: "MonoDevelop TypeScript Addin Releases"
-date: 2015-04-01 21:00
+date: 2015-08-09 15:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.6
+
+2015-08-09
+
+ * Update to TypeScript 1.5.3
+ * Linux 32 bit and 64 bit now supported with single addin.
+ * Ensure language service host updated when project options changed.
+ * Return current source editor line endings from shim host.
+ * Add UMD and System modules to project options.
+ * Fixed TypeScript options being available when solution selected. 
 
 ## Version 0.5
 
