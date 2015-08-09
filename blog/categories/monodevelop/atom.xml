@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-06-09T20:23:00+01:00</updated>
+  <updated>2015-08-09T17:29:47+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[TypeScript Addin 0.6 Released]]></title>
+    <link href="http://lastexitcode.com/blog/2015/08/09/TypeScriptAddin0-6Released/"/>
+    <updated>2015-08-09T15:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2015/08/09/TypeScriptAddin0-6Released</id>
+    <content type="html"><![CDATA[<p>A new version of the TypeScript addin for Xamarin Studio and MonoDevelop has been released. The addin is available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. More details on how to install the addin can be found in the <a href="/blog/2015/04/01/TypeScriptSupportInXamarinStudio/">TypeScript support in Xamarin Studio post</a>.</p>
+
+<h2>Changes</h2>
+
+<ul>
+<li>Updated to support <a href="http://blogs.msdn.com/b/typescript/archive/2015/07/20/announcing-typescript-1-5.aspx">TypeScript 1.5</a>.</li>
+<li>Linux 32 bit and 64 bit are now supported with a single addin. Thanks to <a href="https://github.com/chrisber">Christian Bernasko</a>.</li>
+<li>Allow UMD and System modules to be selected in project options.</li>
+</ul>
+
+
+<p>The separate TypeScript Linux 32 bit addin is now deprecated since the TypeScript addin can now be used on 32 bit and 64 bit versions of Linux.</p>
+
+<h2>Bug Fixes</h2>
+
+<ul>
+<li>TypeScript language service host not updated when the project options are changed</li>
+</ul>
+
+
+<p>For example, switching from ES3 to ES6 in the project options could cause the code completion to be incorrect since the language service host compiler settings were not being updated.</p>
+
+<ul>
+<li>TypeScript options shown when viewing solution options</li>
+</ul>
+
+
+<p>The TypeScript options are now only available when the project options are selected.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Paket Support in Xamarin Studio]]></title>
@@ -379,111 +415,6 @@
 <li><p><a href="ttps://github.com/mrward/typescript-addin/tree/monodevelop-v8-dotnet">TypeScript addin source code</a>.</p></li>
 <li><p><a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET source code</a>.</p></li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.8]]></title>
-    <link href="http://lastexitcode.com/blog/2015/03/21/NuGetSupportInXamarinStudio5-8/"/>
-    <updated>2015-03-21T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2015/03/21/NuGetSupportInXamarinStudio5-8</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.8 <a href="http://blog.xamarin.com/xamarin-releases-watch-kit-support-like-clockwork/">added support for Apple&rsquo;s Watch Kit</a> and it also includes some NuGet bug fixes.</p>
-
-<h2>Bug Fixes</h2>
-
-<ul>
-<li> Allow ASP.NET project templates to work offline.</li>
-<li> Build error after updating Xamarin.Forms in a project created by Visual Studio</li>
-<li> Custom MSBuild task not updated after updating Xamarin.Forms</li>
-<li> Update information in the Solution window incorrect after updating packages</li>
-<li> Check for package updates continues after closing a solution</li>
-<li> Check for package updates prevents packages from being removed</li>
-<li> Incorrect error message displayed when checking for package updates</li>
-<li> Exception when checking for package updates after changing target framework of a project</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.8 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.8/xamarin.studio_5.8/">release notes</a>.</p>
-
-<p><strong>Allow ASP.NET project templates to work offline</strong></p>
-
-<p>Previously it was not possible to create an ASP.NET project without an internet connection even if all the NuGet packages were available in the local machine&rsquo;s NuGet packages cache.</p>
-
-<p>Now the local machine&rsquo;s NuGet cache is used as the primary source of packages for project templates so it is possible to create an ASP.NET project without an internet connection if the NuGet packages are already in this cache.</p>
-
-<p>This problem did not affect project templates, such as Xamarin.Forms, which include the NuGet packages with their project templates.</p>
-
-<p><strong>Build error after updating Xamarin.Forms in a project created by Visual Studio</strong></p>
-
-<p>When a NuGet package that uses custom MSBuild targets file, such as Xamarin.Forms, is added to a project by Visual Studio the project file has an extra Target added, as shown below.</p>
-
-<pre><code>&lt;Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild"&gt;
-  &lt;PropertyGroup&gt;
-    &lt;ErrorText&gt;This project references NuGet package(s) that are missing on this computer.
-Enable NuGet Package Restore to download them.  For more information, see
-http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.&lt;/ErrorText&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;Error Condition="!Exists('packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets'))" /&gt;
-&lt;/Target&gt;
-</code></pre>
-
-<p>When the project was opened in a previous version of Xamarin Studio, and the NuGet package is updated or removed, the Error task was not updated. The project would then fail to compile with an error being reported that the old .targets file could not be found.</p>
-
-<p>Now when updating or removing a NuGet package the EnsureNuGetPackageBuildImports target is
-checked and the matching Error task will be removed. If there are no remaining Error tasks then the EnsureNuGetPackageBuildImports target is also removed. This prevents build errors after updating or uninstalling the old
-NuGet package from the project.</p>
-
-<p>Note that Xamarin Studio will not add an EnsureNuGetPackageBuildImports target and will not add Error tasks to a project when a NuGet package is added or updated.</p>
-
-<p><strong>Custom MSBuild task not updated after updating Xamarin.Forms</strong></p>
-
-<p>If a project that had a reference to Xamarin.Forms was compiled once, then the NuGet package was updated, the old MSBuild task was still being used when compiling.</p>
-
-<p>For Xamarin.Forms this could cause a &ldquo;XamlG Task failed unexpectedly&rdquo; build error to be reported. Also the Package Console would report not being able to access the Xamarin.Forms.Build.Tasks.dll when updating or removing the NuGet package.</p>
-
-<p>The problem was that MonoDevelop.Projects.Formats.MSBuild.exe that compiles the project would lock the MSBuild task assembly.</p>
-
-<p>Now when an MSBuild import is removed on updating a NuGet package Xamarin Studio will dispose the current project builder which will shutdown the MonoDevelop.Projects.Formats.MSBuild.exe process. This unlocks any custom MSBuild task assemblies loaded by this process,
-allowing the old NuGet package to be removed without any access denied errors, and when the project is recompiled again it will use the correct MSBuild task assembly.</p>
-
-<p><strong>Update information in the Solution window incorrect after updating packages</strong></p>
-
-<p>With check for updates enabled in Preferences, when an ASP.NET project is created, updates are shown as available for several packages. When
-the packages are updated the Solution window would still show updates as being available even though the packages had been updated.</p>
-
-<p>The problem was that a change was made in Xamarin Studio 5.7 to update package dependencies at the same time as the package was updated. This meant that an update event was not fired for each
-package being updated which would result in some package updates being shown as available in the Solution window even when they had been updated.</p>
-
-<p>Now Xamarin Studio will check all package references when a package is updated so if any package dependencies are updated the Solution
-window will show the correct status of the packages.</p>
-
-<p><strong>Check for package updates continues after closing a solution</strong></p>
-
-<p>Xamarin Studio will now stop checking for package updates when the current solution is closed. Previously this would continue until the check was completed.</p>
-
-<p><strong>Check for updates prevents packages from being removed</strong></p>
-
-<p>Previously when Xamarin Studio was checking for package updates all other NuGet actions, such as updating, adding or removing packages, would not be run until the check for updates had completed.
-Now the check for NuGet package updates is done on a separate thread so other NuGet actions can be run at the same time.</p>
-
-<p><strong>Incorrect error message displayed when checking for package updates</strong></p>
-
-<p>The Package Console would sometimes show the error message &ldquo;An exception was thrown while dispatching a method call in the UI thread.&rdquo; instead of the underlying error making it difficult to determine the cause of the problem.
-For example if there was a zero byte sized .nupkg file in the solution&rsquo;s package directory, and check for updates is enabled, then
-the wrong error was displayed in the Package Console.</p>
-
-<p><strong>Exception when checking for package updates after changing target framework of a project</strong></p>
-
-<p>Previously a null reference exception would be reported in the Package console window when doing the following:</p>
-
-<ol>
-<li> Create a project with one NuGet package added.</li>
-<li> Create two NuGet package sources in Preferences. Disable all other package sources.</li>
-<li> Open the Add Packages dialog and select All Sources.</li>
-<li> Go back to Preferences and uncheck both of the package sources.</li>
-<li> Change the target framework of the project in the project options.</li>
-</ol>
 
 ]]></content>
   </entry>

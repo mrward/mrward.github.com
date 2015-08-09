@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-06-09T20:23:00+01:00</updated>
+  <updated>2015-08-09T17:29:47+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,42 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[TypeScript Addin 0.6 Released]]></title>
+    <link href="http://lastexitcode.com/blog/2015/08/09/TypeScriptAddin0-6Released/"/>
+    <updated>2015-08-09T15:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2015/08/09/TypeScriptAddin0-6Released</id>
+    <content type="html"><![CDATA[<p>A new version of the TypeScript addin for Xamarin Studio and MonoDevelop has been released. The addin is available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. More details on how to install the addin can be found in the <a href="http://lastexitcode.com/blog/2015/04/01/TypeScriptSupportInXamarinStudio/">TypeScript support in Xamarin Studio post</a>.</p>
+
+<h2>Changes</h2>
+
+<ul>
+<li>Updated to support <a href="http://blogs.msdn.com/b/typescript/archive/2015/07/20/announcing-typescript-1-5.aspx">TypeScript 1.5</a>.</li>
+<li>Linux 32 bit and 64 bit are now supported with a single addin. Thanks to <a href="https://github.com/chrisber">Christian Bernasko</a>.</li>
+<li>Allow UMD and System modules to be selected in project options.</li>
+</ul>
+
+
+<p>The separate TypeScript Linux 32 bit addin is now deprecated since the TypeScript addin can now be used on 32 bit and 64 bit versions of Linux.</p>
+
+<h2>Bug Fixes</h2>
+
+<ul>
+<li>TypeScript language service host not updated when the project options are changed</li>
+</ul>
+
+
+<p>For example, switching from ES3 to ES6 in the project options could cause the code completion to be incorrect since the language service host compiler settings were not being updated.</p>
+
+<ul>
+<li>TypeScript options shown when viewing solution options</li>
+</ul>
+
+
+<p>The TypeScript options are now only available when the project options are selected.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Paket Support in Xamarin Studio]]></title>
@@ -1769,26 +1805,6 @@ Also some of the newer NuGet packages, such as Microsoft.Bcl.Immutable 1.1.20-be
 
 
 <p>For a detailed look at the new features please read the <a href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.7/">release note</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MonoDevelop NuGet Addin 0.6 Released]]></title>
-    <link href="http://lastexitcode.com/blog/2013/08/26/MonoDevelopNuGetAddin0-6Released/"/>
-    <updated>2013-08-26T13:21:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2013/08/26/MonoDevelopNuGetAddin0-6Released</id>
-    <content type="html"><![CDATA[<p>A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li><a href="http://docs.nuget.org/docs/release-notes/nuget-2.7">NuGet 2.7</a> support.</li>
-<li>Support for restoring NuGet packages.</li>
-<li>Added message to show that the Manage Packages dialog is searching for packages.</li>
-</ul>
-
-
-<p>For a detailed look at the new features please read the <a href="http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.6/">release note</a>.</p>
 ]]></content>
   </entry>
   

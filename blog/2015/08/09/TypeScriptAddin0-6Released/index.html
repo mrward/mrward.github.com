@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: typescript - Matt Ward</title>
+  <title>TypeScript Addin 0.6 Released - Matt Ward</title>
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Category: typescript">
+  <meta name="description" content="A new version of the TypeScript addin for Xamarin Studio and MonoDevelop has been released. The addin is available from MonoDevelop&rsquo;s Add-in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lastexitcode.com/blog/categories/typescript">
+  <link rel="canonical" href="http://lastexitcode.com/blog/2015/08/09/TypeScriptAddin0-6Released">
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
@@ -80,49 +80,113 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: typescript</h1>
+    
+      
+        <h1 class="entry-title">TypeScript Addin 0.6 Released</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-09T15:00:00+01:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2015</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>A new version of the TypeScript addin for Xamarin Studio and MonoDevelop has been released. The addin is available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. More details on how to install the addin can be found in the <a href="/blog/2015/04/01/TypeScriptSupportInXamarinStudio/">TypeScript support in Xamarin Studio post</a>.</p>
 
-  
-  <h2>2015</h2>
+<h2>Changes</h2>
 
-<article>
-  
-<h1><a href="/blog/2015/08/09/TypeScriptAddin0-6Released/">TypeScript Addin 0.6 Released</a></h1>
-<time datetime="2015-08-09T15:00:00+01:00" pubdate><span class='month'>Aug</span> <span class='day'>09</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/typescript/'>typescript</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a></span>
-</footer>
+<ul>
+<li>Updated to support <a href="http://blogs.msdn.com/b/typescript/archive/2015/07/20/announcing-typescript-1-5.aspx">TypeScript 1.5</a>.</li>
+<li>Linux 32 bit and 64 bit are now supported with a single addin. Thanks to <a href="https://github.com/chrisber">Christian Bernasko</a>.</li>
+<li>Allow UMD and System modules to be selected in project options.</li>
+</ul>
 
 
-</article>
+<p>The separate TypeScript Linux 32 bit addin is now deprecated since the TypeScript addin can now be used on 32 bit and 64 bit versions of Linux.</p>
+
+<h2>Bug Fixes</h2>
+
+<ul>
+<li>TypeScript language service host not updated when the project options are changed</li>
+</ul>
 
 
+<p>For example, switching from ES3 to ES6 in the project options could cause the code completion to be incorrect since the language service host compiler settings were not being updated.</p>
 
-<article>
-  
-<h1><a href="/blog/2015/04/01/TypeScriptSupportInXamarinStudio/">TypeScript Support in Xamarin Studio</a></h1>
-<time datetime="2015-04-01T21:00:00+01:00" pubdate><span class='month'>Apr</span> <span class='day'>01</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/typescript/'>typescript</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a></span>
-</footer>
+<ul>
+<li>TypeScript options shown when viewing solution options</li>
+</ul>
 
 
-</article>
-
+<p>The TypeScript options are now only available when the project options are selected.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-09T15:00:00+01:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/typescript/'>typescript</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2015/08/09/TypeScriptAddin0-6Released/" data-via="" data-counturl="http://lastexitcode.com/blog/2015/08/09/TypeScriptAddin0-6Released/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/09/PaketSupportInXamarinStudio/" title="Previous Post: Paket Support in Xamarin Studio">&laquo; Paket Support in Xamarin Studio</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 
