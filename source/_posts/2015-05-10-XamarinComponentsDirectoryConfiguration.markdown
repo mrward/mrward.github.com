@@ -40,11 +40,11 @@ Now let us take a look at how to solve this problem by configuring the Component
 
 To configure the Components directory used by a project you can use a components.config file, as shown below.
 
-  <components>
-    <config>
-      <add key="cachePath" value="..\Components" />
-    </config>
-  </components>
+    <components>
+      <config>
+        <add key="cachePath" value="..\Components" />
+      </config>
+    </components>
 
 The path specified in the components.config file can be a full path or a relative path. If it is a relative path then it is relative to the directory containing the components.config file.
 
@@ -100,11 +100,11 @@ xamarin-component.exe will look for the components.config file in the same direc
 
 NuGet has similar behaviour to Components in Xamarin Studio. All NuGet packages are downloaded to a packages directory inside the solution directory by default. To override this behaviour you can create a [NuGet.Config file](https://docs.nuget.org/consume/nuget-config-file). The NuGet.Config file allows the packages directory to be configured through a repositoryPath setting.
 
-  <configuration>
-    <config>
-      <add key="repositoryPath" value="../../packages" />
-    </config>
-  </configuration>
+    <configuration>
+      <config>
+        <add key="repositoryPath" value="../../packages" />
+      </config>
+    </configuration>
 
 NuGet will look for this NuGet.Config file in several places. Assuming the solution directory is /Users/matt/Projects/MyAndroidApp/ the NuGet.Config file will be looked for in the locations as shown below:
 
