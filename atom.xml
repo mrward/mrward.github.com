@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-08-09T17:29:47+01:00</updated>
+  <updated>2015-09-16T16:53:40+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -279,14 +279,12 @@
 
 <p>To configure the Components directory used by a project you can use a components.config file, as shown below.</p>
 
-<p>  <components></p>
-
-<pre><code>&lt;config&gt;
-  &lt;add key="cachePath" value="..\Components" /&gt;
-&lt;/config&gt;
+<pre><code>&lt;components&gt;
+  &lt;config&gt;
+    &lt;add key="cachePath" value="..\Components" /&gt;
+  &lt;/config&gt;
+&lt;/components&gt;
 </code></pre>
-
-<p>  </components></p>
 
 <p>The path specified in the components.config file can be a full path or a relative path. If it is a relative path then it is relative to the directory containing the components.config file.</p>
 
@@ -348,14 +346,12 @@
 
 <p>NuGet has similar behaviour to Components in Xamarin Studio. All NuGet packages are downloaded to a packages directory inside the solution directory by default. To override this behaviour you can create a <a href="https://docs.nuget.org/consume/nuget-config-file">NuGet.Config file</a>. The NuGet.Config file allows the packages directory to be configured through a repositoryPath setting.</p>
 
-<p>  <configuration></p>
-
-<pre><code>&lt;config&gt;
-  &lt;add key="repositoryPath" value="../../packages" /&gt;
-&lt;/config&gt;
+<pre><code>&lt;configuration&gt;
+  &lt;config&gt;
+    &lt;add key="repositoryPath" value="../../packages" /&gt;
+  &lt;/config&gt;
+&lt;/configuration&gt;
 </code></pre>
-
-<p>  </configuration></p>
 
 <p>NuGet will look for this NuGet.Config file in several places. Assuming the solution directory is /Users/matt/Projects/MyAndroidApp/ the NuGet.Config file will be looked for in the locations as shown below:</p>
 
@@ -942,6 +938,7 @@ would update package dependencies correctly.</p>
     - Newtonsoft.Json, Version=5.0.8
   mobile: Ninject, Version=3.2.0
   ios: log4net, Version=2.0.0
+  ios-unified: log4net, Version=2.0.0
 </code></pre>
 
 <p>Note that <strong>mobile</strong> used here is equivalent to the empty double quoted string &ldquo;&rdquo; which was used in the previous example with the single NuGet package.</p>
@@ -952,6 +949,7 @@ would update package dependencies correctly.</p>
     &lt;package id="NUnit" version="2.6.2" framework="android" /&gt;
     &lt;package id="Newtonsoft.Json" version="5.0.8" framework="android" /&gt;
     &lt;package id="log4net" version="2.0.0" framework="ios" /&gt;
+    &lt;package id="log4net" version="2.0.0" framework="ios-unified" /&gt;
     &lt;package id="Ninject" version="3.2.0" framework="mobile" /&gt;
   &lt;/packages&gt;
 </code></pre>
@@ -962,6 +960,7 @@ would update package dependencies correctly.</p>
 --package="android":"Newtonsoft.Json, Version=5.0.8"
 --package="mobile":"Ninject, Version=3.2.0"
 --package="ios":"log4net, Version=2.0.0"
+--package="ios-unified":"log4net, Version=2.0.0"
 </code></pre>
 
 <p>With the NuGet package dependencies defined as shown in the previous examples when you install the Component into a project the NuGet package will be installed and a reference will be added to the assemblies in the <strong>lib</strong> directory of the Component. If you want to only add the NuGet package to the project and not the assemblies in the lib directory then you can create a Shell Component which we will look at in the following section.</p>

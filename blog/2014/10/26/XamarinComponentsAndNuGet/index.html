@@ -159,6 +159,7 @@
     - Newtonsoft.Json, Version=5.0.8
   mobile: Ninject, Version=3.2.0
   ios: log4net, Version=2.0.0
+  ios-unified: log4net, Version=2.0.0
 </code></pre>
 
 <p>Note that <strong>mobile</strong> used here is equivalent to the empty double quoted string &ldquo;&rdquo; which was used in the previous example with the single NuGet package.</p>
@@ -169,6 +170,7 @@
     &lt;package id="NUnit" version="2.6.2" framework="android" /&gt;
     &lt;package id="Newtonsoft.Json" version="5.0.8" framework="android" /&gt;
     &lt;package id="log4net" version="2.0.0" framework="ios" /&gt;
+    &lt;package id="log4net" version="2.0.0" framework="ios-unified" /&gt;
     &lt;package id="Ninject" version="3.2.0" framework="mobile" /&gt;
   &lt;/packages&gt;
 </code></pre>
@@ -179,6 +181,7 @@
 --package="android":"Newtonsoft.Json, Version=5.0.8"
 --package="mobile":"Ninject, Version=3.2.0"
 --package="ios":"log4net, Version=2.0.0"
+--package="ios-unified":"log4net, Version=2.0.0"
 </code></pre>
 
 <p>With the NuGet package dependencies defined as shown in the previous examples when you install the Component into a project the NuGet package will be installed and a reference will be added to the assemblies in the <strong>lib</strong> directory of the Component. If you want to only add the NuGet package to the project and not the assemblies in the lib directory then you can create a Shell Component which we will look at in the following section.</p>
