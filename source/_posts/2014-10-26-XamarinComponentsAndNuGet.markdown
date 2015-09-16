@@ -51,6 +51,7 @@ This packaged Component will install the Newtonsoft.Json NuGet package into any 
         - Newtonsoft.Json, Version=5.0.8
       mobile: Ninject, Version=3.2.0
       ios: log4net, Version=2.0.0
+      ios-unified: log4net, Version=2.0.0
 
 Note that **mobile** used here is equivalent to the empty double quoted string "" which was used in the previous example with the single NuGet package.
 
@@ -60,6 +61,7 @@ If you then generate the Component again using the xamarin-component.exe package
 	    <package id="NUnit" version="2.6.2" framework="android" />
 	    <package id="Newtonsoft.Json" version="5.0.8" framework="android" />
 	    <package id="log4net" version="2.0.0" framework="ios" />
+	    <package id="log4net" version="2.0.0" framework="ios-unified" />
 	    <package id="Ninject" version="3.2.0" framework="mobile" />
 	  </packages>
 
@@ -69,6 +71,7 @@ If you are using the xamarin-component.exe create-manually command line you can 
 	--package="android":"Newtonsoft.Json, Version=5.0.8"
 	--package="mobile":"Ninject, Version=3.2.0"
 	--package="ios":"log4net, Version=2.0.0"
+	--package="ios-unified":"log4net, Version=2.0.0"
 
 With the NuGet package dependencies defined as shown in the previous examples when you install the Component into a project the NuGet package will be installed and a reference will be added to the assemblies in the **lib** directory of the Component. If you want to only add the NuGet package to the project and not the assemblies in the lib directory then you can create a Shell Component which we will look at in the following section.
 

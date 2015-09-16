@@ -59,6 +59,7 @@ Shown below is a more complicated example from a component.yaml file where NUnit
         - Newtonsoft.Json, Version=5.0.8
       mobile: Ninject, Version=3.2.0
       ios: log4net, Version=2.0.0
+      ios-unified: log4net, Version=2.0.0
 
 If you then generate the Component again using the xamarin-component package command you will see the Component's manifest file now contains the following section:
 
@@ -66,6 +67,7 @@ If you then generate the Component again using the xamarin-component package com
 	    <package id="NUnit" version="2.6.2" framework="android" />
 	    <package id="Newtonsoft.Json" version="5.0.8" framework="android" />
 	    <package id="log4net" version="2.0.0" framework="ios" />
+	    <package id="log4net" version="2.0.0" framework="ios-unified" />
 	    <package id="Ninject" version="3.2.0" framework="mobile" />
 	  </packages>
 
@@ -75,6 +77,7 @@ If you are using the create-manually command line you can add the same NuGet pac
 	--package="android":"Newtonsoft.Json, Version=5.0.8"
 	--package="mobile":"Ninject, Version=3.2.0"
 	--package="ios":"log4net, Version=2.0.0"
+	--package="ios-unified":"log4net, Version=2.0.0"
     
 When installing the Component above into a project the NuGet package will be installed and a reference will be added to the assemblies in the **lib** directory of the Component. If you want to only add the NuGet package to the project, when the Component is installed, and not the assemblies in the lib directory then you can create a shell component which we will look at in the following section.
 
