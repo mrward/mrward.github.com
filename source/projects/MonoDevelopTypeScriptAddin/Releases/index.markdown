@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop TypeScript Addin Releases"
-date: 2015-08-09 15:00
+date: 2015-11-02 15:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.7
+
+2015-11-02
+
+ * Update to TypeScript 1.6.2
+ * Do not open TypeScript console window on building any project.
 
 ## Version 0.6
 
