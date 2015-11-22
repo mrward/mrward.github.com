@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-09-16T16:53:40+01:00</updated>
+  <updated>2015-11-22T15:12:00+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.10]]></title>
+    <link href="http://lastexitcode.com/blog/2015/11/22/NuGetSupportInXamarinStudio5-10/"/>
+    <updated>2015-11-22T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2015/11/22/NuGetSupportInXamarinStudio5-10</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio 5.10 was released last week as part of the <a href="https://blog.xamarin.com/introducing-xamarin-4/">Xamarin 4 release</a> and it includes changes to the NuGet support.</p>
+
+<h2>Changes</h2>
+
+<ul>
+<li> Support NuGet 2.8.7.</li>
+<li> Open readme.txt when a NuGet package is installed.</li>
+<li> Support packages.config file named after the project.</li>
+<li> Local Copy settings are preserved for references when updating packages.</li>
+<li> Do not show Checking for package updates message in status bar.</li>
+<li> Do not show warning in the status bar if a NuGet package has PowerShell scripts.</li>
+<li> Prevent the solution being closed when NuGet packages are being added.</li>
+<li> Removing a NuGet package does not update the Solution window when multiple solutions are open.</li>
+<li> Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.</li>
+<li> Prevent retargeting a NuGet package marking packages.config as deleted by Git.</li>
+<li> Allow Microsoft.ApplicationInsights NuGet package to be installed.</li>
+</ul>
+
+
+<p>More information on all the changes in Xamarin Studio 5.10 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.10/xamarin.studio_5.10/">release notes</a>.</p>
+
+<h2>NuGet 2.8.7 support</h2>
+
+<p>Xamarin Studio now supports NuGet 2.8.7. NuGet 2.8.7 adds support for the Universal App Platform (UAP) target framework to support Windows 10 Application Development.</p>
+
+<h2>Open readme.txt when a NuGet package is installed</h2>
+
+<p>A NuGet package can contain a <a href="https://docs.nuget.org/create/creating-and-publishing-a-package#user-content-automatically-displaying-a-readmetxt-file-during-package-installation">readme.txt file</a> which Xamarin Studio will now open and display in the text editor when the NuGet package is installed or updated.</p>
+
+<h2>Preserve Local Copy on Updating Packages</h2>
+
+<p>The Local Copy setting on an assembly reference will now be preserved when updating a NuGet package or retargeting a NuGet package.</p>
+
+<p>By default Local Copy is set to true for assembly references when installing a NuGet package. If you set Local Copy to false for one or more of these references then this setting will now be preserved when updating or retargeting the NuGet package.</p>
+
+<h2>Packages.config file named after project</h2>
+
+<p>NuGet supports multiple projects in the same directory each using their own packages.config file. To allow multiple projects in the same directory to each use their own NuGet packages you can name the packages.config file after each project. In the examples below the project filename is on the left and the corresponding packages.config filename is on the right.</p>
+
+<ul>
+<li>Foo.csproj => packages.Foo.config</li>
+<li>Bar.csproj => packages.Bar.config</li>
+<li>Foo Bar.csproj => packages.Foo_Bar.config</li>
+</ul>
+
+
+<p>Xamarin Studio now checks for the packages.ProjectName.config file first and will use it if it exists, otherwise it will fall back to the default behaviour and use the packages.config file.</p>
+
+<p>Note that a new project without any NuGet packages will use a packages.config file by default. The basic procedure to enable a project specific packages.config file when creating a new project is:</p>
+
+<ol>
+<li>Create new project called Foo.</li>
+<li>Add a NuGet package to the Foo project.</li>
+<li>Rename the packages.config file to packages.Foo.config</li>
+<li>Reload the solution in Xamarin Studio.</li>
+</ol>
+
+
+<p>Also note that if you remove all the NuGet packages from a project the packages.ProjectName.config file will be deleted and on adding a new NuGet package the default packages.config file will be used.</p>
+
+<h2>Do not show Checking for package updates message in status bar</h2>
+
+<p>Previously when Xamarin Studio was checking for NuGet package updates a message would appear in the status bar. This status bar message has now been removed since checking for NuGet package updates is a background task and does not prevent Xamarin Studio from being used.</p>
+
+<h2>Do not show warning in the status bar if a NuGet package has PowerShell scripts</h2>
+
+<p>Previously if a NuGet package was installed and it contained PowerShell scripts then a warning was shown in the status bar. Now this message is only shown in the Package Console window.</p>
+
+<h2>Prevent the solution being closed when NuGet packages are being added</h2>
+
+<p>A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Removing a NuGet package does not update the Solution window when multiple solutions are open</strong></p>
+
+<p>With two or more solutions opened at the same time the Packages folder would not be updated for all solutions when a NuGet package was removed. This was because Xamarin Studio was not refreshing the Packages folder for all solutions currently open.</p>
+
+<p><strong>Prevent packages.config file being marked as deleted by Git after updating pre-release NuGet package.</strong></p>
+
+<p>If there was only one pre-release NuGet package installed into a project and then a later version of the NuGet package was installed from the Add Packages dialog then the packages.config file was then being shown as deleted by Git instead of modified.</p>
+
+<p>The packages.config file is deleted by NuGet after the old NuGet package is uninstalled if there are no NuGet packages referenced. A special case to handle this was added in Xamarin Studio 5.3 but that only handled updating a NuGet package from the Solution window. Now updating a pre-release from the Add Packages dialog is also handled.</p>
+
+<p><strong>Retargeting a NuGet package marks packages.config as deleted by Git</strong></p>
+
+<p>This is similar to the previous bug. Retargeting a NuGet package will uninstall and then install the NuGet package. If there is only one NuGet package in the project then the packages.config file is deleted and was causing Git to mark the file as deleted instead of updated.</p>
+
+<p><strong>Unable to install Microsoft.ApplicationInsights NuGet package</strong></p>
+
+<p>Xamarin Studio 5.9.2 added support for NuGet 2.8.5 but it was not possible to install the <a href="https://www.nuget.org/packages/Microsoft.ApplicationInsights/">Microsoft.ApplicationInsights NuGet package</a> into a project. It was possible to install it using Visual Studio with NuGet 2.8.3 or higher installed. The error reported by Xamarin Studio was:</p>
+
+<pre><code>Adding Microsoft.ApplicationInsights...
+The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.50313' or above, but the current NuGet version is '2.8.5.0'.
+</code></pre>
+
+<p>Xamarin Studio 5.10 now allows the Microsoft.ApplicationInsights NuGet package to be installed into a project.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[TypeScript Addin 0.6 Released]]></title>
@@ -365,47 +470,6 @@
 <li> ~/.config/NuGet/NuGet.Config (Windows: %AppData%\NuGet\NuGet.Config)</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.9]]></title>
-    <link href="http://lastexitcode.com/blog/2015/05/03/NuGetSupportInXamarinStudio5-9/"/>
-    <updated>2015-05-03T14:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2015/05/03/NuGetSupportInXamarinStudio5-9</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet 2.8.3 support</li>
-<li> Always show Packages folder in Solution window</li>
-<li> Target framework change detected on project reload</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.9 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.9/xamarin.studio_5.9/">release notes</a>.</p>
-
-<h2>NuGet 2.8.3 support</h2>
-
-<p>Xamarin Studio now supports NuGet 2.8.3. This allows a NuGet package to target NuGet 2.8.3 explicitly. For example the PCLStorage 1.0.1 NuGet package will not install into Xamarin Studio 5.8, since it requires NuGet 2.8.3, but will install into Xamarin Studio 5.9.</p>
-
-<p>NuGet packages, such as xunit, that target the new ASP.NET target frameworks, ASP.NetCore 5.0 and ASP.Net 5.0, can now be installed into Xamarin Studio now that it supports NuGet 2.8.3. Previously you would see an error message in the Package Console window:</p>
-
-<pre><code>'xunit.core' already has a dependency defined for 'xunit.extensibility.core'.
-</code></pre>
-
-<p>Support for NuGet 2.8.5 is planned for Xamarin Studio 5.9.1.</p>
-
-<h2>Always Show Packages Folder in Solution window</h2>
-
-<p>The Packages folder is now always shown in the Solution window even if the project has no NuGet packages. Previously the Packages folder would only be shown if one or more NuGet packages were installed in a project.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9/PackagesFolderInSolutionWindow.png" title="&lsquo;Packages folder in Solution window&rsquo; &lsquo;Packages folder in Solution window&rsquo; &lsquo;&rsquo;" ></p>
-
-<h2>Target Framework Change Detected on Project Reload</h2>
-
-<p>Xamarin Studio will detect a project file has been changed outside of Xamarin Studio and will reload the project. Now Xamarin Studio on reloading will detect the project&rsquo;s target framework has been changed and will  check the NuGet packages are compatible with the new target framework. Previously Xamarin Studio would only check the compatibility of NuGet packages if the target framework was changed from within Xamarin Studio via the project options.</p>
-
-<p>This allows Xamarin Studio to check the NuGet packages are compatible when an iOS Classic project is converted to an iOS Unified project using Xamarin Studio&rsquo;s migration tool. The NuGet packages, such as Xamarin.Forms, can then be retargeted by Xamarin Studio using the <a href="blog/2014/08/10/NuGetSupportInXamarinStudio5-2/">Retarget menu</a>.</p>
 ]]></content>
   </entry>
   

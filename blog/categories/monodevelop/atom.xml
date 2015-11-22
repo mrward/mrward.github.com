@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2015-09-16T16:53:40+01:00</updated>
+  <updated>2015-11-22T15:12:00+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.10]]></title>
+    <link href="http://lastexitcode.com/blog/2015/11/22/NuGetSupportInXamarinStudio5-10/"/>
+    <updated>2015-11-22T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2015/11/22/NuGetSupportInXamarinStudio5-10</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio 5.10 was released last week as part of the <a href="https://blog.xamarin.com/introducing-xamarin-4/">Xamarin 4 release</a> and it includes changes to the NuGet support.</p>
+
+<h2>Changes</h2>
+
+<ul>
+<li> Support NuGet 2.8.7.</li>
+<li> Open readme.txt when a NuGet package is installed.</li>
+<li> Support packages.config file named after the project.</li>
+<li> Local Copy settings are preserved for references when updating packages.</li>
+<li> Do not show Checking for package updates message in status bar.</li>
+<li> Do not show warning in the status bar if a NuGet package has PowerShell scripts.</li>
+<li> Prevent the solution being closed when NuGet packages are being added.</li>
+<li> Removing a NuGet package does not update the Solution window when multiple solutions are open.</li>
+<li> Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.</li>
+<li> Prevent retargeting a NuGet package marking packages.config as deleted by Git.</li>
+<li> Allow Microsoft.ApplicationInsights NuGet package to be installed.</li>
+</ul>
+
+
+<p>More information on all the changes in Xamarin Studio 5.10 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.10/xamarin.studio_5.10/">release notes</a>.</p>
+
+<h2>NuGet 2.8.7 support</h2>
+
+<p>Xamarin Studio now supports NuGet 2.8.7. NuGet 2.8.7 adds support for the Universal App Platform (UAP) target framework to support Windows 10 Application Development.</p>
+
+<h2>Open readme.txt when a NuGet package is installed</h2>
+
+<p>A NuGet package can contain a <a href="https://docs.nuget.org/create/creating-and-publishing-a-package#user-content-automatically-displaying-a-readmetxt-file-during-package-installation">readme.txt file</a> which Xamarin Studio will now open and display in the text editor when the NuGet package is installed or updated.</p>
+
+<h2>Preserve Local Copy on Updating Packages</h2>
+
+<p>The Local Copy setting on an assembly reference will now be preserved when updating a NuGet package or retargeting a NuGet package.</p>
+
+<p>By default Local Copy is set to true for assembly references when installing a NuGet package. If you set Local Copy to false for one or more of these references then this setting will now be preserved when updating or retargeting the NuGet package.</p>
+
+<h2>Packages.config file named after project</h2>
+
+<p>NuGet supports multiple projects in the same directory each using their own packages.config file. To allow multiple projects in the same directory to each use their own NuGet packages you can name the packages.config file after each project. In the examples below the project filename is on the left and the corresponding packages.config filename is on the right.</p>
+
+<ul>
+<li>Foo.csproj => packages.Foo.config</li>
+<li>Bar.csproj => packages.Bar.config</li>
+<li>Foo Bar.csproj => packages.Foo_Bar.config</li>
+</ul>
+
+
+<p>Xamarin Studio now checks for the packages.ProjectName.config file first and will use it if it exists, otherwise it will fall back to the default behaviour and use the packages.config file.</p>
+
+<p>Note that a new project without any NuGet packages will use a packages.config file by default. The basic procedure to enable a project specific packages.config file when creating a new project is:</p>
+
+<ol>
+<li>Create new project called Foo.</li>
+<li>Add a NuGet package to the Foo project.</li>
+<li>Rename the packages.config file to packages.Foo.config</li>
+<li>Reload the solution in Xamarin Studio.</li>
+</ol>
+
+
+<p>Also note that if you remove all the NuGet packages from a project the packages.ProjectName.config file will be deleted and on adding a new NuGet package the default packages.config file will be used.</p>
+
+<h2>Do not show Checking for package updates message in status bar</h2>
+
+<p>Previously when Xamarin Studio was checking for NuGet package updates a message would appear in the status bar. This status bar message has now been removed since checking for NuGet package updates is a background task and does not prevent Xamarin Studio from being used.</p>
+
+<h2>Do not show warning in the status bar if a NuGet package has PowerShell scripts</h2>
+
+<p>Previously if a NuGet package was installed and it contained PowerShell scripts then a warning was shown in the status bar. Now this message is only shown in the Package Console window.</p>
+
+<h2>Prevent the solution being closed when NuGet packages are being added</h2>
+
+<p>A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Removing a NuGet package does not update the Solution window when multiple solutions are open</strong></p>
+
+<p>With two or more solutions opened at the same time the Packages folder would not be updated for all solutions when a NuGet package was removed. This was because Xamarin Studio was not refreshing the Packages folder for all solutions currently open.</p>
+
+<p><strong>Prevent packages.config file being marked as deleted by Git after updating pre-release NuGet package.</strong></p>
+
+<p>If there was only one pre-release NuGet package installed into a project and then a later version of the NuGet package was installed from the Add Packages dialog then the packages.config file was then being shown as deleted by Git instead of modified.</p>
+
+<p>The packages.config file is deleted by NuGet after the old NuGet package is uninstalled if there are no NuGet packages referenced. A special case to handle this was added in Xamarin Studio 5.3 but that only handled updating a NuGet package from the Solution window. Now updating a pre-release from the Add Packages dialog is also handled.</p>
+
+<p><strong>Retargeting a NuGet package marks packages.config as deleted by Git</strong></p>
+
+<p>This is similar to the previous bug. Retargeting a NuGet package will uninstall and then install the NuGet package. If there is only one NuGet package in the project then the packages.config file is deleted and was causing Git to mark the file as deleted instead of updated.</p>
+
+<p><strong>Unable to install Microsoft.ApplicationInsights NuGet package</strong></p>
+
+<p>Xamarin Studio 5.9.2 added support for NuGet 2.8.5 but it was not possible to install the <a href="https://www.nuget.org/packages/Microsoft.ApplicationInsights/">Microsoft.ApplicationInsights NuGet package</a> into a project. It was possible to install it using Visual Studio with NuGet 2.8.3 or higher installed. The error reported by Xamarin Studio was:</p>
+
+<pre><code>Adding Microsoft.ApplicationInsights...
+The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.50313' or above, but the current NuGet version is '2.8.5.0'.
+</code></pre>
+
+<p>Xamarin Studio 5.10 now allows the Microsoft.ApplicationInsights NuGet package to be installed into a project.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[TypeScript Addin 0.6 Released]]></title>
@@ -277,145 +382,6 @@
 <p>Xamarin Studio will detect a project file has been changed outside of Xamarin Studio and will reload the project. Now Xamarin Studio on reloading will detect the project&rsquo;s target framework has been changed and will  check the NuGet packages are compatible with the new target framework. Previously Xamarin Studio would only check the compatibility of NuGet packages if the target framework was changed from within Xamarin Studio via the project options.</p>
 
 <p>This allows Xamarin Studio to check the NuGet packages are compatible when an iOS Classic project is converted to an iOS Unified project using Xamarin Studio&rsquo;s migration tool. The NuGet packages, such as Xamarin.Forms, can then be retargeted by Xamarin Studio using the <a href="blog/2014/08/10/NuGetSupportInXamarinStudio5-2/">Retarget menu</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[TypeScript Support in Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2015/04/01/TypeScriptSupportInXamarinStudio/"/>
-    <updated>2015-04-01T21:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2015/04/01/TypeScriptSupportInXamarinStudio</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio and MonoDevelop now have support for <a href="http://www.typescriptlang.org/">TypeScript</a> on Linux, Mac and Windows with an alpha release of the <a href="https://github.com/mrward/typescript-addin">TypeScript Addin</a>.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/EditingTypeScriptInTextEditor.png" title="&lsquo;Editing TypeScript in Xamarin Studio on the Mac&rsquo; &lsquo;Editing TypeScript in Xamarin Studio on the Mac&rsquo;" ></p>
-
-<p>The TypeScript addin uses <a href="http://v8dotnet.codeplex.com">V8.NET</a> which is a library that allows a .NET application to host <a href="https://code.google.com/p/v8/">Google&rsquo;s V8 JavaScript engine</a> and have JavaScript interact with .NET objects in the host application.</p>
-
-<p>The ability to support Windows, Mac and Linux would not have been possible without the work done by <a href="http://jameswilkins.net">James Wilkins</a> and <a href="https://github.com/chrisber">Christian Bernasko</a>. <a href="http://jameswilkins.net">James Wilkins</a> created the <a href="http://v8dotnet.codeplex.com">V8.NET</a> library and when it was first released it supported only Windows. <a href="https://github.com/chrisber">Christian Bernasko</a> then took V8.NET and modified it to make it work with Mono on Linux and the Mac. The TypeScript addin is using V8.NET binaries built by Christian from his port of <a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET</a>.</p>
-
-<p>Please note that this is an alpha release and because V8.NET uses a native library it can cause Xamarin Studio or MonoDevelop to terminate if a bug is encountered.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>TypeScript compilation on save or build.</li>
-<li>Code completion.</li>
-<li>Find references.</li>
-<li>Rename refactoring.</li>
-<li>Go to declaration.</li>
-<li>Errors highlighted as you type.</li>
-<li>Code folding.</li>
-</ul>
-
-
-<p>The addin supports:</p>
-
-<ul>
-<li>Xamarin Studio MonoDevelop 5 and above.</li>
-<li>TypeScript 1.4</li>
-<li>Linux, Mac and Windows.</li>
-</ul>
-
-
-<h2>Installing the addin</h2>
-
-<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. By default the alpha repository is not enabled so you will have to enable it before you can find and install the addin.</p>
-
-<p>In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click <strong>Manage Repositories&hellip;</strong>. In the window that opens tick the check box next to <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> and then click the Close button.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/AddingAlphaChannelAddins.png" title="&lsquo;Enabling alpha channel addins&rsquo; &lsquo;Enabling alpha channel addins&rsquo;" ></p>
-
-<p>Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in <strong>TypeScript</strong>.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/AddinManagerTypeScriptAddin.png" title="&lsquo;TypeScript addin selected in Addin Manager dialog&rsquo; &lsquo;TypeScript addin selected in Addin Manager dialog&rsquo;" ></p>
-
-<p>Select the TypeScript addin and then click the <strong>Install&hellip;</strong> button.</p>
-
-<p>Note that if you are using Linux 32 bit then you should install the <strong>TypeScript Linux 32 bit</strong> addin. The other <strong>TypeScript</strong> addin listed supports Linux 64 bit. Hopefully in the future it will be possible to support both Linux 32 bit and 64 bit using the same addin.</p>
-
-<h2>Getting Started</h2>
-
-<p>Now that the TypeScript addin is installed let us create a TypeScript file.</p>
-
-<p>To add a TypeScript file open the New File dialog, select the <strong>Web</strong> category and select <strong>Empty TypeScript</strong> file.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/NewFileDialogNewTypeScriptFile.png" title="&lsquo;New File Dialog &ndash; New TypeScript File&rsquo; &lsquo;New File Dialog &ndash; New TypeScript File&rsquo;" ></p>
-
-<p>Give the file a name and click the New button.</p>
-
-<p>Note that currently the TypeScript file needs to be included in a project. Standalone TypeScript project files are not supported. TypeScript files can be added to any .NET project.</p>
-
-<h2>Code Completion</h2>
-
-<p>When editing the TypeScript code you will have code completion when you press the dot character.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCodeCompletion.png" title="&lsquo;TypeScript dot code completion&rsquo; &lsquo;TypeScript dot code completion&rsquo;" ></p>
-
-<p>Code completion also works when you type the opening bracket of a function.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptMethodCompletion.png" title="&lsquo;TypeScript method completion&rsquo; &lsquo;TypeScript method completion&rsquo;" ></p>
-
-<h2>Go to Declaration</h2>
-
-<p>The text editor&rsquo;s right click menu has three TypeScript menus: Go to Declaration, Find References and Rename.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptTextEditorContextMenu.png" title="&lsquo;Text editor context menu with TypeScript menu options&rsquo; &lsquo;Text editor context menu with TypeScript menu options&rsquo;" ></p>
-
-<p>The Go To Declaration menu option will open the corresponding definition in the text editor.</p>
-
-<h2>Find References</h2>
-
-<p>Find References will show the references in the Search Results window.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptReferencesInSearchResults.png" title="&lsquo;TypeScript references shown in Search Results window&rsquo; &lsquo;TypeScript references shown in Search Results window&rsquo;" ></p>
-
-<h2>Rename</h2>
-
-<p>Selecting the Rename menu option in the text editor will open the Rename dialog where you can type in a new name and click OK to have it updated.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptRenameDialog.png" title="&lsquo;TypeScript rename dialog&rsquo; &lsquo;TypeScript rename dialog&rsquo;" ></p>
-
-<p>Note that currently on Linux the Rename dialog will only be displayed if the keyboard shortcut F2 is used. Selecting the context menu will not show the Rename dialog on Linux but will work on Windows and on the Mac.</p>
-
-<h2>Error Highlighting</h2>
-
-<p>Errors in your TypeScript code will be highlighted as you are typing in the text editor.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptErrorsHighlightedInTextEditor.png" title="&lsquo;TypeScript errors highlighted in text editor&rsquo; &lsquo;TypeScript errors highlighted in text editor&rsquo;" ></p>
-
-<h2>Code Folding</h2>
-
-<p>Code folding is supported for TypeScript classes, modules and interfaces.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCodeFolding.png" title="&lsquo;TypeScript code folding&rsquo; &lsquo;TypeScript code folding&rsquo;" ></p>
-
-<p>Code folding by default is disabled. To enable code folding open the Preferences dialog and in the Text Editor section select the General category, then tick the <strong>Enable code folding</strong> check box.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/PreferencesEnableCodeFolding.png" title="&lsquo;Preferences &ndash; Enabling code folding&rsquo; &lsquo;Preferences &ndash; Enabling code folding&rsquo;" ></p>
-
-<h2>Compiling to JavaScript</h2>
-
-<p>By default the TypeScript files will be compiled to JavaScript when the project is compiled.</p>
-
-<p>There are more compiler options available in the project options in the Build &ndash; TypeScript category.</p>
-
-<p><img src="/images/blog/TypeScriptSupportInXamarinStudio/TypeScriptCompilerOptions.png" title="&lsquo;TypeScript compiler options for the project&rsquo; &lsquo;TypeScript compiler options for the project&rsquo;" ></p>
-
-<p>On this page you can change when the compiler is run and what options are passed to the compiler when generating JavaScript code.</p>
-
-<p>If an <strong>Output file</strong> is specified then all the TypeScript files will be compiled into a single JavaScript file. If an <strong>Output directory</strong> is specified then the JavaScript files will be generated in that directory instead of next to the TypeScript files.</p>
-
-<p>That is the end of our quick look at TypeScript support in Xamarin Studio and MonoDevelop.</p>
-
-<h2>Source Code</h2>
-
-<p>The source code for the addin and for the V8.NET engine that works on Mono are available on GitHub.</p>
-
-<ul>
-<li><p><a href="ttps://github.com/mrward/typescript-addin/tree/monodevelop-v8-dotnet">TypeScript addin source code</a>.</p></li>
-<li><p><a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET source code</a>.</p></li>
-</ul>
-
 ]]></content>
   </entry>
   
