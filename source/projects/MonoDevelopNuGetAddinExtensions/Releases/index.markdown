@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2015-07-18 13:24
+date: 2015-11-22 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.10.1
+
+2015-09-02
+
+ * Support NuGet 2.8.7 and Xamarin Studio 5.10.
 
 ## Version 0.10
 
