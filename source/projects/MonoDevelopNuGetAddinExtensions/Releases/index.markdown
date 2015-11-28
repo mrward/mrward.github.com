@@ -1,11 +1,19 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2015-11-22 12:00
+date: 2015-11-28 11:30
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.11
+
+2015-11-28
+
+ * Support Update-Package -Reinstall
+ * Fix null reference exception when opening Manage Packages dialog when no solution is open
+ * Prevent exceptions in search categories used in global search crashing IDE.
 
 ## Version 0.10.1
 
