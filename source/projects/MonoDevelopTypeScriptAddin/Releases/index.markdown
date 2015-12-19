@@ -1,12 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop TypeScript Addin Releases"
-date: 2015-11-02 15:00
+date: 2015-12-19 12:00
 comments: true
 sharing: true
 footer: true
 ---
 
+## Version 0.8
+
+2015-12-19
+
+ * Update to TypeScript 1.7.5
+ 
 ## Version 0.7
 
 2015-11-02
