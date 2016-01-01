@@ -10,36 +10,36 @@ Xamarin Studio and MonoDevelop now have support for [ASP.NET 5 and DNX](http://d
 
 {% img /images/blog/DNXSupportInXamarinStudio/DnxWebProjectInSolutionWindow.png 'DNX web project in Solution window' 'DNX web project in Solution window' %}
 
-The addin uses code from [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn) in order to communicate with the DNX host.
+The core part of the addin that communicates with the DNX host is taken directly from [OmniSharp](https://github.com/OmniSharp/omnisharp-roslyn) and is used mostly unchanged.
 
 ## Features
 
    * Project templates for console, library and web applications
-   * Debugger support with Mono 4.3
    * Code completion
+   * Debugger support with Mono 4.3
    * NuGet integration
-   * Dependencies shown in Solution window
+   * Solution window integration
 
 ## Supports 
 
-   * MonoDevelop and Xamarin Studio 5.9 and above.
+   * MonoDevelop and Xamarin Studio 5.9 and later versions.
    * ASP.NET 5 RC 1 Update 1 and earlier versions.
 
 ## Installing ASP.NET 5
 
-ASP.NET 5 needs to be installed separately before using the DNX addin. There are instructions on [get.asp.net](https://get.asp.net/) on how to do this for Mac, Linux and Windows.
+[ASP.NET 5](https://get.asp.net/) needs to be installed separately before using the DNX addin. There are instructions on [get.asp.net](https://get.asp.net/) on how to do this for Mac, Linux and Windows.
 
 ## Installing the addin
 
-The addin is currently available from [MonoDevelop's Add-in Repository](http://addins.monodevelop.com/) in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if **Xamarin Studio Add-in Repository (Alpha Channel)** is not displayed then click **Manage Repositories...**. In the window that opens tick the check box next to **Xamarin Studio Add-in Repository (Alpha Channel)** and then click the Close button.
+The addin is currently available from [MonoDevelop's Add-in Repository](http://addins.monodevelop.com/) in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if **Xamarin Studio Add-in Repository (Alpha Channel)** is not displayed then click Manage Repositories. In the window that opens tick the check box next to Xamarin Studio Add-in Repository (Alpha Channel) and then click the Close button.
 
 {% img /images/blog/DNXSupportInXamarinStudio/AddingAlphaChannelAddins.png 'Enabling alpha channel addins' 'Enabling alpha channel addins' %}
 
 Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in **DNX**.
 
-{% img /images/blog/DNXSupportInXamarinStudio/AddinManagerDNXAddin.png 'DNX addin selected in Addin Manager dialog' 'DNX addin selected in Addin Manager dialog' %}
+{% img /images/blog/DNXSupportInXamarinStudio/AddinManagerDnxAddin.png 'DNX addin selected in Addin Manager dialog' 'DNX addin selected in Addin Manager dialog' %}
 
-Select the DNX addin and then click the **Install...** button.
+Select the DNX addin and then click the Install button.
 
 After installing the DNX addin you will need to restart Xamarin Studio before the project templates will be available in the New Project dialog.
 
@@ -93,11 +93,11 @@ The first entry will run the web command and use the default runtime which will 
 
 ## Debugging
 
-Thanks to [David Karlaš](https://twitter.com/davidkarlas) and [Zoltan Varga](https://github.com/vargaz) there is support for debugging DNX applications if you have [Mono 4.3](http://download.mono-project.com/archive/nightly/macos-10-universal/) installed.
+Thanks to [David Karlaš](https://twitter.com/davidkarlas) and [Zoltan Varga](https://github.com/vargaz) there is support for debugging DNX applications with DNX 4.5.1 if you have [Mono 4.3](http://download.mono-project.com/archive/nightly/macos-10-universal/) installed.
 
 {% img /images/blog/DNXSupportInXamarinStudio/DebuggingDnxApplication.png 'Debugging a DNX application' 'Debugging a DNX application' %}
 
-Debugging ASP.NET 5 projects running with the CoreCLR is not supported on Mac nor on Linux. Debugging ASP.NET 5 projects it not supported at all on Windows.
+Debugging ASP.NET 5 projects with the CoreCLR is not supported on Mac nor on Linux. Debugging ASP.NET 5 projects is not supported at all on Windows.
 
 ## Adding NuGet Packages
 
@@ -125,11 +125,11 @@ In Visual Studio the active framework can be changed by selecting it from the dr
 
 {% img /images/blog/DNXSupportInXamarinStudio/TextEditorSelectActiveDnxFramework.png 'Active DNX framework context menu in text editor' 'Active DNX framework context menu in text editor' %}
 
-The active framework affects the code completion provided in the text editor. In the screenshot below the active framework has been set to DNX Core and you can see that the DateTime type does not show ToShortDateTimeString in its completion list.
+The active framework affects the code completion provided in the text editor. In the screenshot below the active framework has been set to DNX Core and you can see that the DateTime type does not show ToShortDateString in its completion list.
 
 {% img /images/blog/DNXSupportInXamarinStudio/DnxCodeCompletionForActiveFramework.png 'Code completion for active DNX framework' 'Code completion for active DNX framework' %}
 
-You can also see that the code in the #if DNX451 block is grayed out since it is not used with the current active framework.
+You can also see that the code in the #if DNX451 block is grayed out since it is not used with the currently active framework.
 
 ## DNX Output
 
@@ -147,11 +147,11 @@ By default only warnings and errors will be displayed in the DNX Output window. 
 
     export MONO_MANAGED_WATCHER=false
 
-If this is set on the command line then Xamarin Studio would need to be run from the command line for this environment variable to be used.
+Xamarin Studio will need to be run from the command line for this environment variable to be used.
 
 **project.json file formatting**
 
-When adding or removing dependencies using the IDE and not editing the project.json file will cause the project.json file to be reformatted different to how Visual Studio formats the file.
+When adding or removing dependencies from the Solution window will cause the project.json file to be reformatted differently compared to how Visual Studio 2015 formats the file.
 
 ## Source Code
 
