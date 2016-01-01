@@ -1,12 +1,13 @@
 ---
 layout: page
 title: "Projects"
-date: 2015-06-09 20:00
+date: 2016-01-01 12:00
 comments: true
 sharing: true
 footer: true
 ---
 
+ * [MonoDevelop DNX Addin](MonoDevelopDnxAddin/)
  * [MonoDevelop NuGet Addin](MonoDevelopNuGetAddin/)
  * [MonoDevelop NuGet Addin Extensions](MonoDevelopNuGetAddinExtensions/)
  * [MonoDevelop Paket Addin](MonoDevelopPaketAddin/)
