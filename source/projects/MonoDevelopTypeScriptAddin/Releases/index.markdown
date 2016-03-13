@@ -7,6 +7,13 @@ sharing: true
 footer: true
 ---
 
+## Version 0.9
+
+2016-03-13
+
+ * Update to TypeScript 1.8.2
+ * Fixed invalid cast when showing TypeScript options for generic project
+
 ## Version 0.8
 
 2015-12-19
