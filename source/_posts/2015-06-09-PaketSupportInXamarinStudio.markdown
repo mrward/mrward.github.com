@@ -97,7 +97,7 @@ A NuGet package can be removed by right clicking it and selecting Remove or by p
 
 ## Code Completion
 
-When editing the paket.dependencies file you will get code completion as you type. You can also bring up the code completion list by pressing Ctrl+Enter.
+When editing the paket.dependencies file you will get code completion as you type. You can also bring up the code completion list by pressing Ctrl+Space.
 
 {% img /images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordCompletion.png 'paket.dependencies file keyword completion' 'paket.dependencies file keyword completion' %}
 
