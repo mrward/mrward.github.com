@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "NuGet File Locations"
-date: 2014-05-03 12:24
+date: 2016-05-14 12:24
 comments: true
 sharing: true
 footer: true
@@ -13,11 +13,20 @@ NuGet directory and file locations across Linux, Mac and Windows operating syste
 
 Stores downloaded NuGet packages (.nupkg).
  
- **Mac** ~/.local/share/NuGet/Cache
+**Mac**
 
-**Windows** %LocalAppData%/NuGet/Cache
+ * ~/.local/share/NuGet/Cache
+ * ~/.nuget/packages
 
-**Linux** ~/.local/share/NuGet/Cache
+**Windows**
+
+ * %LocalAppData%\NuGet\Cache
+ * %UserProfile%\\\\.nuget\packages
+
+**Linux**
+
+ * ~/.local/share/NuGet/Cache
+ * ~/.nuget/packages 
 
 ## NuGet Configuration
 
@@ -25,7 +34,7 @@ The [NuGet.Config](http://docs.nuget.org/docs/reference/nuget-config-file) file 
 
 **Mac** ~/.config/NuGet/NuGet.Config
 
-**Windows** %AppData%/NuGet/NuGet.Config
+**Windows** %AppData%\NuGet\NuGet.Config
 
 **Linux** ~/.config/NuGet/NuGet.Config
 
@@ -35,7 +44,7 @@ Machine wide configurations are used to define NuGet package sources specific to
 
 **Mac**
 
-**Windows** %ProgramData%/NuGet/Config
+**Windows** %ProgramData%\NuGet\Config
 
 **Linux**
 
