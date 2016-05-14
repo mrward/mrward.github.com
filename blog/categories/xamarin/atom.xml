@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-01-01T15:41:47+00:00</updated>
+  <updated>2016-05-14T13:03:24+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -428,7 +428,7 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 
 <h2>Code Completion</h2>
 
-<p>When editing the paket.dependencies file you will get code completion as you type. You can also bring up the code completion list by pressing Ctrl+Enter.</p>
+<p>When editing the paket.dependencies file you will get code completion as you type. You can also bring up the code completion list by pressing Ctrl+Space.</p>
 
 <p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordCompletion.png" title="&lsquo;paket.dependencies file keyword completion&rsquo; &lsquo;paket.dependencies file keyword completion&rsquo;" ></p>
 
