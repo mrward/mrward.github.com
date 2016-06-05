@@ -1,11 +1,19 @@
 ---
 layout: page
-title: "MonoDevelop DNX Addin Releases"
-date: 2016-03-28 12:00
+title: "MonoDevelop .NET Core Addin Releases"
+date: 2016-06-5 19:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.3
+
+2016-06-05
+
+ * Support .NET Core 1.0 RC2 SDK.
+ * Supporting debugging .NET Core projects on Mac.
+ * Fix UI hang if design time host does not return project information.
 
 ## Version 0.2
 
