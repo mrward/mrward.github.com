@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-05-14T13:03:24+01:00</updated>
+  <updated>2016-06-05T20:27:54+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,77 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ASP.NET Core 1.0 RC2 support in Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2016/06/05/AspNetCoreRC2SupportInXamarinStudio/"/>
+    <updated>2016-06-05T19:02:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/06/05/AspNetCoreRC2SupportInXamarinStudio</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio and MonoDevelop now have support for <a href="https://blogs.msdn.microsoft.com/webdev/2016/05/16/announcing-asp-net-core-rc2/">ASP.NET Core 1.0 RC2</a> with an alpha release of the <a href="https://github.com/mrward/monodevelop-dnx-addin">.NET Core addin</a>.</p>
+
+<p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/WebProjectInSolutionWindow.png" title="&lsquo;ASP.NET Core web project in Solution window&rsquo; &lsquo;ASP.NET Core web project in Solution window&rsquo;" ></p>
+
+<p>This is an update of the original <a href="/blog/2016/01/01/DNXSupportInXamarinStudio/">DNX addin</a> which adds support for .NET Core RC2 and also, thanks to <a href="twitter.com/davidkarlas">David Karlaš</a>, adds support for debugging .NET Core applications on the Mac.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li> Debugging .NET Core applications with the .NET Core CLR on Mac.</li>
+<li> Project templates for console, library and web applications</li>
+<li> Code completion</li>
+<li> NuGet integration</li>
+<li> Solution window integration</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li> MonoDevelop and Xamarin Studio 6.0.</li>
+<li> <a href="https://www.microsoft.com/net/core">.NET Core 1.0 RC2</a>.</li>
+</ul>
+
+
+<h2>Installing .NET Core SDK</h2>
+
+<p>The <a href="https://www.microsoft.com/net/core">.NET Core SDK</a> needs to be installed separately before using the .NET Core addin. Detailed installation instructions can be found on <a href="https://www.microsoft.com/net/core">Microsoft&rsquo;s .NET Core web site</a>.</p>
+
+<h2>Installing the addin</h2>
+
+<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click Manage Repositories. In the window that opens tick the check box next to Xamarin Studio Add-in Repository (Alpha Channel) and then click the Close button.</p>
+
+<p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/AddinManagerNetCoreAddin.png" title="&lsquo;.NET Core addin selected in Addin Manager dialog&rsquo; &lsquo;.NET Core addin selected in Addin Manager dialog&rsquo;" ></p>
+
+<p>Select the .NET Core addin and then click the Install button.</p>
+
+<p>After installing the .NET Core addin you will need to restart Xamarin Studio before the project templates are available in the New Project dialog.</p>
+
+<h2>Creating a .NET Core project</h2>
+
+<p>There are three project templates available for .NET Core in the New Project dialog.</p>
+
+<p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/NewProjectDialogNetCoreProjectTemplates.png" title="&lsquo;New ASP.NET 5 project templates&rsquo; &lsquo;New ASP.NET 5 project templates&rsquo;" ></p>
+
+<h2>Debugging</h2>
+
+<p>Thanks to <a href="https://twitter.com/davidkarlas">David Karlaš</a> there is a support for debugging .NET Core applications when running on the .NET Core CLR if you have the <a href="http://addins.monodevelop.com/Project/Index/228">VSCode Debugger addin</a> installed.</p>
+
+<p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/DebuggingNetCoreApplication.png" title="&lsquo;Debugging a .NET Core application&rsquo; &lsquo;Debugging a .NET Core application&rsquo;" ></p>
+
+<p>The VSCode Debugger addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> on the alpha channel.</p>
+
+<p>Debugging .NET Core console and web projects that target the full .NET framework is supported on all platforms. The .NET Core command line tool (dotnet.exe) will create an executable when targeting the full .NET Framework which can be debugged in Xamarin Studio. On Windows the x86 version of the .NET Core SDK needs be installed since Xamarin Studio currently cannot debug x64 applications on Windows.</p>
+
+<h2>Source Code</h2>
+
+<p>The source code for the addin is available on GitHub.</p>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-dnx-addin">.NET Core addin source code</a>.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ASP.NET 5 and DNX support in Xamarin Studio]]></title>
@@ -477,45 +548,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 <p><img src="/images/blog/PaketSupportInXamarinStudio/PaketLockFileSyntaxHighlighting.png" title="&lsquo;paket.lock file syntax highlighting&rsquo; &lsquo;paket.lock file syntax highlighting&rsquo;" ></p>
 
 <p>This brings us to the end of the introduction to Paket support in Xamarin Studio.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.9.2]]></title>
-    <link href="http://lastexitcode.com/blog/2015/06/07/NuGetSupportInXamarinStudio5-9-2/"/>
-    <updated>2015-06-07T10:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2015/06/07/NuGetSupportInXamarinStudio5-9-2</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet 2.8.5 support</li>
-<li> NuGet warning and error messages in Status Bar</li>
-</ul>
-
-
-<p>More information on all the changes in Xamarin Studio 5.9.2 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.9/xamarin.studio_5.9/">release notes</a>.</p>
-
-<h2>NuGet 2.8.5 support</h2>
-
-<p>Xamarin Studio now supports NuGet 2.8.5.</p>
-
-<p>NuGet 2.8.5 adds support for three new .NET target frameworks: DNX, DNXCore and Core.</p>
-
-<p>With NuGet 2.8.5 supported you can now install the <a href="https://www.nuget.org/packages/xunit/2.1.0-beta2-build2981">latest pre-release version of xUnit</a>.</p>
-
-<h2>NuGet warning and error messages in Status Bar.</h2>
-
-<p>Xamarin Studio 5.9 has a new native Status Bar on the Mac. This new Status Bar has a smaller width so the NuGet warning and error messages could be too long to be displayed. The screenshots below show a NuGet warning and error message in Xamarin Studio 5.9 that do not fit in the Status Bar.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetWarningMessageTruncatedInStatusBar.png" title="&lsquo;NuGet warning message truncated in status bar&rsquo; &lsquo;NuGet warning message truncated in status bar&rsquo;" ></p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetErrorMessageTruncatedInStatusBar.png" title="&lsquo;NuGet error message truncated in status bar&rsquo; &lsquo;NuGet error message truncated in status bar&rsquo;" ></p>
-
-<p>In Xamarin Studio 5.9.2 the NuGet Status Bar messages have been shortened so they can be displayed in the new Status Bar without being truncated. The screenshots below show the new format of the NuGet warning and error messages shown in the Status Bar.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetShortenedWarningMessageInStatusBar.png" title="&lsquo;Shortened NuGet warning message in status bar&rsquo; &lsquo;Shortened NuGet warning message in status bar&rsquo;" ></p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetShortenedErrorMessageInStatusBar.png" title="&lsquo;Shortened NuGet error message in status bar&rsquo; &lsquo;Shortened NuGet error message in status bar&rsquo;" ></p>
 ]]></content>
   </entry>
   
