@@ -22,7 +22,7 @@ This is an update of the original [DNX addin](/blog/2016/01/01/DNXSupportInXamar
 
 ## Supports 
 
-   * MonoDevelop and Xamarin Studio 6.0.
+   * MonoDevelop and Xamarin Studio 6.0 (build 5166). (Note that 6.1 is not yet supported)
    * [.NET Core 1.0 RC2](https://www.microsoft.com/net/core).
 
 ## Installing .NET Core SDK
