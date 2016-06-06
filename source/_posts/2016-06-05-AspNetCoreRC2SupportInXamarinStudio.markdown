@@ -10,7 +10,7 @@ Xamarin Studio and MonoDevelop now have support for [ASP.NET Core 1.0 RC2](https
 
 {% img /images/blog/AspNetCoreRC2SupportInXamarinStudio/WebProjectInSolutionWindow.png 'ASP.NET Core web project in Solution window' 'ASP.NET Core web project in Solution window' %}
 
-This is an update of the original [DNX addin](/blog/2016/01/01/DNXSupportInXamarinStudio/) which adds support for .NET Core RC2 and also, thanks to [David Karlaš](twitter.com/davidkarlas), adds support for debugging .NET Core applications on the Mac.
+This is an update of the original [DNX addin](/blog/2016/01/01/DNXSupportInXamarinStudio/) which adds support for .NET Core RC2 and also, thanks to [David Karlaš](https://twitter.com/davidkarlas), adds support for debugging .NET Core applications on the Mac.
 
 ## Features
 
