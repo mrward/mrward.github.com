@@ -1,12 +1,21 @@
 ---
 layout: page
 title: "MonoDevelop .NET Core Addin Releases"
-date: 2016-06-5 19:00
+date: 2016-06-12 18:00
 comments: true
 sharing: true
 footer: true
 ---
 
+## Version 0.4
+
+2016-06-12
+
+ * Fix being unable to open a project created on Windows.
+ * Do not show directories starting with dot in Solution window. 
+ * Fix suppressed warnings still showing in text editor. 
+ * New solution pad icons created by [Václav Vančura](https://github.com/vancura).
+ 
 ## Version 0.3
 
 2016-06-05
