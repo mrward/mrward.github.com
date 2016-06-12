@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-06-05T20:27:54+01:00</updated>
+  <updated>2016-06-12T18:49:26+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,113 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.0]]></title>
+    <link href="http://lastexitcode.com/blog/2016/06/12/NuGetSupportInXamarinStudio6-0/"/>
+    <updated>2016-06-12T14:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/06/12/NuGetSupportInXamarinStudio6-0</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio 6.0 was released last week and it includes a lot of <a href="https://blog.xamarin.com/live-from-dotnetconf-cycle-7-xamarin-studio-6-and-more/">new features</a>, such as a new dark theme and <a href="https://github.com/dotnet/roslyn">Roslyn integration</a>. This release also includes some improvements made to the NuGet support.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-0/AddPackagesDialogDarkTheme.png" title="Add Packages Dialog - Dark Theme" alt="Add Packages Dialog - Dark Theme"></p>
+
+<h2>New Features</h2>
+
+<ul>
+<li> Support NuGet packages targeting tvOS.</li>
+<li> Support updating pre-release NuGet packages.</li>
+<li> Show updates available for pre-release NuGet packages.</li>
+<li> Remember Show pre-release Packages setting in Add Packages dialog.</li>
+<li> Error dialog displayed if NuGet.Config file cannot be read.</li>
+</ul>
+
+
+<p>More information on all the changes in Xamarin Studio 6.0 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.0/xamarin.studio_6.0/">release notes</a>.</p>
+
+<h2>Support NuGet packages targeting watchOS</h2>
+
+<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
+
+<h2>Support updating pre-release NuGet packages</h2>
+
+<p>Previously it was not possible to update a pre-release NuGet package to a later pre-release  from the Solution window, only updates to stable NuGet packages were supported. The only way to update to a later pre-release NuGet package was to use the Add Packages dialog.</p>
+
+<p>Now an individual pre-release NuGet package can be updated by right clicking and selecting Update. When all packages in a project or solution are updated then pre-release NuGet packages will be updated to a later pre-release version if they are available.</p>
+
+<h2>Show updates available for pre-release NuGet packages</h2>
+
+<p>Previously Xamarin Studio would only show stable NuGet package updates as being available if a pre-release NuGet package was installed. Now Xamarin Studio will check for updates for pre-release NuGet packages as well as stable packages and display this information in the Solution window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-0/PreReleaseNuGetPackageUpdatesInSolutionWindow.png" title="Pre-release NuGet package updates in Solution window" alt="Pre-release NuGet package updates in Solution window"></p>
+
+<p>Only if an installed NuGet package is a pre-release version will pre-release updates be shown as available in the Solution window. Xamarin Studio will not check for pre-release updates for stable NuGet package versions that are installed.</p>
+
+<h2>Remember Show pre-release Packages setting in Add Packages dialog</h2>
+
+<p>The Show pre-release Packages check box setting will now be remembered in the Add Packages dialog on a per solution basis.</p>
+
+<h2>Error dialog displayed if the NuGet.Config file cannot be read</h2>
+
+<p>Previously if the NuGet.Config file could not be read the error would
+be silently logged, but not reported, and Xamarin Studio would
+then switch to using the default official NuGet package source. Now an error
+dialog is shown indicating that there was a problem reading the
+NuGet.Config file.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Support NuGet packages that use icons from local files</strong></p>
+
+<p>A NuGet package can now use an icon, which will be shown in the Add Packages
+dialog, taken from the local file system using a file url. Previously this would fail with an invalid cast exception.</p>
+
+<p><strong>Incorrect update count displayed after updating NuGet packages.</strong></p>
+
+<p>When an update caused a NuGet package to be uninstalled the Packages
+folder in the Solution window would show an incorrect count for the available updates.</p>
+
+<p><strong>NuGet restore and update not working for workspaces</strong></p>
+
+<p>With a workspace opened, or multiple solutions opened in Xamarin Studio, then restoring and updating NuGet packages would only work for one of the solutions.</p>
+
+<p><strong>Unable to add Google Play Services packages</strong></p>
+
+<p>The Xamarin.Android.Support.v7.AppCompat NuGet package depends on
+a single version of the Xamarin.Android.Support.v4 NuGet package.
+When a Xamarin Google Play Services NuGet package is installed
+that depends on a higher version of the Xamarin.Android.Support.v4
+NuGet package the install would fail to find a version of the
+AppCompat NuGet package that is compatible. An error similar to the
+following would be displayed in the Package Console window:</p>
+
+<pre><code>Could not add Xamarin.GooglePlayServices.Ads.
+Updating 'Xamarin.Android.Support.v4 23.1.1.0' to
+'Xamarin.Android.Support.v4 23.1.1.1' failed. Unable to find a version
+of 'Xamarin.Android.Support.v7.AppCompat' that is compatible with
+'Xamarin.Android.Support.v4 23.1.1.1'.
+</code></pre>
+
+<p>The problem was that the AppCompat NuGet package is not involved
+in the initial NuGet package resolution using the remote package
+source so it is initially not considered for installation into the
+packages directory. When a package reference is then added to the
+packages.config file a search for a compatible AppCompat package was
+only using the local solution&rsquo;s packages directory which fails causing
+the install to fail.</p>
+
+<p>To fix this the local solution packages directory is used first
+when looking for a compatible AppCompat NuGet package and will
+fallback to using the configured remote package sources if no suitable package
+is found in this directory. To handle a package being added to the
+packages.config at this point, after the original NuGet packages have
+already been downloaded to the solution&rsquo;s packages directory, Xamarin Studio will detect a package is added to the packages.config file and install the NuGet package if it is not
+already in the local solution packages directory.</p>
+
+<p><strong>Incorrect package version being installed</strong></p>
+
+<p>When installing a NuGet package using the Google Play Services dialog a package version is not specified by the dialog. If the NuGet package being installed was found in the local machine&rsquo;s NuGet cache it would be used instead of the latest version from the official NuGet gallery at nuget.org. This could result in a lower version being installed than expected.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ASP.NET Core 1.0 RC2 support in Xamarin Studio]]></title>
@@ -22,7 +129,7 @@
 
 <p><img src="http://lastexitcode.com/images/blog/AspNetCoreRC2SupportInXamarinStudio/WebProjectInSolutionWindow.png" title="ASP.NET Core web project in Solution window" alt="ASP.NET Core web project in Solution window"></p>
 
-<p>This is an update of the original <a href="http://lastexitcode.com/blog/2016/01/01/DNXSupportInXamarinStudio/">DNX addin</a> which adds support for .NET Core RC2 and also, thanks to <a href="twitter.com/davidkarlas">David Karlaš</a>, adds support for debugging .NET Core applications on the Mac.</p>
+<p>This is an update of the original <a href="http://lastexitcode.com/blog/2016/01/01/DNXSupportInXamarinStudio/">DNX addin</a> which adds support for .NET Core RC2 and also, thanks to <a href="https://twitter.com/davidkarlas">David Karlaš</a>, adds support for debugging .NET Core applications on the Mac.</p>
 
 <h2>Features</h2>
 
@@ -38,7 +145,7 @@
 <h2>Supports</h2>
 
 <ul>
-<li> MonoDevelop and Xamarin Studio 6.0.</li>
+<li> MonoDevelop and Xamarin Studio 6.0 (build 5166). (Note that 6.1 is not yet supported)</li>
 <li> <a href="https://www.microsoft.com/net/core">.NET Core 1.0 RC2</a>.</li>
 </ul>
 
@@ -280,6 +387,8 @@
 <li> Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.</li>
 <li> Prevent retargeting a NuGet package marking packages.config as deleted by Git.</li>
 <li> Allow Microsoft.ApplicationInsights NuGet package to be installed.</li>
+<li> Support NuGet packages targeting watchOS.</li>
+<li> Package license acceptance (Xamarin Studio 5.10.3)</li>
 </ul>
 
 
@@ -335,6 +444,16 @@
 <h2>Prevent the solution being closed when NuGet packages are being added</h2>
 
 <p>A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.</p>
+
+<h2>Support NuGet packages targeting watchOS</h2>
+
+<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
+
+<h2>Package license acceptance</h2>
+
+<p>Xamarin Studio 5.10.3 now includes a license acceptance dialog that will be displayed if a NuGet package requires a license to be accepted before it is installed. If the license is declined then the NuGet package will not be installed.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-10/PackageLicenseAcceptanceDialog.png" title="Package license acceptance dialog" alt="Package license acceptance dialog"></p>
 
 <h2>Bug Fixes</h2>
 
@@ -1889,221 +2008,6 @@ would update package dependencies correctly.</p>
 <p>When you install a NuGet package from the console and the NuGet package has an <strong>init.ps1</strong> or an <strong>install.ps1</strong> PowerShell script then these scripts will be run. Similarly on uninstalling a NuGet package if it contains an <strong>uninstall.ps1</strong> script then this will be run in the console. However there are some areas of PowerShell that are not fully implemented in Pash so the script may well fail. The failure will be logged in the console window but it will not prevent the package from being installed or uninstalled.</p>
 
 <p>That concludes the introduction to the experimental NuGet Package Console in Xamarin Studio.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.0]]></title>
-    <link href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/"/>
-    <updated>2014-06-01T18:25:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.0 was released last week as part of the <a href="http://blog.xamarin.com/announcing-xamarin-3/">Xamarin 3.0 release</a> and it now has built-in support for NuGet. There is no need to install the NuGet addin separately into Xamarin Studio 5.0 or MonoDevelop 5.0 since it is now &ldquo;in the box&rdquo;.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li> Re-designed user interface.</li>
-<li> More integrated with the Solution window.</li>
-<li> Supports <a href="http://docs.nuget.org/docs/reference/search-syntax">NuGet&rsquo;s search syntax</a>.</li>
-<li> Background package installation.</li>
-<li> Integrates with Xamarin Studio&rsquo;s unified search.</li>
-<li> Support for NuGet packages in project templates.</li>
-<li> Package restore on opening a solution.</li>
-<li> Integrates with Xamarin Studio&rsquo;s credential provider to provide proxy and package source authentication.</li>
-</ul>
-
-
-<p>So let us a look at these features in more detail by looking at how to use the NuGet addin in Xamarin Studio 5.0.</p>
-
-<h2>Adding NuGet Packages</h2>
-
-<p>To add a NuGet package we need to open the <strong>Add Packages</strong> dialog. This can be done in the following ways:</p>
-
-<ul>
-<li>From the <strong>Project</strong> menu select <strong>Add Packages</strong>. The project will need to be selected in the <strong>Solution</strong> window.</li>
-<li>From the <strong>Solution</strong> window, right click the project and select <strong>Add &ndash; Add Packages</strong>.</li>
-</ul>
-
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesMenuOptionSolutionWindow.png" title="Solution Window right click Add Packages menu" alt="Solution Window right click Add Packages menu"></p>
-
-<ul>
-<li>From Xamarin Studio&rsquo;s unified search, available in the top right of the main window, enter the name of the package you would like to search for, then select <strong>Search Packages</strong>.</li>
-</ul>
-
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/SearchPackagesUsingUnifiedSearch.png" title="Search packages using unified search" alt="Search packages using unified search"></p>
-
-<ul>
-<li>Double clicking the <strong>Packages</strong> folder in the <strong>Solution</strong> window will also open the Add Packages dialog (note the Packages folder is only displayed if you have a NuGet package installed in your project).</li>
-</ul>
-
-
-<p>On opening the Add Packages dialog you will see a re-designed user interface.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesDialog.png" title="Add Packages dialog" alt="Add Packages dialog"></p>
-
-<p>If a NuGet package has an associated image then it will now be displayed in the list of packages.</p>
-
-<p>The search text box at the top right of the dialog will now search for packages as you type.</p>
-
-<p>The package source combo box at the top left of the dialog now includes a new <strong>Configure Sources</strong> item which allows you to quickly switch to the configured package sources in preferences and back again to the Add Packages dialog.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesDialogConfigureSources.png" title="Configuring sources from Add Packages dialog" alt="Configuring sources from Add Packages dialog"></p>
-
-<p>The list of packages now has infinite scroll support. As you scroll down the list new packages will be retrieved from the package source and displayed. Previously you had to click a button to move to the next page.</p>
-
-<p>To install a NuGet package in the Add Packages dialog you can do one of the following:</p>
-
-<ul>
-<li>Select a package and double click it.</li>
-<li>Select a package and press the enter key.</li>
-<li>Select a package and press the <strong>Add Package</strong> button.</li>
-</ul>
-
-
-<p>To install two or more NuGet packages you can click the check box next to the package and then select the <strong>Add Packages</strong> button.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesDialogTwoPackagesChecked.png" title="Two packages checked in Add Packages dialog" alt="Two packages checked in Add Packages dialog"></p>
-
-<p>On adding the NuGet package the Add Packages dialog will close and the package installation will complete in the background. You will see status messages appear in the status bar at top of the main window as the installation progresses. The screenshots below show the status messages that are displayed when the NUnit NuGet package is installed.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/AddNUnitPackageStatusBarMessage.png" title="Adding NUnit package status bar message" alt="Adding NUnit package status bar message"></p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageAddedSuccessfullyStatusBarMessage.png" title="NUnit package added successfully status bar message" alt="NUnit package added successfully status bar message"></p>
-
-<p>More detailed information about the installation can be seen in the <strong>Package Console</strong> window.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageAddedPackageConsole.png" title="NUnit package added messages in Package Console" alt="NUnit package added messages in Package Console"></p>
-
-<p>The Package Console can be opened by clicking on a package status message in the status bar or from the <strong>View</strong> menu by selecting <strong>Pads &ndash; Package Console</strong>. If there is an error when installing a NuGet package then the Package Console will automatically open to show more information about the error.</p>
-
-<p>On adding the first NuGet package to a project a <strong>Packages</strong> folder will be displayed in the Solution window.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowPackagesFolder.png" title="Solution window - Packages folder" alt="Solution window - Packages folder"></p>
-
-<p>Any assembly references that a NuGet package adds to your project will be displayed in
-the <strong>From Packages</strong> folder inside <strong>References</strong>.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowFromPackagesFolder.png" title="Solution window - From Packages folder" alt="Solution window - From Packages folder"></p>
-
-<p>Whilst the NuGet package is being installed the package id text will be highlighted.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowPackagesBeingAdded.png" title="Solution window - packages being added" alt="Solution window - packages being added"></p>
-
-<p>After the NuGet package is installed the text will be changed to black and a status message will be shown in the status bar.</p>
-
-<h2>Searching for Packages</h2>
-
-<p>The Add Packages dialog now supports the <a href="http://docs.nuget.org/docs/reference/search-syntax">extended NuGet search syntax</a>. Note that the NuGet package source will need to support this syntax. The main NuGet.org package source supports this search syntax.</p>
-
-<p>So you can now make your search more specific by using one of the special tags, such as id, packageid, tags, author or owner. Some example searches are shown below:</p>
-
-<pre><code>id:NUnit
-packageid:Xamarin.Forms
-tags:typescript
-owner:xamarin
-author:xamarin
-</code></pre>
-
-<h2>Removing NuGet Packages</h2>
-
-<p>You can remove a NuGet package from the Solution window. Expand the <strong>Packages</strong> folder for your project, select the package, right click and select <strong>Remove</strong>, or press the delete key.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowPackageBeingRemoved.png" title="Solution window - remove package menu" alt="Solution window - package remove menu"></p>
-
-<p>The package will then be uninstalled in the background. Status information will appear in the status bar and more detailed information will be shown in the Package Console window.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/RemovingNUnitPackageStatusBarMessage.png" title="Removing package status bar message" alt="Removing package status bar message"></p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/NUnitPackageRemovedSuccessfullyStatusBarMessage.png" title="Package removed status bar message" alt="Package removed status bar message"></p>
-
-<h2>Updating NuGet Packages</h2>
-
-<p>You can update an individual NuGet package by selecting it in the <strong>Solution</strong> window, right clicking and selecting <strong>Update</strong>.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowUpdatePackageMenu.png" title="Solution window - update package menu" alt="Solution window update package menu"></p>
-
-<p>You can update all the packages in a project by right clicking the <strong>Packages</strong> folder and selecting <strong>Update</strong>.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowUpdateAllProjectPackagesMenu.png" title="Solution window - update all packages in project menu" alt="Solution window update all packages in project menu"></p>
-
-<p>To update all the packages in the solution, either right click the solution in the <strong>Solution</strong> window and select <strong>Update Packages</strong>, or from the <strong>Project</strong> menu select <strong>Update Packages</strong>.</p>
-
-<p>As with adding and removing a NuGet package you will see status bar messages as the update progresses and detailed information in the Package Console window.</p>
-
-<h2>Restoring NuGet Packages</h2>
-
-<p>By default NuGet packages will be automatically restored when a solution is opened.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/RestorePackagesStatusBarMessage.png" title="Packages being restored status bar message" alt="Packages being restored status bar message"></p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/PackagesRestoredSuccessfullyStatusBarMessage.png" title="Packages restored status bar message" alt="Packages restored status bar message"></p>
-
-<p>You can disable this by going into preferences and unchecking <strong>Automatically restore packages when opening a solution</strong>.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/PreferencesAutomaticPackageRestore.png" title="Preferences - automatic package restore" alt="Preferences - automatic package restore"></p>
-
-<p>With automatic package restore disabled you can manually restore NuGet packages in the following ways:</p>
-
-<ul>
-<li>Right click the <strong>Packages</strong> folder in the Solution window and select <strong>Restore</strong>.</li>
-<li>Right click the solution and select <strong>Restore Packages</strong>.</li>
-<li>From the <strong>Project</strong> menu select <strong>Restore Packages</strong>.</li>
-</ul>
-
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowRestorePackagesMenu.png" title="Solution window - restore packages menu" alt="Solution window - restore packages menu"></p>
-
-<p>The status bar will be updated with information on the progress of the restore. More detailed information can be seen in the Package Console window.</p>
-
-<h2>NuGet Packages in Project Templates</h2>
-
-<p>You can now have a project template that will install NuGet packages. To do this you add a <strong>Packages</strong> element inside the <strong>Project</strong> element of the project template.</p>
-
-<pre><code>&lt;Packages&gt;
-    &lt;Package id="NUnit" /&gt;
-    &lt;Package id="jQuery" version="1.7.1" /&gt;
-&lt;/Packages&gt;
-</code></pre>
-
-<p>You can specify an exact version for the NuGet package. If the version is not specified then the latest version of the NuGet package will be installed.</p>
-
-<p>By default Xamarin Studio will look for the NuGet packages from the main NuGet.org package source. To use your own package source instead you can create an addin and define the package source in its .addin.xml file. Inside your .addin.xml file you can add an <strong>Extension</strong> element which supports both online NuGet package sources and local directory package sources.</p>
-
-<p>To define an online NuGet package source you can use the <strong>url</strong> attribute in your .addin.xml file:</p>
-
-<pre><code>&lt;Extension path = "/MonoDevelop/Ide/ProjectTemplatePackageRepositories"&gt;
-    &lt;PackageRepository url="https://mynugetfeed.nget/packages" /&gt;
-&lt;/Extension&gt;
-</code></pre>
-
-<p>If you want your addin to work offline then you can include the NuGet packages with your addin in a subdirectory and use the following extension in your .addin.xml:</p>
-
-<pre><code>&lt;Extension path = "/MonoDevelop/Ide/ProjectTemplatePackageRepositories"&gt;
-    &lt;PackageRepository path="packages" /&gt;
-&lt;/Extension&gt;
-</code></pre>
-
-<p>The <strong>path</strong> attribute here should contain the directory relative to where the addin is installed.</p>
-
-<h2>Package Source and Proxy Authentication</h2>
-
-<p>If a NuGet package source or a proxy needs authentication then Xamarin Studio will prompt for credentials.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/AddPackagesProxyCredentialPrompt.png" title="Proxy credentials dialog prompt" alt="Proxy credentials dialog prompt"></p>
-
-<p>Please note that there is a bug that currently prevents proxy authentication with package sources that use https which will be fixed in the next release of Xamarin Studio.</p>
-
-<h2>Configuring NuGet Package Sources</h2>
-
-<p>NuGet package sources can be configured in preferences.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/PreferencesAddPackageSource.png" title="Preferences - adding package source" alt="Preferences - adding package source"></p>
-
-<p>A new feature here is the ability to specify a username and password for a package source that requires authentication. The username and passwords are encrypted and stored in the NuGet.config file in the same way that NuGet.exe will if you use it on the command line.</p>
-
-<p>That concludes our look at the new NuGet features in Xamarin Studio and MonoDevelop 5.0</p>
 ]]></content>
   </entry>
   

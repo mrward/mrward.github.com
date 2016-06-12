@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Xamarin Studio 6.0 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Xamarin Studio 6.0 was released last week and it includes a lot of new features, such as a new dark theme and Roslyn integration. This release also &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2016/06/12/NuGetSupportInXamarinStudio6-0">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Xamarin Studio 6.0</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-12T14:00:00+01:00" pubdate data-updated="true">Jun 12<sup>th</sup>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Xamarin Studio 6.0 was released last week and it includes a lot of <a href="https://blog.xamarin.com/live-from-dotnetconf-cycle-7-xamarin-studio-6-and-more/">new features</a>, such as a new dark theme and <a href="https://github.com/dotnet/roslyn">Roslyn integration</a>. This release also includes some improvements made to the NuGet support.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-0/AddPackagesDialogDarkTheme.png" title="Add Packages Dialog - Dark Theme" alt="Add Packages Dialog - Dark Theme"></p>
+
+<h2>New Features</h2>
+
+<ul>
+<li> Support NuGet packages targeting tvOS.</li>
+<li> Support updating pre-release NuGet packages.</li>
+<li> Show updates available for pre-release NuGet packages.</li>
+<li> Remember Show pre-release Packages setting in Add Packages dialog.</li>
+<li> Error dialog displayed if NuGet.Config file cannot be read.</li>
+</ul>
+
+
+<p>More information on all the changes in Xamarin Studio 6.0 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.0/xamarin.studio_6.0/">release notes</a>.</p>
+
+<h2>Support NuGet packages targeting watchOS</h2>
+
+<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
+
+<h2>Support updating pre-release NuGet packages</h2>
+
+<p>Previously it was not possible to update a pre-release NuGet package to a later pre-release  from the Solution window, only updates to stable NuGet packages were supported. The only way to update to a later pre-release NuGet package was to use the Add Packages dialog.</p>
+
+<p>Now an individual pre-release NuGet package can be updated by right clicking and selecting Update. When all packages in a project or solution are updated then pre-release NuGet packages will be updated to a later pre-release version if they are available.</p>
+
+<h2>Show updates available for pre-release NuGet packages</h2>
+
+<p>Previously Xamarin Studio would only show stable NuGet package updates as being available if a pre-release NuGet package was installed. Now Xamarin Studio will check for updates for pre-release NuGet packages as well as stable packages and display this information in the Solution window.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-0/PreReleaseNuGetPackageUpdatesInSolutionWindow.png" title="Pre-release NuGet package updates in Solution window" alt="Pre-release NuGet package updates in Solution window"></p>
+
+<p>Only if an installed NuGet package is a pre-release version will pre-release updates be shown as available in the Solution window. Xamarin Studio will not check for pre-release updates for stable NuGet package versions that are installed.</p>
+
+<h2>Remember Show pre-release Packages setting in Add Packages dialog</h2>
+
+<p>The Show pre-release Packages check box setting will now be remembered in the Add Packages dialog on a per solution basis.</p>
+
+<h2>Error dialog displayed if the NuGet.Config file cannot be read</h2>
+
+<p>Previously if the NuGet.Config file could not be read the error would
+be silently logged, but not reported, and Xamarin Studio would
+then switch to using the default official NuGet package source. Now an error
+dialog is shown indicating that there was a problem reading the
+NuGet.Config file.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Support NuGet packages that use icons from local files</strong></p>
+
+<p>A NuGet package can now use an icon, which will be shown in the Add Packages
+dialog, taken from the local file system using a file url. Previously this would fail with an invalid cast exception.</p>
+
+<p><strong>Incorrect update count displayed after updating NuGet packages.</strong></p>
+
+<p>When an update caused a NuGet package to be uninstalled the Packages
+folder in the Solution window would show an incorrect count for the available updates.</p>
+
+<p><strong>NuGet restore and update not working for workspaces</strong></p>
+
+<p>With a workspace opened, or multiple solutions opened in Xamarin Studio, then restoring and updating NuGet packages would only work for one of the solutions.</p>
+
+<p><strong>Unable to add Google Play Services packages</strong></p>
+
+<p>The Xamarin.Android.Support.v7.AppCompat NuGet package depends on
+a single version of the Xamarin.Android.Support.v4 NuGet package.
+When a Xamarin Google Play Services NuGet package is installed
+that depends on a higher version of the Xamarin.Android.Support.v4
+NuGet package the install would fail to find a version of the
+AppCompat NuGet package that is compatible. An error similar to the
+following would be displayed in the Package Console window:</p>
+
+<pre><code>Could not add Xamarin.GooglePlayServices.Ads.
+Updating 'Xamarin.Android.Support.v4 23.1.1.0' to
+'Xamarin.Android.Support.v4 23.1.1.1' failed. Unable to find a version
+of 'Xamarin.Android.Support.v7.AppCompat' that is compatible with
+'Xamarin.Android.Support.v4 23.1.1.1'.
+</code></pre>
+
+<p>The problem was that the AppCompat NuGet package is not involved
+in the initial NuGet package resolution using the remote package
+source so it is initially not considered for installation into the
+packages directory. When a package reference is then added to the
+packages.config file a search for a compatible AppCompat package was
+only using the local solution&rsquo;s packages directory which fails causing
+the install to fail.</p>
+
+<p>To fix this the local solution packages directory is used first
+when looking for a compatible AppCompat NuGet package and will
+fallback to using the configured remote package sources if no suitable package
+is found in this directory. To handle a package being added to the
+packages.config at this point, after the original NuGet packages have
+already been downloaded to the solution&rsquo;s packages directory, Xamarin Studio will detect a package is added to the packages.config file and install the NuGet package if it is not
+already in the local solution packages directory.</p>
+
+<p><strong>Incorrect package version being installed</strong></p>
+
+<p>When installing a NuGet package using the Google Play Services dialog a package version is not specified by the dialog. If the NuGet package being installed was found in the local machine&rsquo;s NuGet cache it would be used instead of the latest version from the official NuGet gallery at nuget.org. This could result in a lower version being installed than expected.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-12T14:00:00+01:00" pubdate data-updated="true">Jun 12<sup>th</sup>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2016/06/12/NuGetSupportInXamarinStudio6-0/" data-via="" data-counturl="http://lastexitcode.com/blog/2016/06/12/NuGetSupportInXamarinStudio6-0/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/05/AspNetCoreRC2SupportInXamarinStudio/" title="Previous Post: ASP.NET Core 1.0 RC2 support in Xamarin Studio">&laquo; ASP.NET Core 1.0 RC2 support in Xamarin Studio</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

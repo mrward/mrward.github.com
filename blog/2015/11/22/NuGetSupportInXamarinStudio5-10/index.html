@@ -125,6 +125,8 @@
 <li> Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.</li>
 <li> Prevent retargeting a NuGet package marking packages.config as deleted by Git.</li>
 <li> Allow Microsoft.ApplicationInsights NuGet package to be installed.</li>
+<li> Support NuGet packages targeting watchOS.</li>
+<li> Package license acceptance (Xamarin Studio 5.10.3)</li>
 </ul>
 
 
@@ -180,6 +182,16 @@
 <h2>Prevent the solution being closed when NuGet packages are being added</h2>
 
 <p>A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.</p>
+
+<h2>Support NuGet packages targeting watchOS</h2>
+
+<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
+
+<h2>Package license acceptance</h2>
+
+<p>Xamarin Studio 5.10.3 now includes a license acceptance dialog that will be displayed if a NuGet package requires a license to be accepted before it is installed. If the license is declined then the NuGet package will not be installed.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-10/PackageLicenseAcceptanceDialog.png" title="Package license acceptance dialog" alt="Package license acceptance dialog"></p>
 
 <h2>Bug Fixes</h2>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-06-05T20:27:54+01:00</updated>
+  <updated>2016-06-12T18:49:26+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,113 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.0]]></title>
+    <link href="http://lastexitcode.com/blog/2016/06/12/NuGetSupportInXamarinStudio6-0/"/>
+    <updated>2016-06-12T14:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/06/12/NuGetSupportInXamarinStudio6-0</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio 6.0 was released last week and it includes a lot of <a href="https://blog.xamarin.com/live-from-dotnetconf-cycle-7-xamarin-studio-6-and-more/">new features</a>, such as a new dark theme and <a href="https://github.com/dotnet/roslyn">Roslyn integration</a>. This release also includes some improvements made to the NuGet support.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-0/AddPackagesDialogDarkTheme.png" title="&lsquo;Add Packages Dialog &ndash; Dark Theme&rsquo; &lsquo;Add Packages Dialog &ndash; Dark Theme&rsquo;" ></p>
+
+<h2>New Features</h2>
+
+<ul>
+<li> Support NuGet packages targeting tvOS.</li>
+<li> Support updating pre-release NuGet packages.</li>
+<li> Show updates available for pre-release NuGet packages.</li>
+<li> Remember Show pre-release Packages setting in Add Packages dialog.</li>
+<li> Error dialog displayed if NuGet.Config file cannot be read.</li>
+</ul>
+
+
+<p>More information on all the changes in Xamarin Studio 6.0 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.0/xamarin.studio_6.0/">release notes</a>.</p>
+
+<h2>Support NuGet packages targeting watchOS</h2>
+
+<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
+
+<h2>Support updating pre-release NuGet packages</h2>
+
+<p>Previously it was not possible to update a pre-release NuGet package to a later pre-release  from the Solution window, only updates to stable NuGet packages were supported. The only way to update to a later pre-release NuGet package was to use the Add Packages dialog.</p>
+
+<p>Now an individual pre-release NuGet package can be updated by right clicking and selecting Update. When all packages in a project or solution are updated then pre-release NuGet packages will be updated to a later pre-release version if they are available.</p>
+
+<h2>Show updates available for pre-release NuGet packages</h2>
+
+<p>Previously Xamarin Studio would only show stable NuGet package updates as being available if a pre-release NuGet package was installed. Now Xamarin Studio will check for updates for pre-release NuGet packages as well as stable packages and display this information in the Solution window.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-0/PreReleaseNuGetPackageUpdatesInSolutionWindow.png" title="&lsquo;Pre-release NuGet package updates in Solution window&rsquo; &lsquo;Pre-release NuGet package updates in Solution window&rsquo;" ></p>
+
+<p>Only if an installed NuGet package is a pre-release version will pre-release updates be shown as available in the Solution window. Xamarin Studio will not check for pre-release updates for stable NuGet package versions that are installed.</p>
+
+<h2>Remember Show pre-release Packages setting in Add Packages dialog</h2>
+
+<p>The Show pre-release Packages check box setting will now be remembered in the Add Packages dialog on a per solution basis.</p>
+
+<h2>Error dialog displayed if the NuGet.Config file cannot be read</h2>
+
+<p>Previously if the NuGet.Config file could not be read the error would
+be silently logged, but not reported, and Xamarin Studio would
+then switch to using the default official NuGet package source. Now an error
+dialog is shown indicating that there was a problem reading the
+NuGet.Config file.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Support NuGet packages that use icons from local files</strong></p>
+
+<p>A NuGet package can now use an icon, which will be shown in the Add Packages
+dialog, taken from the local file system using a file url. Previously this would fail with an invalid cast exception.</p>
+
+<p><strong>Incorrect update count displayed after updating NuGet packages.</strong></p>
+
+<p>When an update caused a NuGet package to be uninstalled the Packages
+folder in the Solution window would show an incorrect count for the available updates.</p>
+
+<p><strong>NuGet restore and update not working for workspaces</strong></p>
+
+<p>With a workspace opened, or multiple solutions opened in Xamarin Studio, then restoring and updating NuGet packages would only work for one of the solutions.</p>
+
+<p><strong>Unable to add Google Play Services packages</strong></p>
+
+<p>The Xamarin.Android.Support.v7.AppCompat NuGet package depends on
+a single version of the Xamarin.Android.Support.v4 NuGet package.
+When a Xamarin Google Play Services NuGet package is installed
+that depends on a higher version of the Xamarin.Android.Support.v4
+NuGet package the install would fail to find a version of the
+AppCompat NuGet package that is compatible. An error similar to the
+following would be displayed in the Package Console window:</p>
+
+<pre><code>Could not add Xamarin.GooglePlayServices.Ads.
+Updating 'Xamarin.Android.Support.v4 23.1.1.0' to
+'Xamarin.Android.Support.v4 23.1.1.1' failed. Unable to find a version
+of 'Xamarin.Android.Support.v7.AppCompat' that is compatible with
+'Xamarin.Android.Support.v4 23.1.1.1'.
+</code></pre>
+
+<p>The problem was that the AppCompat NuGet package is not involved
+in the initial NuGet package resolution using the remote package
+source so it is initially not considered for installation into the
+packages directory. When a package reference is then added to the
+packages.config file a search for a compatible AppCompat package was
+only using the local solution&rsquo;s packages directory which fails causing
+the install to fail.</p>
+
+<p>To fix this the local solution packages directory is used first
+when looking for a compatible AppCompat NuGet package and will
+fallback to using the configured remote package sources if no suitable package
+is found in this directory. To handle a package being added to the
+packages.config at this point, after the original NuGet packages have
+already been downloaded to the solution&rsquo;s packages directory, Xamarin Studio will detect a package is added to the packages.config file and install the NuGet package if it is not
+already in the local solution packages directory.</p>
+
+<p><strong>Incorrect package version being installed</strong></p>
+
+<p>When installing a NuGet package using the Google Play Services dialog a package version is not specified by the dialog. If the NuGet package being installed was found in the local machine&rsquo;s NuGet cache it would be used instead of the latest version from the official NuGet gallery at nuget.org. This could result in a lower version being installed than expected.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ASP.NET Core 1.0 RC2 support in Xamarin Studio]]></title>
@@ -22,7 +129,7 @@
 
 <p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/WebProjectInSolutionWindow.png" title="&lsquo;ASP.NET Core web project in Solution window&rsquo; &lsquo;ASP.NET Core web project in Solution window&rsquo;" ></p>
 
-<p>This is an update of the original <a href="/blog/2016/01/01/DNXSupportInXamarinStudio/">DNX addin</a> which adds support for .NET Core RC2 and also, thanks to <a href="twitter.com/davidkarlas">David Karlaš</a>, adds support for debugging .NET Core applications on the Mac.</p>
+<p>This is an update of the original <a href="/blog/2016/01/01/DNXSupportInXamarinStudio/">DNX addin</a> which adds support for .NET Core RC2 and also, thanks to <a href="https://twitter.com/davidkarlas">David Karlaš</a>, adds support for debugging .NET Core applications on the Mac.</p>
 
 <h2>Features</h2>
 
@@ -38,7 +145,7 @@
 <h2>Supports</h2>
 
 <ul>
-<li> MonoDevelop and Xamarin Studio 6.0.</li>
+<li> MonoDevelop and Xamarin Studio 6.0 (build 5166). (Note that 6.1 is not yet supported)</li>
 <li> <a href="https://www.microsoft.com/net/core">.NET Core 1.0 RC2</a>.</li>
 </ul>
 
@@ -280,6 +387,8 @@
 <li> Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.</li>
 <li> Prevent retargeting a NuGet package marking packages.config as deleted by Git.</li>
 <li> Allow Microsoft.ApplicationInsights NuGet package to be installed.</li>
+<li> Support NuGet packages targeting watchOS.</li>
+<li> Package license acceptance (Xamarin Studio 5.10.3)</li>
 </ul>
 
 
@@ -335,6 +444,16 @@
 <h2>Prevent the solution being closed when NuGet packages are being added</h2>
 
 <p>A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.</p>
+
+<h2>Support NuGet packages targeting watchOS</h2>
+
+<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
+
+<h2>Package license acceptance</h2>
+
+<p>Xamarin Studio 5.10.3 now includes a license acceptance dialog that will be displayed if a NuGet package requires a license to be accepted before it is installed. If the license is declined then the NuGet package will not be installed.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-10/PackageLicenseAcceptanceDialog.png" title="&lsquo;Package license acceptance dialog&rsquo; &lsquo;Package license acceptance dialog&rsquo;" ></p>
 
 <h2>Bug Fixes</h2>
 
@@ -397,157 +516,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 
 
 <p>The TypeScript options are now only available when the project options are selected.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Paket Support in Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2015/06/09/PaketSupportInXamarinStudio/"/>
-    <updated>2015-06-09T19:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2015/06/09/PaketSupportInXamarinStudio</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio and MonoDevelop now have support for <a href="http://fsprojects.github.io/Paket/">Paket</a> with an alpha release of the <a href="https://github.com/mrward/monodevelop-paket-addin">Paket Addin</a>.</p>
-
-<p>Paket is a dependency manager for .NET. The dependencies it supports are <a href="http://fsprojects.github.io/Paket/nuget-dependencies.html">NuGet packages</a>, files from <a href="http://fsprojects.github.io/Paket/github-dependencies.html">GitHub, Gists</a> or files from any <a href="http://fsprojects.github.io/Paket/http-dependencies.html">HTTP source</a>. Paket can be used to maintain project dependencies completely from the command line.</p>
-
-<p>So let us take a look at the support for Paket in Xamarin Studio and MonoDevelop.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li> View dependencies and referenced NuGet packages in the Solution window.</li>
-<li> Add, remove, update NuGet packages from the Solution window.</li>
-<li> Install, restore, simplify NuGet packages from the Solution window.</li>
-<li> Check for updated NuGet packages from the Solution window.</li>
-<li> Syntax highlighting for all paket files.</li>
-<li> Code completion whilst editing the paket.dependencies file.</li>
-<li> Integrates with Xamarin Studio&rsquo;s unified search.</li>
-<li> paket.dependencies and paket.template file templates.</li>
-</ul>
-
-
-<h2>Installing the addin</h2>
-
-<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click <strong>Manage Repositories&hellip;</strong>. In the window that opens tick the check box next to <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> and then click the Close button.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/AddingAlphaChannelAddins.png" title="&lsquo;Enabling alpha channel addins&rsquo; &lsquo;Enabling alpha channel addins&rsquo;" ></p>
-
-<p>Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in <strong>Paket</strong>.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/AddinManagerPaketAddin.png" title="&lsquo;Paket addin selected in Addin Manager dialog&rsquo; &lsquo;Paket addin selected in Addin Manager dialog&rsquo;" ></p>
-
-<p>Select the Paket addin and then click the <strong>Install&hellip;</strong> button.</p>
-
-<p>Now let us take a look at adding a NuGet package to your project with Paket. This is a simple way to get started with Paket in Xamarin Studio without having to manually create any paket files.</p>
-
-<h2>Adding a NuGet Package</h2>
-
-<p>To add a NuGet package using Paket, right click the project in the Solution window, and select Add &ndash; Add NuGet Packages using Paket.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/AddNuGetPackagesUsingPaketSolutionWindowMenu.png" title="&lsquo;Add NuGet Package using Paket Solution window context menu&rsquo; &lsquo;Add NuGet Package using Paket Solution window context menu&rsquo;" ></p>
-
-<p>The Add NuGet Packages using Paket menu is also available from the main Project menu.</p>
-
-<p>This opens the Add NuGet Packages dialog. Search for the NuGet package you want to use and click the Add Package button.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/AddNuGetPackagesDialog.png" title="&lsquo;Add NuGet Packages dialog&rsquo; &lsquo;Add NuGet Packages dialog&rsquo;" ></p>
-
-<p>The Status Bar will update as the NuGet package is installed.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/JsonNetPackageAddedStatusBarMessage.png" title="&lsquo;Json.NET added status bar message&rsquo; &lsquo;Json.NET added status bar message&rsquo;" ></p>
-
-<p>More detailed information about the installation can be found in the Paket Console window. This can be opened by clicking the Status Bar or from the View &ndash; Pads menu.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/JsonNetPackageAddedPaketConsole.png" title="&lsquo;Json.NET added Paket Console messages&rsquo; &lsquo;Json.NET added Paket Console messages&rsquo;" ></p>
-
-<p>After the NuGet package has been installed successfully you will see two new items in the Solution window. A Paket Dependencies folder and a Paket References folder.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketFoldersInSolutionWindow.png" title="&lsquo;Paket folders in Solution window&rsquo; &lsquo;Paket folders in Solution window&rsquo;" ></p>
-
-<p>These folders show the NuGet packages that are in the paket.dependencies and paket.references files.</p>
-
-<h2>Paket Dependencies Folder</h2>
-
-<p>The Paket Dependencies folder is shown in the Solution window if Xamarin Studio finds a paket.dependencies file in the same directory as the solution. The NuGet packages that are in the paket.dependencies file are shown under this folder.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderInSolutionWindow.png" title="&lsquo;Paket Dependencies folder in Solution window&rsquo; &lsquo;Paket Dependencies folder in Solution window&rsquo;" ></p>
-
-<p>Double clicking the folder will open the paket.dependencies file into the text editor. The Paket Dependencies folder also has a context menu where you can run Paket commands.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderContextMenu.png" title="&lsquo;Paket Dependencies folder context menu&rsquo; &lsquo;Paket Dependencies folder context menu&rsquo;" ></p>
-
-<p>From the context menu you can Add a NuGet Package as a dependency, install, restore, update, and simplify your dependencies, or check for updates. When you select Check for Updates the updated NuGet package information will be shown in the Paket Console and in the Solution window.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderNuGetPackageUpdateInformation.png" title="&lsquo;Paket Dependencies folder NuGet package update information&rsquo; &lsquo;Paket Dependencies folder NuGet package update information&rsquo;" ></p>
-
-<p>To update a single NuGet package you can right click it and select Update. To remove the NuGet package as a dependency you can right click it and select Remove or press delete.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependencyNuGetPackageContextMenu.png" title="&lsquo;Paket Dependencies folder NuGet package context menu&rsquo; &lsquo;Paket Dependencies folder NuGet package context menu&rsquo;" ></p>
-
-<h2>Paket References Folder</h2>
-
-<p>The Paket References folder is shown in the Solution window if Xamarin Studio finds a paket.references file in the same directory as the project. The NuGet packages that are in the paket.references file are shown under this folder. Double clicking the folder will open the paket.references file into the text editor.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderInSolutionWindow.png" title="&lsquo;Paket References folder in Solution window&rsquo; &lsquo;Paket References folder in Solution window&rsquo;" ></p>
-
-<p>Right clicking the Paket References folder allows you to add a NuGet package to the project.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderAddPackagesMenu.png" title="&lsquo;Paket References folder context menu&rsquo; &lsquo;Paket References folder context menu&rsquo;" ></p>
-
-<p>A NuGet package can be removed by right clicking it and selecting Remove or by pressing Delete.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderNuGetPackageContextMenu.png" title="&lsquo;Paket References folder NuGet package context menu&rsquo; &lsquo;Paket References folder NuGet package context menu&rsquo;" ></p>
-
-<h2>Code Completion</h2>
-
-<p>When editing the paket.dependencies file you will get code completion as you type. You can also bring up the code completion list by pressing Ctrl+Space.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordCompletion.png" title="&lsquo;paket.dependencies file keyword completion&rsquo; &lsquo;paket.dependencies file keyword completion&rsquo;" ></p>
-
-<p>Keywords that have an associated value will also show code completion after a space is pressed or the first character is typed in.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordValueCompletion.png" title="&lsquo;paket.dependencies file keyword value completion&rsquo; &lsquo;paket.dependencies file keyword value completion&rsquo;" ></p>
-
-<p>After the source keyword you will see a list of NuGet package sources that are defined in your NuGet.Config file.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileNuGetSourceCompletion.png" title="&lsquo;paket.dependencies file NuGet source completion&rsquo; &lsquo;paket.dependencies file NuGet source completion&rsquo;" ></p>
-
-<p>After the nuget keyword you will see a list of NuGet packages.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileNuGetPackageCompletion.png" title="&lsquo;paket.dependencies file NuGet package completion&rsquo; &lsquo;paket.dependencies file NuGet package completion&rsquo;" ></p>
-
-<p>This list of NuGet packages is currently taken from your local machine&rsquo;s NuGet cache. Currently there is no support for asynchronously searching an online NuGet package source to get the list of NuGet packages.</p>
-
-<h2>Running Paket commands</h2>
-
-<p>Paket commands can be run from the Unified search. If you type in paket you will see some of the Paket commands.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketCommandsInUnifiedSearch.png" title="&lsquo;Paket commands in unified search&rsquo; &lsquo;Paket commands in unified search&rsquo;" ></p>
-
-<p>The syntax for each command is the similar to what the paket.exe console application supports but the commands do not support all the parameters.</p>
-
-<p>As you type more of the command the list of commands will be filtered. To run a command select it and then press the enter key. These commands directly run paket.exe and update the paket files and project files. The status of the current command is shown in the Status Bar and the output from paket.exe is shown in the Paket Console window.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesInstalledStatusBarMessage.png" title="&lsquo;Paket dependencies installed status bar message&rsquo; &lsquo;Paket dependencies installed status bar message&rsquo;" ></p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesInstalledPaketConsoleOutput.png" title="&lsquo;Paket dependencies installed console message&rsquo; &lsquo;Paket dependencies installed console message&rsquo;" ></p>
-
-<p>The Paket Console window will automatically be displayed if there was an error running a command and an error message will be displayed in the Status Bar.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/StatusBarAddNuGetPackagedErrorMessage.png" title="&lsquo;Paket error message in Status Bar&rsquo; &lsquo;Paket error message in Status Bar&rsquo;" ></p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketConsoleAddNuGetPackagedErrorMessage.png" title="&lsquo;Paket console error message&rsquo; &lsquo;Paket console error message&rsquo;" ></p>
-
-<p>Otherwise you can open the Paket Console by clicking the Status Bar.</p>
-
-<h2>Syntax highlighting</h2>
-
-<p>Syntax highlighting is available for all paket files &ndash; paket.dependencies, paket.references, paket.lock and paket.template.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileSyntaxHighlighting.png" title="&lsquo;paket.dependencies file syntax highlighting&rsquo; &lsquo;paket.dependencies file syntax highlighting&rsquo;" ></p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketLockFileSyntaxHighlighting.png" title="&lsquo;paket.lock file syntax highlighting&rsquo; &lsquo;paket.lock file syntax highlighting&rsquo;" ></p>
-
-<p>This brings us to the end of the introduction to Paket support in Xamarin Studio.</p>
 ]]></content>
   </entry>
   

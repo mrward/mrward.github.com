@@ -4,7 +4,7 @@
   <title><![CDATA[Category: netcore | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/netcore/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-06-05T20:27:54+01:00</updated>
+  <updated>2016-06-12T18:49:26+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -22,7 +22,7 @@
 
 <p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/WebProjectInSolutionWindow.png" title="&lsquo;ASP.NET Core web project in Solution window&rsquo; &lsquo;ASP.NET Core web project in Solution window&rsquo;" ></p>
 
-<p>This is an update of the original <a href="/blog/2016/01/01/DNXSupportInXamarinStudio/">DNX addin</a> which adds support for .NET Core RC2 and also, thanks to <a href="twitter.com/davidkarlas">David Karlaš</a>, adds support for debugging .NET Core applications on the Mac.</p>
+<p>This is an update of the original <a href="/blog/2016/01/01/DNXSupportInXamarinStudio/">DNX addin</a> which adds support for .NET Core RC2 and also, thanks to <a href="https://twitter.com/davidkarlas">David Karlaš</a>, adds support for debugging .NET Core applications on the Mac.</p>
 
 <h2>Features</h2>
 
@@ -38,7 +38,7 @@
 <h2>Supports</h2>
 
 <ul>
-<li> MonoDevelop and Xamarin Studio 6.0.</li>
+<li> MonoDevelop and Xamarin Studio 6.0 (build 5166). (Note that 6.1 is not yet supported)</li>
 <li> <a href="https://www.microsoft.com/net/core">.NET Core 1.0 RC2</a>.</li>
 </ul>
 
