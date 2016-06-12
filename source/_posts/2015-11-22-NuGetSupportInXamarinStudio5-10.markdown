@@ -21,6 +21,8 @@ Xamarin Studio 5.10 was released last week as part of the [Xamarin 4 release](ht
    * Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.
    * Prevent retargeting a NuGet package marking packages.config as deleted by Git.
    * Allow Microsoft.ApplicationInsights NuGet package to be installed.
+   * Support NuGet packages targeting watchOS.
+   * Package license acceptance (Xamarin Studio 5.10.3)
 
 More information on all the changes in Xamarin Studio 5.10 can be found in the [release notes](http://developer.xamarin.com/releases/studio/xamarin.studio_5.10/xamarin.studio_5.10/).
 
@@ -68,6 +70,16 @@ Previously if a NuGet package was installed and it contained PowerShell scripts 
 ## Prevent the solution being closed when NuGet packages are being added
 
 A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.
+
+## Support NuGet packages targeting watchOS
+
+A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.
+
+## Package license acceptance
+
+Xamarin Studio 5.10.3 now includes a license acceptance dialog that will be displayed if a NuGet package requires a license to be accepted before it is installed. If the license is declined then the NuGet package will not be installed.
+
+{% img /images/blog/NuGetSupportInXamarinStudio5-10/PackageLicenseAcceptanceDialog.png 'Package license acceptance dialog' 'Package license acceptance dialog' %}
 
 ## Bug Fixes
 
