@@ -101,3 +101,10 @@ already in the local solution packages directory.
 **Incorrect package version being installed**
 
 When installing a NuGet package using the Google Play Services dialog a package version is not specified by the dialog. If the NuGet package being installed was found in the local machine's NuGet cache it would be used instead of the latest version from the official NuGet gallery at nuget.org. This could result in a lower version being installed than expected.
+
+**MSBuild property files (.props) not being added at correct project location**
+
+Installing a NuGet package that included an MSBuild .props file would
+add an Import element for the .props at the end of the project file
+(.csproj) instead of at the start. The .props files are now added to the project 
+file as the first child element inside the project's root element.
