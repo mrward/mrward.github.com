@@ -1,11 +1,28 @@
 ---
 layout: page
 title: "MonoDevelop .NET Core Addin Releases"
-date: 2016-06-12 18:00
+date: 2016-07-06 21:50
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.5
+
+2016-07-06
+
+ * Add support for running unit tests with .NET Core test runners from the Unit Tests window with results shown in the Test Results window.
+ * Update project templates for .NET Core 1.0 (preview 2)
+ * Fix missing icons in New Project dialog in Xamarin Studio 6.1.
+ * Parse build errors from dotnet build output.
+ * Support projects created by VS 2015 Update 2.
+ * Fix icon not displayed for clear button in .NET Core Output window.
+ * Show design time host process output in .NET Core output window.
+ * Fix package restore happening continually.
+ * Fix errors not being cleared from Errors window.
+ * Update status bar when restoring dependencies.
+ * Fix dependencies not showing in Solution window on Linux.
+ * Show error message if .NET Core cannot be found.
 
 ## Version 0.4
 
