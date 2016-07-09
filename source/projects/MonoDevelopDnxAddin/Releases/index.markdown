@@ -1,11 +1,19 @@
 ---
 layout: page
 title: "MonoDevelop .NET Core Addin Releases"
-date: 2016-07-06 21:50
+date: 2016-07-09 14:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.6
+
+2016-07-09
+
+ * Fix null reference when loading tests for NUnit test runner.
+ * Stop test discovery if no tests found after a period of time.
+ * testRunner being added to project.json now updates Unit Tests window after build.
 
 ## Version 0.5
 
