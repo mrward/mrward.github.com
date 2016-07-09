@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-06-22T18:27:36+01:00</updated>
+  <updated>2016-07-09T16:45:50+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[.NET Core Test Runner Support in Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2016/07/09/NetCoreTestRunnerSupportInXamarinStudio/"/>
+    <updated>2016-07-09T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/07/09/NetCoreTestRunnerSupportInXamarinStudio</id>
+    <content type="html"><![CDATA[<p>The latest version of the .NET Core addin for Xamarin Studio and MonoDevelop now supports <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/testing/unit-testing-with-dotnet-test">.NET Core Test Runners</a>.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreTestRunnerSupportInXamarinStudio/DotNetCoreTestRunnerSupportInXamarinStudio.png" title=".NET Core Test Runner in Xamarin Studio" alt=".NET Core Test Runner in Xamarin Studio"></p>
+
+<p>Xamarin Studio uses the <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/tools/test-protocol">.NET Core test communication protocol</a> to support .NET Core test runners. This protocol provides a way to discover and run the unit tests provided by a .NET Core test runner.</p>
+
+<p>When Xamarin Studio finds a testRunner in the project.json file it will attempt to discover the unit tests for that project.</p>
+
+<pre><code>{
+    "version": "1.1.0-*",
+
+    "testRunner": "nunit",
+
+    "dependencies": {,
+        "NUnit": "3.4.0",
+        "dotnet-test-nunit": "3.4.0-beta-1"
+    },
+
+    "frameworks": {
+        "netcoreapp1.0": {
+            "imports": [
+                "netcoreapp1.0",
+                "portable-net45+win8"
+            ],
+            "dependencies": {
+                "Microsoft.NETCore.App": {
+                    "version": "1.0.0-*",
+                    "type": "platform"
+                }
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>The discovered tests are then shown in the Unit Tests window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreTestRunnerSupportInXamarinStudio/DotNetCoreDiscoveredUnitTestsInUnitTestsWindow.png" title="Discovered NET Core unit tests in Unit Tests window" alt="Discovered NET Core unit tests in Unit Tests window"></p>
+
+<p>After building the project the Unit Tests window will discover any new tests that have been added.</p>
+
+<p>Tests can be run by clicking Run All or by right clicking a test in the Unit Tests window and selecting Run Test.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreTestRunnerSupportInXamarinStudio/RunDotNetCoreTestsContextMenu.png" title="Run NET Core unit tests in Unit Tests window" alt="Run NET Core unit tests in Unit Tests window"></p>
+
+<p>The test results are shown in the Test Results window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreTestRunnerSupportInXamarinStudio/DotNetCoreTestResultsWindow.png" title=".NET Core test results  in Test Results window" alt=".NET Core test results  in Test Results window"></p>
+
+<p>Console output from the test runner is shown in the Application Output window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreTestRunnerSupportInXamarinStudio/DotNetCoreTestRunnerApplicationOutput.png" title=".NET Core Test Runner in Xamarin Studio" alt=".NET Core Test Runner in Xamarin Studio"></p>
+
+<p>Debugging the unit tests is not yet supported.</p>
+
+<p><a href="https://xunit.github.io/">xUnit</a> and <a href="http://nunit.org/">NUnit</a> provide .NET Core test runners and both of these are supported in Xamarin Studio. More information can be found in existing tutorials on how to use these test runners:</p>
+
+<ul>
+<li> <a href="http://www.alteridem.net/2016/06/18/nunit-3-testing-net-core-rc2/">NUnit 3 Tests for .NET Core RC2 and ASP.NET Core RC2</a></li>
+<li> <a href="http://xunit.github.io/docs/getting-started-dotnet-core.html">Getting started with xUnit.net (.NET Core / ASP.NET Core)</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.0]]></title>
@@ -1935,86 +2005,6 @@ would update package dependencies correctly.</p>
 <p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
 
 <p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&rsquo;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet PowerShell Console for Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/"/>
-    <updated>2014-06-22T21:05:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.0 now has <a href="http://lastexitcode.com/blog/2014/06/01/NuGetSupportInXamarinStudio5-0/">NuGet support built in</a>. There are also some experimental NuGet features that are available for Xamarin Studio 5.0 and MonoDevelop 5.0 as part of a separate <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a>. One such experimental feature is a new PowerShell console window that provides Xamarin Studio with the standard NuGet commands and also works on the Mac, not just Windows.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindow.png" title="NuGet PowerShell Console Window" alt="NuGet PowerShell Console Window"></p>
-
-<p>The new console window is powered by Pash. Pash is a open source reimplementation of PowerShell that works with Mono and runs on Windows, Mac and Linux. It was created by <a href="https://twitter.com/igor_moochnick">Igor Moochnick</a> and more recently development has been restarted by <a href="https://twitter.com/jaybazuzi">Jay Bazuzi</a>.</p>
-
-<h2>PowerShell Console Features</h2>
-
-<ul>
-<li> Standard NuGet PowerShell commands available &ndash; Install-Package, Update-Package, Uninstall-Package, Get-Project and Get-Package</li>
-<li> Integrates with the existing NuGet addin that ships with Xamarin Studio.</li>
-<li> Cross platform &ndash; works on Windows and Mac.</li>
-<li> Powered by <a href="https://github.com/Pash-Project/Pash">Pash</a>.</li>
-<li> Partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model EnvDTE</a>.</li>
-</ul>
-
-
-<h2>Limitations</h2>
-
-<ul>
-<li> PowerShell support is not fully implemented in Pash so PowerShell scripts may not fully work.</li>
-<li> Xamarin Studio needs to be closed and re-opened before the console can be used. Otherwise the Xamarin Studio will crash.</li>
-<li> Some standard parameters are missing from the NuGet commands (e.g. -verbose).</li>
-<li> The NuGet commands are not fully up to date compared with the commands available in Visual Studio. One example is <strong>Update-Package -Reinstall</strong> which is currently not supported.</li>
-</ul>
-
-
-<h2>Installation</h2>
-
-<p>The NuGet extensions addin is available from the <a href="http://addins.monodevelop.com/Project/Index/121">MonoDevelop addin repository</a>. To install the addin:</p>
-
-<ul>
-<li>Open the <strong>Add-in Manager</strong> dialog.</li>
-<li>Select the <strong>Gallery</strong> tab.</li>
-<li>Select <strong>Xamarin Studio Add-in Repository (Alpha channel)</strong> from the drop down list.</li>
-<li>Expand <strong>IDE extensions</strong>.</li>
-<li>Select <strong>NuGet Package Management Extensions</strong>.</li>
-<li>Click the <strong>Refresh</strong> button if the addin is not visible.</li>
-<li>Click <strong>Install&hellip;</strong> to install the addin.</li>
-</ul>
-
-
-<p>Please close and re-open Xamarin Studio before trying to open the PowerShell Console window otherwise Xamarin Studio will crash.</p>
-
-<h2>Using the PowerShell Console</h2>
-
-<p>To open the console window, from the <strong>View</strong> menu select <strong>Pads</strong> and then select <strong>Package Console Extension</strong>.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellConsoleForXamarinStudio/ViewPackageConsoleExtensionPadMenuItem.png" title="View - Package Console Extension menu item" alt="View - Package Console Extension menu item"></p>
-
-<p>The top of the console window has drop downs allowing you to choose a different default package source or default project. At the top right there is a Clear Console button which will clear all the text from the console.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowInstallingJsonNet.png" title="PowerShell Console Window - Installing Json.NET" alt="PowerShell Console Window - Installing Json.NET"></p>
-
-<p>The standard <a href="http://docs.nuget.org/docs/reference/package-manager-console-powershell-reference">NuGet PowerShell commands</a> are available from the console window:</p>
-
-<ul>
-<li>Install-Package</li>
-<li>Uninstall-Package</li>
-<li>Update-Package</li>
-<li>Get-Package</li>
-<li>Get-Project</li>
-</ul>
-
-
-<p>There is also a partial implementation of the <a href="http://msdn.microsoft.com/en-us/library/envdte.aspx">Visual Studio object model (EnvDTE)</a> which you can use from the console and from PowerShell scripts inside a NuGet package. Currently the Solution object and the CodeModel is not fully implemented when compared with SharpDevelop.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellConsoleForXamarinStudio/PackageConsoleExtensionWindowUsingEnvDTEProjectModel.png" title="PowerShell Console Window - Using EnvDTE project model" alt="PowerShell Console Window - Using EnvDTE project model"></p>
-
-<p>When you install a NuGet package from the console and the NuGet package has an <strong>init.ps1</strong> or an <strong>install.ps1</strong> PowerShell script then these scripts will be run. Similarly on uninstalling a NuGet package if it contains an <strong>uninstall.ps1</strong> script then this will be run in the console. However there are some areas of PowerShell that are not fully implemented in Pash so the script may well fail. The failure will be logged in the console window but it will not prevent the package from being installed or uninstalled.</p>
-
-<p>That concludes the introduction to the experimental NuGet Package Console in Xamarin Studio.</p>
 ]]></content>
   </entry>
   

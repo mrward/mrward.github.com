@@ -4,7 +4,7 @@
   <title><![CDATA[Category: netcore | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/netcore/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-06-12T18:49:26+01:00</updated>
+  <updated>2016-07-09T16:45:50+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[.NET Core Test Runner Support in Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2016/07/09/NetCoreTestRunnerSupportInXamarinStudio/"/>
+    <updated>2016-07-09T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/07/09/NetCoreTestRunnerSupportInXamarinStudio</id>
+    <content type="html"><![CDATA[<p>The latest version of the .NET Core addin for Xamarin Studio and MonoDevelop now supports <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/testing/unit-testing-with-dotnet-test">.NET Core Test Runners</a>.</p>
+
+<p><img src="/images/blog/NetCoreTestRunnerSupportInXamarinStudio/DotNetCoreTestRunnerSupportInXamarinStudio.png" title="&lsquo;.NET Core Test Runner in Xamarin Studio&rsquo; &lsquo;.NET Core Test Runner in Xamarin Studio&rsquo;" ></p>
+
+<p>Xamarin Studio uses the <a href="https://docs.microsoft.com/en-us/dotnet/articles/core/tools/test-protocol">.NET Core test communication protocol</a> to support .NET Core test runners. This protocol provides a way to discover and run the unit tests provided by a .NET Core test runner.</p>
+
+<p>When Xamarin Studio finds a testRunner in the project.json file it will attempt to discover the unit tests for that project.</p>
+
+<pre><code>{
+    "version": "1.1.0-*",
+
+    "testRunner": "nunit",
+
+    "dependencies": {,
+        "NUnit": "3.4.0",
+        "dotnet-test-nunit": "3.4.0-beta-1"
+    },
+
+    "frameworks": {
+        "netcoreapp1.0": {
+            "imports": [
+                "netcoreapp1.0",
+                "portable-net45+win8"
+            ],
+            "dependencies": {
+                "Microsoft.NETCore.App": {
+                    "version": "1.0.0-*",
+                    "type": "platform"
+                }
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>The discovered tests are then shown in the Unit Tests window.</p>
+
+<p><img src="/images/blog/NetCoreTestRunnerSupportInXamarinStudio/DotNetCoreDiscoveredUnitTestsInUnitTestsWindow.png" title="&lsquo;Discovered NET Core unit tests in Unit Tests window&rsquo; &lsquo;Discovered NET Core unit tests in Unit Tests window&rsquo;" ></p>
+
+<p>After building the project the Unit Tests window will discover any new tests that have been added.</p>
+
+<p>Tests can be run by clicking Run All or by right clicking a test in the Unit Tests window and selecting Run Test.</p>
+
+<p><img src="/images/blog/NetCoreTestRunnerSupportInXamarinStudio/RunDotNetCoreTestsContextMenu.png" title="&lsquo;Run NET Core unit tests in Unit Tests window&rsquo; &lsquo;Run NET Core unit tests in Unit Tests window&rsquo;" ></p>
+
+<p>The test results are shown in the Test Results window.</p>
+
+<p><img src="/images/blog/NetCoreTestRunnerSupportInXamarinStudio/DotNetCoreTestResultsWindow.png" title="&lsquo;.NET Core test results  in Test Results window&rsquo; &lsquo;.NET Core test results  in Test Results window&rsquo;" ></p>
+
+<p>Console output from the test runner is shown in the Application Output window.</p>
+
+<p><img src="/images/blog/NetCoreTestRunnerSupportInXamarinStudio/DotNetCoreTestRunnerApplicationOutput.png" title="&lsquo;.NET Core Test Runner in Xamarin Studio&rsquo; &lsquo;.NET Core Test Runner in Xamarin Studio&rsquo;" ></p>
+
+<p>Debugging the unit tests is not yet supported.</p>
+
+<p><a href="https://xunit.github.io/">xUnit</a> and <a href="http://nunit.org/">NUnit</a> provide .NET Core test runners and both of these are supported in Xamarin Studio. More information can be found in existing tutorials on how to use these test runners:</p>
+
+<ul>
+<li> <a href="http://www.alteridem.net/2016/06/18/nunit-3-testing-net-core-rc2/">NUnit 3 Tests for .NET Core RC2 and ASP.NET Core RC2</a></li>
+<li> <a href="http://xunit.github.io/docs/getting-started-dotnet-core.html">Getting started with xUnit.net (.NET Core / ASP.NET Core)</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ASP.NET Core 1.0 RC2 support in Xamarin Studio]]></title>
