@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-07-09T16:45:50+01:00</updated>
+  <updated>2016-07-24T21:57:35+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,135 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[File Nesting in Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2016/07/24/FileNestingInXamarinStudio/"/>
+    <updated>2016-07-24T21:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/07/24/FileNestingInXamarinStudio</id>
+    <content type="html"><![CDATA[<p>With recent versions of Xamarin Studio it is not currently possible to nest files without directly editing the project file. In the past it was possible to drag and drop a file so it was then nested inside another file.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/SolutionWindowWithNestedFiles.png" title="Solution window with nested files in Xamarin Studio" alt="Solution window with nested files in Xamarin Studio"></p>
+
+<p>Visual Studio also does not support nesting files by using drag and drop however
+<a href="http://madskristensen.net/">Mads Kristensen</a> created a <a href="https://visualstudiogallery.msdn.microsoft.com/3ebde8fb-26d8-4374-a0eb-1e4e2665070c">File Nesting extension</a> that adds support for manual and automatic nesting of files within Visual Studio. There is a <a href="https://channel9.msdn.com/Blogs/MadsKristensen/Introducing-File-Nestor-for-Visual-Studio">demo video of the File Nesting extension</a> that shows the extension being used with Visual Studio.
+ This extension has now been ported to Xamarin Studio and is available from the <a href="http://addins.monodevelop.com/">MonoDevelop Add-in Repository</a>.</p>
+
+<p>Let us take a walkthrough of the features of the File Nesting addin for Xamarin Studio.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Manual file nesting</li>
+<li>Manual file un-nesting</li>
+<li>Automatic file nesting of selected files based on rules</li>
+<li>Automatic file nesting when files are added to a project</li>
+<li>Options to specify which file nesting rules are applied</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Xamarin Studio 6.0 or MonoDevelop 6.0.</li>
+</ul>
+
+
+<h2>Manual File Nesting</h2>
+
+<p>To manually nest a file select it in the Solution window then right click and select File Nesting &ndash; Nest Item&hellip;</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/NestItemContextMenu.png" title="Manual file nesting - nest item context menu" alt="Manual file nesting - nest item context menu"></p>
+
+<p>This will open a file nesting dialog where the parent file can be selected.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/FileNestingDialog.png" title="File nesting dialog" alt="File nesting dialog"></p>
+
+<p>Select the parent file and click OK to nest the file under that parent file.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/ManualFileNestingResultInSolutionWindow.png" title="Manual file nesting result in solution window" alt="Manual file nesting result in solution window"></p>
+
+<p>You can also nest multiple files under a parent by selecting multiple files in the Solution window and selecting the Nest Item menu.</p>
+
+<h2>Manual File Un-nesting</h2>
+
+<p>To un-nest a file select it in the Solution window then right click and select File Nesting &ndash; Un-nest Item.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/UnNestItemContextMenu.png" title="Manual file nesting - un-nest item context menu" alt="Manual file nesting - un-nest item context menu"></p>
+
+<p>The file will then be un-nested from its parent.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/ManualFileUnNestingResultInSolutionWindow.png" title="Manual file un-nesting result in solution window" alt="Manual file un-nesting result in solution window"></p>
+
+<h2>Automatic Nesting Rules</h2>
+
+<p>The file nesting rules are available from the Preferences dialog.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/FileNestingRulesInPreferencesDialog.png" title="File nesting rules in preferences" alt="File nesting rules in preferences"></p>
+
+<p>Each rule has a tooltip which will show more detailed information about what the rule does.</p>
+
+<h3>Enable auto-nesting</h3>
+
+<p>The Enable auto-nesting option will enable or disable automatic file nesting when a file is added to a project.</p>
+
+<h3>Enable extension rule</h3>
+
+<p>This rule will nest files added with an extra extension under their corresponding parent file. For example MyView.xaml.cs nests under MyView.xaml.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/NestedFileUsingExtensionRule.png" title="Nested file using extension rule" alt="Nested file using extension rule"></p>
+
+<h3>Enable interface implementation rule</h3>
+
+<p>This nests C# interface implementations under the corresponding interface based on the filename. For example, if there is an interface file IMyInterface.cs then a new file called CustomMyInterface.cs will be nested under the IMyInterface file.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/NestedCSharpInterfaceFilesInSolutionWindow.png" title="Nested file using interface implementation rule" alt="Nested file using interface implementation rule"></p>
+
+<h3>Enable known file type rule</h3>
+
+<p>This nests certain known files types. For example, MyPage.ts will be nested under MyPage.html.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/NestedFileUsingKnownFileTypeRule.png" title="Nested file using known file type rule" alt="Nested file using known file type rule"></p>
+
+<h3>Enable path segment rule</h3>
+
+<p>This nests files with an added path segment under its parent. For example, MyFile.Designer.cs nests under MyFile.cs.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/NestedFileUsingPathSegmentRule.png" title="Nested file using path segment rule" alt="Nested file using path segment rule"></p>
+
+<h2>Automatic Nesting of Selected Files</h2>
+
+<p>To automatically nest files, based on the enabled file nesting rules, select the files, or folder, or project, then right click and select File Nesting &ndash; Auto-nest selected items.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/AutoNestSelectedItemsContextMenu.png" title="Auto-nest selected items context menu" alt="Auto-nest selected items context menu"></p>
+
+<p>This will then apply the enabled file nesting rules to the selected files.</p>
+
+<h2>Automatic File Nesting on Adding Files</h2>
+
+<p>To enable automatic file nesting when files are added right click the project and select File Nesting &ndash; Enable automatic nesting.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/EnableAutomaticNestingContextMenu.png" title="Enable automatic nesting context menu" alt="Enable automatic nesting context menu"></p>
+
+<p>A check box will be displayed next to this menu item if this feature is enabled. Now when a file is added the enabled nesting rules will be applied and the file will be automatically nested.</p>
+
+<h2>Installation</h2>
+
+<p>The File Nesting addin is available from the <a href="http://addins.monodevelop.com/">MonoDevelop Add-in Repository</a> on the beta channel. To install the addin open the Add-in Manager, search for the File Nesting addin, then click the Install button.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/FileNestingInXamarinStudio/FileNestingAddinSelectedInAddinManagerWindow.png" title="File Nesting addin in addin manager window" alt="File Nesting addin in addin manager window"></p>
+
+<p>After installing the addin Xamarin Studio will need to be restarted for the addin to work correctly.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/FileNesting">File Nesting addin for Xamarin Studio and MonoDevelop</a></li>
+<li><a href="https://github.com/madskristensen/FileNesting">File Nesting extension for Visual Studio</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Test Runner Support in Xamarin Studio]]></title>
@@ -1926,85 +2055,6 @@ would update package dependencies correctly.</p>
 <p><strong>Updating an unrestored package</strong></p>
 
 <p>If you have automatic package restore disabled and you attempt to update a NuGet package the package will now be restored before the update is attempted. Previously this would fail when an update was available since NuGet looks at the old package to work out how to remove it from the project before updating to the new NuGet package.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.1]]></title>
-    <link href="http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1/"/>
-    <updated>2014-07-06T10:48:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/07/06/NuGetSupportInXamarinStudio5-1</id>
-    <content type="html"><![CDATA[<p><a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">Xamarin Studio 5.1</a> was released last week and it includes some new features for the NuGet addin.</p>
-
-<h2>New Features</h2>
-
-<ul>
-<li> Searching and installing a specific version of a NuGet package.</li>
-<li> Support for NuGet package sources defined in a solution specific NuGet.Config file.</li>
-</ul>
-
-
-<p>More details on all the new features and changes in Xamarin Studio 5.1 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.1/xamarin.studio_5.1/">release notes</a>. Now let us take a look at the new NuGet features.</p>
-
-<h2>Searching and installing a specific version of a NuGet package</h2>
-
-<p>The Add Packages dialog can now be used to search and install a specific version of a NuGet package. You can search for all versions, a range of versions, or a specific version of a NuGet package. To do this the following search syntax is used:</p>
-
-<pre><code>PackageId version:VersionNumber
-</code></pre>
-
-<p>The packages are shown in the Add Packages dialog with the most recent version at the top. At the top right of each package in the package list you will see the package version instead of the download count allowing you to find the particular version you want to install.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAllAutoMapperPackageVersions.png" title="Add Packages dialog - all AutoMapper package versions" alt="Add Packages dialog - all AutoMapper package versions"></p>
-
-<p>To search for all versions of the AutoMapper NuGet package you can use an asterisk or leave the version number blank.</p>
-
-<pre><code>AutoMapper version:*
-</code></pre>
-
-<p>To search for all the 2.1 versions of the AutoMapper NuGet package you can use the search:</p>
-
-<pre><code>AutoMapper version:2.1
-</code></pre>
-
-<p>This will return a range of versions from 2.1.0 up to but not including 2.2.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesDialogAutoMapperPackageVersions21.png" title="Add Packages dialog - AutoMapper 2.1 package versions" alt="Add Packages dialog - AutoMapper 2.1 package versions"></p>
-
-<p>The package id used in the search must match the id of the NuGet package otherwise no results will be returned.</p>
-
-<p>Searching for package versions is also supported in the universal search at the top right of Xamarin Studio.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-1/PackageVersionSearchInUniversalSearch.png" title="Package version search in universal search" alt="Package version search in universal search"></p>
-
-<h2>Package sources defined in a solution specific NuGet.Config file</h2>
-
-<p> If package sources are defined in the solution&rsquo;s NuGet.Config file then these will be available in the Add Packages dialog when this solution is opened. The NuGet.Config file can be in the solution directory or in the .nuget subdirectory. An example NuGet.Config file is shown below.</p>
-
-<pre><code>&lt;configuration&gt;
-  &lt;packageSources&gt;
-    &lt;add key="ASP.NET vNext - MyGet" value="https://www.myget.org/F/aspnetvnext/" /&gt;
-  &lt;/packageSources&gt;
-&lt;/configuration&gt;
-</code></pre>
-
-<p>When the solution is opened the package sources defined in the NuGet.config file are available in the drop down list at the top left of the Add Packages dialog.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-1/AddPackagesWithPackageSourceFromSolutionLevelNuGetConfig.png" title="Add Packages dialog - package sources from solution NuGet.Config" alt="Add Packages dialog - package sources from solution NuGet.config"></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Proxy credentials not being requested for a https package source.</strong></p>
-
-<p>   Added a workaround to NuGet to handle Mono returning a different http response when proxy authentication is required.</p>
-
-<p><strong>Web.config transforms not being applied when installing NuGet packages such as Nancy.Hosting.Aspnet.</strong></p>
-
-<p>   Projects were not being recognised as web projects so transforms were only being applied to app.config files.</p>
-
-<p><strong>XDT remove transforms (Xml Document Transformations) failing on Mono.</strong></p>
-
-<p>   Modified the XDT library that ships with Xamarin Studio to handle different behaviour on Mono compared with Microsoft&rsquo;s .NET Framework. These transforms are used in the Microsoft.AspNet.Mvc NuGet package.</p>
 ]]></content>
   </entry>
   

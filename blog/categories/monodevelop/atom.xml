@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-07-09T16:45:50+01:00</updated>
+  <updated>2016-07-24T21:57:35+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,135 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[File Nesting in Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2016/07/24/FileNestingInXamarinStudio/"/>
+    <updated>2016-07-24T21:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/07/24/FileNestingInXamarinStudio</id>
+    <content type="html"><![CDATA[<p>With recent versions of Xamarin Studio it is not currently possible to nest files without directly editing the project file. In the past it was possible to drag and drop a file so it was then nested inside another file.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/SolutionWindowWithNestedFiles.png" title="&lsquo;Solution window with nested files in Xamarin Studio&rsquo; &lsquo;Solution window with nested files in Xamarin Studio&rsquo;" ></p>
+
+<p>Visual Studio also does not support nesting files by using drag and drop however
+<a href="http://madskristensen.net/">Mads Kristensen</a> created a <a href="https://visualstudiogallery.msdn.microsoft.com/3ebde8fb-26d8-4374-a0eb-1e4e2665070c">File Nesting extension</a> that adds support for manual and automatic nesting of files within Visual Studio. There is a <a href="https://channel9.msdn.com/Blogs/MadsKristensen/Introducing-File-Nestor-for-Visual-Studio">demo video of the File Nesting extension</a> that shows the extension being used with Visual Studio.
+ This extension has now been ported to Xamarin Studio and is available from the <a href="http://addins.monodevelop.com/">MonoDevelop Add-in Repository</a>.</p>
+
+<p>Let us take a walkthrough of the features of the File Nesting addin for Xamarin Studio.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Manual file nesting</li>
+<li>Manual file un-nesting</li>
+<li>Automatic file nesting of selected files based on rules</li>
+<li>Automatic file nesting when files are added to a project</li>
+<li>Options to specify which file nesting rules are applied</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Xamarin Studio 6.0 or MonoDevelop 6.0.</li>
+</ul>
+
+
+<h2>Manual File Nesting</h2>
+
+<p>To manually nest a file select it in the Solution window then right click and select File Nesting &ndash; Nest Item&hellip;</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestItemContextMenu.png" title="&lsquo;Manual file nesting &ndash; nest item context menu&rsquo; &lsquo;Manual file nesting &ndash; nest item context menu&rsquo;" ></p>
+
+<p>This will open a file nesting dialog where the parent file can be selected.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/FileNestingDialog.png" title="&lsquo;File nesting dialog&rsquo; &lsquo;File nesting dialog&rsquo;" ></p>
+
+<p>Select the parent file and click OK to nest the file under that parent file.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/ManualFileNestingResultInSolutionWindow.png" title="&lsquo;Manual file nesting result in solution window&rsquo; &lsquo;Manual file nesting result in solution window&rsquo;" ></p>
+
+<p>You can also nest multiple files under a parent by selecting multiple files in the Solution window and selecting the Nest Item menu.</p>
+
+<h2>Manual File Un-nesting</h2>
+
+<p>To un-nest a file select it in the Solution window then right click and select File Nesting &ndash; Un-nest Item.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/UnNestItemContextMenu.png" title="&lsquo;Manual file nesting &ndash; un-nest item context menu&rsquo; &lsquo;Manual file nesting &ndash; un-nest item context menu&rsquo;" ></p>
+
+<p>The file will then be un-nested from its parent.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/ManualFileUnNestingResultInSolutionWindow.png" title="&lsquo;Manual file un-nesting result in solution window&rsquo; &lsquo;Manual file un-nesting result in solution window&rsquo;" ></p>
+
+<h2>Automatic Nesting Rules</h2>
+
+<p>The file nesting rules are available from the Preferences dialog.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/FileNestingRulesInPreferencesDialog.png" title="&lsquo;File nesting rules in preferences&rsquo; &lsquo;File nesting rules in preferences&rsquo;" ></p>
+
+<p>Each rule has a tooltip which will show more detailed information about what the rule does.</p>
+
+<h3>Enable auto-nesting</h3>
+
+<p>The Enable auto-nesting option will enable or disable automatic file nesting when a file is added to a project.</p>
+
+<h3>Enable extension rule</h3>
+
+<p>This rule will nest files added with an extra extension under their corresponding parent file. For example MyView.xaml.cs nests under MyView.xaml.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestedFileUsingExtensionRule.png" title="&lsquo;Nested file using extension rule&rsquo; &lsquo;Nested file using extension rule&rsquo;" ></p>
+
+<h3>Enable interface implementation rule</h3>
+
+<p>This nests C# interface implementations under the corresponding interface based on the filename. For example, if there is an interface file IMyInterface.cs then a new file called CustomMyInterface.cs will be nested under the IMyInterface file.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestedCSharpInterfaceFilesInSolutionWindow.png" title="&lsquo;Nested file using interface implementation rule&rsquo; &lsquo;Nested file using interface implementation rule&rsquo;" ></p>
+
+<h3>Enable known file type rule</h3>
+
+<p>This nests certain known files types. For example, MyPage.ts will be nested under MyPage.html.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestedFileUsingKnownFileTypeRule.png" title="&lsquo;Nested file using known file type rule&rsquo; &lsquo;Nested file using known file type rule&rsquo;" ></p>
+
+<h3>Enable path segment rule</h3>
+
+<p>This nests files with an added path segment under its parent. For example, MyFile.Designer.cs nests under MyFile.cs.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestedFileUsingPathSegmentRule.png" title="&lsquo;Nested file using path segment rule&rsquo; &lsquo;Nested file using path segment rule&rsquo;" ></p>
+
+<h2>Automatic Nesting of Selected Files</h2>
+
+<p>To automatically nest files, based on the enabled file nesting rules, select the files, or folder, or project, then right click and select File Nesting &ndash; Auto-nest selected items.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/AutoNestSelectedItemsContextMenu.png" title="&lsquo;Auto-nest selected items context menu&rsquo; &lsquo;Auto-nest selected items context menu&rsquo;" ></p>
+
+<p>This will then apply the enabled file nesting rules to the selected files.</p>
+
+<h2>Automatic File Nesting on Adding Files</h2>
+
+<p>To enable automatic file nesting when files are added right click the project and select File Nesting &ndash; Enable automatic nesting.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/EnableAutomaticNestingContextMenu.png" title="&lsquo;Enable automatic nesting context menu&rsquo; &lsquo;Enable automatic nesting context menu&rsquo;" ></p>
+
+<p>A check box will be displayed next to this menu item if this feature is enabled. Now when a file is added the enabled nesting rules will be applied and the file will be automatically nested.</p>
+
+<h2>Installation</h2>
+
+<p>The File Nesting addin is available from the <a href="http://addins.monodevelop.com/">MonoDevelop Add-in Repository</a> on the beta channel. To install the addin open the Add-in Manager, search for the File Nesting addin, then click the Install button.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/FileNestingAddinSelectedInAddinManagerWindow.png" title="&lsquo;File Nesting addin in addin manager window&rsquo; &lsquo;File Nesting addin in addin manager window&rsquo;" ></p>
+
+<p>After installing the addin Xamarin Studio will need to be restarted for the addin to work correctly.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/FileNesting">File Nesting addin for Xamarin Studio and MonoDevelop</a></li>
+<li><a href="https://github.com/madskristensen/FileNesting">File Nesting extension for Visual Studio</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Test Runner Support in Xamarin Studio]]></title>
@@ -440,123 +569,6 @@ file as the first child element inside the project&rsquo;s root element.</p>
 
 
 <p> There is also a <a href="https://github.com/mrward/monodevelop-dnx-addin/tree/roslyn">separate branch</a> that supports MonoDevelop and Xamarin Studio 6.0.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.10]]></title>
-    <link href="http://lastexitcode.com/blog/2015/11/22/NuGetSupportInXamarinStudio5-10/"/>
-    <updated>2015-11-22T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2015/11/22/NuGetSupportInXamarinStudio5-10</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.10 was released last week as part of the <a href="https://blog.xamarin.com/introducing-xamarin-4/">Xamarin 4 release</a> and it includes changes to the NuGet support.</p>
-
-<h2>Changes</h2>
-
-<ul>
-<li> Support NuGet 2.8.7.</li>
-<li> Open readme.txt when a NuGet package is installed.</li>
-<li> Support packages.config file named after the project.</li>
-<li> Local Copy settings are preserved for references when updating packages.</li>
-<li> Do not show Checking for package updates message in status bar.</li>
-<li> Do not show warning in the status bar if a NuGet package has PowerShell scripts.</li>
-<li> Prevent the solution being closed when NuGet packages are being added.</li>
-<li> Removing a NuGet package does not update the Solution window when multiple solutions are open.</li>
-<li> Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.</li>
-<li> Prevent retargeting a NuGet package marking packages.config as deleted by Git.</li>
-<li> Allow Microsoft.ApplicationInsights NuGet package to be installed.</li>
-<li> Support NuGet packages targeting watchOS.</li>
-<li> Package license acceptance (Xamarin Studio 5.10.3)</li>
-</ul>
-
-
-<p>More information on all the changes in Xamarin Studio 5.10 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.10/xamarin.studio_5.10/">release notes</a>.</p>
-
-<h2>NuGet 2.8.7 support</h2>
-
-<p>Xamarin Studio now supports NuGet 2.8.7. NuGet 2.8.7 adds support for the Universal App Platform (UAP) target framework to support Windows 10 Application Development.</p>
-
-<h2>Open readme.txt when a NuGet package is installed</h2>
-
-<p>A NuGet package can contain a <a href="https://docs.nuget.org/create/creating-and-publishing-a-package#user-content-automatically-displaying-a-readmetxt-file-during-package-installation">readme.txt file</a> which Xamarin Studio will now open and display in the text editor when the NuGet package is installed or updated.</p>
-
-<h2>Preserve Local Copy on Updating Packages</h2>
-
-<p>The Local Copy setting on an assembly reference will now be preserved when updating a NuGet package or retargeting a NuGet package.</p>
-
-<p>By default Local Copy is set to true for assembly references when installing a NuGet package. If you set Local Copy to false for one or more of these references then this setting will now be preserved when updating or retargeting the NuGet package.</p>
-
-<h2>Packages.config file named after project</h2>
-
-<p>NuGet supports multiple projects in the same directory each using their own packages.config file. To allow multiple projects in the same directory to each use their own NuGet packages you can name the packages.config file after each project. In the examples below the project filename is on the left and the corresponding packages.config filename is on the right.</p>
-
-<ul>
-<li>Foo.csproj => packages.Foo.config</li>
-<li>Bar.csproj => packages.Bar.config</li>
-<li>Foo Bar.csproj => packages.Foo_Bar.config</li>
-</ul>
-
-
-<p>Xamarin Studio now checks for the packages.ProjectName.config file first and will use it if it exists, otherwise it will fall back to the default behaviour and use the packages.config file.</p>
-
-<p>Note that a new project without any NuGet packages will use a packages.config file by default. The basic procedure to enable a project specific packages.config file when creating a new project is:</p>
-
-<ol>
-<li>Create new project called Foo.</li>
-<li>Add a NuGet package to the Foo project.</li>
-<li>Rename the packages.config file to packages.Foo.config</li>
-<li>Reload the solution in Xamarin Studio.</li>
-</ol>
-
-
-<p>Also note that if you remove all the NuGet packages from a project the packages.ProjectName.config file will be deleted and on adding a new NuGet package the default packages.config file will be used.</p>
-
-<h2>Do not show Checking for package updates message in status bar</h2>
-
-<p>Previously when Xamarin Studio was checking for NuGet package updates a message would appear in the status bar. This status bar message has now been removed since checking for NuGet package updates is a background task and does not prevent Xamarin Studio from being used.</p>
-
-<h2>Do not show warning in the status bar if a NuGet package has PowerShell scripts</h2>
-
-<p>Previously if a NuGet package was installed and it contained PowerShell scripts then a warning was shown in the status bar. Now this message is only shown in the Package Console window.</p>
-
-<h2>Prevent the solution being closed when NuGet packages are being added</h2>
-
-<p>A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.</p>
-
-<h2>Support NuGet packages targeting watchOS</h2>
-
-<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
-
-<h2>Package license acceptance</h2>
-
-<p>Xamarin Studio 5.10.3 now includes a license acceptance dialog that will be displayed if a NuGet package requires a license to be accepted before it is installed. If the license is declined then the NuGet package will not be installed.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-10/PackageLicenseAcceptanceDialog.png" title="&lsquo;Package license acceptance dialog&rsquo; &lsquo;Package license acceptance dialog&rsquo;" ></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Removing a NuGet package does not update the Solution window when multiple solutions are open</strong></p>
-
-<p>With two or more solutions opened at the same time the Packages folder would not be updated for all solutions when a NuGet package was removed. This was because Xamarin Studio was not refreshing the Packages folder for all solutions currently open.</p>
-
-<p><strong>Prevent packages.config file being marked as deleted by Git after updating pre-release NuGet package.</strong></p>
-
-<p>If there was only one pre-release NuGet package installed into a project and then a later version of the NuGet package was installed from the Add Packages dialog then the packages.config file was then being shown as deleted by Git instead of modified.</p>
-
-<p>The packages.config file is deleted by NuGet after the old NuGet package is uninstalled if there are no NuGet packages referenced. A special case to handle this was added in Xamarin Studio 5.3 but that only handled updating a NuGet package from the Solution window. Now updating a pre-release from the Add Packages dialog is also handled.</p>
-
-<p><strong>Retargeting a NuGet package marks packages.config as deleted by Git</strong></p>
-
-<p>This is similar to the previous bug. Retargeting a NuGet package will uninstall and then install the NuGet package. If there is only one NuGet package in the project then the packages.config file is deleted and was causing Git to mark the file as deleted instead of updated.</p>
-
-<p><strong>Unable to install Microsoft.ApplicationInsights NuGet package</strong></p>
-
-<p>Xamarin Studio 5.9.2 added support for NuGet 2.8.5 but it was not possible to install the <a href="https://www.nuget.org/packages/Microsoft.ApplicationInsights/">Microsoft.ApplicationInsights NuGet package</a> into a project. It was possible to install it using Visual Studio with NuGet 2.8.3 or higher installed. The error reported by Xamarin Studio was:</p>
-
-<pre><code>Adding Microsoft.ApplicationInsights...
-The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.50313' or above, but the current NuGet version is '2.8.5.0'.
-</code></pre>
-
-<p>Xamarin Studio 5.10 now allows the Microsoft.ApplicationInsights NuGet package to be installed into a project.</p>
 ]]></content>
   </entry>
   

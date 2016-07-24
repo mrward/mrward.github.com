@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>File Nesting in Xamarin Studio - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="With recent versions of Xamarin Studio it is not currently possible to nest files without directly editing the project file. In the past it was &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2016/07/24/FileNestingInXamarinStudio">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">File Nesting in Xamarin Studio</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-24T21:00:00+01:00" pubdate data-updated="true">Jul 24<sup>th</sup>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>With recent versions of Xamarin Studio it is not currently possible to nest files without directly editing the project file. In the past it was possible to drag and drop a file so it was then nested inside another file.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/SolutionWindowWithNestedFiles.png" title="Solution window with nested files in Xamarin Studio" alt="Solution window with nested files in Xamarin Studio"></p>
+
+<p>Visual Studio also does not support nesting files by using drag and drop however
+<a href="http://madskristensen.net/">Mads Kristensen</a> created a <a href="https://visualstudiogallery.msdn.microsoft.com/3ebde8fb-26d8-4374-a0eb-1e4e2665070c">File Nesting extension</a> that adds support for manual and automatic nesting of files within Visual Studio. There is a <a href="https://channel9.msdn.com/Blogs/MadsKristensen/Introducing-File-Nestor-for-Visual-Studio">demo video of the File Nesting extension</a> that shows the extension being used with Visual Studio.
+ This extension has now been ported to Xamarin Studio and is available from the <a href="http://addins.monodevelop.com/">MonoDevelop Add-in Repository</a>.</p>
+
+<p>Let us take a walkthrough of the features of the File Nesting addin for Xamarin Studio.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Manual file nesting</li>
+<li>Manual file un-nesting</li>
+<li>Automatic file nesting of selected files based on rules</li>
+<li>Automatic file nesting when files are added to a project</li>
+<li>Options to specify which file nesting rules are applied</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Xamarin Studio 6.0 or MonoDevelop 6.0.</li>
+</ul>
+
+
+<h2>Manual File Nesting</h2>
+
+<p>To manually nest a file select it in the Solution window then right click and select File Nesting &ndash; Nest Item&hellip;</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestItemContextMenu.png" title="Manual file nesting - nest item context menu" alt="Manual file nesting - nest item context menu"></p>
+
+<p>This will open a file nesting dialog where the parent file can be selected.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/FileNestingDialog.png" title="File nesting dialog" alt="File nesting dialog"></p>
+
+<p>Select the parent file and click OK to nest the file under that parent file.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/ManualFileNestingResultInSolutionWindow.png" title="Manual file nesting result in solution window" alt="Manual file nesting result in solution window"></p>
+
+<p>You can also nest multiple files under a parent by selecting multiple files in the Solution window and selecting the Nest Item menu.</p>
+
+<h2>Manual File Un-nesting</h2>
+
+<p>To un-nest a file select it in the Solution window then right click and select File Nesting &ndash; Un-nest Item.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/UnNestItemContextMenu.png" title="Manual file nesting - un-nest item context menu" alt="Manual file nesting - un-nest item context menu"></p>
+
+<p>The file will then be un-nested from its parent.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/ManualFileUnNestingResultInSolutionWindow.png" title="Manual file un-nesting result in solution window" alt="Manual file un-nesting result in solution window"></p>
+
+<h2>Automatic Nesting Rules</h2>
+
+<p>The file nesting rules are available from the Preferences dialog.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/FileNestingRulesInPreferencesDialog.png" title="File nesting rules in preferences" alt="File nesting rules in preferences"></p>
+
+<p>Each rule has a tooltip which will show more detailed information about what the rule does.</p>
+
+<h3>Enable auto-nesting</h3>
+
+<p>The Enable auto-nesting option will enable or disable automatic file nesting when a file is added to a project.</p>
+
+<h3>Enable extension rule</h3>
+
+<p>This rule will nest files added with an extra extension under their corresponding parent file. For example MyView.xaml.cs nests under MyView.xaml.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestedFileUsingExtensionRule.png" title="Nested file using extension rule" alt="Nested file using extension rule"></p>
+
+<h3>Enable interface implementation rule</h3>
+
+<p>This nests C# interface implementations under the corresponding interface based on the filename. For example, if there is an interface file IMyInterface.cs then a new file called CustomMyInterface.cs will be nested under the IMyInterface file.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestedCSharpInterfaceFilesInSolutionWindow.png" title="Nested file using interface implementation rule" alt="Nested file using interface implementation rule"></p>
+
+<h3>Enable known file type rule</h3>
+
+<p>This nests certain known files types. For example, MyPage.ts will be nested under MyPage.html.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestedFileUsingKnownFileTypeRule.png" title="Nested file using known file type rule" alt="Nested file using known file type rule"></p>
+
+<h3>Enable path segment rule</h3>
+
+<p>This nests files with an added path segment under its parent. For example, MyFile.Designer.cs nests under MyFile.cs.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/NestedFileUsingPathSegmentRule.png" title="Nested file using path segment rule" alt="Nested file using path segment rule"></p>
+
+<h2>Automatic Nesting of Selected Files</h2>
+
+<p>To automatically nest files, based on the enabled file nesting rules, select the files, or folder, or project, then right click and select File Nesting &ndash; Auto-nest selected items.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/AutoNestSelectedItemsContextMenu.png" title="Auto-nest selected items context menu" alt="Auto-nest selected items context menu"></p>
+
+<p>This will then apply the enabled file nesting rules to the selected files.</p>
+
+<h2>Automatic File Nesting on Adding Files</h2>
+
+<p>To enable automatic file nesting when files are added right click the project and select File Nesting &ndash; Enable automatic nesting.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/EnableAutomaticNestingContextMenu.png" title="Enable automatic nesting context menu" alt="Enable automatic nesting context menu"></p>
+
+<p>A check box will be displayed next to this menu item if this feature is enabled. Now when a file is added the enabled nesting rules will be applied and the file will be automatically nested.</p>
+
+<h2>Installation</h2>
+
+<p>The File Nesting addin is available from the <a href="http://addins.monodevelop.com/">MonoDevelop Add-in Repository</a> on the beta channel. To install the addin open the Add-in Manager, search for the File Nesting addin, then click the Install button.</p>
+
+<p><img src="/images/blog/FileNestingInXamarinStudio/FileNestingAddinSelectedInAddinManagerWindow.png" title="File Nesting addin in addin manager window" alt="File Nesting addin in addin manager window"></p>
+
+<p>After installing the addin Xamarin Studio will need to be restarted for the addin to work correctly.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/FileNesting">File Nesting addin for Xamarin Studio and MonoDevelop</a></li>
+<li><a href="https://github.com/madskristensen/FileNesting">File Nesting extension for Visual Studio</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-24T21:00:00+01:00" pubdate data-updated="true">Jul 24<sup>th</sup>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2016/07/24/FileNestingInXamarinStudio/" data-via="" data-counturl="http://lastexitcode.com/blog/2016/07/24/FileNestingInXamarinStudio/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/07/09/NetCoreTestRunnerSupportInXamarinStudio/" title="Previous Post: .NET Core Test Runner Support in Xamarin Studio">&laquo; .NET Core Test Runner Support in Xamarin Studio</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Whilst changing the Entity Framework 5.0 NuGet package to work with SharpDevelop a custom build of the NuGet package was causing Visual Studio 2010 &hellip;">
+  <meta name="description" content="Octopress is a blogging framework created by Brandon Mathis. Octopress has great documentation on how to setup Octopress on a GitHub hosted blog &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,140 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/26/CreatingAGitHubHostedBlogWithOctopress/">Creating a GitHub hosted blog with Octopress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-26T13:55:00+01:00" pubdate data-updated="true">Sep 26<sup>th</sup>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://octopress.org/">Octopress</a> is a blogging framework created by Brandon Mathis. Octopress has great documentation on how to setup Octopress on a <a href="http://pages.github.com/">GitHub hosted blog</a> which this guide is not trying to replace. The following guide is a simple overview of how to setup Octopress with Windows being used to create the blog posts and push them to GitHub.</p>
+
+<h2>Prerequisites</h2>
+
+<ol>
+<li>You have GitHub account.</li>
+<li>You have a Git client, such as Tortoise Git, installed.</li>
+</ol>
+
+
+<h2>Software Versions</h2>
+
+<p>This guide is based on the using the following software:</p>
+
+<ul>
+<li>Octopress 2.0</li>
+<li>Windows 7 (client machine)</li>
+<li>Ruby 1.9.3</li>
+</ul>
+
+
+<h2>How to setup a GitHub based blog with Octopress</h2>
+
+<ol>
+<li>Download and install Ruby 1.9.3 from <a href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a></li>
+<li><p>Add ruby to your path</p>
+
+<pre><code> PATH=c:\ruby193\bin
+</code></pre></li>
+<li><p>Download the <a href="https://GitHub.com/oneclick/rubyinstaller/wiki/Development-Kit">Ruby devkit</a> from <a href="http://rubyinstaller.org/downloads/">http://rubyinstaller.org/downloads/</a></p>
+
+<p> Extract to c:\RubyDevKit</p>
+
+<p> Change into this folder and run</p>
+
+<pre><code> ruby dk.rb init
+ ruby dk.rb install
+</code></pre>
+
+<p> If you do not install the Ruby devkit then you will get an error when running setting up Octopress and running gem in step 5):</p>
+
+<pre><code> Gem::InstallError: The 'posix-spawn' native gem requires installed build tools.
+</code></pre></li>
+<li><p>Clone octopress</p>
+
+<pre><code> git://GitHub.com/imathis/octopress.git octopress
+</code></pre></li>
+<li><p>Setup Octopress</p>
+
+<p> Open a command prompt in the octopress folder. Run the following commands</p>
+
+<pre><code> gem install bundler
+ bundle install
+ rake install
+ rake generate
+ rake preview
+</code></pre>
+
+<p> Then open a browser and go to <a href="http://localhost:4000">http://localhost:4000</a> to view your blog.</p></li>
+<li><p>Create a GitHub repository for your blog</p>
+
+<p> See the <a href="http://octopress.org/docs/deploying/github/">Octopress guide</a>.</p>
+
+<p> Create a new repository in GitHub that has your GitHub username followed by .github.com (e.g. mrward.github.com).</p></li>
+<li><p>Deploy your blog to GitHub</p>
+
+<p> From the octopress folder run</p>
+
+<pre><code> rake setup_GitHub_pages
+ rake generate
+ rake deploy
+</code></pre>
+
+<p> The deploy command will cause your blog to be pushed to the master branch of your GitHub repository. Your blog will then be published and accessible via <a href="http://username.github.com">http://username.github.com</a> (where username is replaced with your GitHub username).</p>
+
+<p> Then you will need to commit your changes made in the source branch and push them to GitHub.</p>
+
+<p> You now have a repository on GitHub containing your blog. It will have two branches master and source. The master branch contains your blog web pages. The source branch contains the octopress files and your original blog posts. On your local machine the master branch will exist in the _deploy folder. The octopress folder will be tracking the source branch.</p></li>
+<li><p>Configure your blog</p>
+
+<p> You will want to configure various settings, such as google analytics, for your blog. The <a href="http://octopress.org/docs/configuring/">documentation on the Octopress site</a> has the full details on how to configure everything.</p></li>
+<li><p>Creating blog posts</p>
+
+<p> From the Octopress folder run:</p>
+
+<pre><code> rake new_post["Name of your post"]
+</code></pre>
+
+<p> This will generate a file in the source\_posts folder which you can edit.</p>
+
+<p> To generate your blog and preview it in the browser run</p>
+
+<pre><code> rake generate
+ rake preview
+</code></pre>
+
+<p> The generate command will regenerate your blog web pages in the public folder. You will need to copy these files to the _deploy folder. The final step is then to commit and push your changes to GitHub. You will want to commit the changes made in the Octopress folder (i.e. the source branch) and also your blog pages in the _deploy folder (i.e. the master branch). You can use the rake deploy command to automate this copying of pages, committing and pushing your blog web pages to GitHub but if you want more control over the commit message then you can do this final set of steps yourself and commit the pages using your favourite Git client.</p></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
