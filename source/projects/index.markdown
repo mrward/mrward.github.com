@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Projects"
-date: 2016-07-24 21:00
+date: 2016-08-20 21:00
 comments: true
 sharing: true
 footer: true
@@ -11,6 +11,7 @@ footer: true
  * [MonoDevelop .NET Core Addin](MonoDevelopDnxAddin/)
  * [MonoDevelop NuGet Addin](MonoDevelopNuGetAddin/)
  * [MonoDevelop NuGet Addin Extensions](MonoDevelopNuGetAddinExtensions/)
+ * [MonoDevelop NuGet Package Explorer](MonoDevelopNuGetPackageExplorer/)
  * [MonoDevelop Paket Addin](MonoDevelopPaketAddin/)
  * [MonoDevelop TypeScript Addin](MonoDevelopTypeScriptAddin/) 
  * [NuGet](NuGet/)
