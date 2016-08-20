@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-07-24T21:57:35+01:00</updated>
+  <updated>2016-08-20T12:56:48+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,97 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Package Explorer for Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio/"/>
+    <updated>2016-08-20T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio</id>
+    <content type="html"><![CDATA[<p>When diagnosing why a NuGet package cannot be installed into a project the application I use is the excellent <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a>. Whenever there is an error trying to install a NuGet package, similar to the one shown below, you can open the NuGet package with NuGet Package Explorer and take a look at the target frameworks it supports.</p>
+
+<pre><code>You are trying to install this package into a project that targets 'MonoAndroid,Version=v6.0',
+but the package does not contain any assembly references or content files that are compatible with that framework.
+</code></pre>
+
+<p>Currently <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a> is only available on Windows. On other operating systems you can change the file extension to .zip, extract the contents of the NuGet package, or open it into a zip application, and take a look at the files.</p>
+
+<p>To make exploring NuGet packages easier on operating systems where the NuGet Package Explorer application is not available there is a now <a href="https://github.com/mrward/monodevelop-nuget-package-explorer">NuGet Explorer addin</a> that you can install into Xamarin Studio or MonoDevelop. With this addin you can open and explore NuGet packages from online package sources or from the local file system.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingAndroidSupportNuGetPackageContents.png" title="&lsquo;Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio&rsquo; &lsquo;Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio&rsquo;" ></p>
+
+<p>Now let us take a look in more detail of the features provided by the NuGet Package Explorer addin.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Open and view NuGet packages from online package sources or from the local file system.</li>
+<li>View the NuGet package metadata.</li>
+<li>View the NuGet package files.</li>
+<li>View the NuGet package .nuspec file.</li>
+<li>Open any file stored inside the NuGet package.</li>
+<li>Open other NuGet packages that are listed as dependencies.</li>
+</ul>
+
+
+<p>Supports Xamarin Studio 6.0 and MonoDevelop 6.0.</p>
+
+<h2>Opening a NuGet Package from a Package Source</h2>
+
+<p>To open a NuGet package from a package source you can select Open NuGet Package from the File menu.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/FileOpenNuGetPackageMenu.png" title="&lsquo;File Open NuGet Package menu&rsquo; &lsquo;File Open NuGet Package menu&rsquo;" ></p>
+
+<p>Alternatively if you have a project open you can right click the Packages folder in the Solution window and select Open NuGet Package.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenNuGetPackagePackagesFolderMenu.png" title="&lsquo;Open Package menu on Packages folder&rsquo; &lsquo;Open Package menu on Packages folder&rsquo;" ></p>
+
+<p>This will open the Open Package dialog. This dialog is the same as the Add Packages dialog used when installing a NuGet package and allows you to search for NuGet packages. The dialog is based on the version available with Xamarin Studio 6.1 so it has a version combo box where you can select a specific package version instead of having to remember the syntax for the package version search.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenPackageDialog.png" title="&lsquo;Open NuGet Package dialog&rsquo; &lsquo;Open Package dialog&rsquo;" ></p>
+
+<p>Select one or more NuGet packages and click the Open Package button to download and display them in Xamarin Studio.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageContents.png" title="&lsquo;Exploring the JSON.NET NuGet package in Xamarin Studio&rsquo; &lsquo;Exploring the JSON.NET NuGet package in Xamarin Studio&rsquo;" ></p>
+
+<p>The NuGet package metadata is shown on the left. On the right are the files that the NuGet package contains. You can also view the .nuspec file stored in the NuGet package by selecting the NuSpec tab at the bottom of the window.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetNuSpec.png" title="&lsquo;Viewing JSON.NET .nuspec file&rsquo; &lsquo;Viewing JSON.NET .nuspec file&rsquo;" ></p>
+
+<h2>Exploring Dependencies</h2>
+
+<p>NuGet package dependencies are displayed with hyperlinks.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageDependencies.png" title="&lsquo;Viewing JSON.NET dependencies&rsquo; &lsquo;Viewing JSON.NET dependencies" ></p>
+
+<p>If you click one these hyperlinks the Open Package dialog will be opened and the package will be searched for. You can then choose a package version and open the NuGet package.</p>
+
+<h2>Opening Files Contained Inside the NuGet Package</h2>
+
+<p>To open a file contained inside a NuGet package you can double click the file, or right click the file and select Open.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenFileInsideNuGetPackageMenu.png" title="&lsquo;Open menu to open file inside NuGet package into Xamarin Studio&rsquo; &lsquo;Open menu to open file inside NuGet package into Xamarin Studio&rsquo;" ></p>
+
+<p>The file will then be opened inside Xamarin Studio.</p>
+
+<h2>Opening a NuGet Package File</h2>
+
+<p>If you have a NuGet Package (.nupkg) stored on the local machine that is not available from any package source you can open the file directly in Xamarin Studio by selecting Open from the File menu.</p>
+
+<p>You can also associate .nupkg files directly with Xamarin Studio and have them automatically open inside the IDE.</p>
+
+<h2>Opening a NuGet Package Installed in a Project</h2>
+
+<p>You can explore NuGet packages that are installed in your project by right clicking the package in the Solution window and selecting Open Package.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenInstalledPackageMenu.png" title="&lsquo;Open installed package context menu&rsquo; &lsquo;Open installed package context menu&rsquo;" ></p>
+
+<h2>Installing the NuGet Package Explorer addin</h2>
+
+<p>The NuGet Package Explorer addin is available from the MonoDevelop addin repository on the beta channel. It can be installed by from the Add-in Manager by searching the gallery and then clicking the Install button.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/AddinManagerDialog.png" title="&lsquo;Addin Manager dialog&rsquo; &lsquo;Addin Manager dialog&rsquo;" ></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[File Nesting in Xamarin Studio]]></title>
@@ -394,181 +485,6 @@ file as the first child element inside the project&rsquo;s root element.</p>
 <li><a href="https://github.com/mrward/monodevelop-dnx-addin">.NET Core addin source code</a>.</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ASP.NET 5 and DNX support in Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2016/01/01/DNXSupportInXamarinStudio/"/>
-    <updated>2016-01-01T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2016/01/01/DNXSupportInXamarinStudio</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio and MonoDevelop now have support for <a href="http://docs.asp.net/en/latest/dnx/overview.html">ASP.NET 5 and DNX</a> with an alpha release of the <a href="https://github.com/mrward/monodevelop-dnx-addin">DNX addin</a>.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/DnxWebProjectInSolutionWindow.png" title="&lsquo;DNX web project in Solution window&rsquo; &lsquo;DNX web project in Solution window&rsquo;" ></p>
-
-<p>The core part of the addin that communicates with the DNX host is taken directly from <a href="https://github.com/OmniSharp/omnisharp-roslyn">OmniSharp</a> and is used mostly unchanged.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li> Project templates for console, library and web applications</li>
-<li> Code completion</li>
-<li> Debugger support with Mono 4.3</li>
-<li> NuGet integration</li>
-<li> Solution window integration</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li> MonoDevelop and Xamarin Studio 5.9 and later versions.</li>
-<li> ASP.NET 5 RC 1 Update 1 and earlier versions.</li>
-</ul>
-
-
-<h2>Installing ASP.NET 5</h2>
-
-<p><a href="https://get.asp.net/">ASP.NET 5</a> needs to be installed separately before using the DNX addin. There are instructions on <a href="https://get.asp.net/">get.asp.net</a> on how to do this for Mac, Linux and Windows.</p>
-
-<h2>Installing the addin</h2>
-
-<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click Manage Repositories. In the window that opens tick the check box next to Xamarin Studio Add-in Repository (Alpha Channel) and then click the Close button.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/AddingAlphaChannelAddins.png" title="&lsquo;Enabling alpha channel addins&rsquo; &lsquo;Enabling alpha channel addins&rsquo;" ></p>
-
-<p>Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in <strong>DNX</strong>.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/AddinManagerDnxAddin.png" title="&lsquo;DNX addin selected in Addin Manager dialog&rsquo; &lsquo;DNX addin selected in Addin Manager dialog&rsquo;" ></p>
-
-<p>Select the DNX addin and then click the Install button.</p>
-
-<p>After installing the DNX addin you will need to restart Xamarin Studio before the project templates will be available in the New Project dialog.</p>
-
-<h2>Creating an ASP.NET 5 project</h2>
-
-<p>There are three project templates available for ASP.NET 5 in the New Project dialog.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/NewProjectDialogDnxProjectTemplates.png" title="&lsquo;New ASP.NET 5 project templates&rsquo; &lsquo;New ASP.NET 5 project templates&rsquo;" ></p>
-
-<p>Each of the project templates will create a solution and an .xproj file in the same way as Visual Studio 2015 does. The projects created should be compatible with Visual Studio 2015.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/DnxConsoleProjectInSolutionWindow.png" title="&lsquo;DNX console project in Solution window&rsquo; &lsquo;DNX console project in Solution window&rsquo;" ></p>
-
-<h2>Dependencies</h2>
-
-<p>When you create or open an ASP.NET 5 project the NuGet packages it uses will automatically be restored.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/SolutionWindowRestoringNuGetPackages.png" title="&lsquo;Restoring NuGet packages in Solution window&rsquo; &lsquo;Restoring NuGet packages in Solution window&rsquo;" ></p>
-
-<p>In the Solution window the dependencies show a warning icon if they are not resolved and the Dependencies folder shows a message that it is restoring the NuGet packages. Once restored you can expand the Dependencies folder and see the dependency hierarchy.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/DnxConsoleProjectDependenciesExpanded.png" title="&lsquo;Dependency hierarchy in Solution window&rsquo; &lsquo;Dependency hierarchy in Solution window&rsquo;" ></p>
-
-<p>If the DNX runtime being used by the solution is not installed then an error icon will be displayed next to the Dependencies folder.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/SolutionWindowDependenciesError.png" title="&lsquo;Dependencies error icon in Solution window&rsquo; &lsquo;Dependencies error icon in Solution window&rsquo;" ></p>
-
-<p>Hovering the mouse over the error icon will show more information about the error.</p>
-
-<h2>Building</h2>
-
-<p>When you build the solution or project any errors and warnings are displayed in the Errors window and in the text editor. No assemblies are generated when you build.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/TextEditorDnxBuildError.png" title="&lsquo;DNX build error in text editor&rsquo; &lsquo;DNX build error in text editor&rsquo;" ></p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/DnxBuildErrorsInErrorsWindow.png" title="&lsquo;DNX build errors in Errors window&rsquo; &lsquo;DNX build errors in Errors window&rsquo;" ></p>
-
-<h2>Running</h2>
-
-<p>The main toolbar shows the currently selected command and the framework that will be used when the application is run. These are taken from the project.json file.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/DnxCommandsInMainToolbar.png" title="&lsquo;DNX commands in main toolbar&rsquo; &lsquo;DNX commands in main toolbar&rsquo;" ></p>
-
-<p>The screenshot above shows the main toolbar for a web project. There are three entries:</p>
-
-<ul>
-<li> web</li>
-<li> web DNX 4.5.1</li>
-<li> web DNX Core 5.0</li>
-</ul>
-
-
-<p>The first entry will run the web command and use the default runtime which will currently be DNX 4.5.1. The last two entries will run the web command but will explicitly run the application with the specified runtime.</p>
-
-<h2>Debugging</h2>
-
-<p>Thanks to <a href="https://twitter.com/davidkarlas">David Karlaš</a> and <a href="https://github.com/vargaz">Zoltan Varga</a> there is support for debugging DNX applications with DNX 4.5.1 if you have <a href="http://download.mono-project.com/archive/nightly/macos-10-universal/">Mono 4.3</a> installed.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/DebuggingDnxApplication.png" title="&lsquo;Debugging a DNX application&rsquo; &lsquo;Debugging a DNX application&rsquo;" ></p>
-
-<p>Debugging ASP.NET 5 projects with the CoreCLR is not supported on Mac nor on Linux. Debugging ASP.NET 5 projects is not supported at all on Windows.</p>
-
-<h2>Adding NuGet Packages</h2>
-
-<p>To add a NuGet package to a project you can right click the Dependencies folder in the Solution window and select Add NuGet Packages, or alternatively you can double click the Dependencies folder.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/AddNuGetPackagesMenuItem.png" title="&lsquo;Add NuGet Packages menu in Solution window&rsquo; &lsquo;Add NuGet Packages menu in Solution window&rsquo;" ></p>
-
-<p>This will open up the Add NuGet Packages dialog. Installing a NuGet package using this dialog will add the NuGet package into the project.json file.</p>
-
-<p>Note that using the Add Packages dialog from the Packages folder will not add the NuGet package into the project.json file and will instead download the package to the packages directory and update the packages.config file.</p>
-
-<h2>Adding Dependencies</h2>
-
-<p>Dependencies can also be added directly into the project.json file. Currently there is no code completion available in the project.json file but changes to the file are monitored and the Dependencies folder will be updated when items are added or removed. New NuGet package dependencies that are added will automatically be restored if they are missing.</p>
-
-<h2>Removing Dependencies</h2>
-
-<p>A dependency can be removed by selecting it in the Solution window, right clicking and selecting Remove, or by pressing the delete key.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/RemoveDependencyMenuItem.png" title="&lsquo;Remove dependency menu in Solution window&rsquo; &lsquo;Remove dependency menu in Solution window&rsquo;" ></p>
-
-<h2>Changing the active framework</h2>
-
-<p>In Visual Studio the active framework can be changed by selecting it from the drop down list at the top of the text editor. Currently using the drop down list at the top of the text editor to change the active framework is not supported in Xamarin Studio. Instead you can right click in the text editor, select Active Framework and then select the framework.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/TextEditorSelectActiveDnxFramework.png" title="&lsquo;Active DNX framework context menu in text editor&rsquo; &lsquo;Active DNX framework context menu in text editor&rsquo;" ></p>
-
-<p>The active framework affects the code completion provided in the text editor. In the screenshot below the active framework has been set to DNX Core and you can see that the DateTime type does not show ToShortDateString in its completion list.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/DnxCodeCompletionForActiveFramework.png" title="&lsquo;Code completion for active DNX framework&rsquo; &lsquo;Code completion for active DNX framework&rsquo;" ></p>
-
-<p>You can also see that the code in the #if DNX451 block is grayed out since it is not used with the currently active framework.</p>
-
-<h2>DNX Output</h2>
-
-<p>Output from the DNX host and from OmniSharp can be seen in the DNX Output window. This window can be opened by selecting <strong>DNX Output</strong> from the <strong>View</strong> menu.</p>
-
-<p><img src="/images/blog/DNXSupportInXamarinStudio/DnxOutputWindow.png" title="&lsquo;DNX Output window&rsquo; &lsquo;DNX Output window&rsquo;" ></p>
-
-<p>By default only warnings and errors will be displayed in the DNX Output window. To see more or less information you can change the DNX output verbosity in preferences in the DNX &ndash; General section.</p>
-
-<h2>Known Issues</h2>
-
-<p><strong>kqueue() FileSystemWatcher has reached the maximum number of files to watch</strong></p>
-
-<p> When opening a project with many source files, such as AutoFac, you may see the above FileSystemWatcher error message. To resolve this problem you can set the MONO_MANAGED_WATCHER to false:</p>
-
-<pre><code>export MONO_MANAGED_WATCHER=false
-</code></pre>
-
-<p>Xamarin Studio will need to be run from the command line for this environment variable to be used.</p>
-
-<p><strong>project.json file formatting</strong></p>
-
-<p>When adding or removing dependencies from the Solution window will cause the project.json file to be reformatted differently compared to how Visual Studio 2015 formats the file.</p>
-
-<h2>Source Code</h2>
-
-<p>The source code for the addin is available on GitHub.</p>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-dnx-addin">DNX addin source code</a>.</li>
-</ul>
-
-
-<p> There is also a <a href="https://github.com/mrward/monodevelop-dnx-addin/tree/roslyn">separate branch</a> that supports MonoDevelop and Xamarin Studio 6.0.</p>
 ]]></content>
   </entry>
   

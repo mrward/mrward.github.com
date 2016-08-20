@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nuget | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/nuget/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-07-24T21:57:35+01:00</updated>
+  <updated>2016-08-20T12:56:48+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,97 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Package Explorer for Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio/"/>
+    <updated>2016-08-20T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio</id>
+    <content type="html"><![CDATA[<p>When diagnosing why a NuGet package cannot be installed into a project the application I use is the excellent <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a>. Whenever there is an error trying to install a NuGet package, similar to the one shown below, you can open the NuGet package with NuGet Package Explorer and take a look at the target frameworks it supports.</p>
+
+<pre><code>You are trying to install this package into a project that targets 'MonoAndroid,Version=v6.0',
+but the package does not contain any assembly references or content files that are compatible with that framework.
+</code></pre>
+
+<p>Currently <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a> is only available on Windows. On other operating systems you can change the file extension to .zip, extract the contents of the NuGet package, or open it into a zip application, and take a look at the files.</p>
+
+<p>To make exploring NuGet packages easier on operating systems where the NuGet Package Explorer application is not available there is a now <a href="https://github.com/mrward/monodevelop-nuget-package-explorer">NuGet Explorer addin</a> that you can install into Xamarin Studio or MonoDevelop. With this addin you can open and explore NuGet packages from online package sources or from the local file system.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingAndroidSupportNuGetPackageContents.png" title="&lsquo;Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio&rsquo; &lsquo;Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio&rsquo;" ></p>
+
+<p>Now let us take a look in more detail of the features provided by the NuGet Package Explorer addin.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Open and view NuGet packages from online package sources or from the local file system.</li>
+<li>View the NuGet package metadata.</li>
+<li>View the NuGet package files.</li>
+<li>View the NuGet package .nuspec file.</li>
+<li>Open any file stored inside the NuGet package.</li>
+<li>Open other NuGet packages that are listed as dependencies.</li>
+</ul>
+
+
+<p>Supports Xamarin Studio 6.0 and MonoDevelop 6.0.</p>
+
+<h2>Opening a NuGet Package from a Package Source</h2>
+
+<p>To open a NuGet package from a package source you can select Open NuGet Package from the File menu.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/FileOpenNuGetPackageMenu.png" title="&lsquo;File Open NuGet Package menu&rsquo; &lsquo;File Open NuGet Package menu&rsquo;" ></p>
+
+<p>Alternatively if you have a project open you can right click the Packages folder in the Solution window and select Open NuGet Package.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenNuGetPackagePackagesFolderMenu.png" title="&lsquo;Open Package menu on Packages folder&rsquo; &lsquo;Open Package menu on Packages folder&rsquo;" ></p>
+
+<p>This will open the Open Package dialog. This dialog is the same as the Add Packages dialog used when installing a NuGet package and allows you to search for NuGet packages. The dialog is based on the version available with Xamarin Studio 6.1 so it has a version combo box where you can select a specific package version instead of having to remember the syntax for the package version search.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenPackageDialog.png" title="&lsquo;Open NuGet Package dialog&rsquo; &lsquo;Open Package dialog&rsquo;" ></p>
+
+<p>Select one or more NuGet packages and click the Open Package button to download and display them in Xamarin Studio.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageContents.png" title="&lsquo;Exploring the JSON.NET NuGet package in Xamarin Studio&rsquo; &lsquo;Exploring the JSON.NET NuGet package in Xamarin Studio&rsquo;" ></p>
+
+<p>The NuGet package metadata is shown on the left. On the right are the files that the NuGet package contains. You can also view the .nuspec file stored in the NuGet package by selecting the NuSpec tab at the bottom of the window.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetNuSpec.png" title="&lsquo;Viewing JSON.NET .nuspec file&rsquo; &lsquo;Viewing JSON.NET .nuspec file&rsquo;" ></p>
+
+<h2>Exploring Dependencies</h2>
+
+<p>NuGet package dependencies are displayed with hyperlinks.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageDependencies.png" title="&lsquo;Viewing JSON.NET dependencies&rsquo; &lsquo;Viewing JSON.NET dependencies" ></p>
+
+<p>If you click one these hyperlinks the Open Package dialog will be opened and the package will be searched for. You can then choose a package version and open the NuGet package.</p>
+
+<h2>Opening Files Contained Inside the NuGet Package</h2>
+
+<p>To open a file contained inside a NuGet package you can double click the file, or right click the file and select Open.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenFileInsideNuGetPackageMenu.png" title="&lsquo;Open menu to open file inside NuGet package into Xamarin Studio&rsquo; &lsquo;Open menu to open file inside NuGet package into Xamarin Studio&rsquo;" ></p>
+
+<p>The file will then be opened inside Xamarin Studio.</p>
+
+<h2>Opening a NuGet Package File</h2>
+
+<p>If you have a NuGet Package (.nupkg) stored on the local machine that is not available from any package source you can open the file directly in Xamarin Studio by selecting Open from the File menu.</p>
+
+<p>You can also associate .nupkg files directly with Xamarin Studio and have them automatically open inside the IDE.</p>
+
+<h2>Opening a NuGet Package Installed in a Project</h2>
+
+<p>You can explore NuGet packages that are installed in your project by right clicking the package in the Solution window and selecting Open Package.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenInstalledPackageMenu.png" title="&lsquo;Open installed package context menu&rsquo; &lsquo;Open installed package context menu&rsquo;" ></p>
+
+<h2>Installing the NuGet Package Explorer addin</h2>
+
+<p>The NuGet Package Explorer addin is available from the MonoDevelop addin repository on the beta channel. It can be installed by from the Add-in Manager by searching the gallery and then clicking the Install button.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/AddinManagerDialog.png" title="&lsquo;Addin Manager dialog&rsquo; &lsquo;Addin Manager dialog&rsquo;" ></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.0]]></title>
@@ -321,111 +412,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 <p>Xamarin Studio will detect a project file has been changed outside of Xamarin Studio and will reload the project. Now Xamarin Studio on reloading will detect the project&rsquo;s target framework has been changed and will  check the NuGet packages are compatible with the new target framework. Previously Xamarin Studio would only check the compatibility of NuGet packages if the target framework was changed from within Xamarin Studio via the project options.</p>
 
 <p>This allows Xamarin Studio to check the NuGet packages are compatible when an iOS Classic project is converted to an iOS Unified project using Xamarin Studio&rsquo;s migration tool. The NuGet packages, such as Xamarin.Forms, can then be retargeted by Xamarin Studio using the <a href="blog/2014/08/10/NuGetSupportInXamarinStudio5-2/">Retarget menu</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.8]]></title>
-    <link href="http://lastexitcode.com/blog/2015/03/21/NuGetSupportInXamarinStudio5-8/"/>
-    <updated>2015-03-21T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2015/03/21/NuGetSupportInXamarinStudio5-8</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.8 <a href="http://blog.xamarin.com/xamarin-releases-watch-kit-support-like-clockwork/">added support for Apple&rsquo;s Watch Kit</a> and it also includes some NuGet bug fixes.</p>
-
-<h2>Bug Fixes</h2>
-
-<ul>
-<li> Allow ASP.NET project templates to work offline.</li>
-<li> Build error after updating Xamarin.Forms in a project created by Visual Studio</li>
-<li> Custom MSBuild task not updated after updating Xamarin.Forms</li>
-<li> Update information in the Solution window incorrect after updating packages</li>
-<li> Check for package updates continues after closing a solution</li>
-<li> Check for package updates prevents packages from being removed</li>
-<li> Incorrect error message displayed when checking for package updates</li>
-<li> Exception when checking for package updates after changing target framework of a project</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.8 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.8/xamarin.studio_5.8/">release notes</a>.</p>
-
-<p><strong>Allow ASP.NET project templates to work offline</strong></p>
-
-<p>Previously it was not possible to create an ASP.NET project without an internet connection even if all the NuGet packages were available in the local machine&rsquo;s NuGet packages cache.</p>
-
-<p>Now the local machine&rsquo;s NuGet cache is used as the primary source of packages for project templates so it is possible to create an ASP.NET project without an internet connection if the NuGet packages are already in this cache.</p>
-
-<p>This problem did not affect project templates, such as Xamarin.Forms, which include the NuGet packages with their project templates.</p>
-
-<p><strong>Build error after updating Xamarin.Forms in a project created by Visual Studio</strong></p>
-
-<p>When a NuGet package that uses custom MSBuild targets file, such as Xamarin.Forms, is added to a project by Visual Studio the project file has an extra Target added, as shown below.</p>
-
-<pre><code>&lt;Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild"&gt;
-  &lt;PropertyGroup&gt;
-    &lt;ErrorText&gt;This project references NuGet package(s) that are missing on this computer.
-Enable NuGet Package Restore to download them.  For more information, see
-http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.&lt;/ErrorText&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;Error Condition="!Exists('packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets'))" /&gt;
-&lt;/Target&gt;
-</code></pre>
-
-<p>When the project was opened in a previous version of Xamarin Studio, and the NuGet package is updated or removed, the Error task was not updated. The project would then fail to compile with an error being reported that the old .targets file could not be found.</p>
-
-<p>Now when updating or removing a NuGet package the EnsureNuGetPackageBuildImports target is
-checked and the matching Error task will be removed. If there are no remaining Error tasks then the EnsureNuGetPackageBuildImports target is also removed. This prevents build errors after updating or uninstalling the old
-NuGet package from the project.</p>
-
-<p>Note that Xamarin Studio will not add an EnsureNuGetPackageBuildImports target and will not add Error tasks to a project when a NuGet package is added or updated.</p>
-
-<p><strong>Custom MSBuild task not updated after updating Xamarin.Forms</strong></p>
-
-<p>If a project that had a reference to Xamarin.Forms was compiled once, then the NuGet package was updated, the old MSBuild task was still being used when compiling.</p>
-
-<p>For Xamarin.Forms this could cause a &ldquo;XamlG Task failed unexpectedly&rdquo; build error to be reported. Also the Package Console would report not being able to access the Xamarin.Forms.Build.Tasks.dll when updating or removing the NuGet package.</p>
-
-<p>The problem was that MonoDevelop.Projects.Formats.MSBuild.exe that compiles the project would lock the MSBuild task assembly.</p>
-
-<p>Now when an MSBuild import is removed on updating a NuGet package Xamarin Studio will dispose the current project builder which will shutdown the MonoDevelop.Projects.Formats.MSBuild.exe process. This unlocks any custom MSBuild task assemblies loaded by this process,
-allowing the old NuGet package to be removed without any access denied errors, and when the project is recompiled again it will use the correct MSBuild task assembly.</p>
-
-<p><strong>Update information in the Solution window incorrect after updating packages</strong></p>
-
-<p>With check for updates enabled in Preferences, when an ASP.NET project is created, updates are shown as available for several packages. When
-the packages are updated the Solution window would still show updates as being available even though the packages had been updated.</p>
-
-<p>The problem was that a change was made in Xamarin Studio 5.7 to update package dependencies at the same time as the package was updated. This meant that an update event was not fired for each
-package being updated which would result in some package updates being shown as available in the Solution window even when they had been updated.</p>
-
-<p>Now Xamarin Studio will check all package references when a package is updated so if any package dependencies are updated the Solution
-window will show the correct status of the packages.</p>
-
-<p><strong>Check for package updates continues after closing a solution</strong></p>
-
-<p>Xamarin Studio will now stop checking for package updates when the current solution is closed. Previously this would continue until the check was completed.</p>
-
-<p><strong>Check for updates prevents packages from being removed</strong></p>
-
-<p>Previously when Xamarin Studio was checking for package updates all other NuGet actions, such as updating, adding or removing packages, would not be run until the check for updates had completed.
-Now the check for NuGet package updates is done on a separate thread so other NuGet actions can be run at the same time.</p>
-
-<p><strong>Incorrect error message displayed when checking for package updates</strong></p>
-
-<p>The Package Console would sometimes show the error message &ldquo;An exception was thrown while dispatching a method call in the UI thread.&rdquo; instead of the underlying error making it difficult to determine the cause of the problem.
-For example if there was a zero byte sized .nupkg file in the solution&rsquo;s package directory, and check for updates is enabled, then
-the wrong error was displayed in the Package Console.</p>
-
-<p><strong>Exception when checking for package updates after changing target framework of a project</strong></p>
-
-<p>Previously a null reference exception would be reported in the Package console window when doing the following:</p>
-
-<ol>
-<li> Create a project with one NuGet package added.</li>
-<li> Create two NuGet package sources in Preferences. Disable all other package sources.</li>
-<li> Open the Add Packages dialog and select All Sources.</li>
-<li> Go back to Preferences and uncheck both of the package sources.</li>
-<li> Change the target framework of the project in the project options.</li>
-</ol>
-
 ]]></content>
   </entry>
   

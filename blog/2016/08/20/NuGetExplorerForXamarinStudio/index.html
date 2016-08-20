@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Package Explorer for Xamarin Studio - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="When diagnosing why a NuGet package cannot be installed into a project the application I use is the excellent NuGet Package Explorer. Whenever there &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Package Explorer for Xamarin Studio</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-20T12:00:00+01:00" pubdate data-updated="true">Aug 20<sup>th</sup>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>When diagnosing why a NuGet package cannot be installed into a project the application I use is the excellent <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a>. Whenever there is an error trying to install a NuGet package, similar to the one shown below, you can open the NuGet package with NuGet Package Explorer and take a look at the target frameworks it supports.</p>
+
+<pre><code>You are trying to install this package into a project that targets 'MonoAndroid,Version=v6.0',
+but the package does not contain any assembly references or content files that are compatible with that framework.
+</code></pre>
+
+<p>Currently <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a> is only available on Windows. On other operating systems you can change the file extension to .zip, extract the contents of the NuGet package, or open it into a zip application, and take a look at the files.</p>
+
+<p>To make exploring NuGet packages easier on operating systems where the NuGet Package Explorer application is not available there is a now <a href="https://github.com/mrward/monodevelop-nuget-package-explorer">NuGet Explorer addin</a> that you can install into Xamarin Studio or MonoDevelop. With this addin you can open and explore NuGet packages from online package sources or from the local file system.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingAndroidSupportNuGetPackageContents.png" title="Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio" alt="Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio"></p>
+
+<p>Now let us take a look in more detail of the features provided by the NuGet Package Explorer addin.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Open and view NuGet packages from online package sources or from the local file system.</li>
+<li>View the NuGet package metadata.</li>
+<li>View the NuGet package files.</li>
+<li>View the NuGet package .nuspec file.</li>
+<li>Open any file stored inside the NuGet package.</li>
+<li>Open other NuGet packages that are listed as dependencies.</li>
+</ul>
+
+
+<p>Supports Xamarin Studio 6.0 and MonoDevelop 6.0.</p>
+
+<h2>Opening a NuGet Package from a Package Source</h2>
+
+<p>To open a NuGet package from a package source you can select Open NuGet Package from the File menu.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/FileOpenNuGetPackageMenu.png" title="File Open NuGet Package menu" alt="File Open NuGet Package menu"></p>
+
+<p>Alternatively if you have a project open you can right click the Packages folder in the Solution window and select Open NuGet Package.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenNuGetPackagePackagesFolderMenu.png" title="Open Package menu on Packages folder" alt="Open Package menu on Packages folder"></p>
+
+<p>This will open the Open Package dialog. This dialog is the same as the Add Packages dialog used when installing a NuGet package and allows you to search for NuGet packages. The dialog is based on the version available with Xamarin Studio 6.1 so it has a version combo box where you can select a specific package version instead of having to remember the syntax for the package version search.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenPackageDialog.png" title="Open NuGet Package dialog" alt="Open Package dialog"></p>
+
+<p>Select one or more NuGet packages and click the Open Package button to download and display them in Xamarin Studio.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageContents.png" title="Exploring the JSON.NET NuGet package in Xamarin Studio" alt="Exploring the JSON.NET NuGet package in Xamarin Studio"></p>
+
+<p>The NuGet package metadata is shown on the left. On the right are the files that the NuGet package contains. You can also view the .nuspec file stored in the NuGet package by selecting the NuSpec tab at the bottom of the window.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetNuSpec.png" title="Viewing JSON.NET .nuspec file" alt="Viewing JSON.NET .nuspec file"></p>
+
+<h2>Exploring Dependencies</h2>
+
+<p>NuGet package dependencies are displayed with hyperlinks.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageDependencies.png" title="'Viewing JSON.NET dependencies' 'Viewing JSON.NET dependencies" ></p>
+
+<p>If you click one these hyperlinks the Open Package dialog will be opened and the package will be searched for. You can then choose a package version and open the NuGet package.</p>
+
+<h2>Opening Files Contained Inside the NuGet Package</h2>
+
+<p>To open a file contained inside a NuGet package you can double click the file, or right click the file and select Open.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenFileInsideNuGetPackageMenu.png" title="Open menu to open file inside NuGet package into Xamarin Studio" alt="Open menu to open file inside NuGet package into Xamarin Studio"></p>
+
+<p>The file will then be opened inside Xamarin Studio.</p>
+
+<h2>Opening a NuGet Package File</h2>
+
+<p>If you have a NuGet Package (.nupkg) stored on the local machine that is not available from any package source you can open the file directly in Xamarin Studio by selecting Open from the File menu.</p>
+
+<p>You can also associate .nupkg files directly with Xamarin Studio and have them automatically open inside the IDE.</p>
+
+<h2>Opening a NuGet Package Installed in a Project</h2>
+
+<p>You can explore NuGet packages that are installed in your project by right clicking the package in the Solution window and selecting Open Package.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenInstalledPackageMenu.png" title="Open installed package context menu" alt="Open installed package context menu"></p>
+
+<h2>Installing the NuGet Package Explorer addin</h2>
+
+<p>The NuGet Package Explorer addin is available from the MonoDevelop addin repository on the beta channel. It can be installed by from the Add-in Manager by searching the gallery and then clicking the Install button.</p>
+
+<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/AddinManagerDialog.png" title="Addin Manager dialog" alt="Addin Manager dialog"></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-20T12:00:00+01:00" pubdate data-updated="true">Aug 20<sup>th</sup>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio/" data-via="" data-counturl="http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/07/24/FileNestingInXamarinStudio/" title="Previous Post: File Nesting in Xamarin Studio">&laquo; File Nesting in Xamarin Studio</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
