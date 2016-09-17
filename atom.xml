@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-08-20T12:56:48+01:00</updated>
+  <updated>2016-09-17T13:00:24+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,173 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.1]]></title>
+    <link href="http://lastexitcode.com/blog/2016/09/17/NuGetSupportInXamarinStudio6-1/"/>
+    <updated>2016-09-17T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2016/09/17/NuGetSupportInXamarinStudio6-1</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio 6.1 was released last week as part of the latest stable <a href="https://blog.xamarin.com/major-updates-ios-10-android-nougat-and-other-tasty-bits/">Xamarin Platform release</a> and it includes changes made to the NuGet support.</p>
+
+<h2>Changes</h2>
+
+<ul>
+<li> NuGet 3.4.3 support</li>
+<li> Support for project.json files</li>
+<li> A specific NuGet package version can now be installed from a list shown in the Add Packages dialog</li>
+<li> NuGet operations can now be cancelled from the status bar or Package Console</li>
+<li> Support browsing for a local directory when creating a package source</li>
+<li> Support forcefully removing a NuGet package when it is missing from all package sources</li>
+<li> Packages installed in the solution are no longer shown in the Add Packages dialog</li>
+<li> Only global package sources are now shown in Preferences</li>
+<li> NuGet version supported is now displayed in the About dialog</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 6.1 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.1/xamarin.studio_6.1/">release notes</a>.</p>
+
+<h2>NuGet 3.4.3 support</h2>
+
+<p>Xamarin Studio now includes <a href="https://docs.nuget.org/release-notes/nuget-3.4.3">NuGet 3.4.3</a> which means project.json files are now supported and NuGet packages that only support NuGet 3 or above can now be installed.</p>
+
+<h2>Support for project.json files</h2>
+
+<p>The project.json file is a new package file format introduced with NuGet 3 which supports transitive restore. More detailed information on project.json can be found in the <a href="https://docs.nuget.org/consume/projectjson-intro">NuGet documentation</a>.</p>
+
+<p>A project.json file replaces the packages.config file and holds the NuGet packages
+being used by the project. One difference you will notice is that the project.json file may not show the same list of NuGet packages that a packages.config file would show. This is because the project.json file only shows the NuGet packages you explicitly install into your project. So if you install say bootstrap you will only see bootstrap in the project.json file even though it depends on jQuery. If you do the same for a packages.config file you would see both bootstrap and jQuery saved in the file. Another difference is that references are not added to your project file (.csproj) when using a
+project.json file.</p>
+
+<p>In order to use a project.json file with Xamarin Studio you will need to create the file yourself in the project directory and close and re-open the solution. The project.json file needs to be
+available when you open the project otherwise Xamarin Studio will default to using a packages.config file.</p>
+
+<p>An example project.json file for a .NET 4.5 library project is shown below:</p>
+
+<pre><code>{
+  "frameworks": {
+    "net45": {}
+  }
+}
+</code></pre>
+
+<p>When you add a NuGet package to a project that uses a project.json file the NuGet package
+information will be added into a dependencies section:</p>
+
+<pre><code> "dependencies": {
+   "NUnit": "3.2.1"
+ }
+</code></pre>
+
+<p>Please note that when using a project.json file the project will not display a From Packages directory
+inside the References folder. This is because the project file does not have any
+references added to it when using a project.json and the reference information is currently not available from the project system.</p>
+
+<p>Please note that there are <a href="https://blogs.msdn.microsoft.com/dotnet/2016/05/23/changes-to-project-json/">future plans</a> to move the information stored in a project.json file into the project file.</p>
+
+<h1>NuGet 3 package source</h1>
+
+<p>Xamarin Studio now supports using the NuGet 3 package source:</p>
+
+<p><a href="https://api.nuget.org/v3/index.json">https://api.nuget.org/v3/index.json</a></p>
+
+<p>This can be added into your package sources in Preferences. It is also the package
+source that will be created by default if your global <a href="http://lastexitcode.com/projects/NuGet/FileLocations/">NuGet.Config file</a> is missing.</p>
+
+<h2>Installing a specific NuGet package version from the Add Packages dialog</h2>
+
+<p>Older versions of Xamarin Studio supported being able to install specific package versions by using a package version search in the Add Packages dialog as shown below:</p>
+
+<pre><code>NUnit version:*
+</code></pre>
+
+<p>This package version search was not easy to discover and so it has been removed and replaced in Xamarin Studio 6.1 with a combo box that allows a particular version to be selected. The Version combo box is in the bottom right hand corner of the Add Packages dialog as shown in the screenshots below.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-1/AddPackagesDialog.png" title="Add Packages dialog" alt="Add Packages dialog"></p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-1/AddPackagesDialogWithVersionComboBoxSelected.png" title="Add Packages dialog with version combo box selected" alt="Add Packages dialog with version combo box selected"></p>
+
+<p>Note that in order to populate the version combo box a second request is sent to the
+package source so it may not show all the versions immediately.</p>
+
+<p>Also note that for package sources which are local directories only the latest version will be displayed in the version combo box.</p>
+
+<h2>Cancelling a NuGet operation</h2>
+
+<p>With Xamarin Studio you can now cancel the currently running NuGet package operation. This can be done
+by clicking the red Stop button in the Status Bar or in the Package Console.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-1/StatusBarStopButton.png" title="Status bar stop button" alt="Status bar stop button"></p>
+
+<h2>Adding local package sources</h2>
+
+<p>When adding a package source in Preferences it is now easier to create a package source for
+a directory on your local machine. There is now a browse button which will allow you to browse to a directory and add it rather than having to type the full path into the text box.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-1/AddPackageSourceDialog.png" title="Add Package Source dialog" alt="Add Package Source dialog"></p>
+
+<p>The Add Package Source dialog has also been changed to make it more obvious that either a URL or a folder can be used as a package source. The URL label has been changed to Location and the placeholder text now specifies that a URL or a folder can be used.</p>
+
+<h2>Forced NuGet package removal</h2>
+
+<p>A NuGet package can now be removed when it not restored and is unavailable from all package sources.</p>
+
+<p>With older versions of Xamarin Studio a NuGet package must be restored before it can be
+removed. This is a requirement of NuGet since it requires the original NuGet package to work out what has been installed so it can determine what needs to be uninstalled. NuGet can do more than just update the project file with references and MSBuild .targets files, it may add new files to the project or it may run app.config or web.config transforms.</p>
+
+<p>When the NuGet package removal fails because the NuGet package cannot be restored a dialog will be
+displayed asking whether you want to try to remove the NuGet package anyway. If the OK button is selected
+then Xamarin Studio will:</p>
+
+<ol>
+<li>Remove the NuGet package from the packages.config file.</li>
+<li>Remove any assembly references for the NuGet package from the project file (.csproj).</li>
+<li>Remove any Imports that refer to .targets or .props files that were included with that NuGet package.</li>
+</ol>
+
+
+<p>This process may miss files that were added to the project by NuGet but in the majority of cases it should remove the NuGet package successfully without having to manually remove the NuGet package information from the project file.</p>
+
+<h2>Packages installed in solution are no longer shown in Add Packages dialog</h2>
+
+<p>With previous versions of Xamarin Studio all packages installed in the solution were shown first in the list of packages in the Add Packages dialog. Packages installed in the solution are now no longer shown in the Add Packages dialog.</p>
+
+<h2>Only global package sources shown in Preferences</h2>
+
+<p>The package sources shown in the Preferences dialog are now only read from the global NuGet config file. Per-solution NuGet.Config files located in individual solution directories are no longer read when showing the package sources in Preferences. This is because changes made in Preferences only modifies the global NuGet.Config file.</p>
+
+<p>The package sources shown in the Add packages dialog will still include package sources defined in a solution&rsquo;s NuGet.Config file and is unaffected by this change.</p>
+
+<h2>NuGet version displayed in About dialog</h2>
+
+<p>The version of NuGet supported by Xamarin Studio is now displayed in the About dialog when the Show Details button is selected.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-1/AboutDialog.png" title="About dialog" alt="About dialog"></p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Custom MSBuild  .targets files were not always added to the end of the project</strong></p>
+
+<p>When installing a NuGet package that has a .targets file the Import element created was grouped with the existing Import elements. This is OK most of the time however if there are other items in the project added after the import then any build targets may fail since these items are included after the import. One example is the netfx-System.StringResources NuGet package which may not find any resource files that occur in the project after its Import element.</p>
+
+<p>Now .targets files are added as the last element in the project file. This also makes the behaviour consistent with how NuGet works in Visual Studio.</p>
+
+<p><strong>Custom MSBuild .props files were not added to the start of the project</strong></p>
+
+<p>Installing a NuGet package that included an MSBuild .props file would add an Import element for the .props file at the end of the project file which is incorrect. Now .props files are added to the project file as the first child element inside the Project&rsquo;s root element.</p>
+
+<h2>Known Issues</h2>
+
+<p><strong>Offline package restore</strong></p>
+
+<p>Package restore may not work when you are offline
+even though the NuGet packages may be available in the local NuGet cache on your machine.</p>
+
+<p>The current workaround is to create a package source that
+points to a local directory containing all the required NuGet packages and disable all online
+NuGet package sources. With just the local package source enabled you can then restore the NuGet packages when you are
+offline. Note that this problem also affects Visual Studio 2015.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Package Explorer for Xamarin Studio]]></title>
@@ -1900,112 +2067,6 @@ would update package dependencies correctly.</p>
 <p>On the Mac you can get these new PCL profile XML files by installing Mono 3.10.0, which is currently available from Xamarin Studio on the alpha and beta channels.</p>
 
 <p>On Windows, since NuGet 2.8.3 is currently only available as an alpha release, there is a <a href="http://xvs.xamarin.com/Xamarin.iOS.PortableNuGet.msi">separate installer</a> which will register the Unified iOS framework with the PCL profiles on your machine and will also install an alpha version of Microsoft&rsquo;s NuGet Package Manager 2.8.3 into Visual Studio.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.3]]></title>
-    <link href="http://lastexitcode.com/blog/2014/09/07/NuGetSupportInXamarinStudio5-3/"/>
-    <updated>2014-09-07T10:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/09/07/NuGetSupportInXamarinStudio5-3</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet package restore is now part of Xamarin Studio and no longer uses NuGet.exe</li>
-<li> Add Packages dialog &ndash; Package sources could not be reached shown for failing package sources</li>
-<li> Packages restored for the selected project instead of the solution</li>
-<li> Show packages added to solution in Add Packages dialog</li>
-<li> Show packages up to date message in status bar if there are no package updates available</li>
-<li> Show status bar warning message when no updates found and package sources are unavailable</li>
-<li> Restore missing packages before updating a package</li>
-<li> Do not check for updated packages if the project has no packages</li>
-<li> Fix version shown as download count in Add Packages dialog when searching for package versions</li>
-<li> Fix empty source being selected in Add Packages dialog when package source disabled and All Sources selected</li>
-<li> Fix packages.config marked as deleted by Git when updating packages</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.3 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.3/xamarin.studio_5.3/">release notes</a>. Now let us take a more detailed look at the new NuGet changes.</p>
-
-<h2>NuGet package restore no longer uses NuGet.exe</h2>
-
-<p>The NuGet package restore is now a part of Xamarin Studio and no longer uses NuGet.exe. This allows the package restore to integrate with the Xamarin Studio credential provider and provides more control over the package restore process. So if a package source needs authentication, or uses a proxy, then Xamarin Studio will now show a dialog asking for credentials if the credentials are not stored. Previously the package restore would fail with an error message logged in the Package Console.</p>
-
-<h2>Add Packages dialog &ndash; Package sources could not be reached</h2>
-
-<p>Previously when All Sources was selected and if any package source could not be reached then an error message would be displayed and no packages would be shown in the list. Now packages will be displayed with a warning even if one package source could not be reached.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-3/AddPackagesDialogPackageSourcesCouldNotBeReachedWarning.png" title="Add Packages dialog - package sources could not be reached warning" alt="Add Packages dialog - package sources could not be reached warning"></p>
-
-<h2>Packages restored for the selected project instead of the solution</h2>
-
-<p>Xamarin Studio will now restore packages for the selected project instead of the entire solution. When you right click the <strong>Packages</strong> folder in the Solution window and select <strong>Restore</strong> only the packages for that project will be restored.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowRestorePackagesMenu.png" title="Packages folder - Restore menu" alt="Packages folder - Restore menu"></p>
-
-<p>This is now possible since Xamarin Studio is now responsible for restoring packages instead of using NuGet.exe which would only restore for the entire solution.</p>
-
-<p>To restore packages for the entire solution you can still use the <strong>Restore Packages</strong> menu which is available from the Project menu or by right clicking the solution in the Solution window.</p>
-
-<h2>Show packages added to solution in Add Packages dialog</h2>
-
-<p>Opening the Add Packages dialog will now show the packages added to all projects in the current solution.</p>
-
-<p>The order of the items displayed in the Add Packages dialog is recent packages first, then solution packages, and then the packages from the active package source.</p>
-
-<h2>Show packages up to date message in status bar if there are no package updates available</h2>
-
-<p>When you try to update a package and there are no package updates available then the status bar now displays a message indicating that the package is already up to date.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-3/PackageUpToDateStatusBarMessage.png" title="Package up to date status bar message" alt="Package up to date status bar message"></p>
-
-<p>Similarly if you update multiple packages and there are no updates available then the status bar will now show a packages are up to date message.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-3/PackagesAreUpToDateStatusBarMessage.png" title="Packages are up to date status bar message" alt="Packages are up to date status bar message"></p>
-
-<p>Previously the status bar would show a message that the package was updated successfully even if nothing was updated.</p>
-
-<h2>Show status bar warning message when no updates found and package sources are unavailable</h2>
-
-<p>When one or more of the package sources is unavailable or invalid then Xamarin Studio will now report a warning in the status bar after checking for updates.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-3/NoUpdateFoundButWarningsReportedStatusBarMessage.png" title="No update but warnings reported status bar message" alt="No updated found but warnings reported status bar message"></p>
-
-<h2>Restoring missing packages before updating packages</h2>
-
-<p>Previously when NuGet packages were unrestored and an attempt was made to update a NuGet package, which had updates available from the package source, the update would fail with a message indicating that the package was installed successfully but the project did not reference the package.</p>
-
-<p>To prevent the update from failing Xamarin Studio will now check that the packages are restored for the project before trying to update and restore any missing packages. In the status bar a <strong>Restoring packages before update</strong> message will be displayed when a restore must be completed first.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-3/RestoringPackagesBeforeUpdateStatusBarMessage.png" title="Restoring packages before update status bar message" alt="Restoring packages before update status bar message"></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Do not check for updated packages if the project has no packages</strong></p>
-
-<p>Xamarin Studio was checking for package updates in all projects even if they had no packages.config file when the solution was opened. This would result in the <strong>Packages are up to date</strong> message being displayed in the status bar even when no projects were using any NuGet packages.</p>
-
-<p>Now if the project has no packages.config file then Xamarin Studio will not check for updates.</p>
-
-<p><strong>Fix version shown as download count in Add Packages dialog when searching for package versions</strong></p>
-
-<p>When running a package version search, such as <strong>Xamarin.Forms version:</strong>*, the right hand side of the dialog was showing the version number instead of the download count.</p>
-
-<p>Now the dialog shows the download count. Ideally it would show the download count of that particular version but this is not currently available from the Package object returned by NuGet. It is returned in the results back from the package source but it is not available on the Package object.</p>
-
-<p>Also the download counts are different for the same package if you compare the normal search result with a package version search result. The package version search shows a larger download count number. This may be related to the <a href="http://blog.nuget.org/20140603/nuget-stats.html">stats problem</a> NuGet had recently. Currently Xamarin Studio is showing the download count it receives. The standard search download counts match those shown in Visual Studio&rsquo;s Manage Packages dialog. For the package version search the download count value matches that shown on the NuGet.org website for an individual package (e.g. <a href="https://www.nuget.org/packages/jQuery">https://www.nuget.org/packages/jQuery</a>).</p>
-
-<p><strong>Fix empty source being selected in Add Packages dialog when package source disabled and All Sources selected</strong></p>
-
-<p>An empty package source selected in the Add Packages dialog could occur when All Sources was selected in the Add Packages dialog and one of the enabled package sources was unchecked in Preferences. On opening the Add Packages dialog again an empty package source would be displayed as the selected package source.</p>
-
-<p>Now the Add Packages dialog will have the remaining enabled package source selected.</p>
-
-<p><strong>Fix packages.config marked as deleted by Git when updating packages</strong></p>
-
-<p>On updating packages in a project, and the project is using Git for version control, then the update was causing Git to show the packages.config file as deleted. This would occur if all the NuGet packages were uninstalled as part of the update which caused NuGet to see that there were no NuGet packages referenced and delete the packages.config file.</p>
-
-<p>Now the packages.config file is shown as modified instead of deleted.</p>
 ]]></content>
   </entry>
   
