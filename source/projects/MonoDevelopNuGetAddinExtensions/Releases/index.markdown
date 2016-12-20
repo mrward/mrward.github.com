@@ -7,6 +7,20 @@ sharing: true
 footer: true
 ---
 
+## Version 0.12
+
+2016-12-20
+
+ * Support NuGet 3.4.3 and MonoDevelop 6.1
+ * Fix null reference exception when opening Manage Packages dialog when no solution is open
+ * Prevent exceptions in search categories used in global search crashing IDE.
+
+## Version 0.11.1
+
+2016-08-06
+
+ * Support NuGet 2.12 and MonoDevelop 6.0
+
 ## Version 0.11
 
 2015-11-28
