@@ -12,14 +12,19 @@ footer: true
 2016-12-20
 
  * Support NuGet 3.4.3 and MonoDevelop 6.1
- * Fix null reference exception when opening Manage Packages dialog when no solution is open
- * Prevent exceptions in search categories used in global search crashing IDE.
+ * Allow PowerShell console to be cleared using command line using 'Clear'.
 
 ## Version 0.11.1
 
 2016-08-06
 
- * Support NuGet 2.12 and MonoDevelop 6.0
+ * Support NuGet 2.12
+
+## Version 0.11 (MonoDevelop 6.0)
+
+2016-05-14
+
+ * Support MonoDevelop 6.0
 
 ## Version 0.11
 
