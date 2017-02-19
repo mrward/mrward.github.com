@@ -41,13 +41,19 @@ Currently the PowerShell addin is not published on the MonoDevelop addin reposit
 
 ## Code Completion
 
-As you type in the text editor you will see code completion for PowerShell commands and variables.
+As you type in the text editor you will see code completion for PowerShell variables.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellVariableCodeCompletion.png 'PowerShell variable code completion' 'PowerShell variable code completion' %}
 
+Code completion for PowerShell commands.
+
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandCodeCompletion.png 'PowerShell command code completion' 'PowerShell command code completion' %}
 
+An overview of PowerShell command parameters when you press the space key after entering a PowerShell command.
+
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandTooltipCodeCompletion.png 'PowerShell command parameters overview code completion' 'PowerShell command parameters overview code completion' %}
+
+Code completion for PowerShell command parameters.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandParameterCodeCompletion.png 'PowerShell command parameter code completion' 'PowerShell command parameter code completion' %}
 
@@ -106,6 +112,8 @@ Or simply click the Run button in the main toolbar.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/DebugRunMainToolbarButton.png 'Run button in the main toolbar' 'Run button in the main toolbar' %}
 
+A solution does not need to be open in order for a PowerShell script to be run with the debugger. You can open just a PowerShell script into Xamarin Studio and then run the debugger.
+
 Once the debugger has started you can select Step Over, Step In, Step Out or Continue Debugging from the Run menu, or click one of the main toolbar buttons, or use one of the keyboard shortcuts.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/RunStepMenuItems.png 'Run menu with Step menu items' 'Run menu with Step menu items' %}
@@ -114,9 +122,19 @@ Hovering the mouse over a variable will open a tooltip showing the variable valu
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/DebugTooltipOnHover.png 'Debug tooltip on hover' 'Debug tooltip on hover' %}
 
-Breakpoint conditions are not currently supported.
+## Breakpoints
 
-A solution does not need to be open in order for a PowerShell script to be run with the debugger. You can open just a PowerShell script into Xamarin Studio and then run the debugger.
+Breakpoint conditions should use PowerShell syntax and not C# syntax even though the Edit Breakpoint dialog says to use a C# boolean expression.
+
+{% img /images/blog/PowerShellSupportInXamarinStudio/EditBreakpointDialog.png 'PowerShell breakpoint condition in Edit Breakpoint dialog' 'PowerShell breakpoint condition in Edit Breakpoint dialog' %}
+
+Hit conditions are only partially supported. The PowerShell Editor Services debugger supports the 'When hit count is equal to'. Due to this restriction the other hit count options may not work as expected.
+
+The printing a message and continuing breakpoint action is not currently supported.
+
+Breaking when the value of an expression changes is not currently supported. 
+
+Function and exception breakpoints are not currently supported.
 
 ## Locals Window
 
