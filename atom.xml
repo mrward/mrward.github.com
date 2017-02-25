@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2016-09-17T13:00:24+01:00</updated>
+  <updated>2017-02-25T18:54:14+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,208 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PowerShell Support in Xamarin Studio]]></title>
+    <link href="http://lastexitcode.com/blog/2017/02/25/PowerShellSupportInXamarinStudio/"/>
+    <updated>2017-02-25T18:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2017/02/25/PowerShellSupportInXamarinStudio</id>
+    <content type="html"><![CDATA[<p>Xamarin Studio version 6.0 and later now have PowerShell editing and debugging support with a PowerShell addin. The PowerShell addin uses the <a href="https://github.com/PowerShell/PowerShellEditorServices">PowerShell Editor Services</a> which is also used by the <a href="https://github.com/PowerShell/vscode-powershell">PowerShell extension</a> for Visual Studio Code.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/DebuggingPowerShellScriptInXamarinStudio.png" title="Debugging a PowerShell script in Xamarin Studio" alt="Debugging a PowerShell script in Xamarin Studio"></p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Code completion</li>
+<li>Debugging support
+
+<ul>
+<li>Immediate window</li>
+<li>Locals window</li>
+<li>Watch window</li>
+</ul>
+</li>
+<li>Find references</li>
+<li>PowerShell file template</li>
+<li>Rename variable or method</li>
+<li>Show API documentation</li>
+<li>Syntax highlighting</li>
+</ul>
+
+
+<h2>Requirements</h2>
+
+<p>Xamarin Studio 6.x or MonoDevelop 6.x.</p>
+
+<p><a href="https://github.com/PowerShell/PowerShell">PowerShell 6</a> needs to be installed on Mac and on Linux.</p>
+
+<p>PowerShell 3 and higher are supported on Windows.</p>
+
+<h2>Code Completion</h2>
+
+<p>As you type in the text editor you will see code completion for PowerShell variables.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellVariableCodeCompletion.png" title="PowerShell variable code completion" alt="PowerShell variable code completion"></p>
+
+<p>Code completion for PowerShell commands.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandCodeCompletion.png" title="PowerShell command code completion" alt="PowerShell command code completion"></p>
+
+<p>An overview of PowerShell command parameters when you press the space key after entering a PowerShell command.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandTooltipCodeCompletion.png" title="PowerShell command parameters overview code completion" alt="PowerShell command parameters overview code completion"></p>
+
+<p>Code completion for PowerShell command parameters.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandParameterCodeCompletion.png" title="PowerShell command parameter code completion" alt="PowerShell command parameter code completion"></p>
+
+<p>Hovering the mouse over a PowerShell command will show a tooltip with information about that command.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandTooltip.png" title="PowerShell command tooltip on hover" alt="PowerShell command tooltip on hover"></p>
+
+<h2>Syntax Errors</h2>
+
+<p>Syntax errors are highlighted in the text editor. Hovering the mouse over the highlighted error will show information about the error.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellSyntaxError.png" title="PowerShell syntax error highlighting" alt="PowerShell syntax error highlighting"></p>
+
+<h2>Find references</h2>
+
+<p>To find references of a variable or a method you can right click in the text editor and select Find References.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesContextMenu.png" title="PowerShell find references text editor context menu" alt="PowerShell find references text editor context menu"></p>
+
+<p>The references found are then displayed in the Search Results window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesSearchResults.png" title="PowerShell find references text editor context menu" alt="PowerShell find references text editor context menu"></p>
+
+<h2>Rename</h2>
+
+<p>A variable or method can be renamed in the text editor by right clicking and selecting Rename.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellRenameContextMenu.png" title="PowerShell rename text editor context menu" alt="PowerShell rename text editor context menu"></p>
+
+<p>On typing the new name and the text will be replaced.</p>
+
+<h2>Show API Documentation</h2>
+
+<p>Right clicking on a PowerShell command and selecting Show API Documentation will open the online help for that PowerShell command, if it is available, in the web browser.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellAPIDocumentationContextMenu.png" title="API Documentation text editor context menu" alt="API Documentation text editor context menu"></p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellAPIOnlineDocumentation.png" title="PowerShell API documentation web page" alt="PowerShell API documentation web page"></p>
+
+<h2>Creating a new PowerShell Script</h2>
+
+<p>To create a new PowerShell script there is an empty PowerShell file template available from the New File dialog.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellFileTemplateInNewFileDialog.png" title="PowerShell script file template in New File dialog" alt="PowerShell script file template in New File dialog"></p>
+
+<p>After creating a new PowerShell file it must be saved before it can be run or debugged.</p>
+
+<h2>Debugging</h2>
+
+<p>To debug the currently active PowerShell file open in the text editor,
+set a breakpoint on a line by clicking in the left hand margin, then select Start Debugging from the Run menu.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/RunStartDebuggingMenu.png" title="Run - Start Debugging menu" alt="Run - Start Debugging menu"></p>
+
+<p>Alternatively you can click the Run button in the main toolbar.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/DebugRunMainToolbarButton.png" title="Run button in the main toolbar" alt="Run button in the main toolbar"></p>
+
+<p>A solution does not need to be open in order for a PowerShell script to be run with the debugger. You can open just a PowerShell script into Xamarin Studio and then run the debugger.</p>
+
+<p>Once the debugger has started you can select Step Over, Step In, Step Out or Continue Debugging from the Run menu by clicking one of the main toolbar buttons.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/RunStepMenuItems.png" title="Run menu with Step menu items" alt="Run menu with Step menu items"></p>
+
+<p>Hovering the mouse over a variable will open a tooltip showing the variable value.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/DebugTooltipOnHover.png" title="Debug tooltip on hover" alt="Debug tooltip on hover"></p>
+
+<h2>Breakpoints</h2>
+
+<p>Breakpoint conditions should use PowerShell syntax and not C# syntax. The Edit Breakpoint dialog says to use a C# boolean expression which is incorrect.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/EditBreakpointDialog.png" title="PowerShell breakpoint condition in Edit Breakpoint dialog" alt="PowerShell breakpoint condition in Edit Breakpoint dialog"></p>
+
+<p>Hit conditions are only partially supported. The PowerShell Editor Services debugger supports the &lsquo;When hit count is equal to&rsquo;. Due to this restriction the other hit count options may not work as expected.</p>
+
+<p>Printing a message and continuing is not currently supported.</p>
+
+<p>Breaking when the value of an expression changes is not currently supported.</p>
+
+<p>Function and exception breakpoints are not currently supported.</p>
+
+<h2>Locals Window</h2>
+
+<p>When debugging the Locals window will show the values of variables grouped by each PowerShell scope &ndash; Auto, Local, Script and Global.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/LocalsWindow.png" title="Locals Window" alt="Locals Window"></p>
+
+<h2>Watch Window</h2>
+
+<p>Variables and expressions can be entered in the Watch Window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/WatchWindow.png" title="Watch window" alt="Watch window"></p>
+
+<p>Please note that entering a PowerShell command with missing parameters will cause the debugger to stop working. The PowerShell file will need to be closed and re-opened before the debugger will work again.</p>
+
+<h2>Immediate Window</h2>
+
+<p>Expressions and variables can be entered in the immediate window to get or set values.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/ImmediateWindow.png" title="Immediate window" alt="Immediate window"></p>
+
+<p>As with the Watch Window, entering a PowerShell command with missing parameters will cause the debugger to stop working.</p>
+
+<h1>Passing Arguments when Debugging</h1>
+
+<p>To pass arguments when debugging a PowerShell script you can select Debug PowerShell Script&hellip; from the Run menu.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/DebugPowerShellScriptMenu.png" title="Run - Debug PowerShell Script menu" alt="Run - Debug PowerShell Script menu"></p>
+
+<p>This will open a Debug PowerShell Script dialog where arguments can be specified. These arguments will be passed to the PowerShell script being run with the debugger. The settings used in this dialog will be remembered for the active text editor whilst it is open in Xamarin Studio.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/DebugPowerShellScriptDialog.png" title="Debug PowerShell Script dialog" alt="Debug PowerShell Script dialog"></p>
+
+<h2>Launch Configuration Support</h2>
+
+<p>In Visual Studio Code a launch.json file can be used to store launch configurations. These are supported in by the PowerShell addin in Xamarin Studio. The PowerShell addin will look for a launch.json file in the directory where the PowerShell file exists or in a .vscode subdirectory.</p>
+
+<p>The launch configurations are shown under Active Configurations in the Run menu. Only PowerShell launch configurations which have a request type of &ldquo;launch&rdquo; are supported.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellLaunchConfigurations.png" title="PowerShell launch configurations in Run menu" alt="PowerShell launch configurations in Run menu"></p>
+
+<p>The currently selected launch configuration will be used when debugging or running the PowerShell script. By default no launch configuration will be selected.</p>
+
+<h2>Running without the Debugger</h2>
+
+<p>To run the PowerShell file with PowerShell directly, instead of using the debugger, select Start without Debugging from the Run menu.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/RunStartWithoutDebuggingMenu.png" title="Run - Start without Debugging menu" alt="Run - Start without Debugging menu"></p>
+
+<p>Output from the PowerShell script will be displayed in the Application Output window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/PowerShellScriptApplicationOutput.png" title="PowerShell script Application Output window" alt="PowerShell script Application Output window"></p>
+
+<h2>Installation</h2>
+
+<p>The PowerShell addin is available from the <a href="http://addins.monodevelop.com/">MonoDevelop addin repository</a> on the beta channel. To install the addin open the Add-in Manager, search for the PowerShell addin, then click the Install button.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/PowerShellSupportInXamarinStudio/AddinManagerDialogWithPowerShellAddin.png" title="PowerShell addin in Addin manager dialog" alt="PowerShell addin in Addin manager dialog"></p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-powershell-addin">PowerShell addin for Xamarin Studio and MonoDevelop</a></li>
+<li><a href="https://github.com/PowerShell/PowerShellEditorServices">PowerShell Editor Services</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.1]]></title>
@@ -1997,76 +2199,6 @@ would update package dependencies correctly.</p>
 <p>To add the NuGet package back to the project you can hover the mouse over the warning icon and click the Add Package button that appears in the pop-up window.</p>
 
 <p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithAddPackagePopUpWindow.png" title="Android Support Library v13 Component Details page with Add Package pop-up window" alt="Android Support Library v13 CComponent Details page with Add Package pop-up window"></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.4]]></title>
-    <link href="http://lastexitcode.com/blog/2014/09/29/NuGetSupportInXamarinStudio5-4/"/>
-    <updated>2014-09-29T19:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2014/09/29/NuGetSupportInXamarinStudio5-4</id>
-    <content type="html"><![CDATA[<h2>New Feature</h2>
-
-<ul>
-<li> Added support for the new Unified target frameworks for iOS and Mac
-
-<ul>
-<li>Xamarin.iOS</li>
-<li>Xamarin.Mac</li>
-</ul>
-</li>
-</ul>
-
-
-<p>More details on all the new features and changes in Xamarin Studio 5.4 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.4/xamarin.studio_5.4/">release notes</a>.</p>
-
-<h2>New Unified iOS and Mac Target Frameworks</h2>
-
-<p>Xamarin recently announced <a href="http://blog.xamarin.com/unified-api-with-64-bit-support-for-ios-and-mac/">a new Unified API for its iOS and Mac products</a>. This new Unified API makes it easier to share code between Mac and iOS as well as allowing you to support 32 and 64 bit applications with the same binary.</p>
-
-<p>To use this new Unified API you can create a new Unified project for iOS, or for Mac, using one of the project templates available from Xamarin Studio&rsquo;s New Project Dialog.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-4/UnifiedMacAndIOSProjectsInNewProjectDialog.png" title="Unified iOS and Mac Projects in New Project Dialog" alt="Unified iOS and Mac Projects in New Project Dialog"></p>
-
-<p>These Unified projects now support MSBuild and use the following target frameworks:</p>
-
-<ul>
-<li>Xamarin.iOS</li>
-<li>Xamarin.Mac</li>
-</ul>
-
-
-<h2>NuGet Support for the New Unified Target Frameworks</h2>
-
-<p>In order to support these two new frameworks the following changes were made to NuGet.</p>
-
-<ul>
-<li>Add Xamarin.iOS and Xamarin.Mac as known frameworks.</li>
-<li>Make frameworks that have a name that starts with <strong>Xamarin</strong> optional when checking the compatibility of Portable Class Libraries (PCLs) inside a NuGet package with a Portable Class Library project.</li>
-</ul>
-
-
-<p>With these new Unified frameworks being recognised by NuGet you can now create a NuGet package with assemblies that specifically target these frameworks.  The following shows part of a .nuspec file with framework specific assemblies for iOS and Mac being copied into the appropriate target lib folder inside the NuGet package.</p>
-
-<pre><code>&lt;files&gt;
-    &lt;file src="lib\Xamarin.iOS\*.dll" target="lib\Xamarin.iOS10" /&gt;
-    &lt;file src="lib\Xamarin.Mac\*.dll" target="lib\Xamarin.Mac20" /&gt;
-&lt;/files&gt;
-</code></pre>
-
-<p>The <a href="https://www.nuget.org/packages/Splat/">Splat NuGet package</a>, created by Paul Betts, is one NuGet package available from the main NuGet gallery that explicitly targets both of the new Unified frameworks.</p>
-
-<p>Having the Xamarin frameworks treated as optional by NuGet allows you to install a NuGet package containing PCL assemblies into a Portable Class Library project, on a machine with the Xamarin PCL profiles registered. Without the Xamarin frameworks being treated as optional the NuGet package would fail to be installed since NuGet would find them incompatible unless the NuGet package explicitly included the Xamarin frameworks as part of its PCL profile.</p>
-
-<p>Support for the new Xamarin frameworks will be available in the official NuGet from Microsoft in version 2.8.3. <a href="https://nuget.codeplex.com/releases/view/133091">NuGet 2.8.3</a> is currently available as alpha release. Xamarin Studio 5.4 includes its own build of NuGet which has support for the new Xamarin frameworks.</p>
-
-<h2>Portable Class Libraries</h2>
-
-<p>In order to be able to install a NuGet package containing PCL assemblies, such as Json.NET, into a Unified iOS or Unified Mac project you will need to have the PCL profile XML files for Unified iOS and Mac installed on your machine.</p>
-
-<p>On the Mac you can get these new PCL profile XML files by installing Mono 3.10.0, which is currently available from Xamarin Studio on the alpha and beta channels.</p>
-
-<p>On Windows, since NuGet 2.8.3 is currently only available as an alpha release, there is a <a href="http://xvs.xamarin.com/Xamarin.iOS.PortableNuGet.msi">separate installer</a> which will register the Unified iOS framework with the PCL profiles on your machine and will also install an alpha version of Microsoft&rsquo;s NuGet Package Manager 2.8.3 into Visual Studio.</p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Xamarin Studio 6.1 was released last week as part of the latest stable Xamarin Platform release and it includes changes made to the NuGet support. &hellip;">
+  <meta name="description" content="Xamarin Studio version 6.0 and later now have PowerShell editing and debugging support with a PowerShell addin. The PowerShell addin uses the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,235 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/25/PowerShellSupportInXamarinStudio/">PowerShell Support in Xamarin Studio</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-25T18:00:00+00:00" pubdate data-updated="true">Feb 25<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Xamarin Studio version 6.0 and later now have PowerShell editing and debugging support with a PowerShell addin. The PowerShell addin uses the <a href="https://github.com/PowerShell/PowerShellEditorServices">PowerShell Editor Services</a> which is also used by the <a href="https://github.com/PowerShell/vscode-powershell">PowerShell extension</a> for Visual Studio Code.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebuggingPowerShellScriptInXamarinStudio.png" title="Debugging a PowerShell script in Xamarin Studio" alt="Debugging a PowerShell script in Xamarin Studio"></p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Code completion</li>
+<li>Debugging support
+
+<ul>
+<li>Immediate window</li>
+<li>Locals window</li>
+<li>Watch window</li>
+</ul>
+</li>
+<li>Find references</li>
+<li>PowerShell file template</li>
+<li>Rename variable or method</li>
+<li>Show API documentation</li>
+<li>Syntax highlighting</li>
+</ul>
+
+
+<h2>Requirements</h2>
+
+<p>Xamarin Studio 6.x or MonoDevelop 6.x.</p>
+
+<p><a href="https://github.com/PowerShell/PowerShell">PowerShell 6</a> needs to be installed on Mac and on Linux.</p>
+
+<p>PowerShell 3 and higher are supported on Windows.</p>
+
+<h2>Code Completion</h2>
+
+<p>As you type in the text editor you will see code completion for PowerShell variables.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellVariableCodeCompletion.png" title="PowerShell variable code completion" alt="PowerShell variable code completion"></p>
+
+<p>Code completion for PowerShell commands.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandCodeCompletion.png" title="PowerShell command code completion" alt="PowerShell command code completion"></p>
+
+<p>An overview of PowerShell command parameters when you press the space key after entering a PowerShell command.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandTooltipCodeCompletion.png" title="PowerShell command parameters overview code completion" alt="PowerShell command parameters overview code completion"></p>
+
+<p>Code completion for PowerShell command parameters.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandParameterCodeCompletion.png" title="PowerShell command parameter code completion" alt="PowerShell command parameter code completion"></p>
+
+<p>Hovering the mouse over a PowerShell command will show a tooltip with information about that command.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandTooltip.png" title="PowerShell command tooltip on hover" alt="PowerShell command tooltip on hover"></p>
+
+<h2>Syntax Errors</h2>
+
+<p>Syntax errors are highlighted in the text editor. Hovering the mouse over the highlighted error will show information about the error.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellSyntaxError.png" title="PowerShell syntax error highlighting" alt="PowerShell syntax error highlighting"></p>
+
+<h2>Find references</h2>
+
+<p>To find references of a variable or a method you can right click in the text editor and select Find References.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesContextMenu.png" title="PowerShell find references text editor context menu" alt="PowerShell find references text editor context menu"></p>
+
+<p>The references found are then displayed in the Search Results window.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesSearchResults.png" title="PowerShell find references text editor context menu" alt="PowerShell find references text editor context menu"></p>
+
+<h2>Rename</h2>
+
+<p>A variable or method can be renamed in the text editor by right clicking and selecting Rename.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellRenameContextMenu.png" title="PowerShell rename text editor context menu" alt="PowerShell rename text editor context menu"></p>
+
+<p>On typing the new name and the text will be replaced.</p>
+
+<h2>Show API Documentation</h2>
+
+<p>Right clicking on a PowerShell command and selecting Show API Documentation will open the online help for that PowerShell command, if it is available, in the web browser.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellAPIDocumentationContextMenu.png" title="API Documentation text editor context menu" alt="API Documentation text editor context menu"></p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellAPIOnlineDocumentation.png" title="PowerShell API documentation web page" alt="PowerShell API documentation web page"></p>
+
+<h2>Creating a new PowerShell Script</h2>
+
+<p>To create a new PowerShell script there is an empty PowerShell file template available from the New File dialog.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellFileTemplateInNewFileDialog.png" title="PowerShell script file template in New File dialog" alt="PowerShell script file template in New File dialog"></p>
+
+<p>After creating a new PowerShell file it must be saved before it can be run or debugged.</p>
+
+<h2>Debugging</h2>
+
+<p>To debug the currently active PowerShell file open in the text editor,
+set a breakpoint on a line by clicking in the left hand margin, then select Start Debugging from the Run menu.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/RunStartDebuggingMenu.png" title="Run - Start Debugging menu" alt="Run - Start Debugging menu"></p>
+
+<p>Alternatively you can click the Run button in the main toolbar.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugRunMainToolbarButton.png" title="Run button in the main toolbar" alt="Run button in the main toolbar"></p>
+
+<p>A solution does not need to be open in order for a PowerShell script to be run with the debugger. You can open just a PowerShell script into Xamarin Studio and then run the debugger.</p>
+
+<p>Once the debugger has started you can select Step Over, Step In, Step Out or Continue Debugging from the Run menu by clicking one of the main toolbar buttons.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/RunStepMenuItems.png" title="Run menu with Step menu items" alt="Run menu with Step menu items"></p>
+
+<p>Hovering the mouse over a variable will open a tooltip showing the variable value.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugTooltipOnHover.png" title="Debug tooltip on hover" alt="Debug tooltip on hover"></p>
+
+<h2>Breakpoints</h2>
+
+<p>Breakpoint conditions should use PowerShell syntax and not C# syntax. The Edit Breakpoint dialog says to use a C# boolean expression which is incorrect.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/EditBreakpointDialog.png" title="PowerShell breakpoint condition in Edit Breakpoint dialog" alt="PowerShell breakpoint condition in Edit Breakpoint dialog"></p>
+
+<p>Hit conditions are only partially supported. The PowerShell Editor Services debugger supports the &lsquo;When hit count is equal to&rsquo;. Due to this restriction the other hit count options may not work as expected.</p>
+
+<p>Printing a message and continuing is not currently supported.</p>
+
+<p>Breaking when the value of an expression changes is not currently supported.</p>
+
+<p>Function and exception breakpoints are not currently supported.</p>
+
+<h2>Locals Window</h2>
+
+<p>When debugging the Locals window will show the values of variables grouped by each PowerShell scope &ndash; Auto, Local, Script and Global.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/LocalsWindow.png" title="Locals Window" alt="Locals Window"></p>
+
+<h2>Watch Window</h2>
+
+<p>Variables and expressions can be entered in the Watch Window.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/WatchWindow.png" title="Watch window" alt="Watch window"></p>
+
+<p>Please note that entering a PowerShell command with missing parameters will cause the debugger to stop working. The PowerShell file will need to be closed and re-opened before the debugger will work again.</p>
+
+<h2>Immediate Window</h2>
+
+<p>Expressions and variables can be entered in the immediate window to get or set values.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/ImmediateWindow.png" title="Immediate window" alt="Immediate window"></p>
+
+<p>As with the Watch Window, entering a PowerShell command with missing parameters will cause the debugger to stop working.</p>
+
+<h1>Passing Arguments when Debugging</h1>
+
+<p>To pass arguments when debugging a PowerShell script you can select Debug PowerShell Script&hellip; from the Run menu.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugPowerShellScriptMenu.png" title="Run - Debug PowerShell Script menu" alt="Run - Debug PowerShell Script menu"></p>
+
+<p>This will open a Debug PowerShell Script dialog where arguments can be specified. These arguments will be passed to the PowerShell script being run with the debugger. The settings used in this dialog will be remembered for the active text editor whilst it is open in Xamarin Studio.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugPowerShellScriptDialog.png" title="Debug PowerShell Script dialog" alt="Debug PowerShell Script dialog"></p>
+
+<h2>Launch Configuration Support</h2>
+
+<p>In Visual Studio Code a launch.json file can be used to store launch configurations. These are supported in by the PowerShell addin in Xamarin Studio. The PowerShell addin will look for a launch.json file in the directory where the PowerShell file exists or in a .vscode subdirectory.</p>
+
+<p>The launch configurations are shown under Active Configurations in the Run menu. Only PowerShell launch configurations which have a request type of &ldquo;launch&rdquo; are supported.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellLaunchConfigurations.png" title="PowerShell launch configurations in Run menu" alt="PowerShell launch configurations in Run menu"></p>
+
+<p>The currently selected launch configuration will be used when debugging or running the PowerShell script. By default no launch configuration will be selected.</p>
+
+<h2>Running without the Debugger</h2>
+
+<p>To run the PowerShell file with PowerShell directly, instead of using the debugger, select Start without Debugging from the Run menu.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/RunStartWithoutDebuggingMenu.png" title="Run - Start without Debugging menu" alt="Run - Start without Debugging menu"></p>
+
+<p>Output from the PowerShell script will be displayed in the Application Output window.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellScriptApplicationOutput.png" title="PowerShell script Application Output window" alt="PowerShell script Application Output window"></p>
+
+<h2>Installation</h2>
+
+<p>The PowerShell addin is available from the <a href="http://addins.monodevelop.com/">MonoDevelop addin repository</a> on the beta channel. To install the addin open the Add-in Manager, search for the PowerShell addin, then click the Install button.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/AddinManagerDialogWithPowerShellAddin.png" title="PowerShell addin in Addin manager dialog" alt="PowerShell addin in Addin manager dialog"></p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-powershell-addin">PowerShell addin for Xamarin Studio and MonoDevelop</a></li>
+<li><a href="https://github.com/PowerShell/PowerShellEditorServices">PowerShell Editor Services</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1295,184 +1524,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/09/PaketSupportInXamarinStudio/">Paket Support in Xamarin Studio</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-06-09T19:00:00+01:00" pubdate data-updated="true">Jun 9<sup>th</sup>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Xamarin Studio and MonoDevelop now have support for <a href="http://fsprojects.github.io/Paket/">Paket</a> with an alpha release of the <a href="https://github.com/mrward/monodevelop-paket-addin">Paket Addin</a>.</p>
-
-<p>Paket is a dependency manager for .NET. The dependencies it supports are <a href="http://fsprojects.github.io/Paket/nuget-dependencies.html">NuGet packages</a>, files from <a href="http://fsprojects.github.io/Paket/github-dependencies.html">GitHub, Gists</a> or files from any <a href="http://fsprojects.github.io/Paket/http-dependencies.html">HTTP source</a>. Paket can be used to maintain project dependencies completely from the command line.</p>
-
-<p>So let us take a look at the support for Paket in Xamarin Studio and MonoDevelop.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li> View dependencies and referenced NuGet packages in the Solution window.</li>
-<li> Add, remove, update NuGet packages from the Solution window.</li>
-<li> Install, restore, simplify NuGet packages from the Solution window.</li>
-<li> Check for updated NuGet packages from the Solution window.</li>
-<li> Syntax highlighting for all paket files.</li>
-<li> Code completion whilst editing the paket.dependencies file.</li>
-<li> Integrates with Xamarin Studio&rsquo;s unified search.</li>
-<li> paket.dependencies and paket.template file templates.</li>
-</ul>
-
-
-<h2>Installing the addin</h2>
-
-<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click <strong>Manage Repositories&hellip;</strong>. In the window that opens tick the check box next to <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> and then click the Close button.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/AddingAlphaChannelAddins.png" title="Enabling alpha channel addins" alt="Enabling alpha channel addins"></p>
-
-<p>Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in <strong>Paket</strong>.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/AddinManagerPaketAddin.png" title="Paket addin selected in Addin Manager dialog" alt="Paket addin selected in Addin Manager dialog"></p>
-
-<p>Select the Paket addin and then click the <strong>Install&hellip;</strong> button.</p>
-
-<p>Now let us take a look at adding a NuGet package to your project with Paket. This is a simple way to get started with Paket in Xamarin Studio without having to manually create any paket files.</p>
-
-<h2>Adding a NuGet Package</h2>
-
-<p>To add a NuGet package using Paket, right click the project in the Solution window, and select Add &ndash; Add NuGet Packages using Paket.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/AddNuGetPackagesUsingPaketSolutionWindowMenu.png" title="Add NuGet Package using Paket Solution window context menu" alt="Add NuGet Package using Paket Solution window context menu"></p>
-
-<p>The Add NuGet Packages using Paket menu is also available from the main Project menu.</p>
-
-<p>This opens the Add NuGet Packages dialog. Search for the NuGet package you want to use and click the Add Package button.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/AddNuGetPackagesDialog.png" title="Add NuGet Packages dialog" alt="Add NuGet Packages dialog"></p>
-
-<p>The Status Bar will update as the NuGet package is installed.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/JsonNetPackageAddedStatusBarMessage.png" title="Json.NET added status bar message" alt="Json.NET added status bar message"></p>
-
-<p>More detailed information about the installation can be found in the Paket Console window. This can be opened by clicking the Status Bar or from the View &ndash; Pads menu.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/JsonNetPackageAddedPaketConsole.png" title="Json.NET added Paket Console messages" alt="Json.NET added Paket Console messages"></p>
-
-<p>After the NuGet package has been installed successfully you will see two new items in the Solution window. A Paket Dependencies folder and a Paket References folder.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketFoldersInSolutionWindow.png" title="Paket folders in Solution window" alt="Paket folders in Solution window"></p>
-
-<p>These folders show the NuGet packages that are in the paket.dependencies and paket.references files.</p>
-
-<h2>Paket Dependencies Folder</h2>
-
-<p>The Paket Dependencies folder is shown in the Solution window if Xamarin Studio finds a paket.dependencies file in the same directory as the solution. The NuGet packages that are in the paket.dependencies file are shown under this folder.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderInSolutionWindow.png" title="Paket Dependencies folder in Solution window" alt="Paket Dependencies folder in Solution window"></p>
-
-<p>Double clicking the folder will open the paket.dependencies file into the text editor. The Paket Dependencies folder also has a context menu where you can run Paket commands.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderContextMenu.png" title="Paket Dependencies folder context menu" alt="Paket Dependencies folder context menu"></p>
-
-<p>From the context menu you can Add a NuGet Package as a dependency, install, restore, update, and simplify your dependencies, or check for updates. When you select Check for Updates the updated NuGet package information will be shown in the Paket Console and in the Solution window.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderNuGetPackageUpdateInformation.png" title="Paket Dependencies folder NuGet package update information" alt="Paket Dependencies folder NuGet package update information"></p>
-
-<p>To update a single NuGet package you can right click it and select Update. To remove the NuGet package as a dependency you can right click it and select Remove or press delete.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependencyNuGetPackageContextMenu.png" title="Paket Dependencies folder NuGet package context menu" alt="Paket Dependencies folder NuGet package context menu"></p>
-
-<h2>Paket References Folder</h2>
-
-<p>The Paket References folder is shown in the Solution window if Xamarin Studio finds a paket.references file in the same directory as the project. The NuGet packages that are in the paket.references file are shown under this folder. Double clicking the folder will open the paket.references file into the text editor.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderInSolutionWindow.png" title="Paket References folder in Solution window" alt="Paket References folder in Solution window"></p>
-
-<p>Right clicking the Paket References folder allows you to add a NuGet package to the project.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderAddPackagesMenu.png" title="Paket References folder context menu" alt="Paket References folder context menu"></p>
-
-<p>A NuGet package can be removed by right clicking it and selecting Remove or by pressing Delete.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderNuGetPackageContextMenu.png" title="Paket References folder NuGet package context menu" alt="Paket References folder NuGet package context menu"></p>
-
-<h2>Code Completion</h2>
-
-<p>When editing the paket.dependencies file you will get code completion as you type. You can also bring up the code completion list by pressing Ctrl+Space.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordCompletion.png" title="paket.dependencies file keyword completion" alt="paket.dependencies file keyword completion"></p>
-
-<p>Keywords that have an associated value will also show code completion after a space is pressed or the first character is typed in.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordValueCompletion.png" title="paket.dependencies file keyword value completion" alt="paket.dependencies file keyword value completion"></p>
-
-<p>After the source keyword you will see a list of NuGet package sources that are defined in your NuGet.Config file.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileNuGetSourceCompletion.png" title="paket.dependencies file NuGet source completion" alt="paket.dependencies file NuGet source completion"></p>
-
-<p>After the nuget keyword you will see a list of NuGet packages.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileNuGetPackageCompletion.png" title="paket.dependencies file NuGet package completion" alt="paket.dependencies file NuGet package completion"></p>
-
-<p>This list of NuGet packages is currently taken from your local machine&rsquo;s NuGet cache. Currently there is no support for asynchronously searching an online NuGet package source to get the list of NuGet packages.</p>
-
-<h2>Running Paket commands</h2>
-
-<p>Paket commands can be run from the Unified search. If you type in paket you will see some of the Paket commands.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketCommandsInUnifiedSearch.png" title="Paket commands in unified search" alt="Paket commands in unified search"></p>
-
-<p>The syntax for each command is the similar to what the paket.exe console application supports but the commands do not support all the parameters.</p>
-
-<p>As you type more of the command the list of commands will be filtered. To run a command select it and then press the enter key. These commands directly run paket.exe and update the paket files and project files. The status of the current command is shown in the Status Bar and the output from paket.exe is shown in the Paket Console window.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesInstalledStatusBarMessage.png" title="Paket dependencies installed status bar message" alt="Paket dependencies installed status bar message"></p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesInstalledPaketConsoleOutput.png" title="Paket dependencies installed console message" alt="Paket dependencies installed console message"></p>
-
-<p>The Paket Console window will automatically be displayed if there was an error running a command and an error message will be displayed in the Status Bar.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/StatusBarAddNuGetPackagedErrorMessage.png" title="Paket error message in Status Bar" alt="Paket error message in Status Bar"></p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketConsoleAddNuGetPackagedErrorMessage.png" title="Paket console error message" alt="Paket console error message"></p>
-
-<p>Otherwise you can open the Paket Console by clicking the Status Bar.</p>
-
-<h2>Syntax highlighting</h2>
-
-<p>Syntax highlighting is available for all paket files &ndash; paket.dependencies, paket.references, paket.lock and paket.template.</p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileSyntaxHighlighting.png" title="paket.dependencies file syntax highlighting" alt="paket.dependencies file syntax highlighting"></p>
-
-<p><img src="/images/blog/PaketSupportInXamarinStudio/PaketLockFileSyntaxHighlighting.png" title="paket.lock file syntax highlighting" alt="paket.lock file syntax highlighting"></p>
-
-<p>This brings us to the end of the introduction to Paket support in Xamarin Studio.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1490,7 +1541,7 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Matt Ward -
+  Copyright &copy; 2017 - Matt Ward -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 

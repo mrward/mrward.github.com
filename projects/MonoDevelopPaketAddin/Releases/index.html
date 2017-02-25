@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content=" MonoDevelop Paket Addin Releases Jun 9th, 2015 Version 0.1 2015-06-09 First Release Jun 9th, 2015 Tweet ">
+  <meta name="description" content="MonoDevelop Paket Addin Releases Oct 15th, 2016 Version 0.3 2016-12-10 Support installing specific versions from the Add Packages dialog. The Add &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,10 +96,33 @@
   
 
 
-<time datetime="2015-06-09T20:00:00+01:00" pubdate data-updated="true">Jun 9<sup>th</sup>, 2015</time></p>
+<time datetime="2016-10-15T14:00:00+01:00" pubdate data-updated="true">Oct 15<sup>th</sup>, 2016</time></p>
   </header>
   
-  <h2>Version 0.1</h2>
+  <h2>Version 0.3</h2>
+
+<p>2016-12-10</p>
+
+<ul>
+<li>Support installing specific versions from the Add Packages dialog. The Add Packages dialog now has &ldquo;Latest&rdquo; as a version in the combo box. If Latest is selected then the NuGet package is added without a version. If a specific version is selected then the version will be added to the paket.dependencies file. For pre-release NuGet packages the version is used even if Latest is selected otherwise Paket will use the latest stable version.</li>
+<li>Update to NuGet v3 so the v3 package source is supported.</li>
+<li>Update the Add Packages dialog to what is currently used in MonoDevelop 6.1.</li>
+<li>Use package sources defined in NuGet.Config file. Previously only the main nuget.org v2 package source was available in the Add Packages dialog.</li>
+<li>Allow switching to the configured package sources from the Add Packages dialog.</li>
+<li>The Add Packages dialog now supports the light and dark theme.</li>
+</ul>
+
+
+<h2>Version 0.2</h2>
+
+<p>2016-10-15</p>
+
+<ul>
+<li>Update to Paket 3.23.2</li>
+</ul>
+
+
+<h2>Version 0.1</h2>
 
 <p>2015-06-09</p>
 
@@ -124,7 +147,7 @@
   
 
 
-<time datetime="2015-06-09T20:00:00+01:00" pubdate data-updated="true">Jun 9<sup>th</sup>, 2015</time>
+<time datetime="2016-10-15T14:00:00+01:00" pubdate data-updated="true">Oct 15<sup>th</sup>, 2016</time>
         
       </p>
       
@@ -154,7 +177,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Matt Ward -
+  Copyright &copy; 2017 - Matt Ward -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 

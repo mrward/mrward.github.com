@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PowerShell Support in Xamarin Studio - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Xamarin Studio version 6.0 and later now have PowerShell editing and debugging support with a PowerShell addin. The PowerShell addin uses the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2017/02/25/PowerShellSupportInXamarinStudio">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">PowerShell Support in Xamarin Studio</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-25T18:00:00+00:00" pubdate data-updated="true">Feb 25<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Xamarin Studio version 6.0 and later now have PowerShell editing and debugging support with a PowerShell addin. The PowerShell addin uses the <a href="https://github.com/PowerShell/PowerShellEditorServices">PowerShell Editor Services</a> which is also used by the <a href="https://github.com/PowerShell/vscode-powershell">PowerShell extension</a> for Visual Studio Code.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebuggingPowerShellScriptInXamarinStudio.png" title="Debugging a PowerShell script in Xamarin Studio" alt="Debugging a PowerShell script in Xamarin Studio"></p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Code completion</li>
+<li>Debugging support
+
+<ul>
+<li>Immediate window</li>
+<li>Locals window</li>
+<li>Watch window</li>
+</ul>
+</li>
+<li>Find references</li>
+<li>PowerShell file template</li>
+<li>Rename variable or method</li>
+<li>Show API documentation</li>
+<li>Syntax highlighting</li>
+</ul>
+
+
+<h2>Requirements</h2>
+
+<p>Xamarin Studio 6.x or MonoDevelop 6.x.</p>
+
+<p><a href="https://github.com/PowerShell/PowerShell">PowerShell 6</a> needs to be installed on Mac and on Linux.</p>
+
+<p>PowerShell 3 and higher are supported on Windows.</p>
+
+<h2>Code Completion</h2>
+
+<p>As you type in the text editor you will see code completion for PowerShell variables.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellVariableCodeCompletion.png" title="PowerShell variable code completion" alt="PowerShell variable code completion"></p>
+
+<p>Code completion for PowerShell commands.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandCodeCompletion.png" title="PowerShell command code completion" alt="PowerShell command code completion"></p>
+
+<p>An overview of PowerShell command parameters when you press the space key after entering a PowerShell command.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandTooltipCodeCompletion.png" title="PowerShell command parameters overview code completion" alt="PowerShell command parameters overview code completion"></p>
+
+<p>Code completion for PowerShell command parameters.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandParameterCodeCompletion.png" title="PowerShell command parameter code completion" alt="PowerShell command parameter code completion"></p>
+
+<p>Hovering the mouse over a PowerShell command will show a tooltip with information about that command.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandTooltip.png" title="PowerShell command tooltip on hover" alt="PowerShell command tooltip on hover"></p>
+
+<h2>Syntax Errors</h2>
+
+<p>Syntax errors are highlighted in the text editor. Hovering the mouse over the highlighted error will show information about the error.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellSyntaxError.png" title="PowerShell syntax error highlighting" alt="PowerShell syntax error highlighting"></p>
+
+<h2>Find references</h2>
+
+<p>To find references of a variable or a method you can right click in the text editor and select Find References.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesContextMenu.png" title="PowerShell find references text editor context menu" alt="PowerShell find references text editor context menu"></p>
+
+<p>The references found are then displayed in the Search Results window.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesSearchResults.png" title="PowerShell find references text editor context menu" alt="PowerShell find references text editor context menu"></p>
+
+<h2>Rename</h2>
+
+<p>A variable or method can be renamed in the text editor by right clicking and selecting Rename.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellRenameContextMenu.png" title="PowerShell rename text editor context menu" alt="PowerShell rename text editor context menu"></p>
+
+<p>On typing the new name and the text will be replaced.</p>
+
+<h2>Show API Documentation</h2>
+
+<p>Right clicking on a PowerShell command and selecting Show API Documentation will open the online help for that PowerShell command, if it is available, in the web browser.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellAPIDocumentationContextMenu.png" title="API Documentation text editor context menu" alt="API Documentation text editor context menu"></p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellAPIOnlineDocumentation.png" title="PowerShell API documentation web page" alt="PowerShell API documentation web page"></p>
+
+<h2>Creating a new PowerShell Script</h2>
+
+<p>To create a new PowerShell script there is an empty PowerShell file template available from the New File dialog.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellFileTemplateInNewFileDialog.png" title="PowerShell script file template in New File dialog" alt="PowerShell script file template in New File dialog"></p>
+
+<p>After creating a new PowerShell file it must be saved before it can be run or debugged.</p>
+
+<h2>Debugging</h2>
+
+<p>To debug the currently active PowerShell file open in the text editor,
+set a breakpoint on a line by clicking in the left hand margin, then select Start Debugging from the Run menu.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/RunStartDebuggingMenu.png" title="Run - Start Debugging menu" alt="Run - Start Debugging menu"></p>
+
+<p>Alternatively you can click the Run button in the main toolbar.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugRunMainToolbarButton.png" title="Run button in the main toolbar" alt="Run button in the main toolbar"></p>
+
+<p>A solution does not need to be open in order for a PowerShell script to be run with the debugger. You can open just a PowerShell script into Xamarin Studio and then run the debugger.</p>
+
+<p>Once the debugger has started you can select Step Over, Step In, Step Out or Continue Debugging from the Run menu by clicking one of the main toolbar buttons.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/RunStepMenuItems.png" title="Run menu with Step menu items" alt="Run menu with Step menu items"></p>
+
+<p>Hovering the mouse over a variable will open a tooltip showing the variable value.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugTooltipOnHover.png" title="Debug tooltip on hover" alt="Debug tooltip on hover"></p>
+
+<h2>Breakpoints</h2>
+
+<p>Breakpoint conditions should use PowerShell syntax and not C# syntax. The Edit Breakpoint dialog says to use a C# boolean expression which is incorrect.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/EditBreakpointDialog.png" title="PowerShell breakpoint condition in Edit Breakpoint dialog" alt="PowerShell breakpoint condition in Edit Breakpoint dialog"></p>
+
+<p>Hit conditions are only partially supported. The PowerShell Editor Services debugger supports the &lsquo;When hit count is equal to&rsquo;. Due to this restriction the other hit count options may not work as expected.</p>
+
+<p>Printing a message and continuing is not currently supported.</p>
+
+<p>Breaking when the value of an expression changes is not currently supported.</p>
+
+<p>Function and exception breakpoints are not currently supported.</p>
+
+<h2>Locals Window</h2>
+
+<p>When debugging the Locals window will show the values of variables grouped by each PowerShell scope &ndash; Auto, Local, Script and Global.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/LocalsWindow.png" title="Locals Window" alt="Locals Window"></p>
+
+<h2>Watch Window</h2>
+
+<p>Variables and expressions can be entered in the Watch Window.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/WatchWindow.png" title="Watch window" alt="Watch window"></p>
+
+<p>Please note that entering a PowerShell command with missing parameters will cause the debugger to stop working. The PowerShell file will need to be closed and re-opened before the debugger will work again.</p>
+
+<h2>Immediate Window</h2>
+
+<p>Expressions and variables can be entered in the immediate window to get or set values.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/ImmediateWindow.png" title="Immediate window" alt="Immediate window"></p>
+
+<p>As with the Watch Window, entering a PowerShell command with missing parameters will cause the debugger to stop working.</p>
+
+<h1>Passing Arguments when Debugging</h1>
+
+<p>To pass arguments when debugging a PowerShell script you can select Debug PowerShell Script&hellip; from the Run menu.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugPowerShellScriptMenu.png" title="Run - Debug PowerShell Script menu" alt="Run - Debug PowerShell Script menu"></p>
+
+<p>This will open a Debug PowerShell Script dialog where arguments can be specified. These arguments will be passed to the PowerShell script being run with the debugger. The settings used in this dialog will be remembered for the active text editor whilst it is open in Xamarin Studio.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugPowerShellScriptDialog.png" title="Debug PowerShell Script dialog" alt="Debug PowerShell Script dialog"></p>
+
+<h2>Launch Configuration Support</h2>
+
+<p>In Visual Studio Code a launch.json file can be used to store launch configurations. These are supported in by the PowerShell addin in Xamarin Studio. The PowerShell addin will look for a launch.json file in the directory where the PowerShell file exists or in a .vscode subdirectory.</p>
+
+<p>The launch configurations are shown under Active Configurations in the Run menu. Only PowerShell launch configurations which have a request type of &ldquo;launch&rdquo; are supported.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellLaunchConfigurations.png" title="PowerShell launch configurations in Run menu" alt="PowerShell launch configurations in Run menu"></p>
+
+<p>The currently selected launch configuration will be used when debugging or running the PowerShell script. By default no launch configuration will be selected.</p>
+
+<h2>Running without the Debugger</h2>
+
+<p>To run the PowerShell file with PowerShell directly, instead of using the debugger, select Start without Debugging from the Run menu.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/RunStartWithoutDebuggingMenu.png" title="Run - Start without Debugging menu" alt="Run - Start without Debugging menu"></p>
+
+<p>Output from the PowerShell script will be displayed in the Application Output window.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellScriptApplicationOutput.png" title="PowerShell script Application Output window" alt="PowerShell script Application Output window"></p>
+
+<h2>Installation</h2>
+
+<p>The PowerShell addin is available from the <a href="http://addins.monodevelop.com/">MonoDevelop addin repository</a> on the beta channel. To install the addin open the Add-in Manager, search for the PowerShell addin, then click the Install button.</p>
+
+<p><img src="/images/blog/PowerShellSupportInXamarinStudio/AddinManagerDialogWithPowerShellAddin.png" title="PowerShell addin in Addin manager dialog" alt="PowerShell addin in Addin manager dialog"></p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-powershell-addin">PowerShell addin for Xamarin Studio and MonoDevelop</a></li>
+<li><a href="https://github.com/PowerShell/PowerShellEditorServices">PowerShell Editor Services</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-25T18:00:00+00:00" pubdate data-updated="true">Feb 25<sup>th</sup>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/powershell/'>powershell</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2017/02/25/PowerShellSupportInXamarinStudio/" data-via="" data-counturl="http://lastexitcode.com/blog/2017/02/25/PowerShellSupportInXamarinStudio/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/09/17/NuGetSupportInXamarinStudio6-1/" title="Previous Post: NuGet Support in Xamarin Studio 6.1">&laquo; NuGet Support in Xamarin Studio 6.1</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
