@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Projects"
-date: 2016-08-20 21:00
+date: 2017-02-25 18:00
 comments: true
 sharing: true
 footer: true
@@ -13,6 +13,7 @@ footer: true
  * [MonoDevelop NuGet Addin Extensions](MonoDevelopNuGetAddinExtensions/)
  * [MonoDevelop NuGet Package Explorer](MonoDevelopNuGetPackageExplorer/)
  * [MonoDevelop Paket Addin](MonoDevelopPaketAddin/)
+ * [MonoDevelop PowerShell Addin](MonoDevelopPowerShellAddin/)
  * [MonoDevelop TypeScript Addin](MonoDevelopTypeScriptAddin/) 
  * [NuGet](NuGet/)
  * [Pash](http://pash-project.github.io/)

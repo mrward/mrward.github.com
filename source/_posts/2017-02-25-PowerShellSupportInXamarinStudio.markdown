@@ -1,27 +1,27 @@
 ---
 layout: post
 title: "PowerShell Support in Xamarin Studio"
-date: 2017-02-19 12:00
+date: 2017-02-25 18:00
 comments: true
 categories: PowerShell Xamarin MonoDevelop
 ---
 
-Xamarin Studio versions 6.x now have PowerShell editing and debugging support with a PowerShell addin. The PowerShell addin uses the [PowerShell Editor Services](https://github.com/PowerShell/PowerShellEditorServices) which is also used by the [PowerShell extension](https://github.com/PowerShell/vscode-powershell) for Visual Studio Code.
+Xamarin Studio version 6.0 and later now have PowerShell editing and debugging support with a PowerShell addin. The PowerShell addin uses the [PowerShell Editor Services](https://github.com/PowerShell/PowerShellEditorServices) which is also used by the [PowerShell extension](https://github.com/PowerShell/vscode-powershell) for Visual Studio Code.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/DebuggingPowerShellScriptInXamarinStudio.png 'Debugging a PowerShell script in Xamarin Studio' 'Debugging a PowerShell script in Xamarin Studio' %}
 
 ## Features
 
  * Code completion
+ * Debugging support
+   * Immediate window
+   * Locals window
+   * Watch window
  * Find references
+ * PowerShell file template
  * Rename variable or method
  * Show API documentation
  * Syntax highlighting
- * Debugging support
-   * Immediate window
-   * Watch window
-   * Locals window
- * PowerShell file template
  
 ## Requirements
 
@@ -29,16 +29,7 @@ Xamarin Studio 6.x or MonoDevelop 6.x.
 
 [PowerShell 6](https://github.com/PowerShell/PowerShell) needs to be installed on Mac and on Linux.
 
-On Windows PowerShell 3 and higher are supported.
-
-## Installation
-
-Currently the PowerShell addin is not published on the MonoDevelop addin repository.
-
-1. Download the [MonoDevelop.PowerShell_0.1.mpack](https://github.com/mrward/monodevelop-addins/blob/gh-pages/6.0/MonoDevelop.PowerShell_0.1.mpack?raw=true).
-2. From Xamarin Studio's Add-in Manager select the Install from file... button.
-3. Browse to the MonoDevelop.PowerShell_0.1.mpack and select the Open button.
-4. Select the Install button to install the addin.
+PowerShell 3 and higher are supported on Windows.
 
 ## Code Completion
 
@@ -64,31 +55,31 @@ Hovering the mouse over a PowerShell command will show a tooltip with informatio
 
 ## Syntax Errors
 
-Syntax errors are highlighted in the text editor with a red underline. Hovering the mouse over the highlighted error will show information about the error.
+Syntax errors are highlighted in the text editor. Hovering the mouse over the highlighted error will show information about the error.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellSyntaxError.png 'PowerShell syntax error highlighting' 'PowerShell syntax error highlighting' %}
 
 ## Find references
 
-To find references of a variable or method you can right click in the text editor and select Find References.
+To find references of a variable or a method you can right click in the text editor and select Find References.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesContextMenu.png 'PowerShell find references text editor context menu' 'PowerShell find references text editor context menu' %}
 
-The references found are then shown in the Search Results window. 
+The references found are then displayed in the Search Results window. 
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesSearchResults.png 'PowerShell find references text editor context menu' 'PowerShell find references text editor context menu' %}
 
 ## Rename
 
-A variable can be renamed in the text editor by right clicking and selecting Rename.
+A variable or method can be renamed in the text editor by right clicking and selecting Rename.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellRenameContextMenu.png 'PowerShell rename text editor context menu' 'PowerShell rename text editor context menu' %}
 
-Then type the new name and the text will be replaced.
+On typing the new name and the text will be replaced.
 
 ## Show API Documentation
 
-Right clicking on a PowerShell command and selecting Show API Documentation will open the online help for that PowerShell command, if it is available, into the web browser.
+Right clicking on a PowerShell command and selecting Show API Documentation will open the online help for that PowerShell command, if it is available, in the web browser.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellAPIDocumentationContextMenu.png 'API Documentation text editor context menu' 'API Documentation text editor context menu' %}
 
@@ -104,8 +95,8 @@ After creating a new PowerShell file it must be saved before it can be run or de
 
 ## Debugging
 
-To debug the currently active PowerShell file shown in the text editor,
-set a breakpoint on a line by clicking in the margin on the left hand side, then select Start Debugging from the Run menu.
+To debug the currently active PowerShell file open in the text editor,
+set a breakpoint on a line by clicking in the left hand margin, then select Start Debugging from the Run menu.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/RunStartDebuggingMenu.png 'Run - Start Debugging menu' 'Run - Start Debugging menu' %}
 
@@ -115,7 +106,7 @@ Alternatively you can click the Run button in the main toolbar.
 
 A solution does not need to be open in order for a PowerShell script to be run with the debugger. You can open just a PowerShell script into Xamarin Studio and then run the debugger.
 
-Once the debugger has started you can select Step Over, Step In, Step Out or Continue Debugging from the Run menu, or click one of the main toolbar buttons, or use one of the keyboard shortcuts.
+Once the debugger has started you can select Step Over, Step In, Step Out or Continue Debugging from the Run menu by clicking one of the main toolbar buttons.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/RunStepMenuItems.png 'Run menu with Step menu items' 'Run menu with Step menu items' %}
 
@@ -125,7 +116,7 @@ Hovering the mouse over a variable will open a tooltip showing the variable valu
 
 ## Breakpoints
 
-Breakpoint conditions should use PowerShell syntax and not C# syntax even though the Edit Breakpoint dialog says to use a C# boolean expression.
+Breakpoint conditions should use PowerShell syntax and not C# syntax. The Edit Breakpoint dialog says to use a C# boolean expression which is incorrect.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/EditBreakpointDialog.png 'PowerShell breakpoint condition in Edit Breakpoint dialog' 'PowerShell breakpoint condition in Edit Breakpoint dialog' %}
 
@@ -173,11 +164,11 @@ This will open a Debug PowerShell Script dialog where arguments can be specified
 
 In Visual Studio Code a launch.json file can be used to store launch configurations. These are supported in by the PowerShell addin in Xamarin Studio. The PowerShell addin will look for a launch.json file in the directory where the PowerShell file exists or in a .vscode subdirectory.  
 
-The launch configurations are shown under Active Configurations in the Run menu. Only PowerShell launch configuration which have a request type of "launch" are supported.
+The launch configurations are shown under Active Configurations in the Run menu. Only PowerShell launch configurations which have a request type of "launch" are supported.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellLaunchConfigurations.png 'PowerShell launch configurations in Run menu' 'PowerShell launch configurations in Run menu' %}
 
-By default no launch configuration will be selected. The currently selected launch configuration will be used when debugging or running the PowerShell script.
+The currently selected launch configuration will be used when debugging or running the PowerShell script. By default no launch configuration will be selected. 
 
 ## Running without the Debugger
 
@@ -188,6 +179,12 @@ To run the PowerShell file with PowerShell directly, instead of using the debugg
 Output from the PowerShell script will be displayed in the Application Output window.
 
 {% img /images/blog/PowerShellSupportInXamarinStudio/PowerShellScriptApplicationOutput.png 'PowerShell script Application Output window' 'PowerShell script Application Output window' %}
+
+## Installation
+
+The PowerShell addin is available from the [MonoDevelop addin repository](http://addins.monodevelop.com/) on the beta channel. To install the addin open the Add-in Manager, search for the PowerShell addin, then click the Install button.
+
+{% img /images/blog/PowerShellSupportInXamarinStudio/AddinManagerDialogWithPowerShellAddin.png 'PowerShell addin in Addin manager dialog' 'PowerShell addin in Addin manager dialog' %}
 
 ## Source Code
 
