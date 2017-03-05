@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Xamarin Studio version 6.0 and later now have PowerShell editing and debugging support with a PowerShell addin. The PowerShell addin uses the &hellip;">
+  <meta name="description" content="Integrated support for creating NuGet packages with NuGetizer 3000 NuGet 3.5 support Improved project.json support Native License Acceptance dialog &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,216 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/03/05/NuGetSupportInXamarinStudio6-2/">NuGet Support in Xamarin Studio 6.2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-03-05T12:00:00+00:00" pubdate data-updated="true">Mar 5<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul>
+<li> Integrated support for creating NuGet packages with <a href="https://github.com/nuget/nuget.build.packaging">NuGetizer 3000</a></li>
+<li> NuGet 3.5 support</li>
+<li> Improved project.json support</li>
+<li> Native License Acceptance dialog</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 6.2 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.2/xamarin.studio_6.2/">release notes</a>.</p>
+
+<h2>NuGetizer 3000</h2>
+
+<p><a href="https://github.com/nuget/nuget.build.packaging">NuGetizer 3000</a> is a set of build tools for creating NuGet packages inspired by <a href="http://nuproj.net/">NuProj</a>. Support for NuGetizer 3000 in Xamarin Studio includes:</p>
+
+<ul>
+<li>Project templates for creating NuGet packages</li>
+<li>Support for creating a NuGet package from an existing project</li>
+<li>Reference assembly generation for Portable Class Library profiles</li>
+</ul>
+
+
+<p>The following sections look at the NuGetizer 3000 features provided by Xamarin Studio. For more detailed information on what is supported by NuGetizer 3000 please read the <a href="https://github.com/NuGet/Home/wiki/NuGetizer-3000">NuGetizer 3000 feature spec</a>.</p>
+
+<h3>Project Templates</h3>
+
+<p>There are two new project templates available.</p>
+
+<ul>
+<li>Multiplatform Library</li>
+<li>NuGet package</li>
+</ul>
+
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/MultiplatformLibraryNewProjectDialog.png" title="Mulitplatform Library project template in New Project dialog" alt="Mulitplatform Library project template in New Project dialog"></p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/NuGetPackageNewProjectDialog.png" title="NuGet Package project template in New Project dialog" alt="NuGet Package project template in New Project dialog"></p>
+
+<h3>Multiplatform Library &ndash; Single for all platforms</h3>
+
+<p>The Mulitplatform Library project template will create a Portable Class Library project with NuGet package metadata when the Single for all platforms option is selected.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/MultiplatformLibraryWizardSingleSelected.png" title="Multiplatform library - single for all platforms selected" alt="Multiplatform library - single for all platforms selected"></p>
+
+<p>To create a NuGet package right click the project and select Create NuGet Package. This will generate a NuGet package (.nupkg) in the output directory with the Portable Class Library assembly in the corresponding portable lib directory inside the NuGet package.</p>
+
+<h3>Multiplatform Library &ndash; Platform specific</h3>
+
+<p>This Multiplatform Library will create a shared project, an iOS project, an Android project and a NuGet packaging project when the iOS and Android options are selected.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/MultiplatformLibraryWizardPlatformsSelected.png" title="Multiplatform library - iOS and Android selected" alt="Multiplatform library - iOS and Android selected"></p>
+
+<p>The iOS and Android project will reference the shared project. The NuGet packaging project will reference the iOS and Android projects. The NuGet packaging project will contain the NuGet package metadata.</p>
+
+<p>When the NuGet packaging project is built it will create the NuGet package in its output folder and inside the NuGet package will be the Android and iOS output assemblies each in their own platform specific lib folders.</p>
+
+<h3>NuGet Packaging Project</h3>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/NuGetPackageWizard.png" title="NuGet package project template configuration" alt="NuGet package project template configuration"></p>
+
+<p>The NuGet packaging project can be used to create a meta NuGet package, which is a NuGet package that has no content itself but references other NuGet packages, or it can reference other projects and it will add their output assemblies to the NuGet package. If the referenced project has NuGet package references then these will be added to the generated NuGet package as dependencies.</p>
+
+<p>NuGet packages can be added to the NuGet packaging project by using the Add Packages dialog.</p>
+
+<p>To include files in the NuGet packaging project the files need to have Include in Package property set to true. This can be done by right clicking the file in the solution window, selecting Properties, then selecting Include in Package from the NuGet section in the Properties window.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/IncludeInPackagePropertiesWindow.png" title="Include in Package in Properties window" alt="Include in Package in Properties window"></p>
+
+<h3>Adding NuGet Package Metadata</h3>
+
+<p>NuGet package metadata can be added to any .NET project by selecting the NuGet Package &ndash; Metadata page available in the project options.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/NuGetPackageMetadataProjectOptions.png" title="NuGet Package metadata in project options" alt="NuGet package metadata in project options"></p>
+
+<p>The General tab shows compulsory metadata that must be specified for a NuGet package. The Details tab shows other optional metadata that can be specified. This NuGet package metadata is saved directly into the project file (.csproj).</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/NuGetPackageMetadataDetailsProjectOptions.png" title="NuGet Package metadata in project options" alt="NuGet package metadata in project options"></p>
+
+<p>Once NuGet package metadata has been added then the NuGet.Build.Packaging NuGet package will be added to the project if it does not already exist. This NuGet package provides MSBuild tasks that are used when creating the NuGet package for the project.</p>
+
+<p>NuGet package metadata should be added to project if you want to be able to create a NuGet package for that project on its own. Without NuGet package metadata the project would need to be referenced by a NuGet packaging project, or another project with NuGet package metadata, for it to be included in a NuGet package.</p>
+
+<p>If a NuGet packaging project references a project that has its own NuGet package metadata then a dependency will be added to the NuGet package created by the NuGet packaging project. The referenced project&rsquo;s output assembly would not be included in the NuGet package created by the packaging project in this case.</p>
+
+<h3>Generating a NuGet Package</h3>
+
+<p>To generate a NuGet package you can right click the project and select Create NuGet Package.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/CreateNuGetPackageMenuItem.png" title="Create NuGet Package menu item" alt="Create NuGet Package menu item"></p>
+
+<p>For NuGet packaging projects you can also build the project and it will create a NuGet package.</p>
+
+<p>For a .NET project that has NuGet package metadata you can generate a NuGet package when building the project by enabling the &ldquo;Create a NuGet Package when building the project&rdquo; option in the Project Options dialog.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/CreateNuGetPackageWhenBuildingOption.png" title="Creating a NuGet Package when building the project option - project options" alt="Creating a NuGet Package when building the project - project options"></p>
+
+<h3>Adding Platform Implementations</h3>
+
+<p>If you have a Portable Class Library with NuGet package metadata you can add platform specific implementations for iOS and Android by right clicking the project and selecting Add &ndash; Add Platform Implementation. This will open a dialog where you can choose iOS and Android, and also whether to create a shared project.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/AddPlatformImplementationDialog.png" title="Add Platform Implementation dialog" alt="Add Platform Implementation dialog"></p>
+
+<p>After clicking OK an Android and iOS project will be created along with a NuGet packaging project that references these projects. The NuGet package metadata will be moved from the Portable Class Library project to the NuGet packaging project. If the shared project option was selected then the code from the Portable Class Library project will be moved to the shared project. The shared project will be referenced by the iOS and Android project.</p>
+
+<h3>Reference Assembly Generation</h3>
+
+<p>In the Project Options for a NuGet Packaging project there is a Reference Assemblies page in the NuGet Package category. This pages shows a list of Portable Class Library profiles that can be selected.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/ReferenceAssembliesProjectOptions.png" title="Reference assemblies in project options" alt="Reference assemblies in project options"></p>
+
+<p>Reference assemblies for the selected profiles will be generated based on the output assemblies from the projects referenced by the NuGet packaging project.</p>
+
+<p>That brings us to the end of the walkthrough of the NuGetizer 3000 features provided by Xamarin Studio.</p>
+
+<h2>NuGet 3.5 Support</h2>
+
+<p>Xamarin Studio now includes <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-3.5-rtm">NuGet 3.5</a>.</p>
+
+<p>More information on the new features provided by NuGet 3.5 can be found in the <a href="http://blog.nuget.org/20161027/Announcing-NuGet-3.5-RTM.html">Announcing NuGet 3.5 RTM blog post</a> and the <a href="http://docs.nuget.org/ndocs/release-notes/nuget-3.5-RTM">NuGet 3.5 release notes</a>.</p>
+
+<h2>Improved project.json Support</h2>
+
+<p>NuGet packages are now automatically restored when the project.json file is saved in the text editor.</p>
+
+<h2>Native License Acceptance Dialog</h2>
+
+<p>The Licence Acceptance dialog now uses native UI.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-2/LicenseAcceptanceDialog.png" title="License Acceptance dialog" alt="License Acceptance dialog"></p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Updating all NuGet packages installs unexpected pre-release NuGet packages</strong></p>
+
+<p>With a pre-release NuGet package installed in a project, updating
+all the NuGet packages in the project could cause the stable NuGet
+packages to be updated to pre-release versions. On updating all the packages if any were pre-release the include
+pre-release flag would be set on updating which would allow any
+pre-release NuGet packages to be used on updating. Now the include pre-release flag is not set on updating. NuGet 3
+will still update pre-release NuGet packages to the latest pre-release
+or latest stable, depending on which is the latest version, without
+this include pre-release flag being set. NuGet 2 required the include
+pre-release flag set to update a pre-release to the latest pre-release.</p>
+
+<p>An example &ndash; project has the following NuGet packages
+installed:</p>
+
+<pre><code>Xamarin.Forms 2.3.3.180
+Xamarin.Forms.CarouselView 2.3.0-pre1
+</code></pre>
+
+<p>Latest available packages from nuget.org:</p>
+
+<pre><code>Xamarin.Forms 2.3.3.180 (latest stable)
+Xamarin.Forms 2.3.4.184-pre1 (latest pre-release)
+Xamarin.Forms.CarouselView 2.3.0-pre2
+</code></pre>
+
+<p>Expected result on updating all packages in the project:</p>
+
+<pre><code>Xamarin.Forms 2.3.3.180
+Xamarin.Forms.CarouselView 2.3.0-pre2
+</code></pre>
+
+<p>Actual result:</p>
+
+<pre><code>Xamarin.Forms 2.3.4.184-pre1
+Xamarin.Forms.CarouselView 2.3.0-pre2
+</code></pre>
+
+<p><strong>Types unavailable when NuGet package added to project.json file</strong></p>
+
+<p>When a NuGet package was added to a project that used a project.json file
+the types from the assembly provided by the NuGet package were not
+available until the project was reloaded or the references were
+modified. This prevented code completion from showing the correct information.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1454,69 +1664,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 </code></pre>
 
 <p>Xamarin Studio 5.10 now allows the Microsoft.ApplicationInsights NuGet package to be installed into a project.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/08/09/TypeScriptAddin0-6Released/">TypeScript Addin 0.6 Released</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-08-09T15:00:00+01:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>A new version of the TypeScript addin for Xamarin Studio and MonoDevelop has been released. The addin is available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. More details on how to install the addin can be found in the <a href="/blog/2015/04/01/TypeScriptSupportInXamarinStudio/">TypeScript support in Xamarin Studio post</a>.</p>
-
-<h2>Changes</h2>
-
-<ul>
-<li>Updated to support <a href="http://blogs.msdn.com/b/typescript/archive/2015/07/20/announcing-typescript-1-5.aspx">TypeScript 1.5</a>.</li>
-<li>Linux 32 bit and 64 bit are now supported with a single addin. Thanks to <a href="https://github.com/chrisber">Christian Bernasko</a>.</li>
-<li>Allow UMD and System modules to be selected in project options.</li>
-</ul>
-
-
-<p>The separate TypeScript Linux 32 bit addin is now deprecated since the TypeScript addin can now be used on 32 bit and 64 bit versions of Linux.</p>
-
-<h2>Bug Fixes</h2>
-
-<ul>
-<li>TypeScript language service host not updated when the project options are changed</li>
-</ul>
-
-
-<p>For example, switching from ES3 to ES6 in the project options could cause the code completion to be incorrect since the language service host compiler settings were not being updated.</p>
-
-<ul>
-<li>TypeScript options shown when viewing solution options</li>
-</ul>
-
-
-<p>The TypeScript options are now only available when the project options are selected.</p>
 </div>
   
   
