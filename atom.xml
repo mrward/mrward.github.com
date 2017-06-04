@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-03-05T13:52:42+00:00</updated>
+  <updated>2017-06-04T13:30:59+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,143 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.0]]></title>
+    <link href="http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0/"/>
+    <updated>2017-06-04T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0</id>
+    <content type="html"><![CDATA[<h2>New Features</h2>
+
+<ul>
+<li> .NET Core support</li>
+<li> NuGet 4.0 support</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.0</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes">release notes</a>.</p>
+
+<h2>.NET Core Support</h2>
+
+<p>.NET Core projects do not show a Packages folder in the Solution window. Instead the NuGet packages are displayed in a NuGet folder, which is inside a Dependencies folder.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageInSolutionWindow.png" title="Newtonsoft.Json NuGet package in Solution window - .NET Core project" alt="Newtonsoft.Json NuGet package in Solution window - .NET Core project"></p>
+
+<p>The version of the NuGet package is displayed directly in the Solution window. For other project types you need to right click the package to see the version.</p>
+
+<p>If the NuGet package depends on other packages then these can be seen by clicking on the arrow to expand the dependencies.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageExpandedInSolutionWindow.png" title="Newtonsoft.Json NuGet package expanded in Solution window - .NET Core project" alt="Newtonsoft.Json NuGet package expanded in Solution window - .NET Core project"></p>
+
+<h3>Restoring Packages</h3>
+
+<p>NuGet packages will be restored automatically on opening a .NET Core project. This can be disabled in preferences by unchecking <strong>Automatically restore packages when opening a solution</strong> in the NuGet &ndash; General section.</p>
+
+<p>You can manually restore NuGet packages for .NET Core projects by:</p>
+
+<ul>
+<li>Right clicking the Dependencies folder and selecting Restore.</li>
+<li>Right clicking the NuGet folder and selecting Restore.</li>
+<li>Selecting Restore NuGet Packages from the Project menu.</li>
+</ul>
+
+
+<p>Selecting Restore NuGet Packages from the Project menu will restore packages for the project or the solution depending on what is currently selected in the Solution window.</p>
+
+<p>Restoring NuGet packages for a .NET Core project works differently compared with a project that uses a packages.config file. The NuGet packages themselves will be downloaded into the NuGet package cache folder ~/.nuget/packages if they do not exist, as before, but the NuGet packages will not be copied into a packages directory inside the solution&rsquo;s directory. The project file will not contain have any Reference items added when a NuGet package is installed.</p>
+
+<p>When a NuGet restore is run for a .NET Core project three files in the obj directory are created.</p>
+
+<ul>
+<li>project.assets.json</li>
+<li>ProjectName.csproj.nuget.g.props</li>
+<li>ProjectName.csproj.nuget.g.targets</li>
+</ul>
+
+
+<p>The project.assets.json file contains the dependencies for your project.</p>
+
+<p>The nuget.g.props and nuget.g.targets files will contain any MSBuild imports that your NuGet package requires and they also define some properties, such as the path to the NuGet package cache on your machine.</p>
+
+<p>These three files are used when building your project to resolve the assemblies to be referenced now that they are no longer explicitly stored in your project file.</p>
+
+<h3>Updating Packages</h3>
+
+<p>NuGet packages can be updated by:</p>
+
+<ul>
+<li>Right clicking the package inside the NuGet folder and selecting Update.</li>
+<li>Right clicking the NuGet folder and selecting Update.</li>
+<li>Right clicking the Dependencies folder and selecting Update.</li>
+<li>Selecting Update NuGet Packages from the Project menu.</li>
+</ul>
+
+
+<p>Selecting Update NuGet Packages from the Project menu will update all packages in the project or in the solution depending on what is currently selected in the Solution window.</p>
+
+<h3>Removing Multiple NuGet Packages in One Step</h3>
+
+<p>You can remove multiple NuGet packages in one step from a .NET Core project by selecting the packages in the Solution window, right clicking and selecting Remove.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectRemoveMultipleNuGetPackagesInSolutionWindow.png" title="Removing multiple NuGet packages in Solution window - .NET Core project" alt="Removing multiple NuGet packages in Solution window - .NET Core project"></p>
+
+<p>Projects that use a packages.config file do not support removing multiple NuGet packages in one step.</p>
+
+<h3>Installing NuGet Packages</h3>
+
+<p>NuGet packages are installed by using the Add Packages dialog in the same way as with other project types. To open the Add Packages dialog for a .NET Core project:</p>
+
+<ul>
+<li>Right click the NuGet folder and select Add Packages&hellip;</li>
+<li>Right click the Dependencies folder and select Add Packages&hellip;</li>
+<li>Right click the project and select Add &ndash; Add NuGet Packages&hellip;</li>
+<li>From the Project menu select Add NuGet Packages&hellip;</li>
+</ul>
+
+
+<p>When the first NuGet package is installed into a .NET Core project a packages.config file will not be created. Instead the NuGet package will be added as a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> that is saved in the project file.</p>
+
+<h3>Package Reference</h3>
+
+<p>.NET Core projects do not use a packages.config file to record their NuGet dependencies. Instead the .NET Core project file will contain a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> after the NuGet package is installed into the project.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;PropertyGroup&gt;
+</span><span class='line'>    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+</span><span class='line'>    &lt;TargetFramework&gt;netcoreapp1.1&lt;/TargetFramework&gt;
+</span><span class='line'>  &lt;/PropertyGroup&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;ItemGroup&gt;
+</span><span class='line'>    &lt;PackageReference Include="Newtonsoft.Json" Version="10.0.2" /&gt;
+</span><span class='line'>  &lt;/ItemGroup&gt;
+</span><span class='line'>&lt;/Project&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Please note that Visual Studio for Mac currently only supports package references with the new SDK style projects which are used by .NET Core. If you use package references in other project types then the Solution window will not show the packages and a packages.config file will be created if you install a NuGet package.</p>
+
+<h3>Updated Packages Available</h3>
+
+<p>For other project types the Solution window will check for updated packages and show this information in the Packages folder. This is not currently supported with .NET Core projects.</p>
+
+<h2>NuGet 4.0 Support</h2>
+
+<p>Visual Studio for Mac now includes <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0</a>.</p>
+
+<p>More information on the new features provided by NuGet 4.&ndash; can be found in the <a href="http://blog.nuget.org/20170308/Announcing-NuGet-4.0-RTM.html">Announcing NuGet 4.0 RTM blog post</a> and the <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0 release notes</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.2]]></title>
@@ -2199,123 +2336,6 @@ would update package dependencies correctly.</p>
 
 
 <p>Now you should have full support for Portable Class Libraries in Xamarin Studio.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xamarin Components and NuGet]]></title>
-    <link href="http://lastexitcode.com/blog/2014/10/26/XamarinComponentsAndNuGet/"/>
-    <updated>2014-10-26T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2014/10/26/XamarinComponentsAndNuGet</id>
-    <content type="html"><![CDATA[<p><a href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/">Xamarin Studio 5.5</a> and <a href="http://developer.xamarin.com/releases/vs/xamarin.vs_3/xamarin.vs_3.7/">Xamarin for Visual Studio 3.7</a> have support for <a href="https://components.xamarin.com/">Xamarin Components</a> with NuGet package dependencies. So you can now have Xamarin Studio or Visual Studio add NuGet packages to a project when a Component is installed from <a href="https://components.xamarin.com/">Xamarin&rsquo;s Component Store</a>.</p>
-
-<p>The <a href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/">NuGet Support in Xamarin Studio 5.5 post</a> looked at installing a Component with a NuGet package dependency into a project but did not cover how to create one of these Components. So let us take a look at how to modify an existing Component so it has NuGet package dependencies.</p>
-
-<h2>Adding a NuGet Package Dependency to a Component</h2>
-
-<p>In this section we will look at modifying a Component so when it is installed it adds NuGet packages to the project as well as referencing the assemblies that are included in the Component.</p>
-
-<p>First download the latest version of the <a href="https://components.xamarin.com/submit/xpkg">xamarin-component command line application</a> which has been updated to support Component&rsquo;s with NuGet packages dependencies.</p>
-
-<p>The downloaded xpkg file is a zip file containing xamarin-component.exe. So rename the file to have a .zip file extension and then extract the executable.</p>
-
-<p>Now let us see how to add a single NuGet package dependency to the Component. If you are using a component.yaml file to generate your Component you can add the NuGet package dependency by adding the following to your component.yaml:</p>
-
-<pre><code>packages:
-  "": Newtonsoft.Json, Version=5.0.8
-</code></pre>
-
-<p>With the above defined in your component.yaml file you can run the xamarin-component.exe <strong>package</strong> command to generate your Component&rsquo;s .xam file.</p>
-
-<p>Windows:</p>
-
-<pre><code>xamarin-component.exe package path\to\directory-with-component-yaml
-</code></pre>
-
-<p>Mac:</p>
-
-<pre><code>mono xamarin-component.exe package path/to/directory-with-component-yaml
-</code></pre>
-
-<p>If you then look inside your generated Component file (.xam), which you can do by renaming its file extension to .zip, you will see the package defined in the component/Manifest.xml file:</p>
-
-<pre><code>&lt;packages&gt;
-  &lt;package id="Newtonsoft.Json" version="5.0.8" /&gt;
-&lt;/packages&gt;
-</code></pre>
-
-<p>If you are using the xamarin-component.exe <strong>create-manually</strong> command line you can add the same NuGet package dependency by adding the following command line argument:</p>
-
-<pre><code>--package="":"Newtonsoft.Json, Version=5.0.8"
-</code></pre>
-
-<p>This packaged Component will install the Newtonsoft.Json NuGet package into any Android, iOS or Windows Phone project. If you need to install a particular NuGet package for a particular project type you can specify the target project type for the NuGet package dependency. Shown below is a more complicated example from a component.yaml file where NUnit and Newtonsoft.Json are configured so they will only be installed into Android projects, whilst log4net is only installed into iOS projects, and finally Ninject will be installed into all project types.</p>
-
-<pre><code>packages:
-  android:
-    - NUnit, Version=2.6.2
-    - Newtonsoft.Json, Version=5.0.8
-  mobile: Ninject, Version=3.2.0
-  ios: log4net, Version=2.0.0
-  ios-unified: log4net, Version=2.0.0
-</code></pre>
-
-<p>Note that <strong>mobile</strong> used here is equivalent to the empty double quoted string &ldquo;&rdquo; which was used in the previous example with the single NuGet package.</p>
-
-<p>If you then generate the Component again using the xamarin-component.exe package command you will see the Component&rsquo;s manifest file now contains the following:</p>
-
-<pre><code>  &lt;packages&gt;
-    &lt;package id="NUnit" version="2.6.2" framework="android" /&gt;
-    &lt;package id="Newtonsoft.Json" version="5.0.8" framework="android" /&gt;
-    &lt;package id="log4net" version="2.0.0" framework="ios" /&gt;
-    &lt;package id="log4net" version="2.0.0" framework="ios-unified" /&gt;
-    &lt;package id="Ninject" version="3.2.0" framework="mobile" /&gt;
-  &lt;/packages&gt;
-</code></pre>
-
-<p>If you are using the xamarin-component.exe create-manually command line you can add the same NuGet package dependencies to your Component by adding the following command line arguments:</p>
-
-<pre><code>--package="android":"NUnit, Version=2.6.2"
---package="android":"Newtonsoft.Json, Version=5.0.8"
---package="mobile":"Ninject, Version=3.2.0"
---package="ios":"log4net, Version=2.0.0"
---package="ios-unified":"log4net, Version=2.0.0"
-</code></pre>
-
-<p>With the NuGet package dependencies defined as shown in the previous examples when you install the Component into a project the NuGet package will be installed and a reference will be added to the assemblies in the <strong>lib</strong> directory of the Component. If you want to only add the NuGet package to the project and not the assemblies in the lib directory then you can create a Shell Component which we will look at in the following section.</p>
-
-<h2>Creating a Shell Component</h2>
-
-<p>A Shell Component is special type Component that is basically a wrapper around one or more NuGet packages. It will only install the NuGet package into the project and not add references to any assemblies in the Component&rsquo;s <strong>lib</strong> directory.</p>
-
-<p>To configure a component to be a Shell Component you can add the following to your component.yaml file:</p>
-
-<pre><code>is_shell: true
-</code></pre>
-
-<p>When you generate your Component&rsquo;s .xam file you will see that the Component&rsquo;s Manifest.xml file now contains the <strong>is-shell</strong> attribute in the component element:</p>
-
-<pre><code>&lt;component format="1" id="mycomponent" is-shell="true"&gt;
-</code></pre>
-
-<p>If you are using the xamarin-component.exe create-manually command line argument you can do the same thing by passing the following argument:</p>
-
-<pre><code>--is-shell
-</code></pre>
-
-<p>Backwards compatibility is something to consider if you decide to create a Shell Component. If you need a Shell Component to work with older versions of Xamarin Studio and Xamarin for Visual Studio that do not support Component&rsquo;s with NuGet package dependencies then you should also include the assemblies in the lib directory of the Component. The <a href="https://components.xamarin.com/view/xamandroidsupportv13-18">Android Support Library v13 Component</a> is one example that has a NuGet package dependency and also includes an assembly in its lib/android directory. When installing the Android Support Library v13 Component into an older version of Xamarin Studio the NuGet package will not be installed and instead the assembly will be referenced from the Component&rsquo;s lib/android directory. If the Android Support Library v13 Component is installed with Xamarin Studio 5.5 or above then the NuGet package will be installed but the assembly from the lib/android directory will not be referenced.</p>
-
-<h2>NuGet Package Sources</h2>
-
-<p>The NuGet package dependencies that a Component has must be available from the <a href="https://nuget.org">official NuGet Gallery</a> before your Component is submitted to the Component Store.</p>
-
-<p>If you are testing a NuGet package that is not currently available from the <a href="https://nuget.org">official NuGet Gallery</a> then you can copy it into the <a href="http://lastexitcode.com/projects/NuGet/FileLocations/">local machine&rsquo;s NuGet cache directory</a>. Xamarin Studio and Xamarin for Visual Studio should find the NuGet package in the local NuGet cache instead of trying to download it from the NuGet Gallery.</p>
-
-<h2>Creating a Component</h2>
-
-<p>There are some example Component&rsquo;s that have NuGet package dependencies available on my <a href="https://github.com/mrward/xamarin-test-components">GitHub page</a>. The <a href="https://github.com/mrward/xamarin-test-components/tree/master/AwesomeComponent">Awesome Component example</a> is a Shell Component that uses a rakefile and the xamarin-component create-manually command line to generate the Component. The <a href="https://github.com/mrward/xamarin-test-components/tree/master/MyComponent">My Component example</a> is another Shell Component that uses a component.yaml file that defines NuGet package dependencies.</p>
-
-<p>For more detailed information on how to create a Component please see the <a href="http://developer.xamarin.com/guides/cross-platform/advanced/submitting_components/">Submitting Components</a> page.</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 7.0 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="New Features .NET Core support NuGet 4.0 support More information on all the new features and changes in Visual Studio for Mac 7.0 can be found in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 7.0</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-04T12:00:00+01:00" pubdate data-updated="true">Jun 4<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>New Features</h2>
+
+<ul>
+<li> .NET Core support</li>
+<li> NuGet 4.0 support</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.0</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes">release notes</a>.</p>
+
+<h2>.NET Core Support</h2>
+
+<p>.NET Core projects do not show a Packages folder in the Solution window. Instead the NuGet packages are displayed in a NuGet folder, which is inside a Dependencies folder.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageInSolutionWindow.png" title="Newtonsoft.Json NuGet package in Solution window - .NET Core project" alt="Newtonsoft.Json NuGet package in Solution window - .NET Core project"></p>
+
+<p>The version of the NuGet package is displayed directly in the Solution window. For other project types you need to right click the package to see the version.</p>
+
+<p>If the NuGet package depends on other packages then these can be seen by clicking on the arrow to expand the dependencies.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageExpandedInSolutionWindow.png" title="Newtonsoft.Json NuGet package expanded in Solution window - .NET Core project" alt="Newtonsoft.Json NuGet package expanded in Solution window - .NET Core project"></p>
+
+<h3>Restoring Packages</h3>
+
+<p>NuGet packages will be restored automatically on opening a .NET Core project. This can be disabled in preferences by unchecking <strong>Automatically restore packages when opening a solution</strong> in the NuGet &ndash; General section.</p>
+
+<p>You can manually restore NuGet packages for .NET Core projects by:</p>
+
+<ul>
+<li>Right clicking the Dependencies folder and selecting Restore.</li>
+<li>Right clicking the NuGet folder and selecting Restore.</li>
+<li>Selecting Restore NuGet Packages from the Project menu.</li>
+</ul>
+
+
+<p>Selecting Restore NuGet Packages from the Project menu will restore packages for the project or the solution depending on what is currently selected in the Solution window.</p>
+
+<p>Restoring NuGet packages for a .NET Core project works differently compared with a project that uses a packages.config file. The NuGet packages themselves will be downloaded into the NuGet package cache folder ~/.nuget/packages if they do not exist, as before, but the NuGet packages will not be copied into a packages directory inside the solution&rsquo;s directory. The project file will not contain have any Reference items added when a NuGet package is installed.</p>
+
+<p>When a NuGet restore is run for a .NET Core project three files in the obj directory are created.</p>
+
+<ul>
+<li>project.assets.json</li>
+<li>ProjectName.csproj.nuget.g.props</li>
+<li>ProjectName.csproj.nuget.g.targets</li>
+</ul>
+
+
+<p>The project.assets.json file contains the dependencies for your project.</p>
+
+<p>The nuget.g.props and nuget.g.targets files will contain any MSBuild imports that your NuGet package requires and they also define some properties, such as the path to the NuGet package cache on your machine.</p>
+
+<p>These three files are used when building your project to resolve the assemblies to be referenced now that they are no longer explicitly stored in your project file.</p>
+
+<h3>Updating Packages</h3>
+
+<p>NuGet packages can be updated by:</p>
+
+<ul>
+<li>Right clicking the package inside the NuGet folder and selecting Update.</li>
+<li>Right clicking the NuGet folder and selecting Update.</li>
+<li>Right clicking the Dependencies folder and selecting Update.</li>
+<li>Selecting Update NuGet Packages from the Project menu.</li>
+</ul>
+
+
+<p>Selecting Update NuGet Packages from the Project menu will update all packages in the project or in the solution depending on what is currently selected in the Solution window.</p>
+
+<h3>Removing Multiple NuGet Packages in One Step</h3>
+
+<p>You can remove multiple NuGet packages in one step from a .NET Core project by selecting the packages in the Solution window, right clicking and selecting Remove.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectRemoveMultipleNuGetPackagesInSolutionWindow.png" title="Removing multiple NuGet packages in Solution window - .NET Core project" alt="Removing multiple NuGet packages in Solution window - .NET Core project"></p>
+
+<p>Projects that use a packages.config file do not support removing multiple NuGet packages in one step.</p>
+
+<h3>Installing NuGet Packages</h3>
+
+<p>NuGet packages are installed by using the Add Packages dialog in the same way as with other project types. To open the Add Packages dialog for a .NET Core project:</p>
+
+<ul>
+<li>Right click the NuGet folder and select Add Packages&hellip;</li>
+<li>Right click the Dependencies folder and select Add Packages&hellip;</li>
+<li>Right click the project and select Add &ndash; Add NuGet Packages&hellip;</li>
+<li>From the Project menu select Add NuGet Packages&hellip;</li>
+</ul>
+
+
+<p>When the first NuGet package is installed into a .NET Core project a packages.config file will not be created. Instead the NuGet package will be added as a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> that is saved in the project file.</p>
+
+<h3>Package Reference</h3>
+
+<p>.NET Core projects do not use a packages.config file to record their NuGet dependencies. Instead the .NET Core project file will contain a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> after the NuGet package is installed into the project.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;PropertyGroup&gt;
+</span><span class='line'>    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+</span><span class='line'>    &lt;TargetFramework&gt;netcoreapp1.1&lt;/TargetFramework&gt;
+</span><span class='line'>  &lt;/PropertyGroup&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;ItemGroup&gt;
+</span><span class='line'>    &lt;PackageReference Include="Newtonsoft.Json" Version="10.0.2" /&gt;
+</span><span class='line'>  &lt;/ItemGroup&gt;
+</span><span class='line'>&lt;/Project&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Please note that Visual Studio for Mac currently only supports package references with the new SDK style projects which are used by .NET Core. If you use package references in other project types then the Solution window will not show the packages and a packages.config file will be created if you install a NuGet package.</p>
+
+<h3>Updated Packages Available</h3>
+
+<p>For other project types the Solution window will check for updated packages and show this information in the Packages folder. This is not currently supported with .NET Core projects.</p>
+
+<h2>NuGet 4.0 Support</h2>
+
+<p>Visual Studio for Mac now includes <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0</a>.</p>
+
+<p>More information on the new features provided by NuGet 4.&ndash; can be found in the <a href="http://blog.nuget.org/20170308/Announcing-NuGet-4.0-RTM.html">Announcing NuGet 4.0 RTM blog post</a> and the <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0 release notes</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-04T12:00:00+01:00" pubdate data-updated="true">Jun 4<sup>th</sup>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0/" data-via="" data-counturl="http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/03/05/NuGetSupportInXamarinStudio6-2/" title="Previous Post: NuGet Support in Xamarin Studio 6.2">&laquo; NuGet Support in Xamarin Studio 6.2</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

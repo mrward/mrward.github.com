@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-03-05T13:52:42+00:00</updated>
+  <updated>2017-06-04T13:30:59+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,139 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.0]]></title>
+    <link href="http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0/"/>
+    <updated>2017-06-04T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0</id>
+    <content type="html"><![CDATA[<h2>New Features</h2>
+
+<ul>
+<li> .NET Core support</li>
+<li> NuGet 4.0 support</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.0</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes">release notes</a>.</p>
+
+<h2>.NET Core Support</h2>
+
+<p>.NET Core projects do not show a Packages folder in the Solution window. Instead the NuGet packages are displayed in a NuGet folder, which is inside a Dependencies folder.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageInSolutionWindow.png" title="&lsquo;Newtonsoft.Json NuGet package in Solution window &ndash; .NET Core project&rsquo; &lsquo;Newtonsoft.Json NuGet package in Solution window &ndash; .NET Core project&rsquo;" ></p>
+
+<p>The version of the NuGet package is displayed directly in the Solution window. For other project types you need to right click the package to see the version.</p>
+
+<p>If the NuGet package depends on other packages then these can be seen by clicking on the arrow to expand the dependencies.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageExpandedInSolutionWindow.png" title="&lsquo;Newtonsoft.Json NuGet package expanded in Solution window &ndash; .NET Core project&rsquo; &lsquo;Newtonsoft.Json NuGet package expanded in Solution window &ndash; .NET Core project&rsquo;" ></p>
+
+<h3>Restoring Packages</h3>
+
+<p>NuGet packages will be restored automatically on opening a .NET Core project. This can be disabled in preferences by unchecking <strong>Automatically restore packages when opening a solution</strong> in the NuGet &ndash; General section.</p>
+
+<p>You can manually restore NuGet packages for .NET Core projects by:</p>
+
+<ul>
+<li>Right clicking the Dependencies folder and selecting Restore.</li>
+<li>Right clicking the NuGet folder and selecting Restore.</li>
+<li>Selecting Restore NuGet Packages from the Project menu.</li>
+</ul>
+
+
+<p>Selecting Restore NuGet Packages from the Project menu will restore packages for the project or the solution depending on what is currently selected in the Solution window.</p>
+
+<p>Restoring NuGet packages for a .NET Core project works differently compared with a project that uses a packages.config file. The NuGet packages themselves will be downloaded into the NuGet package cache folder ~/.nuget/packages if they do not exist, as before, but the NuGet packages will not be copied into a packages directory inside the solution&rsquo;s directory. The project file will not contain have any Reference items added when a NuGet package is installed.</p>
+
+<p>When a NuGet restore is run for a .NET Core project three files in the obj directory are created.</p>
+
+<ul>
+<li>project.assets.json</li>
+<li>ProjectName.csproj.nuget.g.props</li>
+<li>ProjectName.csproj.nuget.g.targets</li>
+</ul>
+
+
+<p>The project.assets.json file contains the dependencies for your project.</p>
+
+<p>The nuget.g.props and nuget.g.targets files will contain any MSBuild imports that your NuGet package requires and they also define some properties, such as the path to the NuGet package cache on your machine.</p>
+
+<p>These three files are used when building your project to resolve the assemblies to be referenced now that they are no longer explicitly stored in your project file.</p>
+
+<h3>Updating Packages</h3>
+
+<p>NuGet packages can be updated by:</p>
+
+<ul>
+<li>Right clicking the package inside the NuGet folder and selecting Update.</li>
+<li>Right clicking the NuGet folder and selecting Update.</li>
+<li>Right clicking the Dependencies folder and selecting Update.</li>
+<li>Selecting Update NuGet Packages from the Project menu.</li>
+</ul>
+
+
+<p>Selecting Update NuGet Packages from the Project menu will update all packages in the project or in the solution depending on what is currently selected in the Solution window.</p>
+
+<h3>Removing Multiple NuGet Packages in One Step</h3>
+
+<p>You can remove multiple NuGet packages in one step from a .NET Core project by selecting the packages in the Solution window, right clicking and selecting Remove.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectRemoveMultipleNuGetPackagesInSolutionWindow.png" title="&lsquo;Removing multiple NuGet packages in Solution window &ndash; .NET Core project&rsquo; &lsquo;Removing multiple NuGet packages in Solution window &ndash; .NET Core project&rsquo;" ></p>
+
+<p>Projects that use a packages.config file do not support removing multiple NuGet packages in one step.</p>
+
+<h3>Installing NuGet Packages</h3>
+
+<p>NuGet packages are installed by using the Add Packages dialog in the same way as with other project types. To open the Add Packages dialog for a .NET Core project:</p>
+
+<ul>
+<li>Right click the NuGet folder and select Add Packages&hellip;</li>
+<li>Right click the Dependencies folder and select Add Packages&hellip;</li>
+<li>Right click the project and select Add &ndash; Add NuGet Packages&hellip;</li>
+<li>From the Project menu select Add NuGet Packages&hellip;</li>
+</ul>
+
+
+<p>When the first NuGet package is installed into a .NET Core project a packages.config file will not be created. Instead the NuGet package will be added as a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> that is saved in the project file.</p>
+
+<h3>Package Reference</h3>
+
+<p>.NET Core projects do not use a packages.config file to record their NuGet dependencies. Instead the .NET Core project file will contain a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> after the NuGet package is installed into the project.</p>
+
+<p>```
+<Project Sdk="Microsoft.NET.Sdk"></p>
+
+<p>  <PropertyGroup></p>
+
+<pre><code>&lt;OutputType&gt;Exe&lt;/OutputType&gt;
+&lt;TargetFramework&gt;netcoreapp1.1&lt;/TargetFramework&gt;
+</code></pre>
+
+<p>  </PropertyGroup></p>
+
+<p>  <ItemGroup></p>
+
+<pre><code>&lt;PackageReference Include="Newtonsoft.Json" Version="10.0.2" /&gt;
+</code></pre>
+
+<p>  </ItemGroup>
+</Project>
+```</p>
+
+<p>Please note that Visual Studio for Mac currently only supports package references with the new SDK style projects which are used by .NET Core. If you use package references in other project types then the Solution window will not show the packages and a packages.config file will be created if you install a NuGet package.</p>
+
+<h3>Updated Packages Available</h3>
+
+<p>For other project types the Solution window will check for updated packages and show this information in the Packages folder. This is not currently supported with .NET Core projects.</p>
+
+<h2>NuGet 4.0 Support</h2>
+
+<p>Visual Studio for Mac now includes <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0</a>.</p>
+
+<p>More information on the new features provided by NuGet 4.&ndash; can be found in the <a href="http://blog.nuget.org/20170308/Announcing-NuGet-4.0-RTM.html">Announcing NuGet 4.0 RTM blog post</a> and the <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0 release notes</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.2]]></title>
@@ -653,135 +786,6 @@ but the package does not contain any assembly references or content files that a
 <p>The NuGet Package Explorer addin is available from the MonoDevelop addin repository on the beta channel. It can be installed by from the Add-in Manager by searching the gallery and then clicking the Install button.</p>
 
 <p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/AddinManagerDialog.png" title="&lsquo;Addin Manager dialog&rsquo; &lsquo;Addin Manager dialog&rsquo;" ></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[File Nesting in Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2016/07/24/FileNestingInXamarinStudio/"/>
-    <updated>2016-07-24T21:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2016/07/24/FileNestingInXamarinStudio</id>
-    <content type="html"><![CDATA[<p>With recent versions of Xamarin Studio it is not currently possible to nest files without directly editing the project file. In the past it was possible to drag and drop a file so it was then nested inside another file.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/SolutionWindowWithNestedFiles.png" title="&lsquo;Solution window with nested files in Xamarin Studio&rsquo; &lsquo;Solution window with nested files in Xamarin Studio&rsquo;" ></p>
-
-<p>Visual Studio also does not support nesting files by using drag and drop however
-<a href="http://madskristensen.net/">Mads Kristensen</a> created a <a href="https://visualstudiogallery.msdn.microsoft.com/3ebde8fb-26d8-4374-a0eb-1e4e2665070c">File Nesting extension</a> that adds support for manual and automatic nesting of files within Visual Studio. There is a <a href="https://channel9.msdn.com/Blogs/MadsKristensen/Introducing-File-Nestor-for-Visual-Studio">demo video of the File Nesting extension</a> that shows the extension being used with Visual Studio.
- This extension has now been ported to Xamarin Studio and is available from the <a href="http://addins.monodevelop.com/">MonoDevelop Add-in Repository</a>.</p>
-
-<p>Let us take a walkthrough of the features of the File Nesting addin for Xamarin Studio.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Manual file nesting</li>
-<li>Manual file un-nesting</li>
-<li>Automatic file nesting of selected files based on rules</li>
-<li>Automatic file nesting when files are added to a project</li>
-<li>Options to specify which file nesting rules are applied</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li>Xamarin Studio 6.0 or MonoDevelop 6.0.</li>
-</ul>
-
-
-<h2>Manual File Nesting</h2>
-
-<p>To manually nest a file select it in the Solution window then right click and select File Nesting &ndash; Nest Item&hellip;</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/NestItemContextMenu.png" title="&lsquo;Manual file nesting &ndash; nest item context menu&rsquo; &lsquo;Manual file nesting &ndash; nest item context menu&rsquo;" ></p>
-
-<p>This will open a file nesting dialog where the parent file can be selected.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/FileNestingDialog.png" title="&lsquo;File nesting dialog&rsquo; &lsquo;File nesting dialog&rsquo;" ></p>
-
-<p>Select the parent file and click OK to nest the file under that parent file.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/ManualFileNestingResultInSolutionWindow.png" title="&lsquo;Manual file nesting result in solution window&rsquo; &lsquo;Manual file nesting result in solution window&rsquo;" ></p>
-
-<p>You can also nest multiple files under a parent by selecting multiple files in the Solution window and selecting the Nest Item menu.</p>
-
-<h2>Manual File Un-nesting</h2>
-
-<p>To un-nest a file select it in the Solution window then right click and select File Nesting &ndash; Un-nest Item.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/UnNestItemContextMenu.png" title="&lsquo;Manual file nesting &ndash; un-nest item context menu&rsquo; &lsquo;Manual file nesting &ndash; un-nest item context menu&rsquo;" ></p>
-
-<p>The file will then be un-nested from its parent.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/ManualFileUnNestingResultInSolutionWindow.png" title="&lsquo;Manual file un-nesting result in solution window&rsquo; &lsquo;Manual file un-nesting result in solution window&rsquo;" ></p>
-
-<h2>Automatic Nesting Rules</h2>
-
-<p>The file nesting rules are available from the Preferences dialog.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/FileNestingRulesInPreferencesDialog.png" title="&lsquo;File nesting rules in preferences&rsquo; &lsquo;File nesting rules in preferences&rsquo;" ></p>
-
-<p>Each rule has a tooltip which will show more detailed information about what the rule does.</p>
-
-<h3>Enable auto-nesting</h3>
-
-<p>The Enable auto-nesting option will enable or disable automatic file nesting when a file is added to a project.</p>
-
-<h3>Enable extension rule</h3>
-
-<p>This rule will nest files added with an extra extension under their corresponding parent file. For example MyView.xaml.cs nests under MyView.xaml.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/NestedFileUsingExtensionRule.png" title="&lsquo;Nested file using extension rule&rsquo; &lsquo;Nested file using extension rule&rsquo;" ></p>
-
-<h3>Enable interface implementation rule</h3>
-
-<p>This nests C# interface implementations under the corresponding interface based on the filename. For example, if there is an interface file IMyInterface.cs then a new file called CustomMyInterface.cs will be nested under the IMyInterface file.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/NestedCSharpInterfaceFilesInSolutionWindow.png" title="&lsquo;Nested file using interface implementation rule&rsquo; &lsquo;Nested file using interface implementation rule&rsquo;" ></p>
-
-<h3>Enable known file type rule</h3>
-
-<p>This nests certain known files types. For example, MyPage.ts will be nested under MyPage.html.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/NestedFileUsingKnownFileTypeRule.png" title="&lsquo;Nested file using known file type rule&rsquo; &lsquo;Nested file using known file type rule&rsquo;" ></p>
-
-<h3>Enable path segment rule</h3>
-
-<p>This nests files with an added path segment under its parent. For example, MyFile.Designer.cs nests under MyFile.cs.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/NestedFileUsingPathSegmentRule.png" title="&lsquo;Nested file using path segment rule&rsquo; &lsquo;Nested file using path segment rule&rsquo;" ></p>
-
-<h2>Automatic Nesting of Selected Files</h2>
-
-<p>To automatically nest files, based on the enabled file nesting rules, select the files, or folder, or project, then right click and select File Nesting &ndash; Auto-nest selected items.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/AutoNestSelectedItemsContextMenu.png" title="&lsquo;Auto-nest selected items context menu&rsquo; &lsquo;Auto-nest selected items context menu&rsquo;" ></p>
-
-<p>This will then apply the enabled file nesting rules to the selected files.</p>
-
-<h2>Automatic File Nesting on Adding Files</h2>
-
-<p>To enable automatic file nesting when files are added right click the project and select File Nesting &ndash; Enable automatic nesting.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/EnableAutomaticNestingContextMenu.png" title="&lsquo;Enable automatic nesting context menu&rsquo; &lsquo;Enable automatic nesting context menu&rsquo;" ></p>
-
-<p>A check box will be displayed next to this menu item if this feature is enabled. Now when a file is added the enabled nesting rules will be applied and the file will be automatically nested.</p>
-
-<h2>Installation</h2>
-
-<p>The File Nesting addin is available from the <a href="http://addins.monodevelop.com/">MonoDevelop Add-in Repository</a> on the beta channel. To install the addin open the Add-in Manager, search for the File Nesting addin, then click the Install button.</p>
-
-<p><img src="/images/blog/FileNestingInXamarinStudio/FileNestingAddinSelectedInAddinManagerWindow.png" title="&lsquo;File Nesting addin in addin manager window&rsquo; &lsquo;File Nesting addin in addin manager window&rsquo;" ></p>
-
-<p>After installing the addin Xamarin Studio will need to be restarted for the addin to work correctly.</p>
-
-<h2>Source Code</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/FileNesting">File Nesting addin for Xamarin Studio and MonoDevelop</a></li>
-<li><a href="https://github.com/madskristensen/FileNesting">File Nesting extension for Visual Studio</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
