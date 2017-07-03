@@ -1,11 +1,33 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2015-11-28 11:30
+date: 2017-07-03 20:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.12.3
+
+2017-07-03
+
+ * Support Visual Studio for Mac 7.1.0.1178
+ * Support NuGet 4.3
+ * .NET Core projects supported in PowerShell console
+ * NuGet packaging projects supported in PowerShell console
+ * PackageReference projects supported in PowerShell console
+
+## Version 0.12.2
+
+2017-04-14
+
+ * Support Visual Studio for Mac 7.0.0.2740
+
+## Version 0.12.1
+
+2017-02-14
+
+ * Support Visual Studio for Mac preview 3
 
 ## Version 0.12
 
