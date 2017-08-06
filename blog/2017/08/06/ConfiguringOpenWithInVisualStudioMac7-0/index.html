@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Configuring Open With in Visual Studio for Mac 7.0 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Visual Studio on Windows can be configured to use a different editor to open a file. With Visual Studio for Mac, whilst you can open a file with a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2017/08/06/ConfiguringOpenWithInVisualStudioMac7-0">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Configuring Open With in Visual Studio for Mac 7.0</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-06T12:00:00+01:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Visual Studio on Windows can be <a href="https://msdn.microsoft.com/en-us/library/hy2sthf1.aspx">configured to use a different editor to open a file</a>. With Visual Studio for Mac, whilst you can open a file with a selection of editors and applications, it is not currently possible to change the default editor or add a custom application.</p>
+
+<p>The <a href="https://github.com/mrward/monodevelop-open-with-addin">Open With addin</a> provides an Open With dialog that allows you to change the default editor or application used to open a file in a similar way to how this is done in Visual Studio on Windows.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Supports changing the default editor used to open a file.</li>
+<li>Supports adding a custom application to open a file.</li>
+<li>Editor configuration is saved and will be available on restarting Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 7.0 or later.</li>
+</ul>
+
+
+<h2>Configuring the Default Editor or Application</h2>
+
+<p>To configure the application or editor used to open file you can right click the file in the Solution window and select Open With &ndash; Preferences&hellip;</p>
+
+<p><img src="/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/OpenWithPreferencesMenu.png" title="Open With - Preferences context menu" alt="Open With - Preferences context menu"></p>
+
+<p>This will open the Open With dialog.</p>
+
+<p><img src="/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/OpenWithDialog.png" title="Open With dialog" alt="Open With dialog"></p>
+
+<p>The editors and applications that support opening the file are displayed. The default application is indicated by having (Default) next to its name.</p>
+
+<p>To change the default application or editor used to open the file select it and then click the Set as Default button. Click OK to close the dialog and save the configuration.</p>
+
+<p>If a file is currently open then it will need to be closed before it is opened in the new default editor or application.</p>
+
+<h2>Adding a Custom Application</h2>
+
+<p>A custom application can be added to the list of applications shown in the Open With menu. First open the Open With dialog by selecting Open With &ndash; Preferences. Then click the Add button to open the Add Application dialog.</p>
+
+<p><img src="/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/AddApplicationDialog.png" title="Add Application dialog" alt="Add Application dialog"></p>
+
+<p>The Browse button can be used to find an application.</p>
+
+<p>The Friendly Name is the name that will be displayed in the Open With menu for the custom application.</p>
+
+<p>Arguments cannot be specified if a Mac application (.app) is used. However if the application is not a Mac application, for example, it is a C# program, then arguments can be passed. To pass the filename to the program you can use {0} in the Arguments text box. This placeholder will be expanded to be the full filename path when the program is run.</p>
+
+<h2>Removing a Custom Application</h2>
+
+<p>To remove a custom application for a file first open the Open With dialog by selecting Open With &ndash; Preferences. Select the application you want to remove. Then click the Remove button.</p>
+
+<p>The Remove button is only enabled for custom applications that you have added. The built-in editors and applications cannot be removed.</p>
+
+<h2>Installation</h2>
+
+<p>The Open With addin is available to download from <a href="https://github.com/mrward/monodevelop-open-with-addin/releases/download/0.1/MonoDevelop.OpenWith_0.1.mpack">GitHub</a>.</p>
+
+<p>To install the addin open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
+
+<p>The addin is also available from a <a href="https://github.com/mrward/monodevelop-addins">custom MonoDevelop 7.0 addin server</a>. It is not currently published to the main MonoDevelop addin server.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-open-with-addin">Open With addin for Visual Studio for Mac</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-06T12:00:00+01:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2017/08/06/ConfiguringOpenWithInVisualStudioMac7-0/" data-via="" data-counturl="http://lastexitcode.com/blog/2017/08/06/ConfiguringOpenWithInVisualStudioMac7-0/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0/" title="Previous Post: NuGet Support in Visual Studio for Mac 7.0">&laquo; NuGet Support in Visual Studio for Mac 7.0</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

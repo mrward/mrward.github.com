@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-06-04T13:30:59+01:00</updated>
+  <updated>2017-08-06T15:00:04+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Configuring Open With in Visual Studio for Mac 7.0]]></title>
+    <link href="http://lastexitcode.com/blog/2017/08/06/ConfiguringOpenWithInVisualStudioMac7-0/"/>
+    <updated>2017-08-06T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2017/08/06/ConfiguringOpenWithInVisualStudioMac7-0</id>
+    <content type="html"><![CDATA[<p>Visual Studio on Windows can be <a href="https://msdn.microsoft.com/en-us/library/hy2sthf1.aspx">configured to use a different editor to open a file</a>. With Visual Studio for Mac, whilst you can open a file with a selection of editors and applications, it is not currently possible to change the default editor or add a custom application.</p>
+
+<p>The <a href="https://github.com/mrward/monodevelop-open-with-addin">Open With addin</a> provides an Open With dialog that allows you to change the default editor or application used to open a file in a similar way to how this is done in Visual Studio on Windows.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Supports changing the default editor used to open a file.</li>
+<li>Supports adding a custom application to open a file.</li>
+<li>Editor configuration is saved and will be available on restarting Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 7.0 or later.</li>
+</ul>
+
+
+<h2>Configuring the Default Editor or Application</h2>
+
+<p>To configure the application or editor used to open file you can right click the file in the Solution window and select Open With &ndash; Preferences&hellip;</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/OpenWithPreferencesMenu.png" title="Open With - Preferences context menu" alt="Open With - Preferences context menu"></p>
+
+<p>This will open the Open With dialog.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/OpenWithDialog.png" title="Open With dialog" alt="Open With dialog"></p>
+
+<p>The editors and applications that support opening the file are displayed. The default application is indicated by having (Default) next to its name.</p>
+
+<p>To change the default application or editor used to open the file select it and then click the Set as Default button. Click OK to close the dialog and save the configuration.</p>
+
+<p>If a file is currently open then it will need to be closed before it is opened in the new default editor or application.</p>
+
+<h2>Adding a Custom Application</h2>
+
+<p>A custom application can be added to the list of applications shown in the Open With menu. First open the Open With dialog by selecting Open With &ndash; Preferences. Then click the Add button to open the Add Application dialog.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/AddApplicationDialog.png" title="Add Application dialog" alt="Add Application dialog"></p>
+
+<p>The Browse button can be used to find an application.</p>
+
+<p>The Friendly Name is the name that will be displayed in the Open With menu for the custom application.</p>
+
+<p>Arguments cannot be specified if a Mac application (.app) is used. However if the application is not a Mac application, for example, it is a C# program, then arguments can be passed. To pass the filename to the program you can use {0} in the Arguments text box. This placeholder will be expanded to be the full filename path when the program is run.</p>
+
+<h2>Removing a Custom Application</h2>
+
+<p>To remove a custom application for a file first open the Open With dialog by selecting Open With &ndash; Preferences. Select the application you want to remove. Then click the Remove button.</p>
+
+<p>The Remove button is only enabled for custom applications that you have added. The built-in editors and applications cannot be removed.</p>
+
+<h2>Installation</h2>
+
+<p>The Open With addin is available to download from <a href="https://github.com/mrward/monodevelop-open-with-addin/releases/download/0.1/MonoDevelop.OpenWith_0.1.mpack">GitHub</a>.</p>
+
+<p>To install the addin open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
+
+<p>The addin is also available from a <a href="https://github.com/mrward/monodevelop-addins">custom MonoDevelop 7.0 addin server</a>. It is not currently published to the main MonoDevelop addin server.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-open-with-addin">Open With addin for Visual Studio for Mac</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.0]]></title>
@@ -2232,110 +2308,6 @@ would update package dependencies correctly.</p>
 <p><strong>Pre-release NuGet package being downgraded on update</strong></p>
 
 <p>When a pre-release NuGet package was installed that was newer than the latest stable NuGet package available then updating the package would install the stable version even though it was a lower version. Now an explicit check is made to ensure that an older NuGet package is not being installed.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Installing Portable Class Libraries for Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2014/11/16/InstallingPortableClassLibrariesForXamarinStudio/"/>
-    <updated>2014-11-16T10:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2014/11/16/InstallingPortableClassLibrariesForXamarinStudio</id>
-    <content type="html"><![CDATA[<p>In order to use Portable Class Libraries (PCLs) with Xamarin Studio you need to have the following installed:</p>
-
-<ul>
-<li>Portable Class Library Reference Assemblies.</li>
-<li>Portable Class Library MSBuild targets.</li>
-<li>Xamarin&rsquo;s Portable Class Library Profiles.</li>
-</ul>
-
-
-<p>If you do not all of the above installed then you may run into the following problems when using Xamarin Studio.</p>
-
-<ol>
-<li>Unable to create a Portable Library project since the project template is not available.</li>
-<li><p>Unable to install a NuGet package, such as Json.NET, that contains PCL assemblies into an Android or iOS project. Example error message below:</p>
-
-<p>Could not install package &lsquo;Newtonsoft.Json 6.0.6&rsquo;. You are trying to install this package into a project that targets &lsquo;MonoAndroid,Version=v4.4&rsquo;, but the package does not contain any assembly references or content files that are compatible with that framework. For more information, contact the package author.</p></li>
-</ol>
-
-
-<p>On the Mac the Portable Class Libraries for Mono 3.10.0 are installed into the directory:</p>
-
-<pre><code>/Library/Frameworks/Mono.framework/Versions/3.10.0/lib/mono/xbuild-frameworks/.NETPortable
-</code></pre>
-
-<p>On Windows the Portable Class Libraries are installed into the directory:</p>
-
-<pre><code>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable
-</code></pre>
-
-<p>So let us take a look at how to install everything required to get PCLs fully supported within Xamarin Studio.</p>
-
-<h2>Mac &ndash; Installing Portable Class Libraries</h2>
-
-<p>The Portable Class Libraries are included with the <a href="http://www.mono-project.com/download/">Mono Development Kit (MDK)</a> but not with the Mono Runtime Environment (MRE). If you are installing Mono yourself instead of using Xamarin&rsquo;s Universal Installer then you will want to install the MDK instead of the MRE. The MDK includes the MRE as well as extra tools, libraries and the .NET Portable Class Library profiles.</p>
-
-<p>If Mono is updated from within Xamarin Studio using <strong>Check for updates</strong> then the MDK should be installed.</p>
-
-<h2>Windows &ndash; Installing Portable Class Libraries</h2>
-
-<p>Xamarin Studio on Windows uses Microsoft&rsquo;s .NET Framework instead of Mono so the Portable Class Libraries need to be installed separately. To install the Portable Class Libraries on Windows you have three options:</p>
-
-<ol>
-<li> Install Visual Studio 2013 (full or <a href="http://www.microsoft.com/en-us/download/details.aspx?id=43733">Express version</a>). Update 2 or above is required.</li>
-<li> Install the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a> and the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40727">Portable Library Reference Assemblies 4.6</a>.</li>
-<li> Install the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a> and copy the .NETPortable directory from Mono over to Windows.</li>
-</ol>
-
-
-<p>If you do not want to install Visual Studio 2013 then you should look at options 2 or 3.</p>
-
-<p>One problem with option 2 is that not all the .NET Portable profiles, such as Profile 259, will be installed. The full list of what .NET Portable profiles are installed by each of the installers listed above is available from the <a href="http://lastexitcode.com/projects/NuGet/PortableProfiles/">.NET Portable Profiles page</a></p>
-
-<p>Let us take a look in more detail at the option 2 since this has a few manual steps.</p>
-
-<p><strong>Windows &ndash; Installing the Portable Library Tools and the Portable Library Reference Assemblies 4.6</strong></p>
-
-<p>Before you start make sure Xamarin Studio is not running.</p>
-
-<p>Download the <a href="https://visualstudiogallery.msdn.microsoft.com/b0e0b5e9-e138-410b-ad10-00cb3caf4981/">Portable Library Tools</a>.</p>
-
-<p>To install the Portable Library Tools open a command prompt where PortableLibraryTools.exe was downloaded and run:</p>
-
-<pre><code>PortableLibraryTools /buildmachine
-</code></pre>
-
-<p>Download the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40727">Portable Library Reference Assemblies 4.6</a> and run the NetFx_PortableLibraryReferenceAssemblies46.msi installer. This will install a PortableReferenceAssemblies.zip file into the directory:</p>
-
-<pre><code>C:\Program Files (x86)\Microsoft .NET Portable Library Reference Assemblies 4.6
-</code></pre>
-
-<p>This PortableReferenceAssemblies.zip file contains three directories (4.0, 4.5 and 4.6) which need to be extracted and copied into the PCLs directory:</p>
-
-<pre><code> C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable
-</code></pre>
-
-<p>The PortableReferenceAssemblies.zip file contains files which already exist in the above folder and you should replace the existing files with the new versions from the .zip file.</p>
-
-<p>If you installed Xamarin Studio before you installed the Portable Class Libraries you will now need to reinstall the Xamarin PCL profiles. The Xamarin PCL profiles will only be installed if the Portable Class Libraries were already installed. The simplest way to do this is to find <strong>Xamarin</strong> in the Control Panel&rsquo;s <strong>Programs and Features</strong>, right click it and select <strong>Repair</strong>.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/InstallingPortableClassLibrariesForXamarinStudio/AddRemoveProgramsRepairXamarinInstall.png" title="Repairing Xamarin in Programs and Features" alt="Repairing Xamarin in Programs and Features"></p>
-
-<p>This will add a set of Xamarin .xml files into the profiles that are compatible with the Xamarin frameworks. For example looking at the Profile78 directory we see:</p>
-
-<pre><code>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\Profile\Profile78\SupportedFrameworks
-</code></pre>
-
-<ul>
-<li>.NET Framework 4.5.xml</li>
-<li>Windows 8.xml</li>
-<li>Windows Phone Silverlight 8.xml</li>
-<li>Xamarin.Android.xml</li>
-<li>Xamarin.iOS.xml</li>
-</ul>
-
-
-<p>Now you should have full support for Portable Class Libraries in Xamarin Studio.</p>
 ]]></content>
   </entry>
   

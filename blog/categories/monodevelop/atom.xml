@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-06-04T13:30:59+01:00</updated>
+  <updated>2017-08-06T15:00:04+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Configuring Open With in Visual Studio for Mac 7.0]]></title>
+    <link href="http://lastexitcode.com/blog/2017/08/06/ConfiguringOpenWithInVisualStudioMac7-0/"/>
+    <updated>2017-08-06T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2017/08/06/ConfiguringOpenWithInVisualStudioMac7-0</id>
+    <content type="html"><![CDATA[<p>Visual Studio on Windows can be <a href="https://msdn.microsoft.com/en-us/library/hy2sthf1.aspx">configured to use a different editor to open a file</a>. With Visual Studio for Mac, whilst you can open a file with a selection of editors and applications, it is not currently possible to change the default editor or add a custom application.</p>
+
+<p>The <a href="https://github.com/mrward/monodevelop-open-with-addin">Open With addin</a> provides an Open With dialog that allows you to change the default editor or application used to open a file in a similar way to how this is done in Visual Studio on Windows.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Supports changing the default editor used to open a file.</li>
+<li>Supports adding a custom application to open a file.</li>
+<li>Editor configuration is saved and will be available on restarting Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 7.0 or later.</li>
+</ul>
+
+
+<h2>Configuring the Default Editor or Application</h2>
+
+<p>To configure the application or editor used to open file you can right click the file in the Solution window and select Open With &ndash; Preferences&hellip;</p>
+
+<p><img src="/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/OpenWithPreferencesMenu.png" title="&lsquo;Open With &ndash; Preferences context menu&rsquo; &lsquo;Open With &ndash; Preferences context menu&rsquo;" ></p>
+
+<p>This will open the Open With dialog.</p>
+
+<p><img src="/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/OpenWithDialog.png" title="&lsquo;Open With dialog&rsquo; &lsquo;Open With dialog&rsquo;" ></p>
+
+<p>The editors and applications that support opening the file are displayed. The default application is indicated by having (Default) next to its name.</p>
+
+<p>To change the default application or editor used to open the file select it and then click the Set as Default button. Click OK to close the dialog and save the configuration.</p>
+
+<p>If a file is currently open then it will need to be closed before it is opened in the new default editor or application.</p>
+
+<h2>Adding a Custom Application</h2>
+
+<p>A custom application can be added to the list of applications shown in the Open With menu. First open the Open With dialog by selecting Open With &ndash; Preferences. Then click the Add button to open the Add Application dialog.</p>
+
+<p><img src="/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/AddApplicationDialog.png" title="&lsquo;Add Application dialog&rsquo; &lsquo;Add Application dialog&rsquo;" ></p>
+
+<p>The Browse button can be used to find an application.</p>
+
+<p>The Friendly Name is the name that will be displayed in the Open With menu for the custom application.</p>
+
+<p>Arguments cannot be specified if a Mac application (.app) is used. However if the application is not a Mac application, for example, it is a C# program, then arguments can be passed. To pass the filename to the program you can use {0} in the Arguments text box. This placeholder will be expanded to be the full filename path when the program is run.</p>
+
+<h2>Removing a Custom Application</h2>
+
+<p>To remove a custom application for a file first open the Open With dialog by selecting Open With &ndash; Preferences. Select the application you want to remove. Then click the Remove button.</p>
+
+<p>The Remove button is only enabled for custom applications that you have added. The built-in editors and applications cannot be removed.</p>
+
+<h2>Installation</h2>
+
+<p>The Open With addin is available to download from <a href="https://github.com/mrward/monodevelop-open-with-addin/releases/download/0.1/MonoDevelop.OpenWith_0.1.mpack">GitHub</a>.</p>
+
+<p>To install the addin open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
+
+<p>The addin is also available from a <a href="https://github.com/mrward/monodevelop-addins">custom MonoDevelop 7.0 addin server</a>. It is not currently published to the main MonoDevelop addin server.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-open-with-addin">Open With addin for Visual Studio for Mac</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.0]]></title>
@@ -695,97 +771,6 @@ even though the NuGet packages may be available in the local NuGet cache on your
 points to a local directory containing all the required NuGet packages and disable all online
 NuGet package sources. With just the local package source enabled you can then restore the NuGet packages when you are
 offline. Note that this problem also affects Visual Studio 2015.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Package Explorer for Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio/"/>
-    <updated>2016-08-20T12:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio</id>
-    <content type="html"><![CDATA[<p>When diagnosing why a NuGet package cannot be installed into a project the application I use is the excellent <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a>. Whenever there is an error trying to install a NuGet package, similar to the one shown below, you can open the NuGet package with NuGet Package Explorer and take a look at the target frameworks it supports.</p>
-
-<pre><code>You are trying to install this package into a project that targets 'MonoAndroid,Version=v6.0',
-but the package does not contain any assembly references or content files that are compatible with that framework.
-</code></pre>
-
-<p>Currently <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a> is only available on Windows. On other operating systems you can change the file extension to .zip, extract the contents of the NuGet package, or open it into a zip application, and take a look at the files.</p>
-
-<p>To make exploring NuGet packages easier on operating systems where the NuGet Package Explorer application is not available there is a now <a href="https://github.com/mrward/monodevelop-nuget-package-explorer">NuGet Explorer addin</a> that you can install into Xamarin Studio or MonoDevelop. With this addin you can open and explore NuGet packages from online package sources or from the local file system.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingAndroidSupportNuGetPackageContents.png" title="&lsquo;Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio&rsquo; &lsquo;Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio&rsquo;" ></p>
-
-<p>Now let us take a look in more detail of the features provided by the NuGet Package Explorer addin.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Open and view NuGet packages from online package sources or from the local file system.</li>
-<li>View the NuGet package metadata.</li>
-<li>View the NuGet package files.</li>
-<li>View the NuGet package .nuspec file.</li>
-<li>Open any file stored inside the NuGet package.</li>
-<li>Open other NuGet packages that are listed as dependencies.</li>
-</ul>
-
-
-<p>Supports Xamarin Studio 6.0 and MonoDevelop 6.0.</p>
-
-<h2>Opening a NuGet Package from a Package Source</h2>
-
-<p>To open a NuGet package from a package source you can select Open NuGet Package from the File menu.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/FileOpenNuGetPackageMenu.png" title="&lsquo;File Open NuGet Package menu&rsquo; &lsquo;File Open NuGet Package menu&rsquo;" ></p>
-
-<p>Alternatively if you have a project open you can right click the Packages folder in the Solution window and select Open NuGet Package.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenNuGetPackagePackagesFolderMenu.png" title="&lsquo;Open Package menu on Packages folder&rsquo; &lsquo;Open Package menu on Packages folder&rsquo;" ></p>
-
-<p>This will open the Open Package dialog. This dialog is the same as the Add Packages dialog used when installing a NuGet package and allows you to search for NuGet packages. The dialog is based on the version available with Xamarin Studio 6.1 so it has a version combo box where you can select a specific package version instead of having to remember the syntax for the package version search.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenPackageDialog.png" title="&lsquo;Open NuGet Package dialog&rsquo; &lsquo;Open Package dialog&rsquo;" ></p>
-
-<p>Select one or more NuGet packages and click the Open Package button to download and display them in Xamarin Studio.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageContents.png" title="&lsquo;Exploring the JSON.NET NuGet package in Xamarin Studio&rsquo; &lsquo;Exploring the JSON.NET NuGet package in Xamarin Studio&rsquo;" ></p>
-
-<p>The NuGet package metadata is shown on the left. On the right are the files that the NuGet package contains. You can also view the .nuspec file stored in the NuGet package by selecting the NuSpec tab at the bottom of the window.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetNuSpec.png" title="&lsquo;Viewing JSON.NET .nuspec file&rsquo; &lsquo;Viewing JSON.NET .nuspec file&rsquo;" ></p>
-
-<h2>Exploring Dependencies</h2>
-
-<p>NuGet package dependencies are displayed with hyperlinks.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageDependencies.png" title="&lsquo;Viewing JSON.NET dependencies&rsquo; &lsquo;Viewing JSON.NET dependencies" ></p>
-
-<p>If you click one these hyperlinks the Open Package dialog will be opened and the package will be searched for. You can then choose a package version and open the NuGet package.</p>
-
-<h2>Opening Files Contained Inside the NuGet Package</h2>
-
-<p>To open a file contained inside a NuGet package you can double click the file, or right click the file and select Open.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenFileInsideNuGetPackageMenu.png" title="&lsquo;Open menu to open file inside NuGet package into Xamarin Studio&rsquo; &lsquo;Open menu to open file inside NuGet package into Xamarin Studio&rsquo;" ></p>
-
-<p>The file will then be opened inside Xamarin Studio.</p>
-
-<h2>Opening a NuGet Package File</h2>
-
-<p>If you have a NuGet Package (.nupkg) stored on the local machine that is not available from any package source you can open the file directly in Xamarin Studio by selecting Open from the File menu.</p>
-
-<p>You can also associate .nupkg files directly with Xamarin Studio and have them automatically open inside the IDE.</p>
-
-<h2>Opening a NuGet Package Installed in a Project</h2>
-
-<p>You can explore NuGet packages that are installed in your project by right clicking the package in the Solution window and selecting Open Package.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenInstalledPackageMenu.png" title="&lsquo;Open installed package context menu&rsquo; &lsquo;Open installed package context menu&rsquo;" ></p>
-
-<h2>Installing the NuGet Package Explorer addin</h2>
-
-<p>The NuGet Package Explorer addin is available from the MonoDevelop addin repository on the beta channel. It can be installed by from the Add-in Manager by searching the gallery and then clicking the Install button.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/AddinManagerDialog.png" title="&lsquo;Addin Manager dialog&rsquo; &lsquo;Addin Manager dialog&rsquo;" ></p>
 ]]></content>
   </entry>
   
