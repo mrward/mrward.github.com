@@ -12,6 +12,7 @@ footer: true
  * [MonoDevelop NuGet Addin](MonoDevelopNuGetAddin/)
  * [MonoDevelop NuGet Addin Extensions](MonoDevelopNuGetAddinExtensions/)
  * [MonoDevelop NuGet Package Explorer](MonoDevelopNuGetPackageExplorer/)
+ * [MonoDevelop Open With Addin](MonoDevelopOpenWithAddin/)
  * [MonoDevelop Paket Addin](MonoDevelopPaketAddin/)
  * [MonoDevelop PowerShell Addin](MonoDevelopPowerShellAddin/)
  * [MonoDevelop TypeScript Addin](MonoDevelopTypeScriptAddin/) 
