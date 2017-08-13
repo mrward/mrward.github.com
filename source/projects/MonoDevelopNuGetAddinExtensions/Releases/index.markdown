@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2017-07-03 20:00
+date: 2017-08-13 15:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.12.4
+
+2017-08-13
+
+ * Support Visual Studio for Mac 7.2.0.526
+ * Increase height of Select Projects dialog
 
 ## Version 0.12.3
 
