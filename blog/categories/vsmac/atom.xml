@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-08-06T15:00:04+01:00</updated>
+  <updated>2017-08-23T21:47:34+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,153 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.1]]></title>
+    <link href="http://lastexitcode.com/blog/2017/08/23/NetCoreSupportInVisualStudioMac7-1/"/>
+    <updated>2017-08-23T21:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2017/08/23/NetCoreSupportInVisualStudioMac7-1</id>
+    <content type="html"><![CDATA[<h2>New Features</h2>
+
+<ul>
+<li> .NET Core 2.0 support</li>
+<li> Target framework selection for new projects</li>
+<li> New project templates</li>
+<li> .NET Core Runtimes and SDKs displayed in About Dialog</li>
+<li> Improved support for multi target framework projects</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.1</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-august-14-2017---visual-studio-for-mac-7101297">release notes</a>.</p>
+
+<h2>.NET Core 2.0 Support</h2>
+
+<p>Visual Studio for Mac 7.1 adds support for <a href="https://blogs.msdn.microsoft.com/dotnet/2017/08/14/announcing-net-core-2-0/">.NET Core 2.0</a> and .NET Standard 2.0.</p>
+
+<p>The .NET Core 2.0 SDK needs to be <a href="https://www.microsoft.com/net/download/core">installed</a> separately.</p>
+
+<h2>Target Framework Selection for New Projects</h2>
+
+<p>If a project template supports multiple target frameworks, and the corresponding framework is available, then the New Project dialog will allow the framework to be selected before the project is created.</p>
+
+<p><img src="/images/blog/DotNetCoreSupportInVisualStudioMac7-1/NewNetCoreProjectTargetFrameworkSelection.png" title="&lsquo;New .NET Core target framework selection&rsquo; &lsquo;New .NET Core target framework selection&rsquo;" ></p>
+
+<p>Visual Studio for Mac includes project templates for .NET Core 1.0, 1.1 and 2.0 as well as for .NET Standard versions 1.0 through to 2.0.</p>
+
+<p>To be able to create projects that target .NET Core 2.0 or .NET Standard 2.0 the .NET Core 2.0 SDK needs to be installed.</p>
+
+<h2>New Project Templates</h2>
+
+<p>The following project templates have been added:</p>
+
+<ul>
+<li>ASP.NET Core Web App (Razor Pages)
+
+<ul>
+<li>Available if .NET Core 2.0 SDK is installed.</li>
+</ul>
+</li>
+<li>Class Library
+
+<ul>
+<li>Targets .NET Core instead of .NET Standard.</li>
+</ul>
+</li>
+<li>MSTest</li>
+</ul>
+
+
+<p>Some project templates do not support all the target framework versions.
+For example, the ASP.NET Core Web App (Razor Pages) only supports
+.NET Core 2.0, so this template will only be displayed if .NET Core 2.0 SDK
+is installed.</p>
+
+<p>The F# project templates have some restrictions on what target frameworks
+they support. The F# .NET Standard project templates do not
+support selecting .NET Standard versions below 1.6. The F# Class Library project
+only supports .NET Core 2.0.</p>
+
+<h2>.NET Core Runtime and SDKs displayed in About Dialog</h2>
+
+<p>The About dialog will now display the .NET Core runtimes and SDKs that are installed on
+the local machine.</p>
+
+<p><img src="/images/blog/DotNetCoreSupportInVisualStudioMac7-1/NetCoreInformationAboutDialog.png" title="&lsquo;.NET Core runtime and SDK information in About dialog&rsquo; &lsquo;.NET Core runtime and SDK information in About dialog&rsquo;" ></p>
+
+<h2>Improved Support for Multi Target Framework Projects</h2>
+
+<p>SDK style projects that target multiple frameworks can now be opened in Visual Studio for
+Mac 7.1 and will show source files as well as NuGet package dependencies.</p>
+
+<p>The project will be treated as though it only has
+one target framework which is the first one specified in the
+TargetFrameworks property in the project file.</p>
+
+<p>Please note that currently the support for multiple target frameworks is limited in
+comparison with Visual Studio on Windows.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>ASP.NET Core Web API project does not open API url on launching browser</strong></p>
+
+<p>When an ASP.NET Core Web API project was run it would open a blank web
+page in the browser instead of a page that showed the api values. Now when a new ASP.NET
+Core Web API project is run the <code>http://localhost:&lt;port&gt;/api/values</code> url is launched in
+the browser so the API values will be displayed.</p>
+
+<p><strong>Unable to run or debug ASP.NET Core project with empty SDK directory</strong></p>
+
+<p>If there was an empty directory inside the .NET Core SDK directory <code>/usr/local/share/dotnet/sdk</code> then it was
+not possible to run or debug an ASP.NET Core web project</p>
+
+<p>If the .NET Core SDK MSBuild files were not found in the SDK directory then the
+project&rsquo;s OutputType was not read and would result in the project being treated
+as a library project. This could also occur if only
+the .NET Core runtime is installed.</p>
+
+<p><strong>Shared project files shown for .NET Core project in Solution window</strong></p>
+
+<p>When a .NET Core project referenced a shared assets project the files
+from the shared project were incorrectly being displayed in the .NET Core project in
+the Solution window.</p>
+
+<p><strong>Fix generated code for resource files in .NET Core projects</strong></p>
+
+<p>Adding a resx file to a .NET Core 1.x or .NET Standard 1.x project would result in
+code being generated that could not be compiled.</p>
+
+<p>Projects that target .NET Core App 1.0, 1.1, or .NET Standard below version 2.0
+cannot compile code that uses <code>typeof(Resources).Assembly</code> which was
+being generated by the ResXFileCodeGenerator. If these target frameworks
+are used by the project then the code generated by Visual Studio for Mac
+will now use <code>typeof(Resources).GetTypeInfo().Assembly</code> which is supported.</p>
+
+<p>.NET Core 2.0 and .NET Standard 2.0 do not need to use GetTypeInfo so the
+code generated for these frameworks has not been changed.</p>
+
+<p><strong>Fix new resource file not added as Update item in Sdk projects</strong></p>
+
+<p>Adding a new resource file to a .NET Core project would add the
+.resx file and the .Designer.cs file as Include items instead of an
+Update items.</p>
+
+<pre><code>&lt;ItemGroup&gt;
+  &lt;EmbeddedResource Include="Resources.resx"&gt;
+    &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
+    &lt;LastGenOutput&gt;Resources.Designer.cs&lt;/LastGenOutput&gt;
+  &lt;/EmbeddedResource&gt;
+&lt;/ItemGroup&gt;
+&lt;ItemGroup&gt;
+  &lt;Compile Include="Resources.Designer.cs"&gt;
+    &lt;DependentUpon&gt;Resources.resx&lt;/DependentUpon&gt;
+  &lt;/Compile&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
+
+<p>This then caused the build to fail since these files are already included by
+the .NET Core SDK.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Configuring Open With in Visual Studio for Mac 7.0]]></title>
