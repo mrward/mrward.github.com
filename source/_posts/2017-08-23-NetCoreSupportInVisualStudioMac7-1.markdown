@@ -1,7 +1,7 @@
 ---
 layout: post
 title: ".NET Core Support in Visual Studio for Mac 7.1"
-date: 2017-08-21 21:00
+date: 2017-08-23 21:00
 comments: true
 categories: NETCore Xamarin VSMac MonoDevelop
 ---
