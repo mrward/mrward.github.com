@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="New Features .NET Core 2.0 support Target framework selection for new projects New project templates .NET Core Runtimes and SDKs displayed in About &hellip;">
+  <meta name="description" content="New Features NuGet 4.3 support Support PackageReference in non .NET Core projects Enable file template when a NuGet package is installed More &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,158 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/08/26/NuGetSupportInVisualStudioMac7-1/">NuGet Support in Visual Studio for Mac 7.1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-26T14:00:00+01:00" pubdate data-updated="true">Aug 26<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>New Features</h2>
+
+<ul>
+<li> NuGet 4.3 support</li>
+<li> Support PackageReference in non .NET Core projects</li>
+<li> Enable file template when a NuGet package is installed</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.1</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-august-14-2017---visual-studio-for-mac-7101297">release notes</a>.</p>
+
+<h2>NuGet 4.3 Support</h2>
+
+<p>NuGet 4.3.0.2418 is now included with Visual Studio for Mac 7.1.</p>
+
+<p>This version of NuGet adds support for .NET Core 2.0 and .NET Standard 2.0
+target frameworks.</p>
+
+<h2>Support PackageReference in non .NET Core projects</h2>
+
+<p>Non .NET Core Sdk style projects that use a PackageReference MSBuild item are now supported.</p>
+
+<pre><code>&lt;PackageReference Include="Newtonsoft.Json"&gt;
+  &lt;Version&gt;10.0.1&lt;/Version&gt;
+&lt;/PackageReference&gt;
+</code></pre>
+
+<p>In Visual Studio for Mac 7.0 the Solution
+window would not show any packages for the project, would not allow
+the packages to be restored, and would create a packages.config file when installing
+a NuGet package even though the project was using PackageReferences.</p>
+
+<p>Now if the project has a PackageReference the Packages folder
+shows the installed packages and can be used to update or install
+NuGet packages which will also create PackageReference MSBuild items.</p>
+
+<p>If the project has no PackageReferences then by default a
+packages.config file will be created when a NuGet package is installed.</p>
+
+<p>Currently it is not possible to opt-in to using PackageReferences by default.
+So the project file will need to be edited in the text editor to include at
+least one PackageReference before the default behaviour of using a packages.config
+file is overridden.</p>
+
+<h2>Enable file template when a NuGet package is installed</h2>
+
+<p>A file template can now specify that it should be enabled if the project
+has a specific reference or has a specific NuGet package installed.
+Previously it was only possible to enable a file template based on the
+references defined in the project file.</p>
+
+<pre><code>&lt;HasPackageOrReference PackageId="Xamarin.Forms" Assembly="Xamarin.Forms" /&gt;
+</code></pre>
+
+<p>Whilst a reference will work for projects that use a packages.config
+file, if the project uses a project.json file or PackageReferences
+then checking the references defined in the project would not find any matches and
+the file template would not be enabled.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Do not require description when creating a new NuGet package project</strong></p>
+
+<p>When creating a NuGet package project or a multiplatform project the description
+needed to be specified in the New Project dialog.</p>
+
+<p>To simplify the project creation
+process the package id is used as the description by default. As you type the
+package id into the New Project dialog the description text
+box will be updated. The description can be changed to be different
+to the package id if required.</p>
+
+<p><strong>Fix being unable to load NuGet Package Project created by Visual Studio on Windows</strong></p>
+
+<p>Visual Studio on Windows creates a NuGet package project (.nuproj)
+with no target framework version which resulted in 4.0 being used by
+default in Visual Studio for Mac. This would cause the project to fail to
+load in Visual Studio for Mac since it was checking for 4.5 or later.</p>
+
+<p><strong>Fix no packages shown in Packages folder for NuGet Package Projects</strong></p>
+
+<p>Opening a previously created NuGet package project (.nuproj) would show no
+packages in the Packages folder.</p>
+
+<p>The problem was that the PackageReference project item was defined by
+both the NuGet addin and the Packaging addin. The NuGet addin&rsquo;s PackageReference
+project item was used instead of the one defined by the Packaging addin so no
+package references were found for the NuGet package project.</p>
+
+<p><strong>Fix NuGet Package Project&rsquo;s MSBuild targets not being created</strong></p>
+
+<p>If the NuGet package project&rsquo;s generated .nuget.targets or .nuget.props are missing
+then these are now created on opening the solution if
+automatic restore is enabled.</p>
+
+<p><strong>Fix being unable to package .NET Standard projects</strong></p>
+
+<p>A NuGet package project that referenced an Sdk style .NET Standard project
+would fail to build the NuGet package. The build would fail with an error:</p>
+
+<pre><code>Error: Project targets '.NETStandard,Version=v1.4'. It cannot be
+referenced by a project that targets 'NuGet,Version=v1.0'
+</code></pre>
+
+<p>Updating to a more recent NuGet.Build.Packaging NuGet
+package, such as version 0.1.276, fixes this problem.</p>
+
+<p><strong>NuGet Package project treated as .NET Core project</strong></p>
+
+<p>NuGet package projects (.nuproj) that use the NuGet.Build.Packaging
+0.1.276 NuGet package define a TargetFramework property in an
+imported MSBuild .props file. This was causing the project to
+be treated as a .NET Core project by Visual Studio for Mac. This caused
+the Dependencies folder to be displayed and the References folder
+to be removed. Visual Studio for Mac now checks the project has the
+Sdk attribute instead of looking at the MSBuild properties defined
+by the project when determining the project type.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1520,147 +1672,6 @@ but the package does not contain any assembly references or content files that a
 <li> <a href="http://xunit.github.io/docs/getting-started-dotnet-core.html">Getting started with xUnit.net (.NET Core / ASP.NET Core)</a></li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/06/12/NuGetSupportInXamarinStudio6-0/">NuGet Support in Xamarin Studio 6.0</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-06-12T14:00:00+01:00" pubdate data-updated="true">Jun 12<sup>th</sup>, 2016</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Xamarin Studio 6.0 was released last week and it includes a lot of <a href="https://blog.xamarin.com/live-from-dotnetconf-cycle-7-xamarin-studio-6-and-more/">new features</a>, such as a new dark theme and <a href="https://github.com/dotnet/roslyn">Roslyn integration</a>. This release also includes some improvements made to the NuGet support.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio6-0/AddPackagesDialogDarkTheme.png" title="Add Packages Dialog - Dark Theme" alt="Add Packages Dialog - Dark Theme"></p>
-
-<h2>New Features</h2>
-
-<ul>
-<li> Support NuGet packages targeting tvOS.</li>
-<li> Support updating pre-release NuGet packages.</li>
-<li> Show updates available for pre-release NuGet packages.</li>
-<li> Remember Show pre-release Packages setting in Add Packages dialog.</li>
-<li> Error dialog displayed if NuGet.Config file cannot be read.</li>
-</ul>
-
-
-<p>More information on all the changes in Xamarin Studio 6.0 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.0/xamarin.studio_6.0/">release notes</a>.</p>
-
-<h2>Support NuGet packages targeting watchOS</h2>
-
-<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
-
-<h2>Support updating pre-release NuGet packages</h2>
-
-<p>Previously it was not possible to update a pre-release NuGet package to a later pre-release  from the Solution window, only updates to stable NuGet packages were supported. The only way to update to a later pre-release NuGet package was to use the Add Packages dialog.</p>
-
-<p>Now an individual pre-release NuGet package can be updated by right clicking and selecting Update. When all packages in a project or solution are updated then pre-release NuGet packages will be updated to a later pre-release version if they are available.</p>
-
-<h2>Show updates available for pre-release NuGet packages</h2>
-
-<p>Previously Xamarin Studio would only show stable NuGet package updates as being available if a pre-release NuGet package was installed. Now Xamarin Studio will check for updates for pre-release NuGet packages as well as stable packages and display this information in the Solution window.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio6-0/PreReleaseNuGetPackageUpdatesInSolutionWindow.png" title="Pre-release NuGet package updates in Solution window" alt="Pre-release NuGet package updates in Solution window"></p>
-
-<p>Only if an installed NuGet package is a pre-release version will pre-release updates be shown as available in the Solution window. Xamarin Studio will not check for pre-release updates for stable NuGet package versions that are installed.</p>
-
-<h2>Remember Show pre-release Packages setting in Add Packages dialog</h2>
-
-<p>The Show pre-release Packages check box setting will now be remembered in the Add Packages dialog on a per solution basis.</p>
-
-<h2>Error dialog displayed if the NuGet.Config file cannot be read</h2>
-
-<p>Previously if the NuGet.Config file could not be read the error would
-be silently logged, but not reported, and Xamarin Studio would
-then switch to using the default official NuGet package source. Now an error
-dialog is shown indicating that there was a problem reading the
-NuGet.Config file.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Support NuGet packages that use icons from local files</strong></p>
-
-<p>A NuGet package can now use an icon, which will be shown in the Add Packages
-dialog, taken from the local file system using a file url. Previously this would fail with an invalid cast exception.</p>
-
-<p><strong>Incorrect update count displayed after updating NuGet packages.</strong></p>
-
-<p>When an update caused a NuGet package to be uninstalled the Packages
-folder in the Solution window would show an incorrect count for the available updates.</p>
-
-<p><strong>NuGet restore and update not working for workspaces</strong></p>
-
-<p>With a workspace opened, or multiple solutions opened in Xamarin Studio, then restoring and updating NuGet packages would only work for one of the solutions.</p>
-
-<p><strong>Unable to add Google Play Services packages</strong></p>
-
-<p>The Xamarin.Android.Support.v7.AppCompat NuGet package depends on
-a single version of the Xamarin.Android.Support.v4 NuGet package.
-When a Xamarin Google Play Services NuGet package is installed
-that depends on a higher version of the Xamarin.Android.Support.v4
-NuGet package the install would fail to find a version of the
-AppCompat NuGet package that is compatible. An error similar to the
-following would be displayed in the Package Console window:</p>
-
-<pre><code>Could not add Xamarin.GooglePlayServices.Ads.
-Updating 'Xamarin.Android.Support.v4 23.1.1.0' to
-'Xamarin.Android.Support.v4 23.1.1.1' failed. Unable to find a version
-of 'Xamarin.Android.Support.v7.AppCompat' that is compatible with
-'Xamarin.Android.Support.v4 23.1.1.1'.
-</code></pre>
-
-<p>The problem was that the AppCompat NuGet package is not involved
-in the initial NuGet package resolution using the remote package
-source so it is initially not considered for installation into the
-packages directory. When a package reference is then added to the
-packages.config file a search for a compatible AppCompat package was
-only using the local solution&rsquo;s packages directory which fails causing
-the install to fail.</p>
-
-<p>To fix this the local solution packages directory is used first
-when looking for a compatible AppCompat NuGet package and will
-fallback to using the configured remote package sources if no suitable package
-is found in this directory. To handle a package being added to the
-packages.config at this point, after the original NuGet packages have
-already been downloaded to the solution&rsquo;s packages directory, Xamarin Studio will detect a package is added to the packages.config file and install the NuGet package if it is not
-already in the local solution packages directory.</p>
-
-<p><strong>Incorrect package version being installed</strong></p>
-
-<p>When installing a NuGet package using the Google Play Services dialog a package version is not specified by the dialog. If the NuGet package being installed was found in the local machine&rsquo;s NuGet cache it would be used instead of the latest version from the official NuGet gallery at nuget.org. This could result in a lower version being installed than expected.</p>
-
-<p><strong>MSBuild property files (.props) not being added at correct project location</strong></p>
-
-<p>Installing a NuGet package that included an MSBuild .props file would
-add an Import element for the .props at the end of the project file
-(.csproj) instead of at the start. The .props files are now added to the project
-file as the first child element inside the project&rsquo;s root element.</p>
 </div>
   
   

@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 7.1 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="New Features NuGet 4.3 support Support PackageReference in non .NET Core projects Enable file template when a NuGet package is installed More &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2017/08/26/NuGetSupportInVisualStudioMac7-1">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 7.1</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-26T14:00:00+01:00" pubdate data-updated="true">Aug 26<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>New Features</h2>
+
+<ul>
+<li> NuGet 4.3 support</li>
+<li> Support PackageReference in non .NET Core projects</li>
+<li> Enable file template when a NuGet package is installed</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.1</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-august-14-2017---visual-studio-for-mac-7101297">release notes</a>.</p>
+
+<h2>NuGet 4.3 Support</h2>
+
+<p>NuGet 4.3.0.2418 is now included with Visual Studio for Mac 7.1.</p>
+
+<p>This version of NuGet adds support for .NET Core 2.0 and .NET Standard 2.0
+target frameworks.</p>
+
+<h2>Support PackageReference in non .NET Core projects</h2>
+
+<p>Non .NET Core Sdk style projects that use a PackageReference MSBuild item are now supported.</p>
+
+<pre><code>&lt;PackageReference Include="Newtonsoft.Json"&gt;
+  &lt;Version&gt;10.0.1&lt;/Version&gt;
+&lt;/PackageReference&gt;
+</code></pre>
+
+<p>In Visual Studio for Mac 7.0 the Solution
+window would not show any packages for the project, would not allow
+the packages to be restored, and would create a packages.config file when installing
+a NuGet package even though the project was using PackageReferences.</p>
+
+<p>Now if the project has a PackageReference the Packages folder
+shows the installed packages and can be used to update or install
+NuGet packages which will also create PackageReference MSBuild items.</p>
+
+<p>If the project has no PackageReferences then by default a
+packages.config file will be created when a NuGet package is installed.</p>
+
+<p>Currently it is not possible to opt-in to using PackageReferences by default.
+So the project file will need to be edited in the text editor to include at
+least one PackageReference before the default behaviour of using a packages.config
+file is overridden.</p>
+
+<h2>Enable file template when a NuGet package is installed</h2>
+
+<p>A file template can now specify that it should be enabled if the project
+has a specific reference or has a specific NuGet package installed.
+Previously it was only possible to enable a file template based on the
+references defined in the project file.</p>
+
+<pre><code>&lt;HasPackageOrReference PackageId="Xamarin.Forms" Assembly="Xamarin.Forms" /&gt;
+</code></pre>
+
+<p>Whilst a reference will work for projects that use a packages.config
+file, if the project uses a project.json file or PackageReferences
+then checking the references defined in the project would not find any matches and
+the file template would not be enabled.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Do not require description when creating a new NuGet package project</strong></p>
+
+<p>When creating a NuGet package project or a multiplatform project the description
+needed to be specified in the New Project dialog.</p>
+
+<p>To simplify the project creation
+process the package id is used as the description by default. As you type the
+package id into the New Project dialog the description text
+box will be updated. The description can be changed to be different
+to the package id if required.</p>
+
+<p><strong>Fix being unable to load NuGet Package Project created by Visual Studio on Windows</strong></p>
+
+<p>Visual Studio on Windows creates a NuGet package project (.nuproj)
+with no target framework version which resulted in 4.0 being used by
+default in Visual Studio for Mac. This would cause the project to fail to
+load in Visual Studio for Mac since it was checking for 4.5 or later.</p>
+
+<p><strong>Fix no packages shown in Packages folder for NuGet Package Projects</strong></p>
+
+<p>Opening a previously created NuGet package project (.nuproj) would show no
+packages in the Packages folder.</p>
+
+<p>The problem was that the PackageReference project item was defined by
+both the NuGet addin and the Packaging addin. The NuGet addin&rsquo;s PackageReference
+project item was used instead of the one defined by the Packaging addin so no
+package references were found for the NuGet package project.</p>
+
+<p><strong>Fix NuGet Package Project&rsquo;s MSBuild targets not being created</strong></p>
+
+<p>If the NuGet package project&rsquo;s generated .nuget.targets or .nuget.props are missing
+then these are now created on opening the solution if
+automatic restore is enabled.</p>
+
+<p><strong>Fix being unable to package .NET Standard projects</strong></p>
+
+<p>A NuGet package project that referenced an Sdk style .NET Standard project
+would fail to build the NuGet package. The build would fail with an error:</p>
+
+<pre><code>Error: Project targets '.NETStandard,Version=v1.4'. It cannot be
+referenced by a project that targets 'NuGet,Version=v1.0'
+</code></pre>
+
+<p>Updating to a more recent NuGet.Build.Packaging NuGet
+package, such as version 0.1.276, fixes this problem.</p>
+
+<p><strong>NuGet Package project treated as .NET Core project</strong></p>
+
+<p>NuGet package projects (.nuproj) that use the NuGet.Build.Packaging
+0.1.276 NuGet package define a TargetFramework property in an
+imported MSBuild .props file. This was causing the project to
+be treated as a .NET Core project by Visual Studio for Mac. This caused
+the Dependencies folder to be displayed and the References folder
+to be removed. Visual Studio for Mac now checks the project has the
+Sdk attribute instead of looking at the MSBuild properties defined
+by the project when determining the project type.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-26T14:00:00+01:00" pubdate data-updated="true">Aug 26<sup>th</sup>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2017/08/26/NuGetSupportInVisualStudioMac7-1/" data-via="" data-counturl="http://lastexitcode.com/blog/2017/08/26/NuGetSupportInVisualStudioMac7-1/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/08/23/NetCoreSupportInVisualStudioMac7-1/" title="Previous Post: .NET Core Support in Visual Studio for Mac 7.1">&laquo; .NET Core Support in Visual Studio for Mac 7.1</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

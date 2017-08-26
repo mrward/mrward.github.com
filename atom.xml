@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-08-23T21:47:34+01:00</updated>
+  <updated>2017-08-26T15:01:54+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,131 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.1]]></title>
+    <link href="http://lastexitcode.com/blog/2017/08/26/NuGetSupportInVisualStudioMac7-1/"/>
+    <updated>2017-08-26T14:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2017/08/26/NuGetSupportInVisualStudioMac7-1</id>
+    <content type="html"><![CDATA[<h2>New Features</h2>
+
+<ul>
+<li> NuGet 4.3 support</li>
+<li> Support PackageReference in non .NET Core projects</li>
+<li> Enable file template when a NuGet package is installed</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.1</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-august-14-2017---visual-studio-for-mac-7101297">release notes</a>.</p>
+
+<h2>NuGet 4.3 Support</h2>
+
+<p>NuGet 4.3.0.2418 is now included with Visual Studio for Mac 7.1.</p>
+
+<p>This version of NuGet adds support for .NET Core 2.0 and .NET Standard 2.0
+target frameworks.</p>
+
+<h2>Support PackageReference in non .NET Core projects</h2>
+
+<p>Non .NET Core Sdk style projects that use a PackageReference MSBuild item are now supported.</p>
+
+<pre><code>&lt;PackageReference Include="Newtonsoft.Json"&gt;
+  &lt;Version&gt;10.0.1&lt;/Version&gt;
+&lt;/PackageReference&gt;
+</code></pre>
+
+<p>In Visual Studio for Mac 7.0 the Solution
+window would not show any packages for the project, would not allow
+the packages to be restored, and would create a packages.config file when installing
+a NuGet package even though the project was using PackageReferences.</p>
+
+<p>Now if the project has a PackageReference the Packages folder
+shows the installed packages and can be used to update or install
+NuGet packages which will also create PackageReference MSBuild items.</p>
+
+<p>If the project has no PackageReferences then by default a
+packages.config file will be created when a NuGet package is installed.</p>
+
+<p>Currently it is not possible to opt-in to using PackageReferences by default.
+So the project file will need to be edited in the text editor to include at
+least one PackageReference before the default behaviour of using a packages.config
+file is overridden.</p>
+
+<h2>Enable file template when a NuGet package is installed</h2>
+
+<p>A file template can now specify that it should be enabled if the project
+has a specific reference or has a specific NuGet package installed.
+Previously it was only possible to enable a file template based on the
+references defined in the project file.</p>
+
+<pre><code>&lt;HasPackageOrReference PackageId="Xamarin.Forms" Assembly="Xamarin.Forms" /&gt;
+</code></pre>
+
+<p>Whilst a reference will work for projects that use a packages.config
+file, if the project uses a project.json file or PackageReferences
+then checking the references defined in the project would not find any matches and
+the file template would not be enabled.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Do not require description when creating a new NuGet package project</strong></p>
+
+<p>When creating a NuGet package project or a multiplatform project the description
+needed to be specified in the New Project dialog.</p>
+
+<p>To simplify the project creation
+process the package id is used as the description by default. As you type the
+package id into the New Project dialog the description text
+box will be updated. The description can be changed to be different
+to the package id if required.</p>
+
+<p><strong>Fix being unable to load NuGet Package Project created by Visual Studio on Windows</strong></p>
+
+<p>Visual Studio on Windows creates a NuGet package project (.nuproj)
+with no target framework version which resulted in 4.0 being used by
+default in Visual Studio for Mac. This would cause the project to fail to
+load in Visual Studio for Mac since it was checking for 4.5 or later.</p>
+
+<p><strong>Fix no packages shown in Packages folder for NuGet Package Projects</strong></p>
+
+<p>Opening a previously created NuGet package project (.nuproj) would show no
+packages in the Packages folder.</p>
+
+<p>The problem was that the PackageReference project item was defined by
+both the NuGet addin and the Packaging addin. The NuGet addin&rsquo;s PackageReference
+project item was used instead of the one defined by the Packaging addin so no
+package references were found for the NuGet package project.</p>
+
+<p><strong>Fix NuGet Package Project&rsquo;s MSBuild targets not being created</strong></p>
+
+<p>If the NuGet package project&rsquo;s generated .nuget.targets or .nuget.props are missing
+then these are now created on opening the solution if
+automatic restore is enabled.</p>
+
+<p><strong>Fix being unable to package .NET Standard projects</strong></p>
+
+<p>A NuGet package project that referenced an Sdk style .NET Standard project
+would fail to build the NuGet package. The build would fail with an error:</p>
+
+<pre><code>Error: Project targets '.NETStandard,Version=v1.4'. It cannot be
+referenced by a project that targets 'NuGet,Version=v1.0'
+</code></pre>
+
+<p>Updating to a more recent NuGet.Build.Packaging NuGet
+package, such as version 0.1.276, fixes this problem.</p>
+
+<p><strong>NuGet Package project treated as .NET Core project</strong></p>
+
+<p>NuGet package projects (.nuproj) that use the NuGet.Build.Packaging
+0.1.276 NuGet package define a TargetFramework property in an
+imported MSBuild .props file. This was causing the project to
+be treated as a .NET Core project by Visual Studio for Mac. This caused
+the Dependencies folder to be displayed and the References folder
+to be removed. Visual Studio for Mac now checks the project has the
+Sdk attribute instead of looking at the MSBuild properties defined
+by the project when determining the project type.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.1]]></title>
@@ -2223,111 +2348,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 <li><p><a href="ttps://github.com/mrward/typescript-addin/tree/monodevelop-v8-dotnet">TypeScript addin source code</a>.</p></li>
 <li><p><a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET source code</a>.</p></li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.8]]></title>
-    <link href="http://lastexitcode.com/blog/2015/03/21/NuGetSupportInXamarinStudio5-8/"/>
-    <updated>2015-03-21T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2015/03/21/NuGetSupportInXamarinStudio5-8</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.8 <a href="http://blog.xamarin.com/xamarin-releases-watch-kit-support-like-clockwork/">added support for Apple&rsquo;s Watch Kit</a> and it also includes some NuGet bug fixes.</p>
-
-<h2>Bug Fixes</h2>
-
-<ul>
-<li> Allow ASP.NET project templates to work offline.</li>
-<li> Build error after updating Xamarin.Forms in a project created by Visual Studio</li>
-<li> Custom MSBuild task not updated after updating Xamarin.Forms</li>
-<li> Update information in the Solution window incorrect after updating packages</li>
-<li> Check for package updates continues after closing a solution</li>
-<li> Check for package updates prevents packages from being removed</li>
-<li> Incorrect error message displayed when checking for package updates</li>
-<li> Exception when checking for package updates after changing target framework of a project</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.8 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.8/xamarin.studio_5.8/">release notes</a>.</p>
-
-<p><strong>Allow ASP.NET project templates to work offline</strong></p>
-
-<p>Previously it was not possible to create an ASP.NET project without an internet connection even if all the NuGet packages were available in the local machine&rsquo;s NuGet packages cache.</p>
-
-<p>Now the local machine&rsquo;s NuGet cache is used as the primary source of packages for project templates so it is possible to create an ASP.NET project without an internet connection if the NuGet packages are already in this cache.</p>
-
-<p>This problem did not affect project templates, such as Xamarin.Forms, which include the NuGet packages with their project templates.</p>
-
-<p><strong>Build error after updating Xamarin.Forms in a project created by Visual Studio</strong></p>
-
-<p>When a NuGet package that uses custom MSBuild targets file, such as Xamarin.Forms, is added to a project by Visual Studio the project file has an extra Target added, as shown below.</p>
-
-<pre><code>&lt;Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild"&gt;
-  &lt;PropertyGroup&gt;
-    &lt;ErrorText&gt;This project references NuGet package(s) that are missing on this computer.
-Enable NuGet Package Restore to download them.  For more information, see
-http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.&lt;/ErrorText&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;Error Condition="!Exists('packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets'))" /&gt;
-&lt;/Target&gt;
-</code></pre>
-
-<p>When the project was opened in a previous version of Xamarin Studio, and the NuGet package is updated or removed, the Error task was not updated. The project would then fail to compile with an error being reported that the old .targets file could not be found.</p>
-
-<p>Now when updating or removing a NuGet package the EnsureNuGetPackageBuildImports target is
-checked and the matching Error task will be removed. If there are no remaining Error tasks then the EnsureNuGetPackageBuildImports target is also removed. This prevents build errors after updating or uninstalling the old
-NuGet package from the project.</p>
-
-<p>Note that Xamarin Studio will not add an EnsureNuGetPackageBuildImports target and will not add Error tasks to a project when a NuGet package is added or updated.</p>
-
-<p><strong>Custom MSBuild task not updated after updating Xamarin.Forms</strong></p>
-
-<p>If a project that had a reference to Xamarin.Forms was compiled once, then the NuGet package was updated, the old MSBuild task was still being used when compiling.</p>
-
-<p>For Xamarin.Forms this could cause a &ldquo;XamlG Task failed unexpectedly&rdquo; build error to be reported. Also the Package Console would report not being able to access the Xamarin.Forms.Build.Tasks.dll when updating or removing the NuGet package.</p>
-
-<p>The problem was that MonoDevelop.Projects.Formats.MSBuild.exe that compiles the project would lock the MSBuild task assembly.</p>
-
-<p>Now when an MSBuild import is removed on updating a NuGet package Xamarin Studio will dispose the current project builder which will shutdown the MonoDevelop.Projects.Formats.MSBuild.exe process. This unlocks any custom MSBuild task assemblies loaded by this process,
-allowing the old NuGet package to be removed without any access denied errors, and when the project is recompiled again it will use the correct MSBuild task assembly.</p>
-
-<p><strong>Update information in the Solution window incorrect after updating packages</strong></p>
-
-<p>With check for updates enabled in Preferences, when an ASP.NET project is created, updates are shown as available for several packages. When
-the packages are updated the Solution window would still show updates as being available even though the packages had been updated.</p>
-
-<p>The problem was that a change was made in Xamarin Studio 5.7 to update package dependencies at the same time as the package was updated. This meant that an update event was not fired for each
-package being updated which would result in some package updates being shown as available in the Solution window even when they had been updated.</p>
-
-<p>Now Xamarin Studio will check all package references when a package is updated so if any package dependencies are updated the Solution
-window will show the correct status of the packages.</p>
-
-<p><strong>Check for package updates continues after closing a solution</strong></p>
-
-<p>Xamarin Studio will now stop checking for package updates when the current solution is closed. Previously this would continue until the check was completed.</p>
-
-<p><strong>Check for updates prevents packages from being removed</strong></p>
-
-<p>Previously when Xamarin Studio was checking for package updates all other NuGet actions, such as updating, adding or removing packages, would not be run until the check for updates had completed.
-Now the check for NuGet package updates is done on a separate thread so other NuGet actions can be run at the same time.</p>
-
-<p><strong>Incorrect error message displayed when checking for package updates</strong></p>
-
-<p>The Package Console would sometimes show the error message &ldquo;An exception was thrown while dispatching a method call in the UI thread.&rdquo; instead of the underlying error making it difficult to determine the cause of the problem.
-For example if there was a zero byte sized .nupkg file in the solution&rsquo;s package directory, and check for updates is enabled, then
-the wrong error was displayed in the Package Console.</p>
-
-<p><strong>Exception when checking for package updates after changing target framework of a project</strong></p>
-
-<p>Previously a null reference exception would be reported in the Package console window when doing the following:</p>
-
-<ol>
-<li> Create a project with one NuGet package added.</li>
-<li> Create two NuGet package sources in Preferences. Disable all other package sources.</li>
-<li> Open the Add Packages dialog and select All Sources.</li>
-<li> Go back to Preferences and uncheck both of the package sources.</li>
-<li> Change the target framework of the project in the project options.</li>
-</ol>
 
 ]]></content>
   </entry>
