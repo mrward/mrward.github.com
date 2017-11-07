@@ -1,11 +1,20 @@
 ---
 layout: page
 title: "MonoDevelop Paket Addin Releases"
-date: 2016-10-15 14:00
+date: 2017-11-07 17:00
 comments: true
 sharing: true
 footer: true
 ---
+## Version 0.4
+
+2017-11-07
+
+* Update to paket 5.120.1
+* Add new Paket file icons provided by Václav Vančura
+* Fix code completion not working in paket.dependencies file
+* Fix warnings when running paket.exe with deprecated command line arguments
+* Fix errors running paket.exe not reported in Paket Console and status bar.
 
 ## Version 0.3
 
