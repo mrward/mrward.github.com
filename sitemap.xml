@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://lastexitcode.com/blog/2017/11/08/NetCoreSupportInVisualStudioMac7-2/</loc>
+    <lastmod>2017-11-08T15:00:00+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://lastexitcode.com/blog/2017/10/28/NuGetSupportInVisualStudioMac7-2/</loc>
     <lastmod>2017-10-28T12:00:00+01:00</lastmod>
     <priority>0.8</priority>
@@ -269,210 +275,210 @@
   
   <url>
     <loc>http://lastexitcode.com/blog/archives/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopDnxAddin/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopDnxAddin/Releases/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopFileNestingAddin/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopFileNestingAddin/Releases/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.4/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.5/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.6/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.7/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.8/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddin/Releases/0.9/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddinExtensions/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetAddinExtensions/Releases/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetPackageExplorer/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopNuGetPackageExplorer/Releases/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopOpenWithAddin/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopOpenWithAddin/Releases/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopPaketAddin/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopPaketAddin/Releases/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopPowerShellAddin/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopPowerShellAddin/Releases/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopTypeScriptAddin/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/MonoDevelopTypeScriptAddin/Releases/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/NuGet/FileLocations/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/NuGet/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://lastexitcode.com/projects/NuGet/PortableProfiles/</loc>
-    <lastmod>2017-10-28T15:51:14+01:00</lastmod>
+    <lastmod>2017-11-08T17:23:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>.NET Core Support in Visual Studio for Mac 7.2 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes Support NuGet package fallback folders Support AssetTargetFallback Xamarin.Forms 2.4 support (VS for Mac 7.2.2) Fixed transitive types from &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2017/11/08/NetCoreSupportInVisualStudioMac7-2">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">.NET Core Support in Visual Studio for Mac 7.2</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-11-08T15:00:00+00:00" pubdate data-updated="true">Nov 8<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> Support NuGet package fallback folders</li>
+<li> Support AssetTargetFallback</li>
+<li> Xamarin.Forms 2.4 support (VS for Mac 7.2.2)</li>
+<li> Fixed transitive types from references not being available</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.2</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-october-9-2017---visual-studio-2017-for-mac-720636">release notes</a>.</p>
+
+<h2>NuGet package fallback folders support</h2>
+
+<p>The .NET Core SDK 2.0 defines a NuGet package fallback folder <code>/usr/local/share/dotnet/sdk/NuGetFallbackFolder</code> that can be used when looking
+for NuGet packages whilst restoring. This fallback folder is now supported by
+Visual Studio for Mac 7.2 so that on restoring a .NET Core 2.0 project the NuGet
+packages from the fallback folder will be found and do not need to be downloaded from nuget.org into the
+local machine NuGet package cache <code>~/.nuget/packages</code>. This should speed up NuGet package restore for .NET Core 2.0 and .NET Standard 2.0 projects the first time it occurs.</p>
+
+<p>As well as the NuGet fallback folders Visual Studio for Mac will now add the following items to the generated project.assets.json
+if they are available:</p>
+
+<ul>
+<li>configFilePaths</li>
+<li>sources</li>
+<li>warningProperties</li>
+</ul>
+
+
+<h2>AssetTargetFallback support</h2>
+
+<p>The .NET Core 2.0 SDK uses an AssetTargetFallback MSBuild property
+defined in an imported SDK MSBuild files. This is used instead
+of the PackageTargetFallback property when determining if a NuGet
+package is compatible. Currently the AssetTargetFallback property
+is set to net461 by the .NET Core 2.0 SDK which allows .NET Core projects to use NuGet
+packages that include assemblies that target the full .NET Framework.
+The supported fallback frameworks are now added to the generated
+project.assets.json file by Visual Studio for Mac when a .NET Core 2.0 project is restored.</p>
+
+<h2>NuGet package restore now fails if package and asset target fallbacks are defined by a project</h2>
+
+<p>If both AssetTargetFallback and PackageTargetFallback are defined by a project then the
+NuGet restore will fail with an error indicating that they cannot
+be used together. This mirrors the behaviour of the .NET Core command
+line restore.</p>
+
+<h2>Mark implicit PackageReferences as auto referenced</h2>
+
+<p>PackageReference items that have IsImplicitlyDefined set to true
+in their metadata now have autoRefererenced set to true in the project.assets.json file.</p>
+
+<h2>Support parsing MSBuild conditions with unquoted properties</h2>
+
+<p>The .NET Core 2.0 SDK uses conditions that pass properties to the
+Exists function without using single quotes around the MSBuild property.
+This is now supported by Visual Studio for Mac.</p>
+
+<pre><code>&lt;PropertyGroup Condition="Exists($(FileName))"&gt;
+</code></pre>
+
+<h2>Xamarin.Forms 2.4 support</h2>
+
+<p>The following sections cover bug fixes made in Visual Studio for Mac 7.2.2
+to improve support for <a href="https://developer.xamarin.com/releases/xamarin-forms/xamarin-forms-2.4/2.4.0-stable/">Xamarin.Forms 2.4</a> and later versions. Xamarin.Forms 2.4 includes .NET Standard support as well as defining default MSBuild items for
+.NET Core and .NET Standard projects. These default MSBuild items were not
+handled by Visual Studio for Mac 7.2.0 and earlier versions. The main symptoms of Visual Studio for Mac not supporting Xamarin.Forms 2.4 were:</p>
+
+<ul>
+<li>Duplicate .xaml files in the Solution window.</li>
+<li>Nesting of .xaml and .xaml.cs files not working in Solution window.</li>
+<li>MSBuild items incorrectly added to SDK style projects.</li>
+</ul>
+
+
+<h3>Generated NuGet files being imported twice</h3>
+
+<p>The generated NuGet files, .nuget.g.targets and .nuget.g.props,
+that are created for .NET Core projects were being imported twice.
+Once by Microsoft.Common.props, that is provided with Mono, and once
+by Visual Studio for Mac.</p>
+
+<p>This double import was causing a duplicate file
+to be added to the
+project when Xamarin.Forms 2.4
+was used in a .NET Standard project and the .NET Core SDK was not
+installed. This would result in the .xaml file and associated
+.xaml.cs file not being nested in the solution window.</p>
+
+<h3>MSBuild items added when new xaml file added to project</h3>
+
+<p>Adding a new Xamarin.Forms content page with XAML would incorrectly add an
+update item to the project for the .xaml.cs file when an SDK style project
+was used.</p>
+
+<p>When a new .xaml file was added to an SDK style project a None item as well as an EmbeddedResource item would incorrectly be added to the project file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;None Remove="MyView.xaml" /&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;EmbeddedResource Include="MyView.xaml"&gt;
+</span><span class='line'>  &lt;Generator&gt;MSBuild:UpdateDesignTimeXaml"&lt;/Generator&gt;
+</span><span class='line'>&lt;/EmbeddedResource&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Compile item added with DependentUpon metadata</h3>
+
+<p>Xamarin.Forms 2.4 defines a wildcard update similar to:</p>
+
+<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
+</code></pre>
+
+<p>When a project was saved in Visual Studio for Mac a Compile item was
+incorrectly added to the main project with the evaluated value stored in the
+DependentUpon element.</p>
+
+<h3>DependentUpon being evaluated incorrectly</h3>
+
+<p>Metadata defined for wildcard MSBuild items were being evaluated using
+the wildcard item instead of the expanded item. This
+was causing .xaml.cs files to not be nested in the Solution window
+for Xamarin.Forms 2.4.</p>
+
+<p>Xamarin.Forms 2.4 defines an update item similar to:</p>
+
+<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
+</code></pre>
+
+<p>The DependentUpon property was evaluated using the wildcard item
+which resulted in the DependentUpon property being
+evaluated as &lsquo;*.xaml.cs&rsquo; instead of the filename of the item that was
+updated by the wildcard.</p>
+
+<h3>Define MSBuildSDKsPath for MSBuild engine host</h3>
+
+<p>MSBuild when run on the command line defines the MSBuildSDKsPath in
+its MSBuild.dll.config file. The MSBuild engine host that is used
+when building with Visual Studio for Mac now also defines the MSBuildSDKsPath property. Previously this was not being defined.</p>
+
+<p>This fixes a build error when using Xamarin.Forms 2.4.0 in an SDK style
+project that targets .NET Standard. Xamarin.Forms 2.4.0 uses default
+item imports which were not being included since they are conditionally
+imported based on the MSBuildSDKsPath property value:</p>
+
+<pre><code>&lt;Import Project="$(MSBuildThisFileDirectory)Xamarin.Forms.DefaultItems.props" 
+    Condition="'$(MSBuildSDKsPath)'!=''" /&gt;
+</code></pre>
+
+<p>If the SDK style project had a .xaml file and a .xaml.cs file then
+the .xaml.g.cs file was not being generated when the project had no files
+explicitly defined in the project file. This
+then caused a build error about the InitializeComponent method not
+being defined.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed transitive assembly references not available until restart</strong></p>
+
+<p>Given a solution that contains three .NET Standard projects: LibC
+references LibB which references LibA. If the Newtonsoft.Json NuGet
+package was installed into LibA the types from this NuGet package
+were not available in LibB or LibC until the solution was closed and
+re-opened again. Closing and re-opening the solution refreshes the
+reference information used by the type system. Now when a NuGet
+package is installed into a .NET Core project the projects that
+reference this project have their reference information refreshed. Types from
+the installed NuGet packages are then available in projects that
+reference this updated project either directly or indirectly.</p>
+
+<p><strong>Fixed transitive project references after editing a project file</strong></p>
+
+<p>Given a solution that contains three .NET Standard projects: LibC references
+LibB which references LibA. If a NuGet package is added to LibA by
+editing its project file in the text editor the types from this NuGet
+package were not available to LibB or LibC without restarting Visual Studio
+for Mac or until the packages were restored for the solution. Now when the project file
+is saved the projects that directly or indirectly reference the project
+will be restored.</p>
+
+<p><strong>Ignore project references with ReferenceOutputAssembly set to false when restoring</strong></p>
+
+<p>Project references that have ReferenceOutputAssembly are now not
+added to the project.assets.json file. This was causing
+the NuGet package restore to fail in some cases. For example, if a .NET Standard
+project has a project reference to a .NET Core App project, but has the
+ReferenceOutputAssembly set to false, then running dotnet restore from the
+command line would work, but the restore would fail in Visual Studio for Mac.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-11-08T15:00:00+00:00" pubdate data-updated="true">Nov 8<sup>th</sup>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/netcore/'>netcore</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2017/11/08/NetCoreSupportInVisualStudioMac7-2/" data-via="" data-counturl="http://lastexitcode.com/blog/2017/11/08/NetCoreSupportInVisualStudioMac7-2/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/10/28/NuGetSupportInVisualStudioMac7-2/" title="Previous Post: NuGet Support in Visual Studio for Mac 7.2">&laquo; NuGet Support in Visual Studio for Mac 7.2</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
