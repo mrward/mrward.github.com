@@ -15,6 +15,7 @@ footer: true
  * [MonoDevelop Open With Addin](MonoDevelopOpenWithAddin/)
  * [MonoDevelop Paket Addin](MonoDevelopPaketAddin/)
  * [MonoDevelop PowerShell Addin](MonoDevelopPowerShellAddin/)
+ * [MonoDevelop Template Creator Addin](MonoDevelopTemplateCreatorAddin/)
  * [MonoDevelop TypeScript Addin](MonoDevelopTypeScriptAddin/) 
  * [NuGet](NuGet/)
  * [Pash](http://pash-project.github.io/)
