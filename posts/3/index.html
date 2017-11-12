@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes NuGet 2.8.3 support Always show Packages folder in Solution window Target framework change detected on project reload More information on all &hellip;">
+  <meta name="description" content="One of the new features introduced in Xamarin Studio 5.9 is the ability to configure the directory where Xamarin Components are installed to when &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,162 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/10/XamarinComponentsDirectoryConfiguration/">Xamarin Components Directory Configuration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-10T11:00:00+01:00" pubdate data-updated="true">May 10<sup>th</sup>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>One of the new features introduced in <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.9/xamarin.studio_5.9/">Xamarin Studio 5.9</a> is the ability to configure the directory where Xamarin Components are installed to when they are added to a project.</p>
+
+<p>By default, when a Component from the <a href="https://components.xamarin.com/">Xamarin Component store</a> is added to a project, the Component is installed to a Components directory inside the solution&rsquo;s directory.</p>
+
+<p><img src="/images/blog/XamarinComponentsDirectoryConfiguration/DefaultXamarinComponentsDirectoryForSolution.png" title="Default Components directory for a solution" alt="Default Components directory for a solution"></p>
+
+<p>The project will have references added that refer to assemblies inside this Components directory.</p>
+
+<pre><code>&lt;Reference Include="Microsoft.WindowsAzure.Mobile.Ext"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.Ext.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="Microsoft.WindowsAzure.Mobile"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="Newtonsoft.Json"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Newtonsoft.Json.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="System.Net.Http.Extensions"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\System.Net.Http.Extensions.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+&lt;Reference Include="System.Net.Http.Primitives"&gt;
+  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\System.Net.Http.Primitives.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+</code></pre>
+
+<p>If a project is shared between multiple solutions then Xamarin Studio can have multiple different Components directories, one for each solution. This can cause Xamarin Studio to modify the hint paths in the project file to use a different Components directory depending on which solution was opened.</p>
+
+<p>A simple way to reproduce this problem is to create one solution with a project that has a Component, then create another solution in a different directory, and add the same project to this new solution. The Component will be downloaded again into the Components directory relative to the new solution and the assembly references in the project file will be modified to use this new Components location.</p>
+
+<p>Now let us take a look at how to solve this problem by configuring the Components directory.</p>
+
+<h2>Configuring the Components Directory</h2>
+
+<p>To configure the Components directory used by a project you can use a components.config file, as shown below.</p>
+
+<pre><code>&lt;components&gt;
+  &lt;config&gt;
+    &lt;add key="cachePath" value="..\Components" /&gt;
+  &lt;/config&gt;
+&lt;/components&gt;
+</code></pre>
+
+<p>The path specified in the components.config file can be a full path or a relative path. If it is a relative path then it is relative to the directory containing the components.config file.</p>
+
+<p>The path in the components.config file will be normalized so it contains the correct directory separators on non-Windows operating systems, so you can use either a forward slash or a backslash in the path.</p>
+
+<p>Now let us take a look at how Xamarin Studio finds this components.config file.</p>
+
+<p>Xamarin Studio, when a solution is opened, will check for a components.config file in several locations based on the solution&rsquo;s directory. If we have a solution in the directory /Users/matt/Projects/MyAndroidApp/ then the full set of locations checked is as follows:</p>
+
+<ol>
+<li> /Users/matt/Projects/MyAndroidApp/.components/components.config</li>
+<li> /Users/matt/Projects/MyAndroidApp/components.config</li>
+<li> /Users/matt/Projects/components.config</li>
+<li> /Users/matt/components.config</li>
+<li> /Users/components.config</li>
+<li> /components.config</li>
+<li> ~/Library/Preferences/Xamarin/Components/components.config</li>
+</ol>
+
+
+<p>Note that on Windows the last location checked is:</p>
+
+<p>  %AppData%\Xamarin\Components\components.config</p>
+
+<p>If you put the components.config file in a directory that is a parent of multiple solutions then all the solutions can use this common components.config file.</p>
+
+<p>If the components.config file is missing or cannot be read then the default Components directory is used, which is inside the solution&rsquo;s directory.</p>
+
+<p>If there is an error whilst reading the components.config file then the error will be logged by Xamarin Studio and the default Components directory will be used.</p>
+
+<p>The Components directory to be used is cached when the solution is loaded so changes made to the components.config file require the solution to be closed and re-opened before Xamarin Studio will use the new settings.</p>
+
+<p>To help diagnose problems when configuring the Components directory Xamarin Studio will log information in the Components.log file. The Components.log file can be found by selecting Open Log Directory from Xamarin Studio&rsquo;s Help menu. Two examples taken from the Components.log file are shown below. The first example shows the message logged when a components.config file cannot be found.</p>
+
+<pre><code>[2015-05-10 11:00:29.0] DEBUG: No components.config file found. Using default path. Files checked: /Users/matt/Projects/MyAndroidApp/.components/components.config
+/Users/matt/Projects/MyAndroidApp/components.config
+/Users/matt/Projects/components.config
+/Users/matt/components.config
+/Users/components.config
+/components.config
+/Users/matt/Library/Preferences/Xamarin/Components/components.config
+</code></pre>
+
+<p>The next example shows the message logged when a components.config file is found.</p>
+
+<pre><code>[2015-05-10 11:10:24.1] DEBUG: Using custom components cache path '/Users/matt/Projects/MyAndroidApp/Components'. components.config file found at '/Users/matt/Projects/MyAndroidApp/components.config'.
+</code></pre>
+
+<h2>Component Restore</h2>
+
+<p>The latest version of <a href="https://components.xamarin.com/submit/xpkg">xamarin-component.exe</a> also supports using the configured Components directory. Its restore command will restore the Components to the directory as specified in the components.config file.</p>
+
+<pre><code>mono xamarin-component.exe restore path/to/solution.sln
+</code></pre>
+
+<p>xamarin-component.exe will look for the components.config file in the same directories as Xamarin Studio.</p>
+
+<h2>Comparison with NuGet</h2>
+
+<p>NuGet has similar behaviour to Components in Xamarin Studio. All NuGet packages are downloaded to a packages directory inside the solution directory by default. To override this behaviour you can create a <a href="https://docs.nuget.org/consume/nuget-config-file">NuGet.Config file</a>. The NuGet.Config file allows the packages directory to be configured through a repositoryPath setting.</p>
+
+<pre><code>&lt;configuration&gt;
+  &lt;config&gt;
+    &lt;add key="repositoryPath" value="../../packages" /&gt;
+  &lt;/config&gt;
+&lt;/configuration&gt;
+</code></pre>
+
+<p>NuGet will look for this NuGet.Config file in several places. Assuming the solution directory is /Users/matt/Projects/MyAndroidApp/ the NuGet.Config file will be looked for in the locations as shown below:</p>
+
+<ol>
+<li> /Users/matt/Projects/MyAndroidApp/.nuget/NuGet.Config</li>
+<li> /Users/matt/Projects/MyAndroidApp/NuGet.Config</li>
+<li> /Users/matt/Projects/NuGet.Config</li>
+<li> /Users/matt/NuGet.Config</li>
+<li> /Users/NuGet.Config</li>
+<li> /NuGet.config</li>
+<li> ~/.config/NuGet/NuGet.Config (Windows: %AppData%\NuGet\NuGet.Config)</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1192,173 +1348,6 @@ would update package dependencies correctly.</p>
 <p>On updating packages in a project, and the project is using Git for version control, then the update was causing Git to show the packages.config file as deleted. This would occur if all the NuGet packages were uninstalled as part of the update which caused NuGet to see that there were no NuGet packages referenced and delete the packages.config file.</p>
 
 <p>Now the packages.config file is shown as modified instead of deleted.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/10/NuGetSupportInXamarinStudio5-2/">NuGet Support in Xamarin Studio 5.2</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-10T12:44:00+01:00" pubdate data-updated="true">Aug 10<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>New Features</h2>
-
-<ul>
-<li> Automatic package update check</li>
-<li> Package framework retargeting</li>
-<li> Support for custom packages directory in NuGet.Config</li>
-<li> Add all checked packages even if they are not visible</li>
-</ul>
-
-
-<p>More details on all the new features and changes in Xamarin Studio 5.2 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.2/xamarin.studio_5.2/">release notes</a>. Now let us take a more detailed look at the new NuGet features.</p>
-
-<h2>Automatic package update check</h2>
-
-<p>On opening a solution Xamarin Studio will check in the background for updated packages used by your projects. When the update check begins the status bar will show a <strong>Checking for package updates</strong> message.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-2/CheckingForPackageUpdatesStatusBarMessage.png" title="Checking for package updates status bar message" alt="Checking for package updates status bar message"></p>
-
-<p>If Xamarin Studio finds there are new updated packages available then the status bar will show a <strong>Package Updates are available</strong> message.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-2/PackageUpdatesAreAvailableStatusBarMessage.png" title="Package updates are available status bar message" alt="Package updates are available status bar message"></p>
-
-<p>The <strong>Solution</strong> window will show information about the updates in the Packages folder.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-2/PackageUpdatesInSolutionWindow.png" title="Package updates shown in Solution window" alt="Package updates shown in Solution window"></p>
-
-<p>The <strong>Packages</strong> folder will show the number of updated packages available for a project. For each package inside the Packages folder you can see the version number for the update.</p>
-
-<p>Note that Xamarin Studio will only show updates that are for non-pre-release packages.</p>
-
-<p>The automatic package update feature can be disabled in <strong>Preferences</strong> by unchecking <strong>Check for package updates when opening a solution</strong>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-2/CheckForPackageUpdatesOptionInPreferences.png" title="Preferences dialog - Check for package updates when opening a solution" alt="Preferences dialog - Check for package updates when opening a solution"></p>
-
-<h2>Framework retargeting</h2>
-
-<p>A NuGet package will often contain assemblies for several target frameworks. Json.NET, for example, contains assemblies for:</p>
-
-<ul>
-<li>.NET 2.0</li>
-<li>.NET 3.5</li>
-<li>.NET 4.0</li>
-<li>.NET 4.5</li>
-<li>.NET Core 4.5 (Windows Store)</li>
-<li>Portable Class Library (PCL)
-
-<ul>
-<li>.NET 4, Silverlight 5, Windows Phone 8, Windows 8, Windows Phone   Application 8.1</li>
-</ul>
-</li>
-<li>Portable Class Library (PCL)
-
-<ul>
-<li>.NET 4.5, Windows Phone 8, Windows 8, Windows Phone Application 8.1</li>
-</ul>
-</li>
-</ul>
-
-
-<p>When you install this NuGet package into your project the assembly that is referenced is determined by your project&rsquo;s target framework. NuGet will reference the assembly which it considers to be the best match for your project&rsquo;s target framework. So if you install Json.NET into a project that targets .NET 4.5 the Json.NET assembly referenced will be taken from the .NET 4.5 folder inside the NuGet package.</p>
-
-<p>If you change your project&rsquo;s target framework after you have installed the NuGet package your project may be referencing a different assembly compared with what would have been referenced if you had installed it after changing the project&rsquo;s target framework. In some cases the project&rsquo;s target framework may not be compatible with the NuGet package. For example, your project targeted .NET 4.5 and you then changed it to .NET 2.0. In this case you would be referencing a .NET 4.5 assembly that would not work with .NET 2.0. Another example is if you change the PCL profile of your project which could affect which PCL assemblies are used from the NuGet package.</p>
-
-<p>In Xamarin Studio 5.2 if you change your project&rsquo;s target framework then the NuGet packages referenced by your project are checked to see if they are still compatible. The result of this check is displayed in the <strong>Package Console</strong>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-2/PackagesNeedRetargetingMessagesInPackageConsole.png" title="Packages need retargeting messages in Package Console" alt="Packages need retargeting messages in Package Console"></p>
-
-<p>In the screenshot above the project&rsquo;s target framework was changed from .NET 4.5 to .NET 2.0 whilst the project had the Json.NET and Moq NuGet packages installed. Json.NET is compatible with .NET 2.0 and can be retargeted. Moq does not support .NET 2.0 and is not compatible.</p>
-
-<p>To retarget an individual NuGet package you can select the package in the <strong>Solution</strong> window, right click and select <strong>Retarget</strong>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-2/RetargetSinglePackageSolutionWindowMenuItem.png" title="Solution window - Retarget menu item" alt="Solution window - Retarget menu item"></p>
-
-<p>To retarget all packages in the project you can select <strong>Packages</strong> in the <strong>Solution</strong> window, right click and select <strong>Retarget</strong>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-2/RetargetAllProjectPackagesSolutionWindowMenuItem.png" title="Solution window - Retarget project packages menu item" alt="Solution window - Retarget project packages menu item"></p>
-
-<p>Selecting <strong>Retarget</strong> will remove the NuGet package and then add it again so the correct assembly is referenced by your project. The status bar will be updated as the package is retargeted and full details can be seen in the Package Console.</p>
-
-<p>The Retarget menu item is only available if NuGet packages need to be retargeted.</p>
-
-<p>Note that if you retarget a NuGet package that is incompatible with your project&rsquo;s target framework then the retargeting will fail and the NuGet package will be removed from the project.</p>
-
-<h2>Support for custom packages directory in NuGet.Config</h2>
-
-<p>When a NuGet package is installed into a project the NuGet packages are by default downloaded into a packages directory inside the solution directory. The location and name of this packages directory can be configured by specifying the repositoryPath in the NuGet.Config file.</p>
-
-<pre><code>&lt;configuration&gt;
-  &lt;config&gt;
-    &lt;add key="repositoryPath" value="../../MyPackages" /&gt;
-  &lt;/config&gt;
-&lt;/configuration&gt;
-</code></pre>
-
-<p>If you create a NuGet.Config file and put it the .nuget directory inside the solution, or in the solution&rsquo;s directory, then Xamarin Studio will read the repositoryPath and use it when downloading NuGet packages. The path is relative to the NuGet.Config file but you can specify a full path if you need to.</p>
-
-<p>Note that if you make a change to the repositoryPath whilst the solution is open you will need to close and re-open the solution for the changes to be detected.</p>
-
-<h2>Add all checked packages even if they are not visible</h2>
-
-<p>The Add Packages dialog will now add all packages that were checked when you click the Add Packages button even if they are not currently being displayed in the dialog. This allows you to run multiple searches in the dialog, check multiple packages and then add them to the project in one step without having to open the Add Packages dialog multiple times. Previously only the checked packages that were displayed in the list of packages would be added to your project.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Incorrect path separator used for MSBuild Import</strong></p>
-
-<p>A NuGet package can contain custom MSBuild .targets and .props files. Previously when a NuGet package was installed on the Mac a forward slash path separator was used when adding the paths for custom MSBuild .targets file. This would cause Xamarin Studio on Windows to fail to compile the project. Now backslashes are used for all paths added to the project file.</p>
-
-<p>Xamarin Studio will also now add a Condition to the project file that checks the imported MSBuild .targets file exists. Without this condition the project cannot be opened in Visual Studio if the NuGet packages are missing.</p>
-
-<p>As an example, if Xamarin.Forms 1.1.1.6206 is installed into a project the following Import element will be added.</p>
-
-<pre><code>&lt;Import 
-    Project="packages\Xamarin.Forms.1.1.1.6206\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets"
-    Condition="Exists('packages\Xamarin.Forms.1.1.1.6206\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" /&gt;
-</code></pre>
-
-<p><strong>Repositories.config not restored</strong></p>
-
-<p>When NuGet packages were restored for the solution the repositories.config file was not being restored. The repositories.config file contains references to all the projects in the solution that have NuGet packages. This information is used by NuGet to determine whether a NuGet package can be removed from the packages directory when a NuGet package is removed from a project. Without this information a NuGet package that is still referenced by other projects could be removed from the packages directory and cause the compilation to fail.</p>
-
-<p><strong>Package Dependencies not resolved from enabled package sources</strong></p>
-
-<p>Xamarin Studio will now use all enabled package sources when resolving dependencies for a NuGet package even if a single package source is selected in the Add Packages dialog. This allows the use of a NuGet package source that has packages that have dependencies that are not available from that particular package source but are available from another package source.</p>
-
-<p><strong>Packages are up to date status bar message</strong></p>
-
-<p>If you have the automatic check for updates disabled and update one or more NuGet packages the status bar will now display a message indicating that the packages are up to date if there are no updates available. Previously Xamarin Studio would show a message that the packages were updated when they were not.</p>
-
-<p><strong>Updating an unrestored package</strong></p>
-
-<p>If you have automatic package restore disabled and you attempt to update a NuGet package the package will now be restored before the update is attempted. Previously this would fail when an update was available since NuGet looks at the old package to work out how to remove it from the project before updating to the new NuGet package.</p>
 </div>
   
   

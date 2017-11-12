@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-11-08T17:23:33+00:00</updated>
+  <updated>2017-11-12T18:03:40+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,234 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Template Creator for Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2017/11/12/TemplateCreatorForVisualStudioMac/"/>
+    <updated>2017-11-12T14:30:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2017/11/12/TemplateCreatorForVisualStudioMac</id>
+    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension</a> provides a way to create a project template from an existing project
+or solution open in Visual Studio for Mac and have the project template available in the New
+Project dialog straight away.</p>
+
+<p>The Template Creator uses the <a href="https://github.com/dotnet/templating">.NET Core templating engine</a>
+to create the projects from the project templates.</p>
+
+<p>Let us take a look in more detail at what the Template Creator extension provides in Visual Studio for Mac.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li> Create a project template from an existing solution or project</li>
+<li> Create custom top level project template categories</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 7.0 or later.</li>
+</ul>
+
+
+<h2>Creating a new Project Template</h2>
+
+<p>To create a new project template for a project opened in Visual Studio for Mac,
+right click the project and select Create Template.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/ProjectCreateTemplateMenu.png" title="Project - Create Template context menu" alt="Project - Create Template context menu"></p>
+
+<p>A Template Information dialog is then opened.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/TemplateInformationDialog.png" title="Template Information dialog" alt="Template Information dialog"></p>
+
+<p>The information in the dialog is used to populate the generated template.json file. Further
+details on what the template.json file holds is available in the <a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">reference for template.json</a>].</p>
+
+<ul>
+<li>Author
+
+<ul>
+<li>Author of the project template.</li>
+</ul>
+</li>
+<li>Display Name
+
+<ul>
+<li>This is the template name displayed in the New Project dialog.</li>
+</ul>
+</li>
+<li>Description
+
+<ul>
+<li>This is the description displayed in the New Project dialog.</li>
+</ul>
+</li>
+<li>Category
+
+<ul>
+<li>This is the category in the New Project dialog used by the template.</li>
+</ul>
+</li>
+<li>Short Name
+
+<ul>
+<li>This is the short name for the template that can be used from the .NET Core command line.</li>
+</ul>
+</li>
+<li>Default Project Name
+
+<ul>
+<li>This is the default project name that will be used with the .NET Core command line.</li>
+</ul>
+</li>
+<li>Identity
+
+<ul>
+<li>This is the unique id for the template. This should be unique across all custom
+project templates.</li>
+</ul>
+</li>
+<li>Group Identity
+
+<ul>
+<li>This is typically a substring of the template&rsquo;s Identity.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>By default the project template will use the Other &ndash; .NET &ndash; General category in the
+New Project dialog. To change the category click the browse button next to the category text
+box to open the Template Categories dialog.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/TemplateCategoriesDialog.png" title="Template Categories dialog" alt="Template Categories dialog"></p>
+
+<p>Select the required category and click OK. The selected category will then be updated
+in the Template Information dialog.</p>
+
+<p>Click OK to generate the template.json file. The template.json file will be opened
+in the text editor. It will also be displayed in the Solution window in the
+.template.config folder.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/ProjectTemplateJsonFile.png" title="template.json file created for project" alt="template.json file created for project"></p>
+
+<p>The project template is now available in the New Project dialog.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/CustomProjectTemplateInNewProjectDialog.png" title="Custom project template in New Project dialog" alt="Custom template in New Project dialog"></p>
+
+<h2>Updating a Project Template</h2>
+
+<p>After the project template is created you can modify the original project and its
+template.json file as required.</p>
+
+<p>Changes made to the project are available in the New Project dialog immediately.</p>
+
+<p>Changes made to the template.json file are available immediately in the same
+instance of Visual Studio for Mac where the template.json file is being edited.</p>
+
+<h2>Multiple Projects in a Template</h2>
+
+<p>A project template may create more than one project. To create a project template
+for all projects in the solution right click the solution and select Create Template.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/SolutionCreateTemplateMenu.png" title="Solution - Create Template context menu" alt="Solution - Create Template context menu"></p>
+
+<p>A template.json file will be created in a .template.config directory inside the solution&rsquo;s
+directory.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/TwoProjectsTemplateJsonFile.png" title="template.json file created for soluton" alt="template.json file created for solution"></p>
+
+<p>Note that in order for the new projects created to use the name specified in the New Project
+dialog they should all have a common start to their name. The template.json file&rsquo;s <code>sourceName</code>
+will be the part that is replaced with the name of the project specified in the New Project dialog.</p>
+
+<h2>Configuring Registered Project Templates</h2>
+
+<p>The .NET Core templating engine supports project templates in NuGet packages or project templates
+that unpackaged in a directory. The Template Creator extension does
+not package the project templates into a NuGet package and instead stores a set of directories that
+are scanned by the .NET Core templating engine for templates. The set of directories that are
+registered can be viewed and updated in the Preferences dialog from the Templates &ndash; Custom Folders section.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomFolders.png" title="Preferences dialog - Templates - Custom Folders" alt="Preferences dialog - Templates - Custom Folders"></p>
+
+<p>The templating engine will scan the configured directories and look for all the template.json files
+which define the project templates. The project templates found are then made available to the
+Visual Studio for Mac&rsquo;s New Project dialog by the Template Creator extension.</p>
+
+<p>When the template.json file is created using the information in the Template Information dialog
+the Template Creator extenxion also registers the
+project&rsquo;s directory so it will be scanned by the templating engine.</p>
+
+<p>To remove a project
+template from the New Project dialog you can either delete the template.json file or
+remove the folder from the Custom Folders defined in the Preferences dialog.</p>
+
+<p>If you have an existing set of project templates that use template.json files and are not
+in a NuGet package then you can register a single parent directory in the Preferences dialog.</p>
+
+<h2>Custom Categories</h2>
+
+<p>Custom top level categories can be defined for your project templates by adding them in
+Preferences &ndash; Templates &ndash; Custom Categories.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomCategories.png" title="Preferences dialog - Templates - Custom Categories" alt="Preferences dialog - Templates - Custom Categories"></p>
+
+<p>The Add Top Level Category button will add a new top level category and two child category
+levels. The New Project dialog requires three category levels. The ids used should ensure that
+the full path to the template&rsquo;s category is unique. For example, with a custom category
+<code>custom/net/general</code> there should not be another top level <code>custom</code> category id, but the second
+and third level category ids can be re-used in another top level category, such as <code>top/net/general</code>.</p>
+
+<p>The Add Category button will add a single child category to the currently selected category
+whilst the Remove button will remove the selected category.</p>
+
+<p>Note that changes to the categories require Visual Studio for Mac to be restarted before they
+are visible in the New Project dialog.</p>
+
+<p>Also note that it is not currently possible to extend existing project template categories
+using the Template Creator extension.</p>
+
+<h2>Diagnosing Template Problems</h2>
+
+<p>If the template does not appear in the New Project dialog or fails to be created then
+you may be able to diagnose the problem by opening the Templating Log window. This is
+available from the View &ndash; Pads menu.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/MainMenuViewPadsTemplatingLog.png" title="Main menu - View - Pads - Templating Log" alt="Main menu - View - Templating Log"></p>
+
+<p>This window will show messages returned from the .NET Core templating engine and any errors
+reported by the Template Creator extension.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/TemplatingLogWindow.png" title="Templating Log window" alt="Templating Log window"></p>
+
+<h2>Installation</h2>
+
+<p>The Template Creator extension is available to download from <a href="https://github.com/mrward/monodevelop-template-creator-addin/releases/download/0.1/MonoDevelop.TemplateCreator_0.1.mpack">GitHub</a>.</p>
+
+<p>To install the extension open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
+
+<p>The extension is also available from a <a href="https://github.com/mrward/monodevelop-addins">custom MonoDevelop 7.0 extension server</a>. It is not currently published to the main Visual Studio for Mac extension gallery.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension for Visual Studio for Mac and MonoDevelop</a></li>
+</ul>
+
+
+<h2>Further Reading</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2017/04/02/how-to-create-your-own-templates-for-dotnet-new/">How to create your own templates for dotnet new</a></li>
+<li><a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">Reference for template.json</a></li>
+<li><a href="https://www.jimbobbennett.io/creating-visual-studio-project-and-solution-templates-part-3-vs-for-mac-extension/">Creating Visual Studio project and solution templates &ndash; Part 3, VS for Mac extension</a></li>
+<li><a href="https://github.com/ligershark/sidewafflev2">SideWaffle v2 for Visual Studio</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.2]]></title>
@@ -2461,135 +2689,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 <p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetShortenedWarningMessageInStatusBar.png" title="Shortened NuGet warning message in status bar" alt="Shortened NuGet warning message in status bar"></p>
 
 <p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-9-2/NuGetShortenedErrorMessageInStatusBar.png" title="Shortened NuGet error message in status bar" alt="Shortened NuGet error message in status bar"></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xamarin Components Directory Configuration]]></title>
-    <link href="http://lastexitcode.com/blog/2015/05/10/XamarinComponentsDirectoryConfiguration/"/>
-    <updated>2015-05-10T11:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2015/05/10/XamarinComponentsDirectoryConfiguration</id>
-    <content type="html"><![CDATA[<p>One of the new features introduced in <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.9/xamarin.studio_5.9/">Xamarin Studio 5.9</a> is the ability to configure the directory where Xamarin Components are installed to when they are added to a project.</p>
-
-<p>By default, when a Component from the <a href="https://components.xamarin.com/">Xamarin Component store</a> is added to a project, the Component is installed to a Components directory inside the solution&rsquo;s directory.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/XamarinComponentsDirectoryConfiguration/DefaultXamarinComponentsDirectoryForSolution.png" title="Default Components directory for a solution" alt="Default Components directory for a solution"></p>
-
-<p>The project will have references added that refer to assemblies inside this Components directory.</p>
-
-<pre><code>&lt;Reference Include="Microsoft.WindowsAzure.Mobile.Ext"&gt;
-  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.Ext.dll&lt;/HintPath&gt;
-&lt;/Reference&gt;
-&lt;Reference Include="Microsoft.WindowsAzure.Mobile"&gt;
-  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.dll&lt;/HintPath&gt;
-&lt;/Reference&gt;
-&lt;Reference Include="Newtonsoft.Json"&gt;
-  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\Newtonsoft.Json.dll&lt;/HintPath&gt;
-&lt;/Reference&gt;
-&lt;Reference Include="System.Net.Http.Extensions"&gt;
-  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\System.Net.Http.Extensions.dll&lt;/HintPath&gt;
-&lt;/Reference&gt;
-&lt;Reference Include="System.Net.Http.Primitives"&gt;
-  &lt;HintPath&gt;..\Components\azure-mobile-services-1.3.1\lib\android\System.Net.Http.Primitives.dll&lt;/HintPath&gt;
-&lt;/Reference&gt;
-</code></pre>
-
-<p>If a project is shared between multiple solutions then Xamarin Studio can have multiple different Components directories, one for each solution. This can cause Xamarin Studio to modify the hint paths in the project file to use a different Components directory depending on which solution was opened.</p>
-
-<p>A simple way to reproduce this problem is to create one solution with a project that has a Component, then create another solution in a different directory, and add the same project to this new solution. The Component will be downloaded again into the Components directory relative to the new solution and the assembly references in the project file will be modified to use this new Components location.</p>
-
-<p>Now let us take a look at how to solve this problem by configuring the Components directory.</p>
-
-<h2>Configuring the Components Directory</h2>
-
-<p>To configure the Components directory used by a project you can use a components.config file, as shown below.</p>
-
-<pre><code>&lt;components&gt;
-  &lt;config&gt;
-    &lt;add key="cachePath" value="..\Components" /&gt;
-  &lt;/config&gt;
-&lt;/components&gt;
-</code></pre>
-
-<p>The path specified in the components.config file can be a full path or a relative path. If it is a relative path then it is relative to the directory containing the components.config file.</p>
-
-<p>The path in the components.config file will be normalized so it contains the correct directory separators on non-Windows operating systems, so you can use either a forward slash or a backslash in the path.</p>
-
-<p>Now let us take a look at how Xamarin Studio finds this components.config file.</p>
-
-<p>Xamarin Studio, when a solution is opened, will check for a components.config file in several locations based on the solution&rsquo;s directory. If we have a solution in the directory /Users/matt/Projects/MyAndroidApp/ then the full set of locations checked is as follows:</p>
-
-<ol>
-<li> /Users/matt/Projects/MyAndroidApp/.components/components.config</li>
-<li> /Users/matt/Projects/MyAndroidApp/components.config</li>
-<li> /Users/matt/Projects/components.config</li>
-<li> /Users/matt/components.config</li>
-<li> /Users/components.config</li>
-<li> /components.config</li>
-<li> ~/Library/Preferences/Xamarin/Components/components.config</li>
-</ol>
-
-
-<p>Note that on Windows the last location checked is:</p>
-
-<p>  %AppData%\Xamarin\Components\components.config</p>
-
-<p>If you put the components.config file in a directory that is a parent of multiple solutions then all the solutions can use this common components.config file.</p>
-
-<p>If the components.config file is missing or cannot be read then the default Components directory is used, which is inside the solution&rsquo;s directory.</p>
-
-<p>If there is an error whilst reading the components.config file then the error will be logged by Xamarin Studio and the default Components directory will be used.</p>
-
-<p>The Components directory to be used is cached when the solution is loaded so changes made to the components.config file require the solution to be closed and re-opened before Xamarin Studio will use the new settings.</p>
-
-<p>To help diagnose problems when configuring the Components directory Xamarin Studio will log information in the Components.log file. The Components.log file can be found by selecting Open Log Directory from Xamarin Studio&rsquo;s Help menu. Two examples taken from the Components.log file are shown below. The first example shows the message logged when a components.config file cannot be found.</p>
-
-<pre><code>[2015-05-10 11:00:29.0] DEBUG: No components.config file found. Using default path. Files checked: /Users/matt/Projects/MyAndroidApp/.components/components.config
-/Users/matt/Projects/MyAndroidApp/components.config
-/Users/matt/Projects/components.config
-/Users/matt/components.config
-/Users/components.config
-/components.config
-/Users/matt/Library/Preferences/Xamarin/Components/components.config
-</code></pre>
-
-<p>The next example shows the message logged when a components.config file is found.</p>
-
-<pre><code>[2015-05-10 11:10:24.1] DEBUG: Using custom components cache path '/Users/matt/Projects/MyAndroidApp/Components'. components.config file found at '/Users/matt/Projects/MyAndroidApp/components.config'.
-</code></pre>
-
-<h2>Component Restore</h2>
-
-<p>The latest version of <a href="https://components.xamarin.com/submit/xpkg">xamarin-component.exe</a> also supports using the configured Components directory. Its restore command will restore the Components to the directory as specified in the components.config file.</p>
-
-<pre><code>mono xamarin-component.exe restore path/to/solution.sln
-</code></pre>
-
-<p>xamarin-component.exe will look for the components.config file in the same directories as Xamarin Studio.</p>
-
-<h2>Comparison with NuGet</h2>
-
-<p>NuGet has similar behaviour to Components in Xamarin Studio. All NuGet packages are downloaded to a packages directory inside the solution directory by default. To override this behaviour you can create a <a href="https://docs.nuget.org/consume/nuget-config-file">NuGet.Config file</a>. The NuGet.Config file allows the packages directory to be configured through a repositoryPath setting.</p>
-
-<pre><code>&lt;configuration&gt;
-  &lt;config&gt;
-    &lt;add key="repositoryPath" value="../../packages" /&gt;
-  &lt;/config&gt;
-&lt;/configuration&gt;
-</code></pre>
-
-<p>NuGet will look for this NuGet.Config file in several places. Assuming the solution directory is /Users/matt/Projects/MyAndroidApp/ the NuGet.Config file will be looked for in the locations as shown below:</p>
-
-<ol>
-<li> /Users/matt/Projects/MyAndroidApp/.nuget/NuGet.Config</li>
-<li> /Users/matt/Projects/MyAndroidApp/NuGet.Config</li>
-<li> /Users/matt/Projects/NuGet.Config</li>
-<li> /Users/matt/NuGet.Config</li>
-<li> /Users/NuGet.Config</li>
-<li> /NuGet.config</li>
-<li> ~/.config/NuGet/NuGet.Config (Windows: %AppData%\NuGet\NuGet.Config)</li>
-</ol>
-
 ]]></content>
   </entry>
   

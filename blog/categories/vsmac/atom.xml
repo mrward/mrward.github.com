@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-11-08T17:23:33+00:00</updated>
+  <updated>2017-11-12T18:03:40+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,234 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Template Creator for Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2017/11/12/TemplateCreatorForVisualStudioMac/"/>
+    <updated>2017-11-12T14:30:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2017/11/12/TemplateCreatorForVisualStudioMac</id>
+    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension</a> provides a way to create a project template from an existing project
+or solution open in Visual Studio for Mac and have the project template available in the New
+Project dialog straight away.</p>
+
+<p>The Template Creator uses the <a href="https://github.com/dotnet/templating">.NET Core templating engine</a>
+to create the projects from the project templates.</p>
+
+<p>Let us take a look in more detail at what the Template Creator extension provides in Visual Studio for Mac.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li> Create a project template from an existing solution or project</li>
+<li> Create custom top level project template categories</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 7.0 or later.</li>
+</ul>
+
+
+<h2>Creating a new Project Template</h2>
+
+<p>To create a new project template for a project opened in Visual Studio for Mac,
+right click the project and select Create Template.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/ProjectCreateTemplateMenu.png" title="&lsquo;Project &ndash; Create Template context menu&rsquo; &lsquo;Project &ndash; Create Template context menu&rsquo;" ></p>
+
+<p>A Template Information dialog is then opened.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TemplateInformationDialog.png" title="&lsquo;Template Information dialog&rsquo; &lsquo;Template Information dialog&rsquo;" ></p>
+
+<p>The information in the dialog is used to populate the generated template.json file. Further
+details on what the template.json file holds is available in the <a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">reference for template.json</a>].</p>
+
+<ul>
+<li>Author
+
+<ul>
+<li>Author of the project template.</li>
+</ul>
+</li>
+<li>Display Name
+
+<ul>
+<li>This is the template name displayed in the New Project dialog.</li>
+</ul>
+</li>
+<li>Description
+
+<ul>
+<li>This is the description displayed in the New Project dialog.</li>
+</ul>
+</li>
+<li>Category
+
+<ul>
+<li>This is the category in the New Project dialog used by the template.</li>
+</ul>
+</li>
+<li>Short Name
+
+<ul>
+<li>This is the short name for the template that can be used from the .NET Core command line.</li>
+</ul>
+</li>
+<li>Default Project Name
+
+<ul>
+<li>This is the default project name that will be used with the .NET Core command line.</li>
+</ul>
+</li>
+<li>Identity
+
+<ul>
+<li>This is the unique id for the template. This should be unique across all custom
+project templates.</li>
+</ul>
+</li>
+<li>Group Identity
+
+<ul>
+<li>This is typically a substring of the template&rsquo;s Identity.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>By default the project template will use the Other &ndash; .NET &ndash; General category in the
+New Project dialog. To change the category click the browse button next to the category text
+box to open the Template Categories dialog.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TemplateCategoriesDialog.png" title="&lsquo;Template Categories dialog&rsquo; &lsquo;Template Categories dialog&rsquo;" ></p>
+
+<p>Select the required category and click OK. The selected category will then be updated
+in the Template Information dialog.</p>
+
+<p>Click OK to generate the template.json file. The template.json file will be opened
+in the text editor. It will also be displayed in the Solution window in the
+.template.config folder.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/ProjectTemplateJsonFile.png" title="&lsquo;template.json file created for project&rsquo; &lsquo;template.json file created for project&rsquo;" ></p>
+
+<p>The project template is now available in the New Project dialog.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/CustomProjectTemplateInNewProjectDialog.png" title="&lsquo;Custom project template in New Project dialog&rsquo; &lsquo;Custom template in New Project dialog&rsquo;" ></p>
+
+<h2>Updating a Project Template</h2>
+
+<p>After the project template is created you can modify the original project and its
+template.json file as required.</p>
+
+<p>Changes made to the project are available in the New Project dialog immediately.</p>
+
+<p>Changes made to the template.json file are available immediately in the same
+instance of Visual Studio for Mac where the template.json file is being edited.</p>
+
+<h2>Multiple Projects in a Template</h2>
+
+<p>A project template may create more than one project. To create a project template
+for all projects in the solution right click the solution and select Create Template.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/SolutionCreateTemplateMenu.png" title="&lsquo;Solution &ndash; Create Template context menu&rsquo; &lsquo;Solution &ndash; Create Template context menu&rsquo;" ></p>
+
+<p>A template.json file will be created in a .template.config directory inside the solution&rsquo;s
+directory.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TwoProjectsTemplateJsonFile.png" title="&lsquo;template.json file created for soluton&rsquo; &lsquo;template.json file created for solution&rsquo;" ></p>
+
+<p>Note that in order for the new projects created to use the name specified in the New Project
+dialog they should all have a common start to their name. The template.json file&rsquo;s <code>sourceName</code>
+will be the part that is replaced with the name of the project specified in the New Project dialog.</p>
+
+<h2>Configuring Registered Project Templates</h2>
+
+<p>The .NET Core templating engine supports project templates in NuGet packages or project templates
+that unpackaged in a directory. The Template Creator extension does
+not package the project templates into a NuGet package and instead stores a set of directories that
+are scanned by the .NET Core templating engine for templates. The set of directories that are
+registered can be viewed and updated in the Preferences dialog from the Templates &ndash; Custom Folders section.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomFolders.png" title="&lsquo;Preferences dialog &ndash; Templates &ndash; Custom Folders&rsquo; &lsquo;Preferences dialog &ndash; Templates &ndash; Custom Folders&rsquo;" ></p>
+
+<p>The templating engine will scan the configured directories and look for all the template.json files
+which define the project templates. The project templates found are then made available to the
+Visual Studio for Mac&rsquo;s New Project dialog by the Template Creator extension.</p>
+
+<p>When the template.json file is created using the information in the Template Information dialog
+the Template Creator extenxion also registers the
+project&rsquo;s directory so it will be scanned by the templating engine.</p>
+
+<p>To remove a project
+template from the New Project dialog you can either delete the template.json file or
+remove the folder from the Custom Folders defined in the Preferences dialog.</p>
+
+<p>If you have an existing set of project templates that use template.json files and are not
+in a NuGet package then you can register a single parent directory in the Preferences dialog.</p>
+
+<h2>Custom Categories</h2>
+
+<p>Custom top level categories can be defined for your project templates by adding them in
+Preferences &ndash; Templates &ndash; Custom Categories.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomCategories.png" title="&lsquo;Preferences dialog &ndash; Templates &ndash; Custom Categories&rsquo; &lsquo;Preferences dialog &ndash; Templates &ndash; Custom Categories&rsquo;" ></p>
+
+<p>The Add Top Level Category button will add a new top level category and two child category
+levels. The New Project dialog requires three category levels. The ids used should ensure that
+the full path to the template&rsquo;s category is unique. For example, with a custom category
+<code>custom/net/general</code> there should not be another top level <code>custom</code> category id, but the second
+and third level category ids can be re-used in another top level category, such as <code>top/net/general</code>.</p>
+
+<p>The Add Category button will add a single child category to the currently selected category
+whilst the Remove button will remove the selected category.</p>
+
+<p>Note that changes to the categories require Visual Studio for Mac to be restarted before they
+are visible in the New Project dialog.</p>
+
+<p>Also note that it is not currently possible to extend existing project template categories
+using the Template Creator extension.</p>
+
+<h2>Diagnosing Template Problems</h2>
+
+<p>If the template does not appear in the New Project dialog or fails to be created then
+you may be able to diagnose the problem by opening the Templating Log window. This is
+available from the View &ndash; Pads menu.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/MainMenuViewPadsTemplatingLog.png" title="&lsquo;Main menu &ndash; View &ndash; Pads &ndash; Templating Log&rsquo; &lsquo;Main menu &ndash; View &ndash; Templating Log&rsquo;" ></p>
+
+<p>This window will show messages returned from the .NET Core templating engine and any errors
+reported by the Template Creator extension.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TemplatingLogWindow.png" title="&lsquo;Templating Log window&rsquo; &lsquo;Templating Log window&rsquo;" ></p>
+
+<h2>Installation</h2>
+
+<p>The Template Creator extension is available to download from <a href="https://github.com/mrward/monodevelop-template-creator-addin/releases/download/0.1/MonoDevelop.TemplateCreator_0.1.mpack">GitHub</a>.</p>
+
+<p>To install the extension open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
+
+<p>The extension is also available from a <a href="https://github.com/mrward/monodevelop-addins">custom MonoDevelop 7.0 extension server</a>. It is not currently published to the main Visual Studio for Mac extension gallery.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension for Visual Studio for Mac and MonoDevelop</a></li>
+</ul>
+
+
+<h2>Further Reading</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2017/04/02/how-to-create-your-own-templates-for-dotnet-new/">How to create your own templates for dotnet new</a></li>
+<li><a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">Reference for template.json</a></li>
+<li><a href="https://www.jimbobbennett.io/creating-visual-studio-project-and-solution-templates-part-3-vs-for-mac-extension/">Creating Visual Studio project and solution templates &ndash; Part 3, VS for Mac extension</a></li>
+<li><a href="https://github.com/ligershark/sidewafflev2">SideWaffle v2 for Visual Studio</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.2]]></title>
@@ -694,82 +922,6 @@ Update items.</p>
 
 <p>This then caused the build to fail since these files are already included by
 the .NET Core SDK.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Configuring Open With in Visual Studio for Mac 7.0]]></title>
-    <link href="http://lastexitcode.com/blog/2017/08/06/ConfiguringOpenWithInVisualStudioMac7-0/"/>
-    <updated>2017-08-06T12:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2017/08/06/ConfiguringOpenWithInVisualStudioMac7-0</id>
-    <content type="html"><![CDATA[<p>Visual Studio on Windows can be <a href="https://msdn.microsoft.com/en-us/library/hy2sthf1.aspx">configured to use a different editor to open a file</a>. With Visual Studio for Mac, whilst you can open a file with a selection of editors and applications, it is not currently possible to change the default editor or add a custom application.</p>
-
-<p>The <a href="https://github.com/mrward/monodevelop-open-with-addin">Open With addin</a> provides an Open With dialog that allows you to change the default editor or application used to open a file in a similar way to how this is done in Visual Studio on Windows.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Supports changing the default editor used to open a file.</li>
-<li>Supports adding a custom application to open a file.</li>
-<li>Editor configuration is saved and will be available on restarting Visual Studio for Mac.</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li>Visual Studio Mac 7.0 or later.</li>
-</ul>
-
-
-<h2>Configuring the Default Editor or Application</h2>
-
-<p>To configure the application or editor used to open file you can right click the file in the Solution window and select Open With &ndash; Preferences&hellip;</p>
-
-<p><img src="/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/OpenWithPreferencesMenu.png" title="&lsquo;Open With &ndash; Preferences context menu&rsquo; &lsquo;Open With &ndash; Preferences context menu&rsquo;" ></p>
-
-<p>This will open the Open With dialog.</p>
-
-<p><img src="/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/OpenWithDialog.png" title="&lsquo;Open With dialog&rsquo; &lsquo;Open With dialog&rsquo;" ></p>
-
-<p>The editors and applications that support opening the file are displayed. The default application is indicated by having (Default) next to its name.</p>
-
-<p>To change the default application or editor used to open the file select it and then click the Set as Default button. Click OK to close the dialog and save the configuration.</p>
-
-<p>If a file is currently open then it will need to be closed before it is opened in the new default editor or application.</p>
-
-<h2>Adding a Custom Application</h2>
-
-<p>A custom application can be added to the list of applications shown in the Open With menu. First open the Open With dialog by selecting Open With &ndash; Preferences. Then click the Add button to open the Add Application dialog.</p>
-
-<p><img src="/images/blog/ConfiguringOpenWithInVisualStudioMac7-0/AddApplicationDialog.png" title="&lsquo;Add Application dialog&rsquo; &lsquo;Add Application dialog&rsquo;" ></p>
-
-<p>The Browse button can be used to find an application.</p>
-
-<p>The Friendly Name is the name that will be displayed in the Open With menu for the custom application.</p>
-
-<p>Arguments cannot be specified if a Mac application (.app) is used. However if the application is not a Mac application, for example, it is a C# program, then arguments can be passed. To pass the filename to the program you can use {0} in the Arguments text box. This placeholder will be expanded to be the full filename path when the program is run.</p>
-
-<h2>Removing a Custom Application</h2>
-
-<p>To remove a custom application for a file first open the Open With dialog by selecting Open With &ndash; Preferences. Select the application you want to remove. Then click the Remove button.</p>
-
-<p>The Remove button is only enabled for custom applications that you have added. The built-in editors and applications cannot be removed.</p>
-
-<h2>Installation</h2>
-
-<p>The Open With addin is available to download from <a href="https://github.com/mrward/monodevelop-open-with-addin/releases/download/0.1/MonoDevelop.OpenWith_0.1.mpack">GitHub</a>.</p>
-
-<p>To install the addin open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
-
-<p>The addin is also available from a <a href="https://github.com/mrward/monodevelop-addins">custom MonoDevelop 7.0 addin server</a>. It is not currently published to the main MonoDevelop addin server.</p>
-
-<h2>Source Code</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-open-with-addin">Open With addin for Visual Studio for Mac</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
