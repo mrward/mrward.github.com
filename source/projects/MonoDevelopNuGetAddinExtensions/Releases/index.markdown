@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2017-09-26 23:00
+date: 2017-12-05 22:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.12.6
+
+2017-12-05
+
+ * Support Visual Studio for Mac 7.3.0.797
 
 ## Version 0.12.5
 
