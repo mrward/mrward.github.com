@@ -9,8 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="The Template Creator extension provides a way to create a project template from an existing project
-or solution open in Visual Studio for Mac and &hellip;">
+  <meta name="description" content="Changes Support installing System.ValueTuple NuGet Package from Quick Fixes NuGetizer 3000 &ndash; Update NuGet.Build.Packaging to version 0.2 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +81,181 @@ or solution open in Visual Studio for Mac and &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/12/10/NuGetSupportInVisualStudioMac7-3/">NuGet Support in Visual Studio for Mac 7.3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-10T11:00:00+00:00" pubdate data-updated="true">Dec 10<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> Support installing System.ValueTuple NuGet Package from Quick Fixes</li>
+<li> NuGetizer 3000 &ndash; Update NuGet.Build.Packaging to version 0.2</li>
+<li> Support NuGet Restore MSBuild Properties
+
+<ul>
+<li>RestoreAdditionalProjectFallbackFolders</li>
+<li>RestoreAdditionalProjectSources</li>
+<li>RestoreFallbackFolders</li>
+<li>RestorePackagesPath</li>
+<li>RestoreSources</li>
+</ul>
+</li>
+<li> Fixed transitive dependencies not available when using project.json</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.3</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-december-4-2017---visual-studio-2017-version-73-730797">release notes</a>.</p>
+
+<h2>Quick Fix &ndash; Install System.ValueTuple NuGet Package</h2>
+
+<p><a href="https://blogs.msdn.microsoft.com/dotnet/2016/08/24/whats-new-in-csharp-7-0/">C# 7.0 introduced tuple types</a>
+that may require the System.ValueTuple NuGet package
+to be added to the project. Visual Studio for Mac
+now offers to install the System.ValueTuple NuGet package if the project requires this NuGet package.</p>
+
+<p>Creating a .NET Framework 4.6 project with the following code:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public (string, int) GetValues(string id)
+</span><span class='line'>{
+</span><span class='line'>  return ("Name", 25);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will see error markers in the text editor. If you hover over
+one of these error markers you will see a
+<strong>Predefined type &lsquo;System.ValueTuple`2&rsquo; is not defined or imported</strong> message.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-3/ValueTupleTextEditorErrorTooltip.png" title="ValueTuple type not defined text editor error tooltip" alt="ValueTuple type not defined text editor error tooltip"></p>
+
+<p>If you right click the error marker there is now a new
+<strong>Install Package &lsquo;System.ValueTuple&rsquo;</strong> Quick Fix action available.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-3/TextEditorInstallSystemValueTuplePackageQuickFix.png" title="Text editor Install System.ValueTuple Package quick fix menu item" alt="Text editor Install System.ValueTuple Package quick fix menu item"></p>
+
+<p>From this menu you can install the latest System.ValueTuple NuGet package
+or open the Add Packages dialog to search for a specific version of the System.ValueTuple NuGet
+package.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-3/TextEditorInstallLatestSystemValueTupleQuickFix.png" title="Text editor install latest System.ValueTuple package quick fix menu item" alt="Text editor install latest System.ValueTuple package quick fix menu item"></p>
+
+<p>Note that if the project is targeting .NET Framework 4.7 or .NET Standard 2.0 then the
+System.ValueTuple NuGet package is not required.</p>
+
+<p>Also note that the official nuget.org package source needs to be available
+for this feature to work.</p>
+
+<h2>NuGetizer 3000 &ndash; Updated NuGet.Build.Packaging to version 0.2</h2>
+
+<p>The version of the NuGet.Build.Packaging NuGet package used by default for NuGetizer 3000 support
+has been updated from 0.1.276 to 0.2.0. This fixes a
+potential build error when building with Mono 5.6.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Using "ReportAssetsLogMessages" task from assembly "/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/../tools/net46/Microsoft.NET.Build.Tasks.dll".
+</span><span class='line'>Task "ReportAssetsLogMessages"
+</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: The "ReportAssetsLogMessages" task failed unexpectedly. [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
+</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: System.TypeLoadException: Could not resolve type with token 0100005b (from typeref, class/assembly NuGet.ProjectModel.IAssetsLogMessage, NuGet.ProjectModel, Version=4.3.0.5, Culture=neutral, PublicKeyToken=31bf3856ad364e35) [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
+</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.NET.Build.Tasks.TaskBase.Execute () [0x00000] in &lt;01420900fd004c128de2d2ee31bad624&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
+</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.Build.BackEnd.TaskExecutionHost.Microsoft.Build.BackEnd.ITaskExecutionHost.Execute () [0x00023] in &lt;765502eb2f884ce79731edeb4b0517fb&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
+</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.Build.BackEnd.TaskBuilder+d__26.MoveNext () [0x0022d] in &lt;765502eb2f884ce79731edeb4b0517fb&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The ReadLegacyDependencies target from NuGet.Build.Packaging.Tasks is called when PackOnBuild
+is set to true.</p>
+
+<p>The NuGet.Build.Packaging.Tasks assembly was loading an embedded NuGet.ProjectModel
+assembly that conflicts with the version that is used by Microsoft.NET.Build.Tasks.</p>
+
+<h2>Support RestoreAdditionalProjectFallbackFolders MSBuild Property</h2>
+
+<p>The RestoreAdditionalProjectFallbackFolders MSBuild property is
+read and appended to the list of fallback folders stored in the
+project.assets.json file. The .NET Core 2.0 SDK will set this
+MSBuild property to point to the NuGet package fallback folder
+that is installed with the SDK. This will be used
+to resolve NuGet packages first before downloading them to the
+~/.nuget/packages folder.</p>
+
+<h2>Support RestoreAdditionalProjectSources MSBuild Property</h2>
+
+<p>The RestoreAdditionalProjectSources MSBuild property can be used
+to add additional package sources to the existing list of sources
+used to resolve packages.</p>
+
+<h2>Support RestoreFallbackFolders MSBuild Property</h2>
+
+<p>The RestoreFallbackFolders MSBuild property can be used by project that uses
+PackageReferences to define a set of package fallback folders that
+will override any specified in the NuGet.Config file. It can also
+be used to clear any pre-defined fallback folders by specifying
+&lsquo;clear&rsquo; as its value. Note that this value does not affect any
+folders defined by RestoreAdditionalProjectFallbackFolders which
+will be appended even if RestoreFallbackFolders is set to &lsquo;clear&rsquo;.</p>
+
+<h2>Support RestorePackagesPath MSBuild Property</h2>
+
+<p>The RestorePackagesPath MSBuild property can be used to override the global packages
+folder location when a project uses a PackageReference.</p>
+
+<h2>Support RestoreSources MSBuild property</h2>
+
+<p>The RestoreSources MSBuild property can be used to override
+the sources defined by any NuGet.Config file. Any sources defined in the
+RestoreAdditionalProjectSources MSBuild property will still be appended to the
+list of sources if RestoreSources is defined.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Transitive dependencies not available when using project.json</strong></p>
+
+<p>With two projects A and B that both use project.json files, project B
+referencing project A, the NuGet package dependencies used by project
+A were not available to project B transitively. This was because the
+project reference information was not being used
+when a restore occurred. This caused the assemblies from the transitively
+referenced NuGet packages to not be added to the
+project.lock.json file for Project B.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1838,200 +2012,6 @@ set a breakpoint on a line by clicking in the left hand margin, then select Star
 <li><a href="https://github.com/PowerShell/PowerShellEditorServices">PowerShell Editor Services</a></li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/09/17/NuGetSupportInXamarinStudio6-1/">NuGet Support in Xamarin Studio 6.1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-09-17T12:00:00+01:00" pubdate data-updated="true">Sep 17<sup>th</sup>, 2016</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Xamarin Studio 6.1 was released last week as part of the latest stable <a href="https://blog.xamarin.com/major-updates-ios-10-android-nougat-and-other-tasty-bits/">Xamarin Platform release</a> and it includes changes made to the NuGet support.</p>
-
-<h2>Changes</h2>
-
-<ul>
-<li> NuGet 3.4.3 support</li>
-<li> Support for project.json files</li>
-<li> A specific NuGet package version can now be installed from a list shown in the Add Packages dialog</li>
-<li> NuGet operations can now be cancelled from the status bar or Package Console</li>
-<li> Support browsing for a local directory when creating a package source</li>
-<li> Support forcefully removing a NuGet package when it is missing from all package sources</li>
-<li> Packages installed in the solution are no longer shown in the Add Packages dialog</li>
-<li> Only global package sources are now shown in Preferences</li>
-<li> NuGet version supported is now displayed in the About dialog</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 6.1 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.1/xamarin.studio_6.1/">release notes</a>.</p>
-
-<h2>NuGet 3.4.3 support</h2>
-
-<p>Xamarin Studio now includes <a href="https://docs.nuget.org/release-notes/nuget-3.4.3">NuGet 3.4.3</a> which means project.json files are now supported and NuGet packages that only support NuGet 3 or above can now be installed.</p>
-
-<h2>Support for project.json files</h2>
-
-<p>The project.json file is a new package file format introduced with NuGet 3 which supports transitive restore. More detailed information on project.json can be found in the <a href="https://docs.nuget.org/consume/projectjson-intro">NuGet documentation</a>.</p>
-
-<p>A project.json file replaces the packages.config file and holds the NuGet packages
-being used by the project. One difference you will notice is that the project.json file may not show the same list of NuGet packages that a packages.config file would show. This is because the project.json file only shows the NuGet packages you explicitly install into your project. So if you install say bootstrap you will only see bootstrap in the project.json file even though it depends on jQuery. If you do the same for a packages.config file you would see both bootstrap and jQuery saved in the file. Another difference is that references are not added to your project file (.csproj) when using a
-project.json file.</p>
-
-<p>In order to use a project.json file with Xamarin Studio you will need to create the file yourself in the project directory and close and re-open the solution. The project.json file needs to be
-available when you open the project otherwise Xamarin Studio will default to using a packages.config file.</p>
-
-<p>An example project.json file for a .NET 4.5 library project is shown below:</p>
-
-<pre><code>{
-  "frameworks": {
-    "net45": {}
-  }
-}
-</code></pre>
-
-<p>When you add a NuGet package to a project that uses a project.json file the NuGet package
-information will be added into a dependencies section:</p>
-
-<pre><code> "dependencies": {
-   "NUnit": "3.2.1"
- }
-</code></pre>
-
-<p>Please note that when using a project.json file the project will not display a From Packages directory
-inside the References folder. This is because the project file does not have any
-references added to it when using a project.json and the reference information is currently not available from the project system.</p>
-
-<p>Please note that there are <a href="https://blogs.msdn.microsoft.com/dotnet/2016/05/23/changes-to-project-json/">future plans</a> to move the information stored in a project.json file into the project file.</p>
-
-<h1>NuGet 3 package source</h1>
-
-<p>Xamarin Studio now supports using the NuGet 3 package source:</p>
-
-<p><a href="https://api.nuget.org/v3/index.json">https://api.nuget.org/v3/index.json</a></p>
-
-<p>This can be added into your package sources in Preferences. It is also the package
-source that will be created by default if your global <a href="http://lastexitcode.com/projects/NuGet/FileLocations/">NuGet.Config file</a> is missing.</p>
-
-<h2>Installing a specific NuGet package version from the Add Packages dialog</h2>
-
-<p>Older versions of Xamarin Studio supported being able to install specific package versions by using a package version search in the Add Packages dialog as shown below:</p>
-
-<pre><code>NUnit version:*
-</code></pre>
-
-<p>This package version search was not easy to discover and so it has been removed and replaced in Xamarin Studio 6.1 with a combo box that allows a particular version to be selected. The Version combo box is in the bottom right hand corner of the Add Packages dialog as shown in the screenshots below.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio6-1/AddPackagesDialog.png" title="Add Packages dialog" alt="Add Packages dialog"></p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio6-1/AddPackagesDialogWithVersionComboBoxSelected.png" title="Add Packages dialog with version combo box selected" alt="Add Packages dialog with version combo box selected"></p>
-
-<p>Note that in order to populate the version combo box a second request is sent to the
-package source so it may not show all the versions immediately.</p>
-
-<p>Also note that for package sources which are local directories only the latest version will be displayed in the version combo box.</p>
-
-<h2>Cancelling a NuGet operation</h2>
-
-<p>With Xamarin Studio you can now cancel the currently running NuGet package operation. This can be done
-by clicking the red Stop button in the Status Bar or in the Package Console.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio6-1/StatusBarStopButton.png" title="Status bar stop button" alt="Status bar stop button"></p>
-
-<h2>Adding local package sources</h2>
-
-<p>When adding a package source in Preferences it is now easier to create a package source for
-a directory on your local machine. There is now a browse button which will allow you to browse to a directory and add it rather than having to type the full path into the text box.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio6-1/AddPackageSourceDialog.png" title="Add Package Source dialog" alt="Add Package Source dialog"></p>
-
-<p>The Add Package Source dialog has also been changed to make it more obvious that either a URL or a folder can be used as a package source. The URL label has been changed to Location and the placeholder text now specifies that a URL or a folder can be used.</p>
-
-<h2>Forced NuGet package removal</h2>
-
-<p>A NuGet package can now be removed when it not restored and is unavailable from all package sources.</p>
-
-<p>With older versions of Xamarin Studio a NuGet package must be restored before it can be
-removed. This is a requirement of NuGet since it requires the original NuGet package to work out what has been installed so it can determine what needs to be uninstalled. NuGet can do more than just update the project file with references and MSBuild .targets files, it may add new files to the project or it may run app.config or web.config transforms.</p>
-
-<p>When the NuGet package removal fails because the NuGet package cannot be restored a dialog will be
-displayed asking whether you want to try to remove the NuGet package anyway. If the OK button is selected
-then Xamarin Studio will:</p>
-
-<ol>
-<li>Remove the NuGet package from the packages.config file.</li>
-<li>Remove any assembly references for the NuGet package from the project file (.csproj).</li>
-<li>Remove any Imports that refer to .targets or .props files that were included with that NuGet package.</li>
-</ol>
-
-
-<p>This process may miss files that were added to the project by NuGet but in the majority of cases it should remove the NuGet package successfully without having to manually remove the NuGet package information from the project file.</p>
-
-<h2>Packages installed in solution are no longer shown in Add Packages dialog</h2>
-
-<p>With previous versions of Xamarin Studio all packages installed in the solution were shown first in the list of packages in the Add Packages dialog. Packages installed in the solution are now no longer shown in the Add Packages dialog.</p>
-
-<h2>Only global package sources shown in Preferences</h2>
-
-<p>The package sources shown in the Preferences dialog are now only read from the global NuGet config file. Per-solution NuGet.Config files located in individual solution directories are no longer read when showing the package sources in Preferences. This is because changes made in Preferences only modifies the global NuGet.Config file.</p>
-
-<p>The package sources shown in the Add packages dialog will still include package sources defined in a solution&rsquo;s NuGet.Config file and is unaffected by this change.</p>
-
-<h2>NuGet version displayed in About dialog</h2>
-
-<p>The version of NuGet supported by Xamarin Studio is now displayed in the About dialog when the Show Details button is selected.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio6-1/AboutDialog.png" title="About dialog" alt="About dialog"></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Custom MSBuild  .targets files were not always added to the end of the project</strong></p>
-
-<p>When installing a NuGet package that has a .targets file the Import element created was grouped with the existing Import elements. This is OK most of the time however if there are other items in the project added after the import then any build targets may fail since these items are included after the import. One example is the netfx-System.StringResources NuGet package which may not find any resource files that occur in the project after its Import element.</p>
-
-<p>Now .targets files are added as the last element in the project file. This also makes the behaviour consistent with how NuGet works in Visual Studio.</p>
-
-<p><strong>Custom MSBuild .props files were not added to the start of the project</strong></p>
-
-<p>Installing a NuGet package that included an MSBuild .props file would add an Import element for the .props file at the end of the project file which is incorrect. Now .props files are added to the project file as the first child element inside the Project&rsquo;s root element.</p>
-
-<h2>Known Issues</h2>
-
-<p><strong>Offline package restore</strong></p>
-
-<p>Package restore may not work when you are offline
-even though the NuGet packages may be available in the local NuGet cache on your machine.</p>
-
-<p>The current workaround is to create a package source that
-points to a local directory containing all the required NuGet packages and disable all online
-NuGet package sources. With just the local package source enabled you can then restore the NuGet packages when you are
-offline. Note that this problem also affects Visual Studio 2015.</p>
 </div>
   
   
