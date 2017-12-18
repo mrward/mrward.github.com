@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>.NET Core Support in Visual Studio for Mac 7.3 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes VSTest Console Runner now included with Visual Studio for Mac Allows xUnit tests to be supported for non .NET Core projects Renamed ASP.NET &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2017/12/18/NetCoreSupportInVisualStudioMac7-3">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">.NET Core Support in Visual Studio for Mac 7.3</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-18T12:00:00+00:00" pubdate data-updated="true">Dec 18<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> <a href="https://github.com/Microsoft/vstest">VSTest</a> Console Runner now included with Visual Studio for Mac
+
+<ul>
+<li>Allows <a href="https://xunit.github.io">xUnit</a> tests to be supported for non .NET Core projects</li>
+</ul>
+</li>
+<li> Renamed ASP.NET Core Project Templates</li>
+<li> New ASP.NET Core F# Project Templates Added</li>
+<li> Support Backslash in Project Template Primary Output Path</li>
+<li> Support <a href="https://github.com/NuGet/Home/wiki/%5BSpec%5D-NuGet-settings-in-MSBuild">NuGet Restore MSBuild Properties</a>
+
+<ul>
+<li>RestoreAdditionalProjectFallbackFolders</li>
+<li>RestoreAdditionalProjectSources</li>
+<li>RestoreFallbackFolders</li>
+<li>RestorePackagesPath</li>
+<li>RestoreSources</li>
+</ul>
+</li>
+<li> Fixed transitive project references not supported</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.3</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-december-4-2017---visual-studio-2017-version-73-730797">release notes</a></p>
+
+<h2>VSTest Console Runner</h2>
+
+<p>Previous versions of Visual Studio for Mac would use <strong>dotnet vstest</strong>,
+included with the .NET Core SDK,
+to run unit tests for .NET Core projects. Now Visual Studio for Mac includes
+the <a href="https://github.com/Microsoft/vstest">VSTest</a> Console runner and uses that instead of using the .NET Core SDK.</p>
+
+<p>The standalone VSTest Console runner allows other project types, not just .NET Core projects, to
+be supported. Visual Studio for Mac can now run <a href="https://xunit.github.io">xUnit</a> tests
+for .NET Framework projects. Previously only NUnit was supported.</p>
+
+<p>Let us take a look at using xUnit in a .NET Framework project.</p>
+
+<p>First create a .NET Framework Library project by opening the New Project dialog and selecting
+Library from the Other &ndash; .NET &ndash; General category.</p>
+
+<p>Install the following NuGet packages into the project.</p>
+
+<ul>
+<li>xunit</li>
+<li>xunit.runner.visualstudio</li>
+</ul>
+
+
+<p>Edit MyClass.cs and add some xUnit tests, as shown below:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>using Xunit;
+</span><span class='line'>
+</span><span class='line'>namespace xUnitTests
+</span><span class='line'>{
+</span><span class='line'>  public class MyClass
+</span><span class='line'>  {
+</span><span class='line'>      [Fact]
+</span><span class='line'>      public void PassingTest()
+</span><span class='line'>      {
+</span><span class='line'>          Assert.True(true);
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      [Fact]
+</span><span class='line'>      public void FailingTest()
+</span><span class='line'>      {
+</span><span class='line'>          Assert.False(true);
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Building the project should then show the xUnit tests in the Unit Tests window.</p>
+
+<p><img src="/images/blog/NetCoreSupportInVisualStudioMac7-3/xUnitTestsInUnitTestsWindow.png" title="xUnit tests in Unit Tests window" alt="xUnit tests in Unit Tests window"></p>
+
+<p>Note that, due to a bug in Visual Studio for Mac, the tests may not appear in the
+Unit Tests window if the
+xunit.runner.visualstudio was not available in the local machine&rsquo;s NuGet
+package cache when it was added to the project. Closing and re-opening the
+solution should allow the tests to be discovered.</p>
+
+<p>The tests can then be run or debugged in the usual way.</p>
+
+<p>Currently MSTest is not yet supported in .NET Framework projects. The tests are discovered
+but they fail to run with an access denied error message:</p>
+
+<pre><code>An exception occurred while invoking executor 'executor://mstestadapter/v2': 
+Access to the path "/TestResults" is denied.
+</code></pre>
+
+<h2>Renamed ASP.NET Core Project Templates</h2>
+
+<p>The ASP.NET Core template names displayed in the New Project dialog
+have been changed to be more consistent with Visual Studio on Windows.</p>
+
+<ul>
+<li>&lsquo;ASP.NET Core Web App (Razor Pages)&rsquo; renamed to &lsquo;ASP.NET Core Web App&rsquo;</li>
+<li>&lsquo;ASP.NET Core Web App&rsquo; renamed to &lsquo;ASP.NET Core Web App (MVC)&rsquo;</li>
+</ul>
+
+
+<p>Visual Studio uses (Model-View-Controller) but the shorter
+MVC is used by Visual Studio for Mac.</p>
+
+<h2>New ASP.NET Core F# Project Templates Added</h2>
+
+<p>The following ASP.NET Core F# project templates are now available from the
+New Project dialog.</p>
+
+<ul>
+<li>ASP.NET Core Empty
+
+<ul>
+<li>.NET Core 1.x and 2.0</li>
+</ul>
+</li>
+<li>ASP.NET Core Web API
+
+<ul>
+<li>.NET Core 2.0 only</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Support Backslash in Project Template Primary Output Path</h2>
+
+<p>The template.json file used by the new templating engine uses a
+primaryOutputs property for projects and files. If the paths used
+contained backslashes then the project was not added to the
+solution.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"primaryOutputs": [
+</span><span class='line'>  { "path": "Library1\\Library1.csproj" },
+</span><span class='line'>  { "path": "Library2\\Library2.csproj" }
+</span><span class='line'>]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now the paths have the backslashes replaced with forward slashes if
+the current platform does not support backslash as a path
+separator.</p>
+
+<h2>Support RestoreAdditionalProjectFallbackFolders MSBuild Property</h2>
+
+<p>The RestoreAdditionalProjectFallbackFolders MSBuild property is
+read and appended to the list of fallback folders stored in the
+project.assets.json file. The .NET Core 2.0 SDK will set this
+MSBuild property to point to the NuGet package fallback folder
+that is installed with the SDK. This will be used
+to resolve NuGet packages first before downloading them to the
+~/.nuget/packages folder.</p>
+
+<h2>Support RestoreAdditionalProjectSources MSBuild Property</h2>
+
+<p>The RestoreAdditionalProjectSources MSBuild property can be used
+to add additional package sources to the existing list of sources
+used to resolve packages.</p>
+
+<h2>Support RestoreFallbackFolders MSBuild Property</h2>
+
+<p>The RestoreFallbackFolders MSBuild property can be used by project that uses
+PackageReferences to define a set of package fallback folders that
+will override any specified in the NuGet.Config file. It can also
+be used to clear any pre-defined fallback folders by specifying
+&lsquo;clear&rsquo; as its value. Note that this value does not affect any
+folders defined by RestoreAdditionalProjectFallbackFolders which
+will be appended even if RestoreFallbackFolders is set to &lsquo;clear&rsquo;.</p>
+
+<h2>Support RestorePackagesPath MSBuild Property</h2>
+
+<p>The RestorePackagesPath MSBuild property can be used to override the global packages
+folder location when a project uses a PackageReference.</p>
+
+<h2>Support RestoreSources MSBuild property</h2>
+
+<p>The RestoreSources MSBuild property can be used to override
+the sources defined by any NuGet.Config file. Any sources defined in the
+RestoreAdditionalProjectSources MSBuild property will still be appended to the
+list of sources if RestoreSources is defined.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed Transitive Project References not supported</strong></p>
+
+<p>With three .NET Core projects, LibC referencing LibB referencing LibA,
+the types defined by LibA were not available to LibC unless it was
+directly referencing LibA. In Visual Studio for Mac 7.3 the types
+defined by LibA are available to LibC without LibC directly
+referencing LibA.</p>
+
+<p><strong>Portable Class Library projects can now be referenced by .NET Core projects</strong></p>
+
+<p>Portable Class Library (PCL) projects could not be referenced by .NET Core
+projects or .NET Standard projects. The Edit References dialog would show
+&ldquo;Incompatible target framework&rdquo; for the PCL project when trying to add the
+reference.</p>
+
+<p>Visual Studio for Mac now has the same behaviour as Visual Studio on Windows where
+a .NET Standard project can reference any PCL project.</p>
+
+<p><strong>Fixed MSBuild Update item not removed from project</strong></p>
+
+<p>If a file was deleted from a project, or removed without deleting,
+and the file was the last file for a particular wildcard include, the
+Update item for the file was not being removed from the project.</p>
+
+<p><strong>Fixed MSBuild Remove item not added when Update item exists</strong></p>
+
+<p>With a project that contained a single .cs file, and that file had
+an Update item defined, when the file was removed from the project,
+without deleting it, a Remove item was not being added to the project for the file.</p>
+
+<p><strong>Fixed Remove item not being added when file excluded from project</strong></p>
+
+<p>When the last file was removed from the project, but not deleted, an
+MSBuild Remove item was not added to the project for the file.</p>
+
+<ol>
+<li>Create a .NET Standard 2.0 project.</li>
+<li>Right click Class1.cs and select Remove.</li>
+<li>Select Remove from Project in the dialog that opens.</li>
+<li>Close and re-open solution.</li>
+</ol>
+
+
+<p>The Class1.cs file was still shown in the Solution window when it should have been
+removed. The project file did not have a Compile remove item for Class1.cs when it should
+have been added:</p>
+
+<pre><code>&lt;Compile Remove="Class1.cs" /&gt;
+</code></pre>
+
+<p><strong>Deleting a XAML file left an MSBuild Remove item in project file</strong></p>
+
+<p>When a .xaml file in a project was deleted the associated
+Remove MSBuild item, if it was present, was not being removed from the
+project file.</p>
+
+<ol>
+<li> Create a new .NET Standard 2.0 project.</li>
+<li> Add Xamarin.Forms 2.3 NuGet package.</li>
+<li> Add a new Content Page with Xaml file using the New File dialog.</li>
+<li> In the Solution window select the .xaml file and delete it.</li>
+</ol>
+
+
+<p>All MSBuild items associated with the .xaml file should have been
+removed from the project file but instead a None item would remain.</p>
+
+<pre><code>&lt;None Remove="MyPage.xaml" /&gt;
+</code></pre>
+
+<p><strong>Fix MSBuild remove item not added when adding a XAML file</strong></p>
+
+<p>Adding a new .xaml file to a project was not adding a None Remove
+item for the .xaml file to remove it from the default wildcard include for all
+files.</p>
+
+<pre><code>&lt;None Remove="MyNewPage.xaml" /&gt;
+</code></pre>
+
+<p>On reloading the solution the Solution window would show two .xaml
+files &ndash; one EmbeddedResource item and one None item.</p>
+
+<p><strong>Fixed MSBuild condition evaluation when using Czech locale</strong></p>
+
+<p>With the primary operating system language set to Czech, creating a new .NET
+Core project would result in the project having a target framework of net461.</p>
+
+<p>The problem was that Single.TryParse was returing true for an empty string
+when the machine&rsquo;s culture was &lsquo;cs-CZ&rsquo;. This was causing the MSBuild condition
+evaluation to be treated as a boolean comparison incorrectly in some cases.
+The condition below would return false even though the property was
+not defined and both sides of the condition were empty strings:</p>
+
+<pre><code>&lt;PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == ''"&gt;
+</code></pre>
+
+<p>This was causing the TargetFrameworkIdentifier to not be set for
+.NET Core projects so the default of .NETFramework was being used.</p>
+
+<p><strong>Re-evaluate AppliesTo condition on capability change</strong></p>
+
+<p>Fixed the AppliesTo attribute not attaching a project extension to
+a project after a NuGet package restore enabled a project capability.
+The AppliesTo attribute allows a project extension to be associated
+to a project based on its capabilities.</p>
+
+<p>If the project extension uses an AppliesTo attribute which is
+initially false and then a new project capability is added, and the
+project is re-evaluated, the AppliesTo attribute is now
+re-evaluated. This will then cause the project extension to be
+attached to the project. If the project extension was attached to the
+project and the project capability is removed then the project
+extension will now be removed when the project is re-evaluated.</p>
+
+<p><strong>Fixed being unable to run a new Azure Functions project</strong></p>
+
+<p>Creating a new Azure Functions project would result in
+being unable to run the project until the solution was closed
+and re-opened again. After the NuGet packages are restored the
+project can be run but this information was not updated in Visual Studio
+for Mac.</p>
+
+<p>Now after a NuGet package restore, when re-evaluating the project,
+the solution startup item is updated if there is no startup item
+already defined.</p>
+
+<p>When the project capability is removed, due to a NuGet package
+being uninstalled, and the
+project can no longer be run the startup item will be updated if
+it was previously set to be this project.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-18T12:00:00+00:00" pubdate data-updated="true">Dec 18<sup>th</sup>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/netcore/'>netcore</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2017/12/18/NetCoreSupportInVisualStudioMac7-3/" data-via="" data-counturl="http://lastexitcode.com/blog/2017/12/18/NetCoreSupportInVisualStudioMac7-3/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/12/10/NuGetSupportInVisualStudioMac7-3/" title="Previous Post: NuGet Support in Visual Studio for Mac 7.3">&laquo; NuGet Support in Visual Studio for Mac 7.3</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

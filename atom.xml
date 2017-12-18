@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-12-10T12:19:45+00:00</updated>
+  <updated>2017-12-18T15:22:38+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,356 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.3]]></title>
+    <link href="http://lastexitcode.com/blog/2017/12/18/NetCoreSupportInVisualStudioMac7-3/"/>
+    <updated>2017-12-18T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2017/12/18/NetCoreSupportInVisualStudioMac7-3</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> <a href="https://github.com/Microsoft/vstest">VSTest</a> Console Runner now included with Visual Studio for Mac
+
+<ul>
+<li>Allows <a href="https://xunit.github.io">xUnit</a> tests to be supported for non .NET Core projects</li>
+</ul>
+</li>
+<li> Renamed ASP.NET Core Project Templates</li>
+<li> New ASP.NET Core F# Project Templates Added</li>
+<li> Support Backslash in Project Template Primary Output Path</li>
+<li> Support <a href="https://github.com/NuGet/Home/wiki/%5BSpec%5D-NuGet-settings-in-MSBuild">NuGet Restore MSBuild Properties</a>
+
+<ul>
+<li>RestoreAdditionalProjectFallbackFolders</li>
+<li>RestoreAdditionalProjectSources</li>
+<li>RestoreFallbackFolders</li>
+<li>RestorePackagesPath</li>
+<li>RestoreSources</li>
+</ul>
+</li>
+<li> Fixed transitive project references not supported</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.3</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-december-4-2017---visual-studio-2017-version-73-730797">release notes</a></p>
+
+<h2>VSTest Console Runner</h2>
+
+<p>Previous versions of Visual Studio for Mac would use <strong>dotnet vstest</strong>,
+included with the .NET Core SDK,
+to run unit tests for .NET Core projects. Now Visual Studio for Mac includes
+the <a href="https://github.com/Microsoft/vstest">VSTest</a> Console runner and uses that instead of using the .NET Core SDK.</p>
+
+<p>The standalone VSTest Console runner allows other project types, not just .NET Core projects, to
+be supported. Visual Studio for Mac can now run <a href="https://xunit.github.io">xUnit</a> tests
+for .NET Framework projects. Previously only NUnit was supported.</p>
+
+<p>Let us take a look at using xUnit in a .NET Framework project.</p>
+
+<p>First create a .NET Framework Library project by opening the New Project dialog and selecting
+Library from the Other &ndash; .NET &ndash; General category.</p>
+
+<p>Install the following NuGet packages into the project.</p>
+
+<ul>
+<li>xunit</li>
+<li>xunit.runner.visualstudio</li>
+</ul>
+
+
+<p>Edit MyClass.cs and add some xUnit tests, as shown below:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>using Xunit;
+</span><span class='line'>
+</span><span class='line'>namespace xUnitTests
+</span><span class='line'>{
+</span><span class='line'>  public class MyClass
+</span><span class='line'>  {
+</span><span class='line'>      [Fact]
+</span><span class='line'>      public void PassingTest()
+</span><span class='line'>      {
+</span><span class='line'>          Assert.True(true);
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      [Fact]
+</span><span class='line'>      public void FailingTest()
+</span><span class='line'>      {
+</span><span class='line'>          Assert.False(true);
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Building the project should then show the xUnit tests in the Unit Tests window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-3/xUnitTestsInUnitTestsWindow.png" title="xUnit tests in Unit Tests window" alt="xUnit tests in Unit Tests window"></p>
+
+<p>Note that, due to a bug in Visual Studio for Mac, the tests may not appear in the
+Unit Tests window if the
+xunit.runner.visualstudio was not available in the local machine&rsquo;s NuGet
+package cache when it was added to the project. Closing and re-opening the
+solution should allow the tests to be discovered.</p>
+
+<p>The tests can then be run or debugged in the usual way.</p>
+
+<p>Currently MSTest is not yet supported in .NET Framework projects. The tests are discovered
+but they fail to run with an access denied error message:</p>
+
+<pre><code>An exception occurred while invoking executor 'executor://mstestadapter/v2': 
+Access to the path "/TestResults" is denied.
+</code></pre>
+
+<h2>Renamed ASP.NET Core Project Templates</h2>
+
+<p>The ASP.NET Core template names displayed in the New Project dialog
+have been changed to be more consistent with Visual Studio on Windows.</p>
+
+<ul>
+<li>&lsquo;ASP.NET Core Web App (Razor Pages)&rsquo; renamed to &lsquo;ASP.NET Core Web App&rsquo;</li>
+<li>&lsquo;ASP.NET Core Web App&rsquo; renamed to &lsquo;ASP.NET Core Web App (MVC)&rsquo;</li>
+</ul>
+
+
+<p>Visual Studio uses (Model-View-Controller) but the shorter
+MVC is used by Visual Studio for Mac.</p>
+
+<h2>New ASP.NET Core F# Project Templates Added</h2>
+
+<p>The following ASP.NET Core F# project templates are now available from the
+New Project dialog.</p>
+
+<ul>
+<li>ASP.NET Core Empty
+
+<ul>
+<li>.NET Core 1.x and 2.0</li>
+</ul>
+</li>
+<li>ASP.NET Core Web API
+
+<ul>
+<li>.NET Core 2.0 only</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Support Backslash in Project Template Primary Output Path</h2>
+
+<p>The template.json file used by the new templating engine uses a
+primaryOutputs property for projects and files. If the paths used
+contained backslashes then the project was not added to the
+solution.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"primaryOutputs": [
+</span><span class='line'>  { "path": "Library1\\Library1.csproj" },
+</span><span class='line'>  { "path": "Library2\\Library2.csproj" }
+</span><span class='line'>]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now the paths have the backslashes replaced with forward slashes if
+the current platform does not support backslash as a path
+separator.</p>
+
+<h2>Support RestoreAdditionalProjectFallbackFolders MSBuild Property</h2>
+
+<p>The RestoreAdditionalProjectFallbackFolders MSBuild property is
+read and appended to the list of fallback folders stored in the
+project.assets.json file. The .NET Core 2.0 SDK will set this
+MSBuild property to point to the NuGet package fallback folder
+that is installed with the SDK. This will be used
+to resolve NuGet packages first before downloading them to the
+~/.nuget/packages folder.</p>
+
+<h2>Support RestoreAdditionalProjectSources MSBuild Property</h2>
+
+<p>The RestoreAdditionalProjectSources MSBuild property can be used
+to add additional package sources to the existing list of sources
+used to resolve packages.</p>
+
+<h2>Support RestoreFallbackFolders MSBuild Property</h2>
+
+<p>The RestoreFallbackFolders MSBuild property can be used by project that uses
+PackageReferences to define a set of package fallback folders that
+will override any specified in the NuGet.Config file. It can also
+be used to clear any pre-defined fallback folders by specifying
+&lsquo;clear&rsquo; as its value. Note that this value does not affect any
+folders defined by RestoreAdditionalProjectFallbackFolders which
+will be appended even if RestoreFallbackFolders is set to &lsquo;clear&rsquo;.</p>
+
+<h2>Support RestorePackagesPath MSBuild Property</h2>
+
+<p>The RestorePackagesPath MSBuild property can be used to override the global packages
+folder location when a project uses a PackageReference.</p>
+
+<h2>Support RestoreSources MSBuild property</h2>
+
+<p>The RestoreSources MSBuild property can be used to override
+the sources defined by any NuGet.Config file. Any sources defined in the
+RestoreAdditionalProjectSources MSBuild property will still be appended to the
+list of sources if RestoreSources is defined.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed Transitive Project References not supported</strong></p>
+
+<p>With three .NET Core projects, LibC referencing LibB referencing LibA,
+the types defined by LibA were not available to LibC unless it was
+directly referencing LibA. In Visual Studio for Mac 7.3 the types
+defined by LibA are available to LibC without LibC directly
+referencing LibA.</p>
+
+<p><strong>Portable Class Library projects can now be referenced by .NET Core projects</strong></p>
+
+<p>Portable Class Library (PCL) projects could not be referenced by .NET Core
+projects or .NET Standard projects. The Edit References dialog would show
+&ldquo;Incompatible target framework&rdquo; for the PCL project when trying to add the
+reference.</p>
+
+<p>Visual Studio for Mac now has the same behaviour as Visual Studio on Windows where
+a .NET Standard project can reference any PCL project.</p>
+
+<p><strong>Fixed MSBuild Update item not removed from project</strong></p>
+
+<p>If a file was deleted from a project, or removed without deleting,
+and the file was the last file for a particular wildcard include, the
+Update item for the file was not being removed from the project.</p>
+
+<p><strong>Fixed MSBuild Remove item not added when Update item exists</strong></p>
+
+<p>With a project that contained a single .cs file, and that file had
+an Update item defined, when the file was removed from the project,
+without deleting it, a Remove item was not being added to the project for the file.</p>
+
+<p><strong>Fixed Remove item not being added when file excluded from project</strong></p>
+
+<p>When the last file was removed from the project, but not deleted, an
+MSBuild Remove item was not added to the project for the file.</p>
+
+<ol>
+<li>Create a .NET Standard 2.0 project.</li>
+<li>Right click Class1.cs and select Remove.</li>
+<li>Select Remove from Project in the dialog that opens.</li>
+<li>Close and re-open solution.</li>
+</ol>
+
+
+<p>The Class1.cs file was still shown in the Solution window when it should have been
+removed. The project file did not have a Compile remove item for Class1.cs when it should
+have been added:</p>
+
+<pre><code>&lt;Compile Remove="Class1.cs" /&gt;
+</code></pre>
+
+<p><strong>Deleting a XAML file left an MSBuild Remove item in project file</strong></p>
+
+<p>When a .xaml file in a project was deleted the associated
+Remove MSBuild item, if it was present, was not being removed from the
+project file.</p>
+
+<ol>
+<li> Create a new .NET Standard 2.0 project.</li>
+<li> Add Xamarin.Forms 2.3 NuGet package.</li>
+<li> Add a new Content Page with Xaml file using the New File dialog.</li>
+<li> In the Solution window select the .xaml file and delete it.</li>
+</ol>
+
+
+<p>All MSBuild items associated with the .xaml file should have been
+removed from the project file but instead a None item would remain.</p>
+
+<pre><code>&lt;None Remove="MyPage.xaml" /&gt;
+</code></pre>
+
+<p><strong>Fix MSBuild remove item not added when adding a XAML file</strong></p>
+
+<p>Adding a new .xaml file to a project was not adding a None Remove
+item for the .xaml file to remove it from the default wildcard include for all
+files.</p>
+
+<pre><code>&lt;None Remove="MyNewPage.xaml" /&gt;
+</code></pre>
+
+<p>On reloading the solution the Solution window would show two .xaml
+files &ndash; one EmbeddedResource item and one None item.</p>
+
+<p><strong>Fixed MSBuild condition evaluation when using Czech locale</strong></p>
+
+<p>With the primary operating system language set to Czech, creating a new .NET
+Core project would result in the project having a target framework of net461.</p>
+
+<p>The problem was that Single.TryParse was returing true for an empty string
+when the machine&rsquo;s culture was &lsquo;cs-CZ&rsquo;. This was causing the MSBuild condition
+evaluation to be treated as a boolean comparison incorrectly in some cases.
+The condition below would return false even though the property was
+not defined and both sides of the condition were empty strings:</p>
+
+<pre><code>&lt;PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == ''"&gt;
+</code></pre>
+
+<p>This was causing the TargetFrameworkIdentifier to not be set for
+.NET Core projects so the default of .NETFramework was being used.</p>
+
+<p><strong>Re-evaluate AppliesTo condition on capability change</strong></p>
+
+<p>Fixed the AppliesTo attribute not attaching a project extension to
+a project after a NuGet package restore enabled a project capability.
+The AppliesTo attribute allows a project extension to be associated
+to a project based on its capabilities.</p>
+
+<p>If the project extension uses an AppliesTo attribute which is
+initially false and then a new project capability is added, and the
+project is re-evaluated, the AppliesTo attribute is now
+re-evaluated. This will then cause the project extension to be
+attached to the project. If the project extension was attached to the
+project and the project capability is removed then the project
+extension will now be removed when the project is re-evaluated.</p>
+
+<p><strong>Fixed being unable to run a new Azure Functions project</strong></p>
+
+<p>Creating a new Azure Functions project would result in
+being unable to run the project until the solution was closed
+and re-opened again. After the NuGet packages are restored the
+project can be run but this information was not updated in Visual Studio
+for Mac.</p>
+
+<p>Now after a NuGet package restore, when re-evaluating the project,
+the solution startup item is updated if there is no startup item
+already defined.</p>
+
+<p>When the project capability is removed, due to a NuGet package
+being uninstalled, and the
+project can no longer be run the startup item will be updated if
+it was previously set to be this project.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.3]]></title>
@@ -2647,157 +2997,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 
 
 <p>The TypeScript options are now only available when the project options are selected.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Paket Support in Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2015/06/09/PaketSupportInXamarinStudio/"/>
-    <updated>2015-06-09T19:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2015/06/09/PaketSupportInXamarinStudio</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio and MonoDevelop now have support for <a href="http://fsprojects.github.io/Paket/">Paket</a> with an alpha release of the <a href="https://github.com/mrward/monodevelop-paket-addin">Paket Addin</a>.</p>
-
-<p>Paket is a dependency manager for .NET. The dependencies it supports are <a href="http://fsprojects.github.io/Paket/nuget-dependencies.html">NuGet packages</a>, files from <a href="http://fsprojects.github.io/Paket/github-dependencies.html">GitHub, Gists</a> or files from any <a href="http://fsprojects.github.io/Paket/http-dependencies.html">HTTP source</a>. Paket can be used to maintain project dependencies completely from the command line.</p>
-
-<p>So let us take a look at the support for Paket in Xamarin Studio and MonoDevelop.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li> View dependencies and referenced NuGet packages in the Solution window.</li>
-<li> Add, remove, update NuGet packages from the Solution window.</li>
-<li> Install, restore, simplify NuGet packages from the Solution window.</li>
-<li> Check for updated NuGet packages from the Solution window.</li>
-<li> Syntax highlighting for all paket files.</li>
-<li> Code completion whilst editing the paket.dependencies file.</li>
-<li> Integrates with Xamarin Studio&rsquo;s unified search.</li>
-<li> paket.dependencies and paket.template file templates.</li>
-</ul>
-
-
-<h2>Installing the addin</h2>
-
-<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click <strong>Manage Repositories&hellip;</strong>. In the window that opens tick the check box next to <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> and then click the Close button.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/AddingAlphaChannelAddins.png" title="Enabling alpha channel addins" alt="Enabling alpha channel addins"></p>
-
-<p>Back in the Add-in Manager dialog click the Refresh button to update the list of addins. Use the search text box in the top right hand corner of the dialog to search for the addin by typing in <strong>Paket</strong>.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/AddinManagerPaketAddin.png" title="Paket addin selected in Addin Manager dialog" alt="Paket addin selected in Addin Manager dialog"></p>
-
-<p>Select the Paket addin and then click the <strong>Install&hellip;</strong> button.</p>
-
-<p>Now let us take a look at adding a NuGet package to your project with Paket. This is a simple way to get started with Paket in Xamarin Studio without having to manually create any paket files.</p>
-
-<h2>Adding a NuGet Package</h2>
-
-<p>To add a NuGet package using Paket, right click the project in the Solution window, and select Add &ndash; Add NuGet Packages using Paket.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/AddNuGetPackagesUsingPaketSolutionWindowMenu.png" title="Add NuGet Package using Paket Solution window context menu" alt="Add NuGet Package using Paket Solution window context menu"></p>
-
-<p>The Add NuGet Packages using Paket menu is also available from the main Project menu.</p>
-
-<p>This opens the Add NuGet Packages dialog. Search for the NuGet package you want to use and click the Add Package button.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/AddNuGetPackagesDialog.png" title="Add NuGet Packages dialog" alt="Add NuGet Packages dialog"></p>
-
-<p>The Status Bar will update as the NuGet package is installed.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/JsonNetPackageAddedStatusBarMessage.png" title="Json.NET added status bar message" alt="Json.NET added status bar message"></p>
-
-<p>More detailed information about the installation can be found in the Paket Console window. This can be opened by clicking the Status Bar or from the View &ndash; Pads menu.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/JsonNetPackageAddedPaketConsole.png" title="Json.NET added Paket Console messages" alt="Json.NET added Paket Console messages"></p>
-
-<p>After the NuGet package has been installed successfully you will see two new items in the Solution window. A Paket Dependencies folder and a Paket References folder.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketFoldersInSolutionWindow.png" title="Paket folders in Solution window" alt="Paket folders in Solution window"></p>
-
-<p>These folders show the NuGet packages that are in the paket.dependencies and paket.references files.</p>
-
-<h2>Paket Dependencies Folder</h2>
-
-<p>The Paket Dependencies folder is shown in the Solution window if Xamarin Studio finds a paket.dependencies file in the same directory as the solution. The NuGet packages that are in the paket.dependencies file are shown under this folder.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderInSolutionWindow.png" title="Paket Dependencies folder in Solution window" alt="Paket Dependencies folder in Solution window"></p>
-
-<p>Double clicking the folder will open the paket.dependencies file into the text editor. The Paket Dependencies folder also has a context menu where you can run Paket commands.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderContextMenu.png" title="Paket Dependencies folder context menu" alt="Paket Dependencies folder context menu"></p>
-
-<p>From the context menu you can Add a NuGet Package as a dependency, install, restore, update, and simplify your dependencies, or check for updates. When you select Check for Updates the updated NuGet package information will be shown in the Paket Console and in the Solution window.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFolderNuGetPackageUpdateInformation.png" title="Paket Dependencies folder NuGet package update information" alt="Paket Dependencies folder NuGet package update information"></p>
-
-<p>To update a single NuGet package you can right click it and select Update. To remove the NuGet package as a dependency you can right click it and select Remove or press delete.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependencyNuGetPackageContextMenu.png" title="Paket Dependencies folder NuGet package context menu" alt="Paket Dependencies folder NuGet package context menu"></p>
-
-<h2>Paket References Folder</h2>
-
-<p>The Paket References folder is shown in the Solution window if Xamarin Studio finds a paket.references file in the same directory as the project. The NuGet packages that are in the paket.references file are shown under this folder. Double clicking the folder will open the paket.references file into the text editor.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderInSolutionWindow.png" title="Paket References folder in Solution window" alt="Paket References folder in Solution window"></p>
-
-<p>Right clicking the Paket References folder allows you to add a NuGet package to the project.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderAddPackagesMenu.png" title="Paket References folder context menu" alt="Paket References folder context menu"></p>
-
-<p>A NuGet package can be removed by right clicking it and selecting Remove or by pressing Delete.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketReferencesFolderNuGetPackageContextMenu.png" title="Paket References folder NuGet package context menu" alt="Paket References folder NuGet package context menu"></p>
-
-<h2>Code Completion</h2>
-
-<p>When editing the paket.dependencies file you will get code completion as you type. You can also bring up the code completion list by pressing Ctrl+Space.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordCompletion.png" title="paket.dependencies file keyword completion" alt="paket.dependencies file keyword completion"></p>
-
-<p>Keywords that have an associated value will also show code completion after a space is pressed or the first character is typed in.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileKeywordValueCompletion.png" title="paket.dependencies file keyword value completion" alt="paket.dependencies file keyword value completion"></p>
-
-<p>After the source keyword you will see a list of NuGet package sources that are defined in your NuGet.Config file.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileNuGetSourceCompletion.png" title="paket.dependencies file NuGet source completion" alt="paket.dependencies file NuGet source completion"></p>
-
-<p>After the nuget keyword you will see a list of NuGet packages.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileNuGetPackageCompletion.png" title="paket.dependencies file NuGet package completion" alt="paket.dependencies file NuGet package completion"></p>
-
-<p>This list of NuGet packages is currently taken from your local machine&rsquo;s NuGet cache. Currently there is no support for asynchronously searching an online NuGet package source to get the list of NuGet packages.</p>
-
-<h2>Running Paket commands</h2>
-
-<p>Paket commands can be run from the Unified search. If you type in paket you will see some of the Paket commands.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketCommandsInUnifiedSearch.png" title="Paket commands in unified search" alt="Paket commands in unified search"></p>
-
-<p>The syntax for each command is the similar to what the paket.exe console application supports but the commands do not support all the parameters.</p>
-
-<p>As you type more of the command the list of commands will be filtered. To run a command select it and then press the enter key. These commands directly run paket.exe and update the paket files and project files. The status of the current command is shown in the Status Bar and the output from paket.exe is shown in the Paket Console window.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesInstalledStatusBarMessage.png" title="Paket dependencies installed status bar message" alt="Paket dependencies installed status bar message"></p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesInstalledPaketConsoleOutput.png" title="Paket dependencies installed console message" alt="Paket dependencies installed console message"></p>
-
-<p>The Paket Console window will automatically be displayed if there was an error running a command and an error message will be displayed in the Status Bar.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/StatusBarAddNuGetPackagedErrorMessage.png" title="Paket error message in Status Bar" alt="Paket error message in Status Bar"></p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketConsoleAddNuGetPackagedErrorMessage.png" title="Paket console error message" alt="Paket console error message"></p>
-
-<p>Otherwise you can open the Paket Console by clicking the Status Bar.</p>
-
-<h2>Syntax highlighting</h2>
-
-<p>Syntax highlighting is available for all paket files &ndash; paket.dependencies, paket.references, paket.lock and paket.template.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketDependenciesFileSyntaxHighlighting.png" title="paket.dependencies file syntax highlighting" alt="paket.dependencies file syntax highlighting"></p>
-
-<p><img src="http://lastexitcode.com/images/blog/PaketSupportInXamarinStudio/PaketLockFileSyntaxHighlighting.png" title="paket.lock file syntax highlighting" alt="paket.lock file syntax highlighting"></p>
-
-<p>This brings us to the end of the introduction to Paket support in Xamarin Studio.</p>
 ]]></content>
   </entry>
   
