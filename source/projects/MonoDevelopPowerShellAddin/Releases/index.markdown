@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop PowerShell Addin Releases"
-date: 2017-07-16 14:00
+date: 2017-12-19 14:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.3
+
+2017-12-19
+
+ * Support PowerShell binary being renamed from powershell to pwsh
+
 
 ## Version 0.2
 
