@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 7.4 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes Support NuGet RestoreProjectStyle MSBuild Property .NET Core xUnit tests not displayed if NuGet packages not cached No tests displayed when &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 7.4</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-03-10T12:00:00+00:00" pubdate data-updated="true">Mar 10<sup>th</sup>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> Support NuGet RestoreProjectStyle MSBuild Property</li>
+<li> .NET Core xUnit tests not displayed if NuGet packages not cached</li>
+<li> No tests displayed when project uses a NUnit PackageReference</li>
+<li> Unable to debug a new Azure Functions project without re-opening project</li>
+<li> NuGet MSBuild imports not removed when migrating to project.json</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
+
+<h2>Support RestoreProjectStyle MSBuild property</h2>
+
+<p>If a project sets the RestoreProjectStyle property to be
+PackageReference then the project will be restored as though it has
+PackageReferences even if it does not have any.</p>
+
+<pre><code>&lt;RestoreProjectStyle&gt;PackageReference&lt;/RestoreProjectStyle&gt;
+</code></pre>
+
+<p>This fixes runtime problems when a project references a .NET Standard
+project that has PackageReferences. Without the RestoreProjectStyle set
+the assemblies from the NuGet packages are not copied to the output
+directory and would have to be added to the main project.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>.NET Core xUnit tests not displayed if NuGet packages are not in local NuGet cache</strong></p>
+
+<p>If the NuGet packages that contain the VS Test adapters were not available in
+the local machine&rsquo;s NuGet package cache then
+the Unit Tests window would not show any tests after the NuGet
+packages were restored and the project was compiled.</p>
+
+<p>Visual Studio for Mac would not initially find any test adapter dlls
+and would not attempt to discover any tests for the project after the
+NuGet packages were downloaded into the NuGet package cache.</p>
+
+<p>Now after the NuGet package restore has completed the check for a
+VS Test adapter is now re-run.</p>
+
+<p><strong>No tests displayed when a project uses a NUnit PackageReference</strong></p>
+
+<p>The Unit Tests window would not show any unit tests when a non .NET
+Core project contained a NUnit PackageReference. Visual Studio for
+Mac was looking for a PackageReference that contained &lsquo;nunit.framework&rsquo;
+and was not finding the NUnit NuGet package reference.</p>
+
+<p><strong>Unable to debug a new Azure Functions project without re-opening project</strong></p>
+
+<p>After creating a new Azure Functions project it was possible to build the
+project but not to debug it or run it. On closing and re-opening the solution
+it would be possible to debug and run the Azure Functions project.</p>
+
+<p>When Visual Studio for Mac created a new Azure Functions project
+it initially determined that it could not run or debug the project.
+After the Azure Functions project has its PackageReferences restored
+it gains an AzureFunctions project capability. This capability is used to
+determine if the project can be run. This change in the capability
+was not handled by Visual Studio for Mac so it did not allow the
+project to be run until the project was closed and re-opened.</p>
+
+<p>Now, after the NuGet package restore is finished, the project is
+re-evaluated and a check is made to see if the project can now be run.</p>
+
+<p><strong>NuGet MSBuild imports not removed when migrating to project.json</strong></p>
+
+<p>When a Portable Class Library project was migrated to use a project.json
+file the MSBuild imports added by NuGet were not removed. These imports
+are added by NuGet into the generated ProjectName.nuget.props and
+ProjectName.nuget.targets files on restoring a project.json file.
+Leaving the import in the project file would result in the import
+being used twice. When a PCL project that used Xamarin.Forms was
+migrated to project.json the project would fail to compile with the
+error:</p>
+
+<pre><code>Error XF001: Xamarin.Forms targets have been imported multiple times.
+Please check your project file and remove the duplicate import(s).
+</code></pre>
+
+<p>Now on migrating to project.json the MSBuild imports added by NuGet packages
+to the project are removed.</p>
+
+<p> <strong>Fix generated NuGet files being imported twice</strong></p>
+
+<p>The generated ProjectName.nuget.g.targets and ProjectName.nuget.g.props
+that are created for .NET Core projects in the base intermediate
+directory were being imported twice when evaluating the project.
+Once by Microsoft.Common.props, provided with Mono, and once
+by Visual Studio for Mac.</p>
+
+<p>This duplicate import was resulting in a duplicate file being added
+to the project held in memory by Visual Studio for Mac when the
+Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
+project and no .NET Core SDK is installed. This would result in the
+content page xaml and associated C# file not being nested in the
+solution window.</p>
+
+<p><strong>Fix unhandled exception when searching for packages</strong></p>
+
+<p>An unhandled exception was being logged if a package source returned
+an error or the package source url was invalid. This was because a
+task was not being observed when the package sources were being used.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-03-10T12:00:00+00:00" pubdate data-updated="true">Mar 10<sup>th</sup>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4/" data-via="" data-counturl="http://lastexitcode.com/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/12/18/NetCoreSupportInVisualStudioMac7-3/" title="Previous Post: .NET Core Support in Visual Studio for Mac 7.3">&laquo; .NET Core Support in Visual Studio for Mac 7.3</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

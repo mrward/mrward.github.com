@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2017-12-18T15:22:38+00:00</updated>
+  <updated>2018-03-10T14:11:02+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,120 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.4]]></title>
+    <link href="http://lastexitcode.com/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4/"/>
+    <updated>2018-03-10T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Support NuGet RestoreProjectStyle MSBuild Property</li>
+<li> .NET Core xUnit tests not displayed if NuGet packages not cached</li>
+<li> No tests displayed when project uses a NUnit PackageReference</li>
+<li> Unable to debug a new Azure Functions project without re-opening project</li>
+<li> NuGet MSBuild imports not removed when migrating to project.json</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
+
+<h2>Support RestoreProjectStyle MSBuild property</h2>
+
+<p>If a project sets the RestoreProjectStyle property to be
+PackageReference then the project will be restored as though it has
+PackageReferences even if it does not have any.</p>
+
+<pre><code>&lt;RestoreProjectStyle&gt;PackageReference&lt;/RestoreProjectStyle&gt;
+</code></pre>
+
+<p>This fixes runtime problems when a project references a .NET Standard
+project that has PackageReferences. Without the RestoreProjectStyle set
+the assemblies from the NuGet packages are not copied to the output
+directory and would have to be added to the main project.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>.NET Core xUnit tests not displayed if NuGet packages are not in local NuGet cache</strong></p>
+
+<p>If the NuGet packages that contain the VS Test adapters were not available in
+the local machine&rsquo;s NuGet package cache then
+the Unit Tests window would not show any tests after the NuGet
+packages were restored and the project was compiled.</p>
+
+<p>Visual Studio for Mac would not initially find any test adapter dlls
+and would not attempt to discover any tests for the project after the
+NuGet packages were downloaded into the NuGet package cache.</p>
+
+<p>Now after the NuGet package restore has completed the check for a
+VS Test adapter is now re-run.</p>
+
+<p><strong>No tests displayed when a project uses a NUnit PackageReference</strong></p>
+
+<p>The Unit Tests window would not show any unit tests when a non .NET
+Core project contained a NUnit PackageReference. Visual Studio for
+Mac was looking for a PackageReference that contained &lsquo;nunit.framework&rsquo;
+and was not finding the NUnit NuGet package reference.</p>
+
+<p><strong>Unable to debug a new Azure Functions project without re-opening project</strong></p>
+
+<p>After creating a new Azure Functions project it was possible to build the
+project but not to debug it or run it. On closing and re-opening the solution
+it would be possible to debug and run the Azure Functions project.</p>
+
+<p>When Visual Studio for Mac created a new Azure Functions project
+it initially determined that it could not run or debug the project.
+After the Azure Functions project has its PackageReferences restored
+it gains an AzureFunctions project capability. This capability is used to
+determine if the project can be run. This change in the capability
+was not handled by Visual Studio for Mac so it did not allow the
+project to be run until the project was closed and re-opened.</p>
+
+<p>Now, after the NuGet package restore is finished, the project is
+re-evaluated and a check is made to see if the project can now be run.</p>
+
+<p><strong>NuGet MSBuild imports not removed when migrating to project.json</strong></p>
+
+<p>When a Portable Class Library project was migrated to use a project.json
+file the MSBuild imports added by NuGet were not removed. These imports
+are added by NuGet into the generated ProjectName.nuget.props and
+ProjectName.nuget.targets files on restoring a project.json file.
+Leaving the import in the project file would result in the import
+being used twice. When a PCL project that used Xamarin.Forms was
+migrated to project.json the project would fail to compile with the
+error:</p>
+
+<pre><code>Error XF001: Xamarin.Forms targets have been imported multiple times.
+Please check your project file and remove the duplicate import(s).
+</code></pre>
+
+<p>Now on migrating to project.json the MSBuild imports added by NuGet packages
+to the project are removed.</p>
+
+<p> <strong>Fix generated NuGet files being imported twice</strong></p>
+
+<p>The generated ProjectName.nuget.g.targets and ProjectName.nuget.g.props
+that are created for .NET Core projects in the base intermediate
+directory were being imported twice when evaluating the project.
+Once by Microsoft.Common.props, provided with Mono, and once
+by Visual Studio for Mac.</p>
+
+<p>This duplicate import was resulting in a duplicate file being added
+to the project held in memory by Visual Studio for Mac when the
+Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
+project and no .NET Core SDK is installed. This would result in the
+content page xaml and associated C# file not being nested in the
+solution window.</p>
+
+<p><strong>Fix unhandled exception when searching for packages</strong></p>
+
+<p>An unhandled exception was being logged if a package source returned
+an error or the package source url was invalid. This was because a
+task was not being observed when the package sources were being used.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.3]]></title>
@@ -2961,42 +3075,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 </code></pre>
 
 <p>Xamarin Studio 5.10 now allows the Microsoft.ApplicationInsights NuGet package to be installed into a project.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[TypeScript Addin 0.6 Released]]></title>
-    <link href="http://lastexitcode.com/blog/2015/08/09/TypeScriptAddin0-6Released/"/>
-    <updated>2015-08-09T15:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2015/08/09/TypeScriptAddin0-6Released</id>
-    <content type="html"><![CDATA[<p>A new version of the TypeScript addin for Xamarin Studio and MonoDevelop has been released. The addin is available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. More details on how to install the addin can be found in the <a href="http://lastexitcode.com/blog/2015/04/01/TypeScriptSupportInXamarinStudio/">TypeScript support in Xamarin Studio post</a>.</p>
-
-<h2>Changes</h2>
-
-<ul>
-<li>Updated to support <a href="http://blogs.msdn.com/b/typescript/archive/2015/07/20/announcing-typescript-1-5.aspx">TypeScript 1.5</a>.</li>
-<li>Linux 32 bit and 64 bit are now supported with a single addin. Thanks to <a href="https://github.com/chrisber">Christian Bernasko</a>.</li>
-<li>Allow UMD and System modules to be selected in project options.</li>
-</ul>
-
-
-<p>The separate TypeScript Linux 32 bit addin is now deprecated since the TypeScript addin can now be used on 32 bit and 64 bit versions of Linux.</p>
-
-<h2>Bug Fixes</h2>
-
-<ul>
-<li>TypeScript language service host not updated when the project options are changed</li>
-</ul>
-
-
-<p>For example, switching from ES3 to ES6 in the project options could cause the code completion to be incorrect since the language service host compiler settings were not being updated.</p>
-
-<ul>
-<li>TypeScript options shown when viewing solution options</li>
-</ul>
-
-
-<p>The TypeScript options are now only available when the project options are selected.</p>
 ]]></content>
   </entry>
   

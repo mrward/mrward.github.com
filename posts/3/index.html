@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Xamarin Studio and MonoDevelop now have support for Paket with an alpha release of the Paket Addin. Paket is a dependency manager for .NET. The &hellip;">
+  <meta name="description" content="A new version of the TypeScript addin for Xamarin Studio and MonoDevelop has been released. The addin is available from MonoDevelop&rsquo;s Add-in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,69 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/09/TypeScriptAddin0-6Released/">TypeScript Addin 0.6 Released</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-09T15:00:00+01:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A new version of the TypeScript addin for Xamarin Studio and MonoDevelop has been released. The addin is available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. More details on how to install the addin can be found in the <a href="/blog/2015/04/01/TypeScriptSupportInXamarinStudio/">TypeScript support in Xamarin Studio post</a>.</p>
+
+<h2>Changes</h2>
+
+<ul>
+<li>Updated to support <a href="http://blogs.msdn.com/b/typescript/archive/2015/07/20/announcing-typescript-1-5.aspx">TypeScript 1.5</a>.</li>
+<li>Linux 32 bit and 64 bit are now supported with a single addin. Thanks to <a href="https://github.com/chrisber">Christian Bernasko</a>.</li>
+<li>Allow UMD and System modules to be selected in project options.</li>
+</ul>
+
+
+<p>The separate TypeScript Linux 32 bit addin is now deprecated since the TypeScript addin can now be used on 32 bit and 64 bit versions of Linux.</p>
+
+<h2>Bug Fixes</h2>
+
+<ul>
+<li>TypeScript language service host not updated when the project options are changed</li>
+</ul>
+
+
+<p>For example, switching from ES3 to ES6 in the project options could cause the code completion to be incorrect since the language service host compiler settings were not being updated.</p>
+
+<ul>
+<li>TypeScript options shown when viewing solution options</li>
+</ul>
+
+
+<p>The TypeScript options are now only available when the project options are selected.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1276,99 +1339,6 @@ would update package dependencies correctly.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/">NuGet Support in Xamarin Studio 5.5</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-19T14:00:00+01:00" pubdate data-updated="true">Oct 19<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>New Features</h2>
-
-<ul>
-<li> Package version constraints in packages.config files are now supported</li>
-<li> <a href="https://components.xamarin.com/">Xamarin Components</a> can now have NuGet package dependencies</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.5 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.5/xamarin.studio_5.5/">release notes</a>.</p>
-
-<h2>NuGet Package Version Constraints</h2>
-
-<p>NuGet allows you to <a href="http://docs.nuget.org/docs/reference/versioning">define a range of package versions that are allowed in your project</a> using the <strong>allowedVersions</strong> attribute in the packages.config file.</p>
-
-<pre><code>&lt;packages&gt;
-  &lt;package id="Newtonsoft.Json" version="5.0.1" allowedVersions="[5.0,6.0)" targetFramework="MonoAndroid44" /&gt;
-&lt;/packages&gt;
-</code></pre>
-
-<p>In the above packages.config file the project has Json.NET 5.0.1 installed and will only allow updates to versions of Json.NET that are below 6.0.</p>
-
-<p>When you open the solution in Xamarin Studio, and check for updates is enabled in preferences, you will see updates in the Solution window that are valid given the constraint defined in the packages.config file. In the screenshot below an update is shown for Json.NET 5.0.8 in the Solution window even though Json.NET currently has version 6.0.5 available.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageUpdateAvailableInSolutionWindow.png" title="Json.NET 5.0.8 package update available shown in Solution window" alt="Json.NET 5.0.8 package update available shown in Solution window"></p>
-
-<p>When you update the NuGet packages from the Solution window Xamarin Studio will now update to a NuGet package that meets the version constraints defined in the packages.config. In the Package Console screenshot below the Json.NET package was updated, with the constraint in place, and Json.NET 5.0.8 was installed.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/JsonNet508PackageInstalledInPackageConsole.png" title="Json.NET package updated to 5.0.8 - Package Console output" alt="Json.NET package updated to 5.0.8 - Package Console output"></p>
-
-<p>Note that if you install a NuGet package from the Add Packages dialog you can override the constraint and install a NuGet package with a version outside of the range of the constraint.</p>
-
-<h2>Components with NuGet Packages</h2>
-
-<p>A Component from <a href="https://components.xamarin.com/">Xamarin&rsquo;s Component Store</a> can now declare a dependency on one or more NuGet packages which will be installed into the project when the Component is installed. The <a href="https://components.xamarin.com/view/xamandroidsupportv13-18">Android Support Library v13 Component</a> is one example that has a NuGet package dependency.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInStore.png" title="Android Support Library v13 Component in Component Store" alt="Android Support Library v13 Component in Component Store"></p>
-
-<p>When you install this Component you will see that it installs the <a href="https://www.nuget.org/packages/Xamarin.Android.Support.v13/">Xamarin.Android.Support.v13 NuGet package</a>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentInstalledInSolutionWindow.png" title="Android Support Library v13 Component in Solution window" alt="Android Support Library v13 Component in Solution window"></p>
-
-<p>In older versions of Xamarin Studio the NuGet package will not be installed and instead the project will reference the Xamarin.Android.Support.v13.dll which is included with the Component.</p>
-
-<p>The NuGet packages a Component depends on are displayed in the <strong>Packages</strong> tab on the Component Details page, which you can open by double clicking the Component in the Solution window, or by right clicking the Component and selecting <strong>Details</strong>.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithPackagesTab.png" title="Android Support Library v13 Packages in Component Details page" alt="Android Support Library v13 Packages in Component Details page"></p>
-
-<p>From the <strong>Packages</strong> tab you can also install a NuGet package that a Component depends on if it was removed from the project. So if the Xamarin.Android.Support.v13 NuGet package is removed from the project the Component will be highlighted in red to indicate that there is a problem.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentErrorInSolutionWindow.png" title="Android Support Library v13 Component error in Solution window" alt="Android Support Library v13 Component error in Solution window"></p>
-
-<p>If you then open the Component Details page you will see in the <strong>Packages</strong> tab that the NuGet package is missing.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithMissingNuGetPackage.png" title="Android Support Library v13 Component Details page with missing NuGet Package" alt="Android Support Library v13 CComponent Details page with missing NuGet Package"></p>
-
-<p>To add the NuGet package back to the project you can hover the mouse over the warning icon and click the Add Package button that appears in the pop-up window.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-5/AndroidSupportLibraryV13ComponentDetailsWithAddPackagePopUpWindow.png" title="Android Support Library v13 Component Details page with Add Package pop-up window" alt="Android Support Library v13 CComponent Details page with Add Package pop-up window"></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -1388,7 +1358,7 @@ would update package dependencies correctly.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - Matt Ward -
+  Copyright &copy; 2018 - Matt Ward -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 
