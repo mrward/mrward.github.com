@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nuget | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/nuget/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-03-10T14:11:02+00:00</updated>
+  <updated>2018-03-11T13:53:29+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -24,7 +24,6 @@
 <li> Support NuGet RestoreProjectStyle MSBuild Property</li>
 <li> .NET Core xUnit tests not displayed if NuGet packages not cached</li>
 <li> No tests displayed when project uses a NUnit PackageReference</li>
-<li> Unable to debug a new Azure Functions project without re-opening project</li>
 <li> NuGet MSBuild imports not removed when migrating to project.json</li>
 </ul>
 
@@ -69,23 +68,6 @@ Core project contained a NUnit PackageReference. Visual Studio for
 Mac was looking for a PackageReference that contained &lsquo;nunit.framework&rsquo;
 and was not finding the NUnit NuGet package reference.</p>
 
-<p><strong>Unable to debug a new Azure Functions project without re-opening project</strong></p>
-
-<p>After creating a new Azure Functions project it was possible to build the
-project but not to debug it or run it. On closing and re-opening the solution
-it would be possible to debug and run the Azure Functions project.</p>
-
-<p>When Visual Studio for Mac created a new Azure Functions project
-it initially determined that it could not run or debug the project.
-After the Azure Functions project has its PackageReferences restored
-it gains an AzureFunctions project capability. This capability is used to
-determine if the project can be run. This change in the capability
-was not handled by Visual Studio for Mac so it did not allow the
-project to be run until the project was closed and re-opened.</p>
-
-<p>Now, after the NuGet package restore is finished, the project is
-re-evaluated and a check is made to see if the project can now be run.</p>
-
 <p><strong>NuGet MSBuild imports not removed when migrating to project.json</strong></p>
 
 <p>When a Portable Class Library project was migrated to use a project.json
@@ -103,21 +85,6 @@ Please check your project file and remove the duplicate import(s).
 
 <p>Now on migrating to project.json the MSBuild imports added by NuGet packages
 to the project are removed.</p>
-
-<p> <strong>Fix generated NuGet files being imported twice</strong></p>
-
-<p>The generated ProjectName.nuget.g.targets and ProjectName.nuget.g.props
-that are created for .NET Core projects in the base intermediate
-directory were being imported twice when evaluating the project.
-Once by Microsoft.Common.props, provided with Mono, and once
-by Visual Studio for Mac.</p>
-
-<p>This duplicate import was resulting in a duplicate file being added
-to the project held in memory by Visual Studio for Mac when the
-Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
-project and no .NET Core SDK is installed. This would result in the
-content page xaml and associated C# file not being nested in the
-solution window.</p>
 
 <p><strong>Fix unhandled exception when searching for packages</strong></p>
 
@@ -266,6 +233,38 @@ project reference information was not being used
 when a restore occurred. This caused the assemblies from the transitively
 referenced NuGet packages to not be added to the
 project.lock.json file for Project B.</p>
+
+<p><strong>Unable to debug a new Azure Functions project without re-opening project</strong></p>
+
+<p>After creating a new Azure Functions project it was possible to build the
+project but not to debug it or run it. On closing and re-opening the solution
+it would be possible to debug and run the Azure Functions project.</p>
+
+<p>When Visual Studio for Mac created a new Azure Functions project
+it initially determined that it could not run or debug the project.
+After the Azure Functions project has its PackageReferences restored
+it gains an AzureFunctions project capability. This capability is used to
+determine if the project can be run. This change in the capability
+was not handled by Visual Studio for Mac so it did not allow the
+project to be run until the project was closed and re-opened.</p>
+
+<p>Now, after the NuGet package restore is finished, the project is
+re-evaluated and a check is made to see if the project can now be run.</p>
+
+<p><strong>Fix generated NuGet files being imported twice</strong></p>
+
+<p>The generated ProjectName.nuget.g.targets and ProjectName.nuget.g.props
+that are created for .NET Core projects in the base intermediate
+directory were being imported twice when evaluating the project.
+Once by Microsoft.Common.props, provided with Mono, and once
+by Visual Studio for Mac.</p>
+
+<p>This duplicate import was resulting in a duplicate file being added
+to the project held in memory by Visual Studio for Mac when the
+Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
+project and no .NET Core SDK is installed. This would result in the
+content page xaml and associated C# file not being nested in the
+solution window.</p>
 ]]></content>
   </entry>
   

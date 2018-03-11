@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Integrated support for creating NuGet packages with NuGetizer 3000 NuGet 3.5 support Improved project.json support Native License Acceptance dialog &hellip;">
+  <meta name="description" content="New Features .NET Core support NuGet 4.0 support More information on all the new features and changes in Visual Studio for Mac 7.0 can be found in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,170 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0/">NuGet Support in Visual Studio for Mac 7.0</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-04T12:00:00+01:00" pubdate data-updated="true">Jun 4<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>New Features</h2>
+
+<ul>
+<li> .NET Core support</li>
+<li> NuGet 4.0 support</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.0</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes">release notes</a>.</p>
+
+<h2>.NET Core Support</h2>
+
+<p>.NET Core projects do not show a Packages folder in the Solution window. Instead the NuGet packages are displayed in a NuGet folder, which is inside a Dependencies folder.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageInSolutionWindow.png" title="Newtonsoft.Json NuGet package in Solution window - .NET Core project" alt="Newtonsoft.Json NuGet package in Solution window - .NET Core project"></p>
+
+<p>The version of the NuGet package is displayed directly in the Solution window. For other project types you need to right click the package to see the version.</p>
+
+<p>If the NuGet package depends on other packages then these can be seen by clicking on the arrow to expand the dependencies.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageExpandedInSolutionWindow.png" title="Newtonsoft.Json NuGet package expanded in Solution window - .NET Core project" alt="Newtonsoft.Json NuGet package expanded in Solution window - .NET Core project"></p>
+
+<h3>Restoring Packages</h3>
+
+<p>NuGet packages will be restored automatically on opening a .NET Core project. This can be disabled in preferences by unchecking <strong>Automatically restore packages when opening a solution</strong> in the NuGet &ndash; General section.</p>
+
+<p>You can manually restore NuGet packages for .NET Core projects by:</p>
+
+<ul>
+<li>Right clicking the Dependencies folder and selecting Restore.</li>
+<li>Right clicking the NuGet folder and selecting Restore.</li>
+<li>Selecting Restore NuGet Packages from the Project menu.</li>
+</ul>
+
+
+<p>Selecting Restore NuGet Packages from the Project menu will restore packages for the project or the solution depending on what is currently selected in the Solution window.</p>
+
+<p>Restoring NuGet packages for a .NET Core project works differently compared with a project that uses a packages.config file. The NuGet packages themselves will be downloaded into the NuGet package cache folder ~/.nuget/packages if they do not exist, as before, but the NuGet packages will not be copied into a packages directory inside the solution&rsquo;s directory. The project file will not contain have any Reference items added when a NuGet package is installed.</p>
+
+<p>When a NuGet restore is run for a .NET Core project three files in the obj directory are created.</p>
+
+<ul>
+<li>project.assets.json</li>
+<li>ProjectName.csproj.nuget.g.props</li>
+<li>ProjectName.csproj.nuget.g.targets</li>
+</ul>
+
+
+<p>The project.assets.json file contains the dependencies for your project.</p>
+
+<p>The nuget.g.props and nuget.g.targets files will contain any MSBuild imports that your NuGet package requires and they also define some properties, such as the path to the NuGet package cache on your machine.</p>
+
+<p>These three files are used when building your project to resolve the assemblies to be referenced now that they are no longer explicitly stored in your project file.</p>
+
+<h3>Updating Packages</h3>
+
+<p>NuGet packages can be updated by:</p>
+
+<ul>
+<li>Right clicking the package inside the NuGet folder and selecting Update.</li>
+<li>Right clicking the NuGet folder and selecting Update.</li>
+<li>Right clicking the Dependencies folder and selecting Update.</li>
+<li>Selecting Update NuGet Packages from the Project menu.</li>
+</ul>
+
+
+<p>Selecting Update NuGet Packages from the Project menu will update all packages in the project or in the solution depending on what is currently selected in the Solution window.</p>
+
+<h3>Removing Multiple NuGet Packages in One Step</h3>
+
+<p>You can remove multiple NuGet packages in one step from a .NET Core project by selecting the packages in the Solution window, right clicking and selecting Remove.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectRemoveMultipleNuGetPackagesInSolutionWindow.png" title="Removing multiple NuGet packages in Solution window - .NET Core project" alt="Removing multiple NuGet packages in Solution window - .NET Core project"></p>
+
+<p>Projects that use a packages.config file do not support removing multiple NuGet packages in one step.</p>
+
+<h3>Installing NuGet Packages</h3>
+
+<p>NuGet packages are installed by using the Add Packages dialog in the same way as with other project types. To open the Add Packages dialog for a .NET Core project:</p>
+
+<ul>
+<li>Right click the NuGet folder and select Add Packages&hellip;</li>
+<li>Right click the Dependencies folder and select Add Packages&hellip;</li>
+<li>Right click the project and select Add &ndash; Add NuGet Packages&hellip;</li>
+<li>From the Project menu select Add NuGet Packages&hellip;</li>
+</ul>
+
+
+<p>When the first NuGet package is installed into a .NET Core project a packages.config file will not be created. Instead the NuGet package will be added as a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> that is saved in the project file.</p>
+
+<h3>Package Reference</h3>
+
+<p>.NET Core projects do not use a packages.config file to record their NuGet dependencies. Instead the .NET Core project file will contain a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> after the NuGet package is installed into the project.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;PropertyGroup&gt;
+</span><span class='line'>    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+</span><span class='line'>    &lt;TargetFramework&gt;netcoreapp1.1&lt;/TargetFramework&gt;
+</span><span class='line'>  &lt;/PropertyGroup&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;ItemGroup&gt;
+</span><span class='line'>    &lt;PackageReference Include="Newtonsoft.Json" Version="10.0.2" /&gt;
+</span><span class='line'>  &lt;/ItemGroup&gt;
+</span><span class='line'>&lt;/Project&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Please note that Visual Studio for Mac currently only supports package references with the new SDK style projects which are used by .NET Core. If you use package references in other project types then the Solution window will not show the packages and a packages.config file will be created if you install a NuGet package.</p>
+
+<h3>Updated Packages Available</h3>
+
+<p>For other project types the Solution window will check for updated packages and show this information in the Packages folder. This is not currently supported with .NET Core projects.</p>
+
+<h2>NuGet 4.0 Support</h2>
+
+<p>Visual Studio for Mac now includes <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0</a>.</p>
+
+<p>More information on the new features provided by NuGet 4.&ndash; can be found in the <a href="http://blog.nuget.org/20170308/Announcing-NuGet-4.0-RTM.html">Announcing NuGet 4.0 RTM blog post</a> and the <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0 release notes</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1520,150 +1684,6 @@ file as the first child element inside the project&rsquo;s root element.</p>
 
 
 <p> There is also a <a href="https://github.com/mrward/monodevelop-dnx-addin/tree/roslyn">separate branch</a> that supports MonoDevelop and Xamarin Studio 6.0.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/11/22/NuGetSupportInXamarinStudio5-10/">NuGet Support in Xamarin Studio 5.10</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-11-22T12:00:00+00:00" pubdate data-updated="true">Nov 22<sup>nd</sup>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Xamarin Studio 5.10 was released last week as part of the <a href="https://blog.xamarin.com/introducing-xamarin-4/">Xamarin 4 release</a> and it includes changes to the NuGet support.</p>
-
-<h2>Changes</h2>
-
-<ul>
-<li> Support NuGet 2.8.7.</li>
-<li> Open readme.txt when a NuGet package is installed.</li>
-<li> Support packages.config file named after the project.</li>
-<li> Local Copy settings are preserved for references when updating packages.</li>
-<li> Do not show Checking for package updates message in status bar.</li>
-<li> Do not show warning in the status bar if a NuGet package has PowerShell scripts.</li>
-<li> Prevent the solution being closed when NuGet packages are being added.</li>
-<li> Removing a NuGet package does not update the Solution window when multiple solutions are open.</li>
-<li> Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.</li>
-<li> Prevent retargeting a NuGet package marking packages.config as deleted by Git.</li>
-<li> Allow Microsoft.ApplicationInsights NuGet package to be installed.</li>
-<li> Support NuGet packages targeting watchOS.</li>
-<li> Package license acceptance (Xamarin Studio 5.10.3)</li>
-</ul>
-
-
-<p>More information on all the changes in Xamarin Studio 5.10 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.10/xamarin.studio_5.10/">release notes</a>.</p>
-
-<h2>NuGet 2.8.7 support</h2>
-
-<p>Xamarin Studio now supports NuGet 2.8.7. NuGet 2.8.7 adds support for the Universal App Platform (UAP) target framework to support Windows 10 Application Development.</p>
-
-<h2>Open readme.txt when a NuGet package is installed</h2>
-
-<p>A NuGet package can contain a <a href="https://docs.nuget.org/create/creating-and-publishing-a-package#user-content-automatically-displaying-a-readmetxt-file-during-package-installation">readme.txt file</a> which Xamarin Studio will now open and display in the text editor when the NuGet package is installed or updated.</p>
-
-<h2>Preserve Local Copy on Updating Packages</h2>
-
-<p>The Local Copy setting on an assembly reference will now be preserved when updating a NuGet package or retargeting a NuGet package.</p>
-
-<p>By default Local Copy is set to true for assembly references when installing a NuGet package. If you set Local Copy to false for one or more of these references then this setting will now be preserved when updating or retargeting the NuGet package.</p>
-
-<h2>Packages.config file named after project</h2>
-
-<p>NuGet supports multiple projects in the same directory each using their own packages.config file. To allow multiple projects in the same directory to each use their own NuGet packages you can name the packages.config file after each project. In the examples below the project filename is on the left and the corresponding packages.config filename is on the right.</p>
-
-<ul>
-<li>Foo.csproj => packages.Foo.config</li>
-<li>Bar.csproj => packages.Bar.config</li>
-<li>Foo Bar.csproj => packages.Foo_Bar.config</li>
-</ul>
-
-
-<p>Xamarin Studio now checks for the packages.ProjectName.config file first and will use it if it exists, otherwise it will fall back to the default behaviour and use the packages.config file.</p>
-
-<p>Note that a new project without any NuGet packages will use a packages.config file by default. The basic procedure to enable a project specific packages.config file when creating a new project is:</p>
-
-<ol>
-<li>Create new project called Foo.</li>
-<li>Add a NuGet package to the Foo project.</li>
-<li>Rename the packages.config file to packages.Foo.config</li>
-<li>Reload the solution in Xamarin Studio.</li>
-</ol>
-
-
-<p>Also note that if you remove all the NuGet packages from a project the packages.ProjectName.config file will be deleted and on adding a new NuGet package the default packages.config file will be used.</p>
-
-<h2>Do not show Checking for package updates message in status bar</h2>
-
-<p>Previously when Xamarin Studio was checking for NuGet package updates a message would appear in the status bar. This status bar message has now been removed since checking for NuGet package updates is a background task and does not prevent Xamarin Studio from being used.</p>
-
-<h2>Do not show warning in the status bar if a NuGet package has PowerShell scripts</h2>
-
-<p>Previously if a NuGet package was installed and it contained PowerShell scripts then a warning was shown in the status bar. Now this message is only shown in the Package Console window.</p>
-
-<h2>Prevent the solution being closed when NuGet packages are being added</h2>
-
-<p>A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.</p>
-
-<h2>Support NuGet packages targeting watchOS</h2>
-
-<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
-
-<h2>Package license acceptance</h2>
-
-<p>Xamarin Studio 5.10.3 now includes a license acceptance dialog that will be displayed if a NuGet package requires a license to be accepted before it is installed. If the license is declined then the NuGet package will not be installed.</p>
-
-<p><img src="/images/blog/NuGetSupportInXamarinStudio5-10/PackageLicenseAcceptanceDialog.png" title="Package license acceptance dialog" alt="Package license acceptance dialog"></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Removing a NuGet package does not update the Solution window when multiple solutions are open</strong></p>
-
-<p>With two or more solutions opened at the same time the Packages folder would not be updated for all solutions when a NuGet package was removed. This was because Xamarin Studio was not refreshing the Packages folder for all solutions currently open.</p>
-
-<p><strong>Prevent packages.config file being marked as deleted by Git after updating pre-release NuGet package.</strong></p>
-
-<p>If there was only one pre-release NuGet package installed into a project and then a later version of the NuGet package was installed from the Add Packages dialog then the packages.config file was then being shown as deleted by Git instead of modified.</p>
-
-<p>The packages.config file is deleted by NuGet after the old NuGet package is uninstalled if there are no NuGet packages referenced. A special case to handle this was added in Xamarin Studio 5.3 but that only handled updating a NuGet package from the Solution window. Now updating a pre-release from the Add Packages dialog is also handled.</p>
-
-<p><strong>Retargeting a NuGet package marks packages.config as deleted by Git</strong></p>
-
-<p>This is similar to the previous bug. Retargeting a NuGet package will uninstall and then install the NuGet package. If there is only one NuGet package in the project then the packages.config file is deleted and was causing Git to mark the file as deleted instead of updated.</p>
-
-<p><strong>Unable to install Microsoft.ApplicationInsights NuGet package</strong></p>
-
-<p>Xamarin Studio 5.9.2 added support for NuGet 2.8.5 but it was not possible to install the <a href="https://www.nuget.org/packages/Microsoft.ApplicationInsights/">Microsoft.ApplicationInsights NuGet package</a> into a project. It was possible to install it using Visual Studio with NuGet 2.8.3 or higher installed. The error reported by Xamarin Studio was:</p>
-
-<pre><code>Adding Microsoft.ApplicationInsights...
-The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.50313' or above, but the current NuGet version is '2.8.5.0'.
-</code></pre>
-
-<p>Xamarin Studio 5.10 now allows the Microsoft.ApplicationInsights NuGet package to be installed into a project.</p>
 </div>
   
   

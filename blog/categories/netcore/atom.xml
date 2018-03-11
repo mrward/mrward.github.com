@@ -4,7 +4,7 @@
   <title><![CDATA[Category: netcore | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/netcore/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-03-10T14:11:02+00:00</updated>
+  <updated>2018-03-11T13:53:29+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,149 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.4]]></title>
+    <link href="http://lastexitcode.com/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4/"/>
+    <updated>2018-03-11T11:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Solution window detects file system changes outside Visual Studio for Mac</li>
+<li> Projects with unknown target frameworks can now be loaded
+
+<ul>
+<li><a href="https://oren.codes/2017/08/29/use-all-tfms-with-sdk-style-projects-in-visual-studio-for-mac/">MSBuild SDK Extras</a> is now supported without requiring an extra extension to be installed</li>
+<li>Tizen.NET projects are now supported</li>
+</ul>
+</li>
+<li> Fixed xUnit test messages not being displayed</li>
+<li> ASP.NET Core minified files are no longer formatted</li>
+<li> Support target framework defined in another MSBuild property</li>
+<li> Show SDK information before dependencies are restored</li>
+<li> Fixed failure to add new file when the default project namespace contains only numbers</li>
+<li> Fixed remove item not added for .xaml.cs file</li>
+<li> Fixed incorrect project updates when moving a file</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a> can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
+
+<h2>Solution window detects file system changes</h2>
+
+<p>Files created in the project directory, or a subdirectory,
+outside Visual Studio for Mac are now added to the project and
+appear in the Solution window automatically.</p>
+
+<p><img src="/images/blog/NetCoreSupportInVisualStudioMac7-4/DotNetCoreProjectFileWatcher.gif" title="&lsquo;File added and removed from command line &ndash; Solution window updated&rsquo; &lsquo;File added and removed from command line &ndash; Solution window updated&rsquo;" ></p>
+
+<p>Deleting project files and directories will remove the files from
+the Solution window. The Solution window will also update after
+a file or a directory is renamed outside Visual Studio for Mac.</p>
+
+<p><strong>Allow unknown target framework projects to be loaded</strong></p>
+
+<p>The target framework of an SDK style project is no longer restricted.
+Previously Visual Studio for Mac would fail to load an SDK style
+project unless its target framework was .NET Standard, .NET Core App
+or .NET Framework.</p>
+
+<p>This allows Tizen projects to be loaded without the error message
+&ldquo;Project does not support framework &lsquo;Tizen,Version=v4.0&rsquo;&rdquo; being
+displayed. Tizen projects have a Tizen.NET package reference which
+imports an MSBuild .props file that defines the Tizen target framework.</p>
+
+<p>The <a href="https://github.com/onovotny/MSBuildSdkExtras">MSBuild.Sdk.Extras</a> NuGet
+package is now supported so SDK style projects can use target frameworks
+that this NuGet package
+supports, such as Xamarin.iOS and MonoAndroid.</p>
+
+<p>On building a project with an unknown target framework, that is
+not defined by any used NuGet package references, a build error
+that indicates the framework is not supported will occur:</p>
+
+<pre><code>The TargetFramework value 'test1.0' was not recognized.
+</code></pre>
+
+<p>NuGet restore will also fail for an unknown target framework with
+a message indicating the framework is invalid.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fix xUnit test messages not displayed</strong></p>
+
+<p>xUnit tests support an ITestOutputHelper interface which can be
+passed to the constructor of the test. This has a WriteLine method
+which can be used to output messages whilst running the test. When
+this was used the text displayed in Visual Studio for Mac&rsquo;s Test Results
+window was:</p>
+
+<pre><code>Microsoft.VisualStudio.TestPlatform.ObjectModel.TestResultMessage
+</code></pre>
+
+<p>Now the text from the message is shown in the Tests Results window.</p>
+
+<p><strong>Support target framework defined in another MSBuild property</strong></p>
+
+<p>An SDK style project that defined the <TargetFrameworks> element to
+be another MSBuild property would fail to restore.</p>
+
+<p>In the example below the property TheFramework is defined in the
+Frameworks.props file.</p>
+
+<pre><code>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+  &lt;Import Project="Frameworks.props" /&gt;
+  &lt;PropertyGroup&gt;
+    &lt;TargetFrameworks&gt;$(TheFramework)&lt;/TargetFrameworks&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+
+<p>The unevaluated MSBuild property value was used and would result in the
+NuGet package restore failing.</p>
+
+<p>Now the evaluated property value is used when restoring dependencies.</p>
+
+<p><strong>ASP.NET Core minified files and map files are no longer formatted</strong></p>
+
+<p>On creating a new ASP.NET Core project the minified files were being
+re-formatted and were no longer minified. Now the .min.css, .min.js and
+.map files are excluded from being re-formatted when a new ASP.NET Core
+project is created.</p>
+
+<p><strong>Fixed failure to add a new file when the default project namespace contains only numbers</strong></p>
+
+<p>If a project has a default namespace of &lsquo;1&rsquo; then adding a new C#
+file from a template would throw a null reference
+exception. The problem was that the sanitized namespace for the project&rsquo;s
+default namespace was null.</p>
+
+<p><strong>Show SDK information before dependencies are restored</strong></p>
+
+<p>When a new .NET Core project is created the Dependencies &ndash; SDK folder
+would show no items until the NuGet package restore completed. Now
+the SDK dependency is shown whilst the dependencies are being restored.</p>
+
+<p><strong>Fixed remove item not added for .xaml.cs file</strong></p>
+
+<p>When a new content page with xaml file was
+added and then removed, but not deleted,
+a remove item was not added for the .xaml.cs file.</p>
+
+<p><strong>Fixed incorrect project updates when moving a file</strong></p>
+
+<p>Moving a Resource file from one folder to another would not update
+the project file correctly. Either the project file would not be
+modified or the file would be removed.</p>
+
+<p>One problem was that on moving a clone is taken of the original item
+and the associated MSBuild item was copied but was still referring
+back to the original location. Another problem was that an incorrect
+match was being made when looking for remove items resulting in the
+wrong files being removed from the project.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.3]]></title>
@@ -341,6 +484,91 @@ already defined.</p>
 being uninstalled, and the
 project can no longer be run the startup item will be updated if
 it was previously set to be this project.</p>
+
+<p><strong>Fix generated NuGet files being imported twice</strong></p>
+
+<p>The ProjectName.nuget.g.targets and ProjectName.nuget.g.props,
+that are generated for .NET Core projects in the base intermediate
+directory, were being imported twice.
+Once by Microsoft.Common.props, that is provided with Mono, and once
+again by Visual Studio for Mac.</p>
+
+<p>Importing these files twice was causing a duplicate file to be added to
+the project information held in memory by Visual Studio for Mac
+when Xamarin.Forms 2.4 was used and no .NET Core SDK was installed.
+This would result in the content page xaml and associated C# file not
+being nested in the solution window.</p>
+
+<p><strong>Fixed items added to project when a new content page with XAML was created</strong></p>
+
+<p>Adding a new Xamarin.Forms content page with XAML would add an
+update item for the .xaml.cs file, a remove item for the xaml file,
+and an include item for the xaml file.</p>
+
+<p>An example is Xamarin.Forms 2.4 which defines wildcard includes:</p>
+
+<pre><code>&lt;None Remove="**\*.xaml" /&gt;
+&lt;EmbeddedResource Include="**\*.xaml" SubType="Designer" Generator="MSBuild:UpdateDesignTimeXaml" /&gt;
+</code></pre>
+
+<p>Which would cause a new .xaml file added to the project and saved
+in the project file as well as a remove for the None item even though
+the .xaml file was already removed from the None items.</p>
+
+<pre><code>&lt;None Remove="MyView.xaml" /&gt;
+
+&lt;EmbeddedResource Include="MyView.xaml"&gt;
+  &lt;Generator&gt;MSBuild:UpdateDesignTimeXaml"&lt;/Generator&gt;
+&lt;/EmbeddedResource&gt;
+</code></pre>
+
+<p><strong>Fix DependentUpon property being saved in project</strong></p>
+
+<p>Xamarin.Forms 2.4 defines an update item similar to:</p>
+
+<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
+</code></pre>
+
+<p>When a project was saved a Compile item was added to the main project
+with the filename stored in the DependentUpon element. Now
+the evaluated DependentUpon value is treated as being the default
+value so it is not added to the project file.</p>
+
+<p><strong>Fix xaml.cs files not being nested</strong></p>
+
+<p>Xamarin.Forms 2.4 defines an update item similar to:</p>
+
+<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
+</code></pre>
+
+<p>The DependentUpon property was being evaluated as &lsquo;*.xaml.cs&rsquo;.
+This was causing .xaml.cs files to not be nested in the Solution window.</p>
+
+<p><strong>Fixed build error when Xamarin.Forms 2.4 used in a .NET Standard project</strong></p>
+
+<p>If a Xamarin.Forms .NET Standard project had a
+.xaml file and a .xaml.cs file then the xaml.g.cs file would not be
+generated when the project file contained no files. The
+default items defined by the Xamarin.Forms NuGet package were not
+being imported. This then caused a build error about the
+InitializeComponent method not being defined.</p>
+
+<p>Xamarin.Forms 2.4.0 uses default
+item imports which were not being included since they are conditionally
+imported and the MSBuildSDKsPath was not defined:</p>
+
+<pre><code>&lt;Import Project="$(MSBuildThisFileDirectory)Xamarin.Forms.DefaultItems.props" Condition="'$(MSBuildSDKsPath)'!=''" /&gt;
+</code></pre>
+
+<p>MSBuild on the command line defines the MSBuildSDKsPath globally in
+its MSBuild.dll.config file. The MSBuild engine host, used when
+building a project in Visual Studio for Mac, now also defines the
+MSBuildSDKsPath property.</p>
+
+<p><strong>Fixed remove item added when removing a linked file</strong></p>
+
+<p>Deleting a file link in a .NET Core project would add a remove item
+for the file instead of removing the link from the project.</p>
 ]]></content>
   </entry>
   
@@ -752,77 +980,6 @@ the .NET Core SDK.</p>
 <ul>
 <li> <a href="http://www.alteridem.net/2016/06/18/nunit-3-testing-net-core-rc2/">NUnit 3 Tests for .NET Core RC2 and ASP.NET Core RC2</a></li>
 <li> <a href="http://xunit.github.io/docs/getting-started-dotnet-core.html">Getting started with xUnit.net (.NET Core / ASP.NET Core)</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ASP.NET Core 1.0 RC2 support in Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2016/06/05/AspNetCoreRC2SupportInXamarinStudio/"/>
-    <updated>2016-06-05T19:02:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2016/06/05/AspNetCoreRC2SupportInXamarinStudio</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio and MonoDevelop now have support for <a href="https://blogs.msdn.microsoft.com/webdev/2016/05/16/announcing-asp-net-core-rc2/">ASP.NET Core 1.0 RC2</a> with an alpha release of the <a href="https://github.com/mrward/monodevelop-dnx-addin">.NET Core addin</a>.</p>
-
-<p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/WebProjectInSolutionWindow.png" title="&lsquo;ASP.NET Core web project in Solution window&rsquo; &lsquo;ASP.NET Core web project in Solution window&rsquo;" ></p>
-
-<p>This is an update of the original <a href="/blog/2016/01/01/DNXSupportInXamarinStudio/">DNX addin</a> which adds support for .NET Core RC2 and also, thanks to <a href="https://twitter.com/davidkarlas">David Karlaš</a>, adds support for debugging .NET Core applications on the Mac.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li> Debugging .NET Core applications with the .NET Core CLR on Mac.</li>
-<li> Project templates for console, library and web applications</li>
-<li> Code completion</li>
-<li> NuGet integration</li>
-<li> Solution window integration</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li> MonoDevelop and Xamarin Studio 6.0 (build 5166). (Note that 6.1 is not yet supported)</li>
-<li> <a href="https://www.microsoft.com/net/core">.NET Core 1.0 RC2</a>.</li>
-</ul>
-
-
-<h2>Installing .NET Core SDK</h2>
-
-<p>The <a href="https://www.microsoft.com/net/core">.NET Core SDK</a> needs to be installed separately before using the .NET Core addin. Detailed installation instructions can be found on <a href="https://www.microsoft.com/net/core">Microsoft&rsquo;s .NET Core web site</a>.</p>
-
-<h2>Installing the addin</h2>
-
-<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click Manage Repositories. In the window that opens tick the check box next to Xamarin Studio Add-in Repository (Alpha Channel) and then click the Close button.</p>
-
-<p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/AddinManagerNetCoreAddin.png" title="&lsquo;.NET Core addin selected in Addin Manager dialog&rsquo; &lsquo;.NET Core addin selected in Addin Manager dialog&rsquo;" ></p>
-
-<p>Select the .NET Core addin and then click the Install button.</p>
-
-<p>After installing the .NET Core addin you will need to restart Xamarin Studio before the project templates are available in the New Project dialog.</p>
-
-<h2>Creating a .NET Core project</h2>
-
-<p>There are three project templates available for .NET Core in the New Project dialog.</p>
-
-<p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/NewProjectDialogNetCoreProjectTemplates.png" title="&lsquo;New ASP.NET 5 project templates&rsquo; &lsquo;New ASP.NET 5 project templates&rsquo;" ></p>
-
-<h2>Debugging</h2>
-
-<p>Thanks to <a href="https://twitter.com/davidkarlas">David Karlaš</a> there is a support for debugging .NET Core applications when running on the .NET Core CLR if you have the <a href="http://addins.monodevelop.com/Project/Index/228">VSCode Debugger addin</a> installed.</p>
-
-<p><img src="/images/blog/AspNetCoreRC2SupportInXamarinStudio/DebuggingNetCoreApplication.png" title="&lsquo;Debugging a .NET Core application&rsquo; &lsquo;Debugging a .NET Core application&rsquo;" ></p>
-
-<p>The VSCode Debugger addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> on the alpha channel.</p>
-
-<p>Debugging .NET Core console and web projects that target the full .NET framework is supported on all platforms. The .NET Core command line tool (dotnet.exe) will create an executable when targeting the full .NET Framework which can be debugged in Xamarin Studio. On Windows the x86 version of the .NET Core SDK needs be installed since Xamarin Studio currently cannot debug x64 applications on Windows.</p>
-
-<h2>Source Code</h2>
-
-<p>The source code for the addin is available on GitHub.</p>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-dnx-addin">.NET Core addin source code</a>.</li>
 </ul>
 
 ]]></content>

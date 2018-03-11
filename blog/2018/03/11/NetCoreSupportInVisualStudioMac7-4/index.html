@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>.NET Core Support in Visual Studio for Mac 7.4 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes Solution window detects file system changes outside Visual Studio for Mac Projects with unknown target frameworks can now be loaded MSBuild &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">.NET Core Support in Visual Studio for Mac 7.4</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-03-11T11:00:00+00:00" pubdate data-updated="true">Mar 11<sup>th</sup>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> Solution window detects file system changes outside Visual Studio for Mac</li>
+<li> Projects with unknown target frameworks can now be loaded
+
+<ul>
+<li><a href="https://oren.codes/2017/08/29/use-all-tfms-with-sdk-style-projects-in-visual-studio-for-mac/">MSBuild SDK Extras</a> is now supported without requiring an extra extension to be installed</li>
+<li>Tizen.NET projects are now supported</li>
+</ul>
+</li>
+<li> Fixed xUnit test messages not being displayed</li>
+<li> ASP.NET Core minified files are no longer formatted</li>
+<li> Support target framework defined in another MSBuild property</li>
+<li> Show SDK information before dependencies are restored</li>
+<li> Fixed failure to add new file when the default project namespace contains only numbers</li>
+<li> Fixed remove item not added for .xaml.cs file</li>
+<li> Fixed incorrect project updates when moving a file</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a> can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
+
+<h2>Solution window detects file system changes</h2>
+
+<p>Files created in the project directory, or a subdirectory,
+outside Visual Studio for Mac are now added to the project and
+appear in the Solution window automatically.</p>
+
+<p><img src="/images/blog/NetCoreSupportInVisualStudioMac7-4/DotNetCoreProjectFileWatcher.gif" title="File added and removed from command line - Solution window updated" alt="File added and removed from command line - Solution window updated"></p>
+
+<p>Deleting project files and directories will remove the files from
+the Solution window. The Solution window will also update after
+a file or a directory is renamed outside Visual Studio for Mac.</p>
+
+<p><strong>Allow unknown target framework projects to be loaded</strong></p>
+
+<p>The target framework of an SDK style project is no longer restricted.
+Previously Visual Studio for Mac would fail to load an SDK style
+project unless its target framework was .NET Standard, .NET Core App
+or .NET Framework.</p>
+
+<p>This allows Tizen projects to be loaded without the error message
+&ldquo;Project does not support framework &lsquo;Tizen,Version=v4.0&rsquo;&rdquo; being
+displayed. Tizen projects have a Tizen.NET package reference which
+imports an MSBuild .props file that defines the Tizen target framework.</p>
+
+<p>The <a href="https://github.com/onovotny/MSBuildSdkExtras">MSBuild.Sdk.Extras</a> NuGet
+package is now supported so SDK style projects can use target frameworks
+that this NuGet package
+supports, such as Xamarin.iOS and MonoAndroid.</p>
+
+<p>On building a project with an unknown target framework, that is
+not defined by any used NuGet package references, a build error
+that indicates the framework is not supported will occur:</p>
+
+<pre><code>The TargetFramework value 'test1.0' was not recognized.
+</code></pre>
+
+<p>NuGet restore will also fail for an unknown target framework with
+a message indicating the framework is invalid.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fix xUnit test messages not displayed</strong></p>
+
+<p>xUnit tests support an ITestOutputHelper interface which can be
+passed to the constructor of the test. This has a WriteLine method
+which can be used to output messages whilst running the test. When
+this was used the text displayed in Visual Studio for Mac&rsquo;s Test Results
+window was:</p>
+
+<pre><code>Microsoft.VisualStudio.TestPlatform.ObjectModel.TestResultMessage
+</code></pre>
+
+<p>Now the text from the message is shown in the Tests Results window.</p>
+
+<p><strong>Support target framework defined in another MSBuild property</strong></p>
+
+<p>An SDK style project that defined the <TargetFrameworks> element to
+be another MSBuild property would fail to restore.</p>
+
+<p>In the example below the property TheFramework is defined in the
+Frameworks.props file.</p>
+
+<pre><code>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+  &lt;Import Project="Frameworks.props" /&gt;
+  &lt;PropertyGroup&gt;
+    &lt;TargetFrameworks&gt;$(TheFramework)&lt;/TargetFrameworks&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+
+<p>The unevaluated MSBuild property value was used and would result in the
+NuGet package restore failing.</p>
+
+<p>Now the evaluated property value is used when restoring dependencies.</p>
+
+<p><strong>ASP.NET Core minified files and map files are no longer formatted</strong></p>
+
+<p>On creating a new ASP.NET Core project the minified files were being
+re-formatted and were no longer minified. Now the .min.css, .min.js and
+.map files are excluded from being re-formatted when a new ASP.NET Core
+project is created.</p>
+
+<p><strong>Fixed failure to add a new file when the default project namespace contains only numbers</strong></p>
+
+<p>If a project has a default namespace of &lsquo;1&rsquo; then adding a new C#
+file from a template would throw a null reference
+exception. The problem was that the sanitized namespace for the project&rsquo;s
+default namespace was null.</p>
+
+<p><strong>Show SDK information before dependencies are restored</strong></p>
+
+<p>When a new .NET Core project is created the Dependencies &ndash; SDK folder
+would show no items until the NuGet package restore completed. Now
+the SDK dependency is shown whilst the dependencies are being restored.</p>
+
+<p><strong>Fixed remove item not added for .xaml.cs file</strong></p>
+
+<p>When a new content page with xaml file was
+added and then removed, but not deleted,
+a remove item was not added for the .xaml.cs file.</p>
+
+<p><strong>Fixed incorrect project updates when moving a file</strong></p>
+
+<p>Moving a Resource file from one folder to another would not update
+the project file correctly. Either the project file would not be
+modified or the file would be removed.</p>
+
+<p>One problem was that on moving a clone is taken of the original item
+and the associated MSBuild item was copied but was still referring
+back to the original location. Another problem was that an incorrect
+match was being made when looking for remove items resulting in the
+wrong files being removed from the project.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-03-11T11:00:00+00:00" pubdate data-updated="true">Mar 11<sup>th</sup>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/netcore/'>netcore</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4/" data-via="" data-counturl="http://lastexitcode.com/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4/" title="Previous Post: NuGet Support in Visual Studio for Mac 7.4">&laquo; NuGet Support in Visual Studio for Mac 7.4</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

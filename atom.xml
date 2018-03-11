@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-03-10T14:11:02+00:00</updated>
+  <updated>2018-03-11T13:53:29+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,149 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.4]]></title>
+    <link href="http://lastexitcode.com/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4/"/>
+    <updated>2018-03-11T11:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Solution window detects file system changes outside Visual Studio for Mac</li>
+<li> Projects with unknown target frameworks can now be loaded
+
+<ul>
+<li><a href="https://oren.codes/2017/08/29/use-all-tfms-with-sdk-style-projects-in-visual-studio-for-mac/">MSBuild SDK Extras</a> is now supported without requiring an extra extension to be installed</li>
+<li>Tizen.NET projects are now supported</li>
+</ul>
+</li>
+<li> Fixed xUnit test messages not being displayed</li>
+<li> ASP.NET Core minified files are no longer formatted</li>
+<li> Support target framework defined in another MSBuild property</li>
+<li> Show SDK information before dependencies are restored</li>
+<li> Fixed failure to add new file when the default project namespace contains only numbers</li>
+<li> Fixed remove item not added for .xaml.cs file</li>
+<li> Fixed incorrect project updates when moving a file</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a> can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
+
+<h2>Solution window detects file system changes</h2>
+
+<p>Files created in the project directory, or a subdirectory,
+outside Visual Studio for Mac are now added to the project and
+appear in the Solution window automatically.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-4/DotNetCoreProjectFileWatcher.gif" title="File added and removed from command line - Solution window updated" alt="File added and removed from command line - Solution window updated"></p>
+
+<p>Deleting project files and directories will remove the files from
+the Solution window. The Solution window will also update after
+a file or a directory is renamed outside Visual Studio for Mac.</p>
+
+<p><strong>Allow unknown target framework projects to be loaded</strong></p>
+
+<p>The target framework of an SDK style project is no longer restricted.
+Previously Visual Studio for Mac would fail to load an SDK style
+project unless its target framework was .NET Standard, .NET Core App
+or .NET Framework.</p>
+
+<p>This allows Tizen projects to be loaded without the error message
+&ldquo;Project does not support framework &lsquo;Tizen,Version=v4.0&rsquo;&rdquo; being
+displayed. Tizen projects have a Tizen.NET package reference which
+imports an MSBuild .props file that defines the Tizen target framework.</p>
+
+<p>The <a href="https://github.com/onovotny/MSBuildSdkExtras">MSBuild.Sdk.Extras</a> NuGet
+package is now supported so SDK style projects can use target frameworks
+that this NuGet package
+supports, such as Xamarin.iOS and MonoAndroid.</p>
+
+<p>On building a project with an unknown target framework, that is
+not defined by any used NuGet package references, a build error
+that indicates the framework is not supported will occur:</p>
+
+<pre><code>The TargetFramework value 'test1.0' was not recognized.
+</code></pre>
+
+<p>NuGet restore will also fail for an unknown target framework with
+a message indicating the framework is invalid.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fix xUnit test messages not displayed</strong></p>
+
+<p>xUnit tests support an ITestOutputHelper interface which can be
+passed to the constructor of the test. This has a WriteLine method
+which can be used to output messages whilst running the test. When
+this was used the text displayed in Visual Studio for Mac&rsquo;s Test Results
+window was:</p>
+
+<pre><code>Microsoft.VisualStudio.TestPlatform.ObjectModel.TestResultMessage
+</code></pre>
+
+<p>Now the text from the message is shown in the Tests Results window.</p>
+
+<p><strong>Support target framework defined in another MSBuild property</strong></p>
+
+<p>An SDK style project that defined the <TargetFrameworks> element to
+be another MSBuild property would fail to restore.</p>
+
+<p>In the example below the property TheFramework is defined in the
+Frameworks.props file.</p>
+
+<pre><code>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+  &lt;Import Project="Frameworks.props" /&gt;
+  &lt;PropertyGroup&gt;
+    &lt;TargetFrameworks&gt;$(TheFramework)&lt;/TargetFrameworks&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+
+<p>The unevaluated MSBuild property value was used and would result in the
+NuGet package restore failing.</p>
+
+<p>Now the evaluated property value is used when restoring dependencies.</p>
+
+<p><strong>ASP.NET Core minified files and map files are no longer formatted</strong></p>
+
+<p>On creating a new ASP.NET Core project the minified files were being
+re-formatted and were no longer minified. Now the .min.css, .min.js and
+.map files are excluded from being re-formatted when a new ASP.NET Core
+project is created.</p>
+
+<p><strong>Fixed failure to add a new file when the default project namespace contains only numbers</strong></p>
+
+<p>If a project has a default namespace of &lsquo;1&rsquo; then adding a new C#
+file from a template would throw a null reference
+exception. The problem was that the sanitized namespace for the project&rsquo;s
+default namespace was null.</p>
+
+<p><strong>Show SDK information before dependencies are restored</strong></p>
+
+<p>When a new .NET Core project is created the Dependencies &ndash; SDK folder
+would show no items until the NuGet package restore completed. Now
+the SDK dependency is shown whilst the dependencies are being restored.</p>
+
+<p><strong>Fixed remove item not added for .xaml.cs file</strong></p>
+
+<p>When a new content page with xaml file was
+added and then removed, but not deleted,
+a remove item was not added for the .xaml.cs file.</p>
+
+<p><strong>Fixed incorrect project updates when moving a file</strong></p>
+
+<p>Moving a Resource file from one folder to another would not update
+the project file correctly. Either the project file would not be
+modified or the file would be removed.</p>
+
+<p>One problem was that on moving a clone is taken of the original item
+and the associated MSBuild item was copied but was still referring
+back to the original location. Another problem was that an incorrect
+match was being made when looking for remove items resulting in the
+wrong files being removed from the project.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.4]]></title>
@@ -24,7 +167,6 @@
 <li> Support NuGet RestoreProjectStyle MSBuild Property</li>
 <li> .NET Core xUnit tests not displayed if NuGet packages not cached</li>
 <li> No tests displayed when project uses a NUnit PackageReference</li>
-<li> Unable to debug a new Azure Functions project without re-opening project</li>
 <li> NuGet MSBuild imports not removed when migrating to project.json</li>
 </ul>
 
@@ -69,23 +211,6 @@ Core project contained a NUnit PackageReference. Visual Studio for
 Mac was looking for a PackageReference that contained &lsquo;nunit.framework&rsquo;
 and was not finding the NUnit NuGet package reference.</p>
 
-<p><strong>Unable to debug a new Azure Functions project without re-opening project</strong></p>
-
-<p>After creating a new Azure Functions project it was possible to build the
-project but not to debug it or run it. On closing and re-opening the solution
-it would be possible to debug and run the Azure Functions project.</p>
-
-<p>When Visual Studio for Mac created a new Azure Functions project
-it initially determined that it could not run or debug the project.
-After the Azure Functions project has its PackageReferences restored
-it gains an AzureFunctions project capability. This capability is used to
-determine if the project can be run. This change in the capability
-was not handled by Visual Studio for Mac so it did not allow the
-project to be run until the project was closed and re-opened.</p>
-
-<p>Now, after the NuGet package restore is finished, the project is
-re-evaluated and a check is made to see if the project can now be run.</p>
-
 <p><strong>NuGet MSBuild imports not removed when migrating to project.json</strong></p>
 
 <p>When a Portable Class Library project was migrated to use a project.json
@@ -103,21 +228,6 @@ Please check your project file and remove the duplicate import(s).
 
 <p>Now on migrating to project.json the MSBuild imports added by NuGet packages
 to the project are removed.</p>
-
-<p> <strong>Fix generated NuGet files being imported twice</strong></p>
-
-<p>The generated ProjectName.nuget.g.targets and ProjectName.nuget.g.props
-that are created for .NET Core projects in the base intermediate
-directory were being imported twice when evaluating the project.
-Once by Microsoft.Common.props, provided with Mono, and once
-by Visual Studio for Mac.</p>
-
-<p>This duplicate import was resulting in a duplicate file being added
-to the project held in memory by Visual Studio for Mac when the
-Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
-project and no .NET Core SDK is installed. This would result in the
-content page xaml and associated C# file not being nested in the
-solution window.</p>
 
 <p><strong>Fix unhandled exception when searching for packages</strong></p>
 
@@ -474,6 +584,91 @@ already defined.</p>
 being uninstalled, and the
 project can no longer be run the startup item will be updated if
 it was previously set to be this project.</p>
+
+<p><strong>Fix generated NuGet files being imported twice</strong></p>
+
+<p>The ProjectName.nuget.g.targets and ProjectName.nuget.g.props,
+that are generated for .NET Core projects in the base intermediate
+directory, were being imported twice.
+Once by Microsoft.Common.props, that is provided with Mono, and once
+again by Visual Studio for Mac.</p>
+
+<p>Importing these files twice was causing a duplicate file to be added to
+the project information held in memory by Visual Studio for Mac
+when Xamarin.Forms 2.4 was used and no .NET Core SDK was installed.
+This would result in the content page xaml and associated C# file not
+being nested in the solution window.</p>
+
+<p><strong>Fixed items added to project when a new content page with XAML was created</strong></p>
+
+<p>Adding a new Xamarin.Forms content page with XAML would add an
+update item for the .xaml.cs file, a remove item for the xaml file,
+and an include item for the xaml file.</p>
+
+<p>An example is Xamarin.Forms 2.4 which defines wildcard includes:</p>
+
+<pre><code>&lt;None Remove="**\*.xaml" /&gt;
+&lt;EmbeddedResource Include="**\*.xaml" SubType="Designer" Generator="MSBuild:UpdateDesignTimeXaml" /&gt;
+</code></pre>
+
+<p>Which would cause a new .xaml file added to the project and saved
+in the project file as well as a remove for the None item even though
+the .xaml file was already removed from the None items.</p>
+
+<pre><code>&lt;None Remove="MyView.xaml" /&gt;
+
+&lt;EmbeddedResource Include="MyView.xaml"&gt;
+  &lt;Generator&gt;MSBuild:UpdateDesignTimeXaml"&lt;/Generator&gt;
+&lt;/EmbeddedResource&gt;
+</code></pre>
+
+<p><strong>Fix DependentUpon property being saved in project</strong></p>
+
+<p>Xamarin.Forms 2.4 defines an update item similar to:</p>
+
+<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
+</code></pre>
+
+<p>When a project was saved a Compile item was added to the main project
+with the filename stored in the DependentUpon element. Now
+the evaluated DependentUpon value is treated as being the default
+value so it is not added to the project file.</p>
+
+<p><strong>Fix xaml.cs files not being nested</strong></p>
+
+<p>Xamarin.Forms 2.4 defines an update item similar to:</p>
+
+<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
+</code></pre>
+
+<p>The DependentUpon property was being evaluated as &lsquo;*.xaml.cs&rsquo;.
+This was causing .xaml.cs files to not be nested in the Solution window.</p>
+
+<p><strong>Fixed build error when Xamarin.Forms 2.4 used in a .NET Standard project</strong></p>
+
+<p>If a Xamarin.Forms .NET Standard project had a
+.xaml file and a .xaml.cs file then the xaml.g.cs file would not be
+generated when the project file contained no files. The
+default items defined by the Xamarin.Forms NuGet package were not
+being imported. This then caused a build error about the
+InitializeComponent method not being defined.</p>
+
+<p>Xamarin.Forms 2.4.0 uses default
+item imports which were not being included since they are conditionally
+imported and the MSBuildSDKsPath was not defined:</p>
+
+<pre><code>&lt;Import Project="$(MSBuildThisFileDirectory)Xamarin.Forms.DefaultItems.props" Condition="'$(MSBuildSDKsPath)'!=''" /&gt;
+</code></pre>
+
+<p>MSBuild on the command line defines the MSBuildSDKsPath globally in
+its MSBuild.dll.config file. The MSBuild engine host, used when
+building a project in Visual Studio for Mac, now also defines the
+MSBuildSDKsPath property.</p>
+
+<p><strong>Fixed remove item added when removing a linked file</strong></p>
+
+<p>Deleting a file link in a .NET Core project would add a remove item
+for the file instead of removing the link from the project.</p>
 ]]></content>
   </entry>
   
@@ -622,6 +817,38 @@ project reference information was not being used
 when a restore occurred. This caused the assemblies from the transitively
 referenced NuGet packages to not be added to the
 project.lock.json file for Project B.</p>
+
+<p><strong>Unable to debug a new Azure Functions project without re-opening project</strong></p>
+
+<p>After creating a new Azure Functions project it was possible to build the
+project but not to debug it or run it. On closing and re-opening the solution
+it would be possible to debug and run the Azure Functions project.</p>
+
+<p>When Visual Studio for Mac created a new Azure Functions project
+it initially determined that it could not run or debug the project.
+After the Azure Functions project has its PackageReferences restored
+it gains an AzureFunctions project capability. This capability is used to
+determine if the project can be run. This change in the capability
+was not handled by Visual Studio for Mac so it did not allow the
+project to be run until the project was closed and re-opened.</p>
+
+<p>Now, after the NuGet package restore is finished, the project is
+re-evaluated and a check is made to see if the project can now be run.</p>
+
+<p><strong>Fix generated NuGet files being imported twice</strong></p>
+
+<p>The generated ProjectName.nuget.g.targets and ProjectName.nuget.g.props
+that are created for .NET Core projects in the base intermediate
+directory were being imported twice when evaluating the project.
+Once by Microsoft.Common.props, provided with Mono, and once
+by Visual Studio for Mac.</p>
+
+<p>This duplicate import was resulting in a duplicate file being added
+to the project held in memory by Visual Studio for Mac when the
+Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
+project and no .NET Core SDK is installed. This would result in the
+content page xaml and associated C# file not being nested in the
+solution window.</p>
 ]]></content>
   </entry>
   
@@ -2958,123 +3185,6 @@ file as the first child element inside the project&rsquo;s root element.</p>
 
 
 <p> There is also a <a href="https://github.com/mrward/monodevelop-dnx-addin/tree/roslyn">separate branch</a> that supports MonoDevelop and Xamarin Studio 6.0.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 5.10]]></title>
-    <link href="http://lastexitcode.com/blog/2015/11/22/NuGetSupportInXamarinStudio5-10/"/>
-    <updated>2015-11-22T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2015/11/22/NuGetSupportInXamarinStudio5-10</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 5.10 was released last week as part of the <a href="https://blog.xamarin.com/introducing-xamarin-4/">Xamarin 4 release</a> and it includes changes to the NuGet support.</p>
-
-<h2>Changes</h2>
-
-<ul>
-<li> Support NuGet 2.8.7.</li>
-<li> Open readme.txt when a NuGet package is installed.</li>
-<li> Support packages.config file named after the project.</li>
-<li> Local Copy settings are preserved for references when updating packages.</li>
-<li> Do not show Checking for package updates message in status bar.</li>
-<li> Do not show warning in the status bar if a NuGet package has PowerShell scripts.</li>
-<li> Prevent the solution being closed when NuGet packages are being added.</li>
-<li> Removing a NuGet package does not update the Solution window when multiple solutions are open.</li>
-<li> Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.</li>
-<li> Prevent retargeting a NuGet package marking packages.config as deleted by Git.</li>
-<li> Allow Microsoft.ApplicationInsights NuGet package to be installed.</li>
-<li> Support NuGet packages targeting watchOS.</li>
-<li> Package license acceptance (Xamarin Studio 5.10.3)</li>
-</ul>
-
-
-<p>More information on all the changes in Xamarin Studio 5.10 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.10/xamarin.studio_5.10/">release notes</a>.</p>
-
-<h2>NuGet 2.8.7 support</h2>
-
-<p>Xamarin Studio now supports NuGet 2.8.7. NuGet 2.8.7 adds support for the Universal App Platform (UAP) target framework to support Windows 10 Application Development.</p>
-
-<h2>Open readme.txt when a NuGet package is installed</h2>
-
-<p>A NuGet package can contain a <a href="https://docs.nuget.org/create/creating-and-publishing-a-package#user-content-automatically-displaying-a-readmetxt-file-during-package-installation">readme.txt file</a> which Xamarin Studio will now open and display in the text editor when the NuGet package is installed or updated.</p>
-
-<h2>Preserve Local Copy on Updating Packages</h2>
-
-<p>The Local Copy setting on an assembly reference will now be preserved when updating a NuGet package or retargeting a NuGet package.</p>
-
-<p>By default Local Copy is set to true for assembly references when installing a NuGet package. If you set Local Copy to false for one or more of these references then this setting will now be preserved when updating or retargeting the NuGet package.</p>
-
-<h2>Packages.config file named after project</h2>
-
-<p>NuGet supports multiple projects in the same directory each using their own packages.config file. To allow multiple projects in the same directory to each use their own NuGet packages you can name the packages.config file after each project. In the examples below the project filename is on the left and the corresponding packages.config filename is on the right.</p>
-
-<ul>
-<li>Foo.csproj => packages.Foo.config</li>
-<li>Bar.csproj => packages.Bar.config</li>
-<li>Foo Bar.csproj => packages.Foo_Bar.config</li>
-</ul>
-
-
-<p>Xamarin Studio now checks for the packages.ProjectName.config file first and will use it if it exists, otherwise it will fall back to the default behaviour and use the packages.config file.</p>
-
-<p>Note that a new project without any NuGet packages will use a packages.config file by default. The basic procedure to enable a project specific packages.config file when creating a new project is:</p>
-
-<ol>
-<li>Create new project called Foo.</li>
-<li>Add a NuGet package to the Foo project.</li>
-<li>Rename the packages.config file to packages.Foo.config</li>
-<li>Reload the solution in Xamarin Studio.</li>
-</ol>
-
-
-<p>Also note that if you remove all the NuGet packages from a project the packages.ProjectName.config file will be deleted and on adding a new NuGet package the default packages.config file will be used.</p>
-
-<h2>Do not show Checking for package updates message in status bar</h2>
-
-<p>Previously when Xamarin Studio was checking for NuGet package updates a message would appear in the status bar. This status bar message has now been removed since checking for NuGet package updates is a background task and does not prevent Xamarin Studio from being used.</p>
-
-<h2>Do not show warning in the status bar if a NuGet package has PowerShell scripts</h2>
-
-<p>Previously if a NuGet package was installed and it contained PowerShell scripts then a warning was shown in the status bar. Now this message is only shown in the Package Console window.</p>
-
-<h2>Prevent the solution being closed when NuGet packages are being added</h2>
-
-<p>A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.</p>
-
-<h2>Support NuGet packages targeting watchOS</h2>
-
-<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
-
-<h2>Package license acceptance</h2>
-
-<p>Xamarin Studio 5.10.3 now includes a license acceptance dialog that will be displayed if a NuGet package requires a license to be accepted before it is installed. If the license is declined then the NuGet package will not be installed.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio5-10/PackageLicenseAcceptanceDialog.png" title="Package license acceptance dialog" alt="Package license acceptance dialog"></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Removing a NuGet package does not update the Solution window when multiple solutions are open</strong></p>
-
-<p>With two or more solutions opened at the same time the Packages folder would not be updated for all solutions when a NuGet package was removed. This was because Xamarin Studio was not refreshing the Packages folder for all solutions currently open.</p>
-
-<p><strong>Prevent packages.config file being marked as deleted by Git after updating pre-release NuGet package.</strong></p>
-
-<p>If there was only one pre-release NuGet package installed into a project and then a later version of the NuGet package was installed from the Add Packages dialog then the packages.config file was then being shown as deleted by Git instead of modified.</p>
-
-<p>The packages.config file is deleted by NuGet after the old NuGet package is uninstalled if there are no NuGet packages referenced. A special case to handle this was added in Xamarin Studio 5.3 but that only handled updating a NuGet package from the Solution window. Now updating a pre-release from the Add Packages dialog is also handled.</p>
-
-<p><strong>Retargeting a NuGet package marks packages.config as deleted by Git</strong></p>
-
-<p>This is similar to the previous bug. Retargeting a NuGet package will uninstall and then install the NuGet package. If there is only one NuGet package in the project then the packages.config file is deleted and was causing Git to mark the file as deleted instead of updated.</p>
-
-<p><strong>Unable to install Microsoft.ApplicationInsights NuGet package</strong></p>
-
-<p>Xamarin Studio 5.9.2 added support for NuGet 2.8.5 but it was not possible to install the <a href="https://www.nuget.org/packages/Microsoft.ApplicationInsights/">Microsoft.ApplicationInsights NuGet package</a> into a project. It was possible to install it using Visual Studio with NuGet 2.8.3 or higher installed. The error reported by Xamarin Studio was:</p>
-
-<pre><code>Adding Microsoft.ApplicationInsights...
-The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.50313' or above, but the current NuGet version is '2.8.5.0'.
-</code></pre>
-
-<p>Xamarin Studio 5.10 now allows the Microsoft.ApplicationInsights NuGet package to be installed into a project.</p>
 ]]></content>
   </entry>
   
