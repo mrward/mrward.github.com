@@ -288,3 +288,82 @@ being uninstalled, and the
 project can no longer be run the startup item will be updated if
 it was previously set to be this project.
 
+**Fix generated NuGet files being imported twice**
+    
+The ProjectName.nuget.g.targets and ProjectName.nuget.g.props,
+that are generated for .NET Core projects in the base intermediate
+directory, were being imported twice.
+Once by Microsoft.Common.props, that is provided with Mono, and once
+again by Visual Studio for Mac.
+    
+Importing these files twice was causing a duplicate file to be added to
+the project information held in memory by Visual Studio for Mac
+when Xamarin.Forms 2.4 was used and no .NET Core SDK was installed. 
+This would result in the content page xaml and associated C# file not 
+being nested in the solution window.
+
+**Fixed items added to project when a new content page with XAML was created**
+
+Adding a new Xamarin.Forms content page with XAML would add an
+update item for the .xaml.cs file, a remove item for the xaml file,
+and an include item for the xaml file.
+    
+An example is Xamarin.Forms 2.4 which defines wildcard includes:
+    
+    <None Remove="**\*.xaml" />
+    <EmbeddedResource Include="**\*.xaml" SubType="Designer" Generator="MSBuild:UpdateDesignTimeXaml" />
+    
+Which would cause a new .xaml file added to the project and saved
+in the project file as well as a remove for the None item even though
+the .xaml file was already removed from the None items.
+    
+    <None Remove="MyView.xaml" />
+    
+    <EmbeddedResource Include="MyView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml"</Generator>
+    </EmbeddedResource>
+
+**Fix DependentUpon property being saved in project**
+    
+Xamarin.Forms 2.4 defines an update item similar to:
+    
+    <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
+    
+When a project was saved a Compile item was added to the main project
+with the filename stored in the DependentUpon element. Now
+the evaluated DependentUpon value is treated as being the default 
+value so it is not added to the project file.
+
+**Fix xaml.cs files not being nested**
+    
+Xamarin.Forms 2.4 defines an update item similar to:
+    
+    <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
+    
+The DependentUpon property was being evaluated as '*.xaml.cs'. 
+This was causing .xaml.cs files to not be nested in the Solution window.
+
+**Fixed build error when Xamarin.Forms 2.4 used in a .NET Standard project**
+
+If a Xamarin.Forms .NET Standard project had a
+.xaml file and a .xaml.cs file then the xaml.g.cs file would not be
+generated when the project file contained no files. The
+default items defined by the Xamarin.Forms NuGet package were not 
+being imported. This then caused a build error about the
+InitializeComponent method not being defined.
+
+Xamarin.Forms 2.4.0 uses default
+item imports which were not being included since they are conditionally
+imported and the MSBuildSDKsPath was not defined:
+    
+    <Import Project="$(MSBuildThisFileDirectory)Xamarin.Forms.DefaultItems.props" Condition="'$(MSBuildSDKsPath)'!=''" />
+
+MSBuild on the command line defines the MSBuildSDKsPath globally in
+its MSBuild.dll.config file. The MSBuild engine host, used when
+building a project in Visual Studio for Mac, now also defines the 
+MSBuildSDKsPath property.
+
+**Fixed remove item added when removing a linked file**
+    
+Deleting a file link in a .NET Core project would add a remove item
+for the file instead of removing the link from the project.
