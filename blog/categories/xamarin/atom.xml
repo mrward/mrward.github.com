@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-03-11T14:37:25+00:00</updated>
+  <updated>2018-03-18T19:59:55+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,479 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Language Server Protocol support in Visual Studio for Mac 7.4]]></title>
+    <link href="http://lastexitcode.com/blog/2018/03/18/LanguageServerSupportInVisualStudioMac7-4/"/>
+    <updated>2018-03-18T12:30:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2018/03/18/LanguageServerSupportInVisualStudioMac7-4</id>
+    <content type="html"><![CDATA[<p>A preview of support for the <a href="https://github.com/Microsoft/language-server-protocol">Language Server Protocol</a>
+is now available for Visual Studio for Mac 7.4 as a separate extension.</p>
+
+<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/DockerLanguageServerClient.gif" title="&lsquo;Docker Language Server client being used in Visual Studio for Mac&rsquo; &lsquo;Docker Language Server client being used in Visual Studio for Mac&rsquo;" ></p>
+
+<p>A Language Server can provide support for programming language features such as:</p>
+
+<ul>
+<li>Code completion</li>
+<li>Find references</li>
+<li>Go to definition</li>
+<li>Quick fixes</li>
+<li>Method signature help</li>
+<li>Errors and warnings diagnostics</li>
+<li>Documentation on hover</li>
+<li>Document formatting</li>
+<li>Rename refactoring</li>
+</ul>
+
+
+<p>The <a href="https://github.com/Microsoft/language-server-protocol">Language Server Protocol</a> provides a way for a
+client application, such as Visual Studio for Mac, to communicate with the Language Server in order to
+use the programming language features it supports.</p>
+
+<p><a href="https://code.visualstudio.com">Visual Studio Code</a> supports the
+<a href="https://code.visualstudio.com/blogs/2016/06/27/common-language-protocol">Language Server Protocol</a>.</p>
+
+<p>A preview of <a href="https://blogs.msdn.microsoft.com/visualstudio/2017/11/21/announcing-language-server-protocol-preview-release/">Language Server Protocol support in Visual Studio 2017 on Windows</a>
+has also been announced.</p>
+
+<p>Currently there is no support for debugging. Whilst there is a
+<a href="https://code.visualstudio.com/docs/extensionAPI/api-debugging">debugging protocol</a> support
+for this is not currently available in Visual Studio for Mac.</p>
+
+<p>The Language Server Protocol does not provide any support for compiling the code. This would need
+to be provided by the extension that implements the language client.</p>
+
+<p>More detailed information about the Language Server Protocol can be found on the
+<a href="https://microsoft.github.io/language-server-protocol/">Language Server Protocol site</a>.</p>
+
+<p>The <strong>Creating a Language Client</strong> section below will take a more detailed look at how to implement
+a custom Language Server Client extension in Visual Studio for Mac.</p>
+
+<h2>Supports</h2>
+
+<ul>
+<li>MonoDevelop or Visual Studio Mac 7.4 or later.</li>
+</ul>
+
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-language-server-addin">Language Server Client extension for Visual Studio for Mac and MonoDevelop</a></li>
+</ul>
+
+
+<h2>Installation</h2>
+
+<p>The Language Server Client extension is available to download from <a href="https://github.com/mrward/monodevelop-language-server-addin/releases/download/0.1-monodevelop-7.4/MonoDevelop.LanguageServer.Client_0.1.mpack">GitHub</a>.</p>
+
+<p>To install the extension open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
+
+<p>The extension is also available from a <a href="https://github.com/mrward/monodevelop-addins">custom extension server</a>.
+It is not currently published to the main Visual Studio for Mac extension gallery.</p>
+
+<h2>Creating a Language Client</h2>
+
+<p>The API provided by the Language Server Client extension follows the <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/adding-an-lsp-extension">API defined by the
+Language Server Protocol extension used by Visual Studio on Windows</a> as
+closely as possible.</p>
+
+<p>More detailed documentation on the <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/language-server-protocol">Language Server Client API</a> provided
+by Visual Studio on Windows is available from the <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/language-server-protocol">Microsoft docs site</a>.</p>
+
+<h3>Prerequisites</h3>
+
+<p>The <a href="https://github.com/mrward/monodevelop-language-server-addin">Language Server Client Extension</a> for
+Visual Studio for Mac should be installed.</p>
+
+<p>Also ensure you have the <a href="https://github.com/mhutch/MonoDevelop.AddinMaker">Addin Maker extension installed</a>.
+This can be installed by selecting Extensions&hellip; from the main menu top open the Extensions Manager.
+Select the Gallery tab and use the text box at the top right to search for the Addin Maker extension.</p>
+
+<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/ExtensionsDialogAddinMaker.png" title="&lsquo;Addin maker selected in Extensions Manager dialog&rsquo; &lsquo;Addin maker selected in Extensions Manager dialog&rsquo;" ></p>
+
+<p>Click the Install button to install the Addin Maker extension.</p>
+
+<p>The Addin Maker will be used to create the language client extension.</p>
+
+<h3>Creating an IDE Extension project</h3>
+
+<p>The starting point is to create an IDE Extension project. This project template is provided by the
+Addin Maker extension and is available
+from the New Project dialog, in the Other &ndash; IDE Extensions category.</p>
+
+<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/NewProjectDialogIdeExtension.png" title="&lsquo;IDE Extension project selected in New Project dialog&rsquo; &lsquo;IDE Extension project selected in New Project dialog&rsquo;" ></p>
+
+<p>After creating the IDE Extensions project, expand the Dependencies folder to show the
+Extensions folder. Right click the Extensions folder and select Add Addin Reference.</p>
+
+<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/NewProjectDialogIdeExtension.png" title="&lsquo;IDE Extension project selected in New Project dialog&rsquo; &lsquo;IDE Extension project selected in New Project dialog&rsquo;" ></p>
+
+<p>Find the MonoDevelop.LanguageServer.Client in the Add Extension Reference dialog. Select it to
+toggle its check box and then click the Add button to reference it.</p>
+
+<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/AddExtensionReferenceDialogLanguageServerClient.png" title="&lsquo;Language Server Client extension in Add Extension Reference dialog&rsquo; &lsquo;Language Server Client extension in Add Extension Reference dialog&rsquo;" ></p>
+
+<p>There are three parts to implementing a language client:</p>
+
+<ul>
+<li>Enabling <a href="https://github.com/Microsoft/vs-mef">Managed Extensibility Framework (MEF)</a> support</li>
+<li>Defining the supported content
+types</li>
+<li>Implementing the ILanguageClient interface.</li>
+</ul>
+
+
+<p>First we will take a look at enabling MEF support.</p>
+
+<h3>Enabling Managed Extensibility Framework Support</h3>
+
+<p>Registration of the language client with Visual Studio for Mac is done using the <a href="https://github.com/Microsoft/vs-mef">Managed Extensibility Framework (MEF)</a>
+which is supported by Visual Studio for Mac.</p>
+
+<p>In order to use MEF in your language client extension you need to indicate to Visual Studio
+for Mac that it should scan your extension for dependencies. This can be done in the
+extension&rsquo;s .addin.xml file by adding the filename of your assembly.</p>
+
+<p>```</p>
+
+<pre><code>&lt;Extension path="/MonoDevelop/Ide/Composition"&gt;
+    &lt;Assembly file="MockLanguageExtension.dll" /&gt;
+&lt;/Extension&gt;
+</code></pre>
+
+<p>```</p>
+
+<h3>Content Type Definition</h3>
+
+<p>Your language client needs to indicate what files are supported. This is done by defining
+a content type definition.</p>
+
+<p>```
+using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.LanguageServer.Client;
+using Microsoft.VisualStudio.Utilities;</p>
+
+<p>namespace MockLanguageExtension
+{</p>
+
+<pre><code>#pragma warning disable CS0649 // Field is never assigned to.
+
+public class FooContentDefinition
+{
+    [Export]
+    [Name("foo")]
+    [BaseDefinition(CodeRemoteContentDefinition.CodeRemoteContentTypeName)]
+    internal static ContentTypeDefinition FooContentTypeDefinition;
+
+    [Export]
+    [FileExtension(".foo")]
+    [ContentType("foo")]
+    internal static FileExtensionToContentTypeDefinition FooFileExtensionDefinition;
+}
+
+#pragma warning restore CS0649
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The above content definition indicates that the .foo file extension is supported by the language client.</p>
+
+<p>You can also define a filename, instead of a file extension, as supported by the language client by using
+the FileName attribute instead of the FileExtension attribute.</p>
+
+<p>```</p>
+
+<pre><code>class DockerContentTypeDefinition
+{
+    [Export]
+    [Name("docker")]
+    [BaseDefinition(CodeRemoteContentDefinition.CodeRemoteContentTypeName)]
+    internal static ContentTypeDefinition contentTypeDefinition;
+
+    [Export]
+    [FileName("Dockerfile")]
+    [ContentType("docker")]
+    internal static FileExtensionToContentTypeDefinition dockerFileDefinition;
+}
+</code></pre>
+
+<p>```</p>
+
+<p>You will need to add a reference to <strong>System.ComponentModel.Composition</strong> so the <a href="https://msdn.microsoft.com/library/system.componentmodel.composition.exportattribute.aspx">Export attribute</a>
+can be used.</p>
+
+<h3>Implementing ILanguageClient</h3>
+
+<p>To integrate the Language Server with Visual Studio for Mac the
+<a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclient">ILanguageClient interface</a>
+needs to be implemented.</p>
+
+<p>```
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.LanguageServer.Client;
+using Microsoft.VisualStudio.Threading;
+using Microsoft.VisualStudio.Utilities;</p>
+
+<p>namespace MockLanguageExtension
+{</p>
+
+<pre><code>[ContentType("foo")]
+[Export(typeof(ILanguageClient))]
+public class FooLanguageClient : ILanguageClient
+{
+    public IEnumerable&lt;string&gt; ConfigurationSections =&gt; null;
+
+    public object InitializationOptions =&gt; null;
+
+    public IEnumerable&lt;string&gt; FilesToWatch =&gt; null;
+
+    public string Name =&gt; "Foo Language Extension";
+
+    public event AsyncEventHandler&lt;EventArgs&gt; StartAsync;
+    public event AsyncEventHandler&lt;EventArgs&gt; StopAsync;
+
+    public async Task OnLoadedAsync()
+    {
+        await StartAsync?.InvokeAsync(this, EventArgs.Empty);
+    }
+
+    public Task&lt;Connection&gt; ActivateAsync(CancellationToken token)
+    {
+        var info = new ProcessStartInfo();
+        var programPath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), "server", @"LanguageServer.UI.exe");
+        info.FileName = "mono";
+        info.Arguments = programPath;
+        info.WorkingDirectory = Path.GetDirectoryName(programPath);
+        info.UseShellExecute = false;
+        info.RedirectStandardInput = true;
+        info.RedirectStandardOutput = true;
+
+        var process = new Process();
+        process.StartInfo = info;
+
+        Connection connection = null;
+
+        if (process.Start())
+        {
+            connection = new Connection(process.StandardOutput.BaseStream, process.StandardInput.BaseStream);
+        }
+
+        return Task.FromResult(connection);
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The class that implements the ILanguageClient interface needs to indicate it supports
+the content types that you have defined, and it also needs to indicate that it implements the
+ILanguageClient by using the Export attribute.</p>
+
+<p>```</p>
+
+<pre><code>[ContentType("foo")]
+[Export(typeof(ILanguageClient))]
+</code></pre>
+
+<p>```
+The language client should return a unique description for the ILanguageClient.Name
+property.</p>
+
+<p>The two methods that should be implemented are:</p>
+
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclient.onloadedasync">OnLoadedAsync</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclient.activateasync">ActivateAsync</a>.</li>
+</ul>
+
+
+<p>OnLoadedAsync is called when Visual Studio for Mac has loaded your extension. To activate
+your Language Server you need to call StartAsync. The simplest approach is to call StartAsync
+in the OnLoadedAsync method.</p>
+
+<p>```</p>
+
+<pre><code>    public async Task OnLoadedAsync()
+    {
+        await StartAsync?.InvokeAsync(this, EventArgs.Empty);
+    }
+</code></pre>
+
+<p>```</p>
+
+<p>Calling StartAsync will cause Visual Studio for Mac to call the ILanguageClient&rsquo;s
+ActivateAsync method. This is where you can start the Language Server.</p>
+
+<p>The ActivateAsync method should return a Connection object with the streams that
+will be used to communicate with the Language Server. Standard input and output streams
+are supported as well as sockets.</p>
+
+<p><code>
+var connection = new Connection(process.StandardOutput.BaseStream, process.StandardInput.BaseStream);
+</code></p>
+
+<p>The first time you try to run and debug your language client extension you will see an error
+in the Application Output similar to:</p>
+
+<p><code>
+WARNING: The add-in 'MockLanguageExtension,1.0' could not be updated because some of its
+dependencies are missing or not compatible:
+  missing: MonoDevelop.LanguageServer.Client,0.1
+</code></p>
+
+<p>The Addin Maker runs your language client extension using its own extension database. The
+MonoDevelop.LanguageServer.Client extension needs to be installed into this separate database
+in order to be able to run and debug your language client extension.</p>
+
+<p>To do this run your language client extension project in Visual Studio for Mac and
+install the Language Server Client extension using the Extensions Manager in the instance
+of Visual Studio for Mac that is started. Then stop debugging and re-run your extension project
+again, and your language client should now be used when you open a supported file.</p>
+
+<p>The content type registration and the ILanguageClient implementation is the minimum
+that is needed in order to integrate your Language Server with Visual Studio for Mac.
+Now let us take a look at other optional things that can be implemented.</p>
+
+<h3>Receiving Custom Messages</h3>
+
+<p>Your Language Server may support messages that are not part of the standard
+Language Server Protocol.</p>
+
+<p>In order to support receiving custom messages the class that implements ILanguageClient should also
+implement the
+<a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientcustommessage">ILanguageClientCustomMessage</a>
+interface. The CustomMessageTarget property should return an object that will receive the messages.</p>
+
+<p>```
+public object CustomMessageTarget => new CustomMessageTarget ();
+public object MiddleLayer => null;</p>
+
+<p>public Task AttachForCustomMessageAsync(JsonRpc rpc)
+{</p>
+
+<pre><code>return Task.CompletedTask;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>An example CustomMessageTarget class is shown below.</p>
+
+<p>```
+using Newtonsoft.Json.Linq;
+using StreamJsonRpc;</p>
+
+<p>namespace MockLanguageExtension
+{</p>
+
+<pre><code>public class CustomMessageTarget
+{
+    [JsonRpcMethod("test/customNotification")]
+    public void OnCustomNotification(JToken arg)
+    {
+        // Handle custom message from the Language Server.
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<h3>Sending Custom Messages</h3>
+
+<p>To send custom messages to the Language Server the class that implements the
+ILanguageClient interface should also implement the
+<a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientcustommessage">ILanguageClientCustomMessage</a> interface.</p>
+
+<p>The AttachForCustomMessageAsync method
+should save the JsonRpc object passed and then you can use the JsonRpc object to
+send custom messages to the Language Server.</p>
+
+<p>```</p>
+
+<pre><code>    JsonRpc rpc;
+
+    public Task AttachForCustomMessageAsync(JsonRpc rpc)
+    {
+        this.rpc = rpc;
+        return Task.CompletedTask;
+    }
+
+    public async Task SendMessageToServer()
+    {
+        string text = await rpc.InvokeWithParameterObjectAsync&lt;string&gt;("GetText");
+        MessageService.ShowMessage("Text from language server:", text);
+    }
+</code></pre>
+
+<p>```</p>
+
+<h3>Middle Layer</h3>
+
+<p>The ILanguageClientCustomMessage defines a MiddleLayer property. An object returned
+from the MiddleLayer property can be used to intercept messages sent to and received
+from the Language Server. The MiddleLayer object can implement the following
+interfaces:</p>
+
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientcompletionprovider">ILanguageClientCompletionProvider</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientexecutecommandprovider">ILanguageClientExecuteCommandProvider</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientworkspacesymbolprovider">ILanguageClientWorkspaceSymbolProvider</a></li>
+</ul>
+
+
+<p>```
+using System;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.LanguageServer.Client;
+using Microsoft.VisualStudio.LanguageServer.Protocol;</p>
+
+<p>namespace MockLanguageExtension
+{</p>
+
+<pre><code>class MiddleLayerProvider : ILanguageClientCompletionProvider
+{
+    public Task&lt;object&gt; RequestCompletions(
+        TextDocumentPositionParams param,
+        Func&lt;TextDocumentPositionParams, Task&lt;object&gt;&gt; sendRequest)
+    {
+        return sendRequest(param);
+    }
+
+    public async Task&lt;CompletionItem&gt; ResolveCompletion(
+        CompletionItem item,
+        Func&lt;CompletionItem, Task&lt;CompletionItem&gt;&gt; sendRequest)
+    {
+        return await sendRequest(item);
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Note that currently not all the Language Server messages can be intercepted.</p>
+
+<p>The full source code to the sample Language Server Client Extension created
+whilst writing this blog post is available on
+<a href="https://github.com/mrward/sample-language-server-client-extension">GitHub</a></p>
+
+<p>There are other examples included with the
+<a href="https://github.com/mrward/monodevelop-language-server-addin">Language Server Client extension source code</a>
+on GitHub, however these are not standalone and are compiled with the
+Language Server Client extension.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.4]]></title>
@@ -824,234 +1297,6 @@ Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
 project and no .NET Core SDK is installed. This would result in the
 content page xaml and associated C# file not being nested in the
 solution window.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Template Creator for Visual Studio for Mac]]></title>
-    <link href="http://lastexitcode.com/blog/2017/11/12/TemplateCreatorForVisualStudioMac/"/>
-    <updated>2017-11-12T14:30:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2017/11/12/TemplateCreatorForVisualStudioMac</id>
-    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension</a> provides a way to create a project template from an existing project
-or solution open in Visual Studio for Mac and have the project template available in the New
-Project dialog straight away.</p>
-
-<p>The Template Creator uses the <a href="https://github.com/dotnet/templating">.NET Core templating engine</a>
-to create the projects from the project templates.</p>
-
-<p>Let us take a look in more detail at what the Template Creator extension provides in Visual Studio for Mac.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li> Create a project template from an existing solution or project</li>
-<li> Create custom top level project template categories</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li>Visual Studio Mac 7.0 or later.</li>
-</ul>
-
-
-<h2>Creating a new Project Template</h2>
-
-<p>To create a new project template for a project opened in Visual Studio for Mac,
-right click the project and select Create Template.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/ProjectCreateTemplateMenu.png" title="&lsquo;Project &ndash; Create Template context menu&rsquo; &lsquo;Project &ndash; Create Template context menu&rsquo;" ></p>
-
-<p>A Template Information dialog is then opened.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TemplateInformationDialog.png" title="&lsquo;Template Information dialog&rsquo; &lsquo;Template Information dialog&rsquo;" ></p>
-
-<p>The information in the dialog is used to populate the generated template.json file. Further
-details on what the template.json file holds is available in the <a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">reference for template.json</a>].</p>
-
-<ul>
-<li>Author
-
-<ul>
-<li>Author of the project template.</li>
-</ul>
-</li>
-<li>Display Name
-
-<ul>
-<li>This is the template name displayed in the New Project dialog.</li>
-</ul>
-</li>
-<li>Description
-
-<ul>
-<li>This is the description displayed in the New Project dialog.</li>
-</ul>
-</li>
-<li>Category
-
-<ul>
-<li>This is the category in the New Project dialog used by the template.</li>
-</ul>
-</li>
-<li>Short Name
-
-<ul>
-<li>This is the short name for the template that can be used from the .NET Core command line.</li>
-</ul>
-</li>
-<li>Default Project Name
-
-<ul>
-<li>This is the default project name that will be used with the .NET Core command line.</li>
-</ul>
-</li>
-<li>Identity
-
-<ul>
-<li>This is the unique id for the template. This should be unique across all custom
-project templates.</li>
-</ul>
-</li>
-<li>Group Identity
-
-<ul>
-<li>This is typically a substring of the template&rsquo;s Identity.</li>
-</ul>
-</li>
-</ul>
-
-
-<p>By default the project template will use the Other &ndash; .NET &ndash; General category in the
-New Project dialog. To change the category click the browse button next to the category text
-box to open the Template Categories dialog.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TemplateCategoriesDialog.png" title="&lsquo;Template Categories dialog&rsquo; &lsquo;Template Categories dialog&rsquo;" ></p>
-
-<p>Select the required category and click OK. The selected category will then be updated
-in the Template Information dialog.</p>
-
-<p>Click OK to generate the template.json file. The template.json file will be opened
-in the text editor. It will also be displayed in the Solution window in the
-.template.config folder.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/ProjectTemplateJsonFile.png" title="&lsquo;template.json file created for project&rsquo; &lsquo;template.json file created for project&rsquo;" ></p>
-
-<p>The project template is now available in the New Project dialog.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/CustomProjectTemplateInNewProjectDialog.png" title="&lsquo;Custom project template in New Project dialog&rsquo; &lsquo;Custom template in New Project dialog&rsquo;" ></p>
-
-<h2>Updating a Project Template</h2>
-
-<p>After the project template is created you can modify the original project and its
-template.json file as required.</p>
-
-<p>Changes made to the project are available in the New Project dialog immediately.</p>
-
-<p>Changes made to the template.json file are available immediately in the same
-instance of Visual Studio for Mac where the template.json file is being edited.</p>
-
-<h2>Multiple Projects in a Template</h2>
-
-<p>A project template may create more than one project. To create a project template
-for all projects in the solution right click the solution and select Create Template.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/SolutionCreateTemplateMenu.png" title="&lsquo;Solution &ndash; Create Template context menu&rsquo; &lsquo;Solution &ndash; Create Template context menu&rsquo;" ></p>
-
-<p>A template.json file will be created in a .template.config directory inside the solution&rsquo;s
-directory.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TwoProjectsTemplateJsonFile.png" title="&lsquo;template.json file created for soluton&rsquo; &lsquo;template.json file created for solution&rsquo;" ></p>
-
-<p>Note that in order for the new projects created to use the name specified in the New Project
-dialog they should all have a common start to their name. The template.json file&rsquo;s <code>sourceName</code>
-will be the part that is replaced with the name of the project specified in the New Project dialog.</p>
-
-<h2>Configuring Registered Project Templates</h2>
-
-<p>The .NET Core templating engine supports project templates in NuGet packages or project templates
-that unpackaged in a directory. The Template Creator extension does
-not package the project templates into a NuGet package and instead stores a set of directories that
-are scanned by the .NET Core templating engine for templates. The set of directories that are
-registered can be viewed and updated in the Preferences dialog from the Templates &ndash; Custom Folders section.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomFolders.png" title="&lsquo;Preferences dialog &ndash; Templates &ndash; Custom Folders&rsquo; &lsquo;Preferences dialog &ndash; Templates &ndash; Custom Folders&rsquo;" ></p>
-
-<p>The templating engine will scan the configured directories and look for all the template.json files
-which define the project templates. The project templates found are then made available to the
-Visual Studio for Mac&rsquo;s New Project dialog by the Template Creator extension.</p>
-
-<p>When the template.json file is created using the information in the Template Information dialog
-the Template Creator extenxion also registers the
-project&rsquo;s directory so it will be scanned by the templating engine.</p>
-
-<p>To remove a project
-template from the New Project dialog you can either delete the template.json file or
-remove the folder from the Custom Folders defined in the Preferences dialog.</p>
-
-<p>If you have an existing set of project templates that use template.json files and are not
-in a NuGet package then you can register a single parent directory in the Preferences dialog.</p>
-
-<h2>Custom Categories</h2>
-
-<p>Custom top level categories can be defined for your project templates by adding them in
-Preferences &ndash; Templates &ndash; Custom Categories.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomCategories.png" title="&lsquo;Preferences dialog &ndash; Templates &ndash; Custom Categories&rsquo; &lsquo;Preferences dialog &ndash; Templates &ndash; Custom Categories&rsquo;" ></p>
-
-<p>The Add Top Level Category button will add a new top level category and two child category
-levels. The New Project dialog requires three category levels. The ids used should ensure that
-the full path to the template&rsquo;s category is unique. For example, with a custom category
-<code>custom/net/general</code> there should not be another top level <code>custom</code> category id, but the second
-and third level category ids can be re-used in another top level category, such as <code>top/net/general</code>.</p>
-
-<p>The Add Category button will add a single child category to the currently selected category
-whilst the Remove button will remove the selected category.</p>
-
-<p>Note that changes to the categories require Visual Studio for Mac to be restarted before they
-are visible in the New Project dialog.</p>
-
-<p>Also note that it is not currently possible to extend existing project template categories
-using the Template Creator extension.</p>
-
-<h2>Diagnosing Template Problems</h2>
-
-<p>If the template does not appear in the New Project dialog or fails to be created then
-you may be able to diagnose the problem by opening the Templating Log window. This is
-available from the View &ndash; Pads menu.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/MainMenuViewPadsTemplatingLog.png" title="&lsquo;Main menu &ndash; View &ndash; Pads &ndash; Templating Log&rsquo; &lsquo;Main menu &ndash; View &ndash; Templating Log&rsquo;" ></p>
-
-<p>This window will show messages returned from the .NET Core templating engine and any errors
-reported by the Template Creator extension.</p>
-
-<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TemplatingLogWindow.png" title="&lsquo;Templating Log window&rsquo; &lsquo;Templating Log window&rsquo;" ></p>
-
-<h2>Installation</h2>
-
-<p>The Template Creator extension is available to download from <a href="https://github.com/mrward/monodevelop-template-creator-addin/releases/download/0.1/MonoDevelop.TemplateCreator_0.1.mpack">GitHub</a>.</p>
-
-<p>To install the extension open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
-
-<p>The extension is also available from a <a href="https://github.com/mrward/monodevelop-addins">custom MonoDevelop 7.0 extension server</a>. It is not currently published to the main Visual Studio for Mac extension gallery.</p>
-
-<h2>Source Code</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension for Visual Studio for Mac and MonoDevelop</a></li>
-</ul>
-
-
-<h2>Further Reading</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2017/04/02/how-to-create-your-own-templates-for-dotnet-new/">How to create your own templates for dotnet new</a></li>
-<li><a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">Reference for template.json</a></li>
-<li><a href="https://www.jimbobbennett.io/creating-visual-studio-project-and-solution-templates-part-3-vs-for-mac-extension/">Creating Visual Studio project and solution templates &ndash; Part 3, VS for Mac extension</a></li>
-<li><a href="https://github.com/ligershark/sidewafflev2">SideWaffle v2 for Visual Studio</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
