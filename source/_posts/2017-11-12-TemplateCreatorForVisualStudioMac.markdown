@@ -167,7 +167,8 @@ The Template Creator extension is available to download from [GitHub](https://gi
 
 To install the extension open the Extensions Manager by selecting Extensions... from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.
 
-The extension is also available from a [custom MonoDevelop 7.0 extension server](https://github.com/mrward/monodevelop-addins). It is not currently published to the main Visual Studio for Mac extension gallery.
+The extension is also available in the Extensions Manager from the 
+[Visual Studio Extension Repository (Beta channel)](http://addins.monodevelop.com/Project/Index/305).
 
 ## Source Code
 
