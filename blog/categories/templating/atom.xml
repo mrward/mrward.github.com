@@ -4,7 +4,7 @@
   <title><![CDATA[Category: templating | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/templating/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-03-18T19:59:55+00:00</updated>
+  <updated>2018-03-19T21:40:56+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -220,7 +220,8 @@ reported by the Template Creator extension.</p>
 
 <p>To install the extension open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
 
-<p>The extension is also available from a <a href="https://github.com/mrward/monodevelop-addins">custom MonoDevelop 7.0 extension server</a>. It is not currently published to the main Visual Studio for Mac extension gallery.</p>
+<p>The extension is also available in the Extensions Manager from the
+<a href="http://addins.monodevelop.com/Project/Index/305">Visual Studio Extension Repository (Beta channel)</a>.</p>
 
 <h2>Source Code</h2>
 
