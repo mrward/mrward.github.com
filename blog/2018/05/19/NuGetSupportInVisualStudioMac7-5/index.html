@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 7.5 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes Support installing NuGet packages with item templates Fixed generated NuGet package files not available for code completion Fixed incorrect &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 7.5</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-19T15:30:00+01:00" pubdate data-updated="true">May 19<sup>th</sup>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> Support installing NuGet packages with item templates</li>
+<li> Fixed generated NuGet package files not available for code completion</li>
+<li> Fixed incorrect Android target framework used when the project has Package References</li>
+<li> Fixed build errors after creating a new Android project with NuGet packages</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.5</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes">release notes</a>.</p>
+
+<h1>Support installing NuGet packages with item templates</h1>
+
+<p>Initial support for creating new files from item templates that use
+the new dotnet templating engine has been added. This is currently used
+by the Azure Functions support in Visual Studio for Mac when a new Azure
+Function is added to the project. Currently the New File dialog does not
+have support for showing these templates but there is an API that can
+be used by extensions to create files from these templates.</p>
+
+<p>The item templates can define post actions that indicate that a NuGet
+package is needed. These post actions are read and the NuGet
+package will be installed into the project by Visual Studio for Mac.</p>
+
+<pre><code>"postActions": [
+  {
+    "Description": "Adding Reference to Microsoft.Azure.WebJobs.Extensions.DocumentDB Nuget package",
+    "ActionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
+    "ContinueOnError": "true",
+    "ManualInstructions": [],
+    "args": {
+      "referenceType": "package",
+      "reference": "Microsoft.Azure.WebJobs.Extensions.DocumentDB",
+      "version": "1.2.0",
+      "projectFileExtensions": ".csproj"
+    }
+  }
+</code></pre>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Generated NuGet package files not available for code completion</strong></p>
+
+<p>On installing a NuGet package such as Refit, which extends the
+CoreCompileDependsOn to generate a C# file, the generated file would
+not be available for code completion until the solution was closed
+and re-opened again.</p>
+
+<p>Below is a section of the refit.targets file used by the Refit NuGet package.</p>
+
+<pre><code>&lt;PropertyGroup&gt;
+  &lt;CoreCompileDependsOn&gt;
+    $(CoreCompileDependsOn);
+    GenerateRefitStubs;
+  &lt;/CoreCompileDependsOn&gt;
+&lt;/PropertyGroup&gt;
+
+&lt;Target Name="GenerateRefitStubs" BeforeTargets="CoreCompile"&gt;
+
+  &lt;Error Condition="'$(MSBuildRuntimeType)' == 'Core' and '$(RefitMinCoreVersionRequired)' &gt; '$(RefitNetCoreAppVersion)' "
+       Text="Refit requires at least the .NET Core SDK v2.0 to run with 'dotnet build'"
+       ContinueOnError="false"
+       /&gt;
+
+  &lt;GenerateStubsTask SourceFiles="@(Compile)" BaseDirectory="$(MSBuildProjectDirectory)"   OutputFile="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+
+  &lt;Message Text="Processed Refit Stubs" /&gt;      
+
+  &lt;ItemGroup Condition="Exists('$(IntermediateOutputPath)\RefitStubs.g.cs')"&gt;
+    &lt;Compile Include="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+  &lt;/ItemGroup&gt;    
+&lt;/Target&gt;
+</code></pre>
+
+<p>The CoreCompileDependsOn property is re-defined so the GenerateRefitsStubs MSBuild
+target will be run. This creates a new RefitStubs.g.cs file which is included in the
+project by the Compile MSBuild item.</p>
+
+<p>The problem was that the result of running the
+targets that are defined by the CoreCompileDependsOn property are cached by Visual
+Studio for Mac.
+When Refit is installed the cached result was still being returned so the
+generated C# file was not available for code completion. To fix this the
+project is now re-evaluated before getting the CoreCompileDependsOn property
+if an MSBuild import has been added or removed. Note that projects that use
+Package References were unaffected. Only projects that use a packages.config
+file were affected.</p>
+
+<p><strong>Incorrect Android target framework used when the project has Package References</strong></p>
+
+<p>Configuring an Android project so it uses the latest Android framework
+could result in the wrong target framework being used when building if the
+project used Package References. This would result in a build error
+similar to:</p>
+
+<pre><code>Error: Your project is not referencing the "MonoAndroid,Version=v7.1" framework. 
+Add a reference to "MonoAndroid,Version=v7.1" in the "frameworks" section of your 
+project.json, and then re-run NuGet restore
+</code></pre>
+
+<p>The problem was that the wrong target framework was being used in the
+project.assets.json. Running a NuGet restore was
+a workaround for the problem.</p>
+
+<p>Now when the target framework version in project options is changed, and
+the project uses Package References, a NuGet restore is run after the
+project file is saved. This ensures the Package References work with
+the new target framework. This also re-generates the project.assets.json file
+so the build will use the correct references.</p>
+
+<p>Another problem here was that configuring the Android to use the latest
+target framework would not result in the target framework being changed
+in the project model stored in memory.
+This could also result in the project.assets.json file being out of
+sync with the Android project&rsquo;s target framework.</p>
+
+<p><strong>Build errors after creating a new Android project with NuGet packages</strong></p>
+
+<p>Creating a new Android project that installed NuGet packages as it was created
+would sometimes result in build errors that could be fixed by closing and
+re-opening the solution. An example build error is shown below.</p>
+
+<p>&#8220;`</p>
+
+<pre><code>Resources/values/styles.xml : error APT0000: 1: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.DarkActionBar'.
+Resources/values/styles.xml : error APT0000: 2: error: Error: No resource found that matches the given   name: attr 'colorAccent'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimary'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimaryDark'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowActionBar'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'windowActionModeOverlay'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowNoTitle'.
+Resources/values/styles.xml : error APT0000: 3: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.Dialog'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'colorAccent'.
+</code></pre>
+
+<p>The build errors varied but in each case the error was caused by a
+missing reference to an assembly from one of the Android Support NuGet packages installed
+when the project was created. The project file created would have
+the correct reference information but Visual Studio for Mac was
+building an old version of the project.</p>
+
+<p>If the project was modified in memory when a build is requested this
+results in the unsaved project xml being given to the remote MSBuild
+host. In some cases this project xml was not being cleared and would
+result in an out of date project xml being used when building. This
+could occur if the MSBuild host did not have any projects
+loaded at the time when an attempt was made to unload the project from
+the host. Now the unsaved project xml is removed in all cases when the
+project is unloaded from the MSBuild host.</p>
+
+<p><strong>Fix missing child package dependencies in Solution window</strong></p>
+
+<p>After creating a new ASP.NET Core project sometimes the package dependencies
+shown in the Solution window under the SDK folder and the NuGet folder
+could not be expanded to view the child dependencies.</p>
+
+<p>The problem was that if the call to get the package dependencies
+using MSBuild was cancelled this would result an empty list of depenencies
+being cached. Since no package dependencies were returned the Solution window
+would fallback to showing the package dependencies that were listed in the
+project and a default top level SDK package dependency.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-19T15:30:00+01:00" pubdate data-updated="true">May 19<sup>th</sup>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5/" data-via="" data-counturl="http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/03/18/LanguageServerSupportInVisualStudioMac7-4/" title="Previous Post: Language Server Protocol support in Visual Studio for Mac 7.4">&laquo; Language Server Protocol support in Visual Studio for Mac 7.4</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

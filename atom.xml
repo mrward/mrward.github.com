@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-03-19T21:40:56+00:00</updated>
+  <updated>2018-05-19T17:22:32+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,177 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.5]]></title>
+    <link href="http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5/"/>
+    <updated>2018-05-19T15:30:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Support installing NuGet packages with item templates</li>
+<li> Fixed generated NuGet package files not available for code completion</li>
+<li> Fixed incorrect Android target framework used when the project has Package References</li>
+<li> Fixed build errors after creating a new Android project with NuGet packages</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.5</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes">release notes</a>.</p>
+
+<h1>Support installing NuGet packages with item templates</h1>
+
+<p>Initial support for creating new files from item templates that use
+the new dotnet templating engine has been added. This is currently used
+by the Azure Functions support in Visual Studio for Mac when a new Azure
+Function is added to the project. Currently the New File dialog does not
+have support for showing these templates but there is an API that can
+be used by extensions to create files from these templates.</p>
+
+<p>The item templates can define post actions that indicate that a NuGet
+package is needed. These post actions are read and the NuGet
+package will be installed into the project by Visual Studio for Mac.</p>
+
+<pre><code>"postActions": [
+  {
+    "Description": "Adding Reference to Microsoft.Azure.WebJobs.Extensions.DocumentDB Nuget package",
+    "ActionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
+    "ContinueOnError": "true",
+    "ManualInstructions": [],
+    "args": {
+      "referenceType": "package",
+      "reference": "Microsoft.Azure.WebJobs.Extensions.DocumentDB",
+      "version": "1.2.0",
+      "projectFileExtensions": ".csproj"
+    }
+  }
+</code></pre>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Generated NuGet package files not available for code completion</strong></p>
+
+<p>On installing a NuGet package such as Refit, which extends the
+CoreCompileDependsOn to generate a C# file, the generated file would
+not be available for code completion until the solution was closed
+and re-opened again.</p>
+
+<p>Below is a section of the refit.targets file used by the Refit NuGet package.</p>
+
+<pre><code>&lt;PropertyGroup&gt;
+  &lt;CoreCompileDependsOn&gt;
+    $(CoreCompileDependsOn);
+    GenerateRefitStubs;
+  &lt;/CoreCompileDependsOn&gt;
+&lt;/PropertyGroup&gt;
+
+&lt;Target Name="GenerateRefitStubs" BeforeTargets="CoreCompile"&gt;
+
+  &lt;Error Condition="'$(MSBuildRuntimeType)' == 'Core' and '$(RefitMinCoreVersionRequired)' &gt; '$(RefitNetCoreAppVersion)' "
+       Text="Refit requires at least the .NET Core SDK v2.0 to run with 'dotnet build'"
+       ContinueOnError="false"
+       /&gt;
+
+  &lt;GenerateStubsTask SourceFiles="@(Compile)" BaseDirectory="$(MSBuildProjectDirectory)"   OutputFile="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+
+  &lt;Message Text="Processed Refit Stubs" /&gt;      
+
+  &lt;ItemGroup Condition="Exists('$(IntermediateOutputPath)\RefitStubs.g.cs')"&gt;
+    &lt;Compile Include="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+  &lt;/ItemGroup&gt;    
+&lt;/Target&gt;
+</code></pre>
+
+<p>The CoreCompileDependsOn property is re-defined so the GenerateRefitsStubs MSBuild
+target will be run. This creates a new RefitStubs.g.cs file which is included in the
+project by the Compile MSBuild item.</p>
+
+<p>The problem was that the result of running the
+targets that are defined by the CoreCompileDependsOn property are cached by Visual
+Studio for Mac.
+When Refit is installed the cached result was still being returned so the
+generated C# file was not available for code completion. To fix this the
+project is now re-evaluated before getting the CoreCompileDependsOn property
+if an MSBuild import has been added or removed. Note that projects that use
+Package References were unaffected. Only projects that use a packages.config
+file were affected.</p>
+
+<p><strong>Incorrect Android target framework used when the project has Package References</strong></p>
+
+<p>Configuring an Android project so it uses the latest Android framework
+could result in the wrong target framework being used when building if the
+project used Package References. This would result in a build error
+similar to:</p>
+
+<pre><code>Error: Your project is not referencing the "MonoAndroid,Version=v7.1" framework. 
+Add a reference to "MonoAndroid,Version=v7.1" in the "frameworks" section of your 
+project.json, and then re-run NuGet restore
+</code></pre>
+
+<p>The problem was that the wrong target framework was being used in the
+project.assets.json. Running a NuGet restore was
+a workaround for the problem.</p>
+
+<p>Now when the target framework version in project options is changed, and
+the project uses Package References, a NuGet restore is run after the
+project file is saved. This ensures the Package References work with
+the new target framework. This also re-generates the project.assets.json file
+so the build will use the correct references.</p>
+
+<p>Another problem here was that configuring the Android to use the latest
+target framework would not result in the target framework being changed
+in the project model stored in memory.
+This could also result in the project.assets.json file being out of
+sync with the Android project&rsquo;s target framework.</p>
+
+<p><strong>Build errors after creating a new Android project with NuGet packages</strong></p>
+
+<p>Creating a new Android project that installed NuGet packages as it was created
+would sometimes result in build errors that could be fixed by closing and
+re-opening the solution. An example build error is shown below.</p>
+
+<p>&#8220;`</p>
+
+<pre><code>Resources/values/styles.xml : error APT0000: 1: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.DarkActionBar'.
+Resources/values/styles.xml : error APT0000: 2: error: Error: No resource found that matches the given   name: attr 'colorAccent'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimary'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimaryDark'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowActionBar'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'windowActionModeOverlay'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowNoTitle'.
+Resources/values/styles.xml : error APT0000: 3: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.Dialog'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'colorAccent'.
+</code></pre>
+
+<p>The build errors varied but in each case the error was caused by a
+missing reference to an assembly from one of the Android Support NuGet packages installed
+when the project was created. The project file created would have
+the correct reference information but Visual Studio for Mac was
+building an old version of the project.</p>
+
+<p>If the project was modified in memory when a build is requested this
+results in the unsaved project xml being given to the remote MSBuild
+host. In some cases this project xml was not being cleared and would
+result in an out of date project xml being used when building. This
+could occur if the MSBuild host did not have any projects
+loaded at the time when an attempt was made to unload the project from
+the host. Now the unsaved project xml is removed in all cases when the
+project is unloaded from the MSBuild host.</p>
+
+<p><strong>Fix missing child package dependencies in Solution window</strong></p>
+
+<p>After creating a new ASP.NET Core project sometimes the package dependencies
+shown in the Solution window under the SDK folder and the NuGet folder
+could not be expanded to view the child dependencies.</p>
+
+<p>The problem was that if the call to get the package dependencies
+using MSBuild was cancelled this would result an empty list of depenencies
+being cached. Since no package dependencies were returned the Solution window
+would fallback to showing the package dependencies that were listed in the
+project and a default top level SDK package dependency.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Language Server Protocol support in Visual Studio for Mac 7.4]]></title>
@@ -749,6 +920,14 @@ and the associated MSBuild item was copied but was still referring
 back to the original location. Another problem was that an incorrect
 match was being made when looking for remove items resulting in the
 wrong files being removed from the project.</p>
+
+<p><strong>Fixed being unable to use NUnit in a .NET Core test project</strong></p>
+
+<p>The problem was that the NUnit test provider, which supports running NUnit tests
+for non .NET Core projects, was finding a PackageReference for NUnit, and then
+trying to load the tests for the .NET Core project and failing. To fix this the
+NUnit test provider now ignores .NET Core projects so the VS Test provider will
+load the tests for the project.</p>
 ]]></content>
   </entry>
   
@@ -3537,77 +3716,6 @@ already in the local solution packages directory.</p>
 add an Import element for the .props at the end of the project file
 (.csproj) instead of at the start. The .props files are now added to the project
 file as the first child element inside the project&rsquo;s root element.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ASP.NET Core 1.0 RC2 support in Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2016/06/05/AspNetCoreRC2SupportInXamarinStudio/"/>
-    <updated>2016-06-05T19:02:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2016/06/05/AspNetCoreRC2SupportInXamarinStudio</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio and MonoDevelop now have support for <a href="https://blogs.msdn.microsoft.com/webdev/2016/05/16/announcing-asp-net-core-rc2/">ASP.NET Core 1.0 RC2</a> with an alpha release of the <a href="https://github.com/mrward/monodevelop-dnx-addin">.NET Core addin</a>.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/AspNetCoreRC2SupportInXamarinStudio/WebProjectInSolutionWindow.png" title="ASP.NET Core web project in Solution window" alt="ASP.NET Core web project in Solution window"></p>
-
-<p>This is an update of the original <a href="http://lastexitcode.com/blog/2016/01/01/DNXSupportInXamarinStudio/">DNX addin</a> which adds support for .NET Core RC2 and also, thanks to <a href="https://twitter.com/davidkarlas">David Karlaš</a>, adds support for debugging .NET Core applications on the Mac.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li> Debugging .NET Core applications with the .NET Core CLR on Mac.</li>
-<li> Project templates for console, library and web applications</li>
-<li> Code completion</li>
-<li> NuGet integration</li>
-<li> Solution window integration</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li> MonoDevelop and Xamarin Studio 6.0 (build 5166). (Note that 6.1 is not yet supported)</li>
-<li> <a href="https://www.microsoft.com/net/core">.NET Core 1.0 RC2</a>.</li>
-</ul>
-
-
-<h2>Installing .NET Core SDK</h2>
-
-<p>The <a href="https://www.microsoft.com/net/core">.NET Core SDK</a> needs to be installed separately before using the .NET Core addin. Detailed installation instructions can be found on <a href="https://www.microsoft.com/net/core">Microsoft&rsquo;s .NET Core web site</a>.</p>
-
-<h2>Installing the addin</h2>
-
-<p>The addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> in the alpha channel. In Xamarin Studio open the Add-in Manager and select the Gallery tab. Click the repository drop down and if <strong>Xamarin Studio Add-in Repository (Alpha Channel)</strong> is not displayed then click Manage Repositories. In the window that opens tick the check box next to Xamarin Studio Add-in Repository (Alpha Channel) and then click the Close button.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/AspNetCoreRC2SupportInXamarinStudio/AddinManagerNetCoreAddin.png" title=".NET Core addin selected in Addin Manager dialog" alt=".NET Core addin selected in Addin Manager dialog"></p>
-
-<p>Select the .NET Core addin and then click the Install button.</p>
-
-<p>After installing the .NET Core addin you will need to restart Xamarin Studio before the project templates are available in the New Project dialog.</p>
-
-<h2>Creating a .NET Core project</h2>
-
-<p>There are three project templates available for .NET Core in the New Project dialog.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/AspNetCoreRC2SupportInXamarinStudio/NewProjectDialogNetCoreProjectTemplates.png" title="New ASP.NET 5 project templates" alt="New ASP.NET 5 project templates"></p>
-
-<h2>Debugging</h2>
-
-<p>Thanks to <a href="https://twitter.com/davidkarlas">David Karlaš</a> there is a support for debugging .NET Core applications when running on the .NET Core CLR if you have the <a href="http://addins.monodevelop.com/Project/Index/228">VSCode Debugger addin</a> installed.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/AspNetCoreRC2SupportInXamarinStudio/DebuggingNetCoreApplication.png" title="Debugging a .NET Core application" alt="Debugging a .NET Core application"></p>
-
-<p>The VSCode Debugger addin is currently available from <a href="http://addins.monodevelop.com/">MonoDevelop&rsquo;s Add-in Repository</a> on the alpha channel.</p>
-
-<p>Debugging .NET Core console and web projects that target the full .NET framework is supported on all platforms. The .NET Core command line tool (dotnet.exe) will create an executable when targeting the full .NET Framework which can be debugged in Xamarin Studio. On Windows the x86 version of the .NET Core SDK needs be installed since Xamarin Studio currently cannot debug x64 applications on Windows.</p>
-
-<h2>Source Code</h2>
-
-<p>The source code for the addin is available on GitHub.</p>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-dnx-addin">.NET Core addin source code</a>.</li>
-</ul>
-
 ]]></content>
   </entry>
   

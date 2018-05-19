@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-03-19T21:40:56+00:00</updated>
+  <updated>2018-05-19T17:22:32+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,177 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.5]]></title>
+    <link href="http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5/"/>
+    <updated>2018-05-19T15:30:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Support installing NuGet packages with item templates</li>
+<li> Fixed generated NuGet package files not available for code completion</li>
+<li> Fixed incorrect Android target framework used when the project has Package References</li>
+<li> Fixed build errors after creating a new Android project with NuGet packages</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.5</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes">release notes</a>.</p>
+
+<h1>Support installing NuGet packages with item templates</h1>
+
+<p>Initial support for creating new files from item templates that use
+the new dotnet templating engine has been added. This is currently used
+by the Azure Functions support in Visual Studio for Mac when a new Azure
+Function is added to the project. Currently the New File dialog does not
+have support for showing these templates but there is an API that can
+be used by extensions to create files from these templates.</p>
+
+<p>The item templates can define post actions that indicate that a NuGet
+package is needed. These post actions are read and the NuGet
+package will be installed into the project by Visual Studio for Mac.</p>
+
+<pre><code>"postActions": [
+  {
+    "Description": "Adding Reference to Microsoft.Azure.WebJobs.Extensions.DocumentDB Nuget package",
+    "ActionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
+    "ContinueOnError": "true",
+    "ManualInstructions": [],
+    "args": {
+      "referenceType": "package",
+      "reference": "Microsoft.Azure.WebJobs.Extensions.DocumentDB",
+      "version": "1.2.0",
+      "projectFileExtensions": ".csproj"
+    }
+  }
+</code></pre>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Generated NuGet package files not available for code completion</strong></p>
+
+<p>On installing a NuGet package such as Refit, which extends the
+CoreCompileDependsOn to generate a C# file, the generated file would
+not be available for code completion until the solution was closed
+and re-opened again.</p>
+
+<p>Below is a section of the refit.targets file used by the Refit NuGet package.</p>
+
+<pre><code>&lt;PropertyGroup&gt;
+  &lt;CoreCompileDependsOn&gt;
+    $(CoreCompileDependsOn);
+    GenerateRefitStubs;
+  &lt;/CoreCompileDependsOn&gt;
+&lt;/PropertyGroup&gt;
+
+&lt;Target Name="GenerateRefitStubs" BeforeTargets="CoreCompile"&gt;
+
+  &lt;Error Condition="'$(MSBuildRuntimeType)' == 'Core' and '$(RefitMinCoreVersionRequired)' &gt; '$(RefitNetCoreAppVersion)' "
+       Text="Refit requires at least the .NET Core SDK v2.0 to run with 'dotnet build'"
+       ContinueOnError="false"
+       /&gt;
+
+  &lt;GenerateStubsTask SourceFiles="@(Compile)" BaseDirectory="$(MSBuildProjectDirectory)"   OutputFile="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+
+  &lt;Message Text="Processed Refit Stubs" /&gt;      
+
+  &lt;ItemGroup Condition="Exists('$(IntermediateOutputPath)\RefitStubs.g.cs')"&gt;
+    &lt;Compile Include="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+  &lt;/ItemGroup&gt;    
+&lt;/Target&gt;
+</code></pre>
+
+<p>The CoreCompileDependsOn property is re-defined so the GenerateRefitsStubs MSBuild
+target will be run. This creates a new RefitStubs.g.cs file which is included in the
+project by the Compile MSBuild item.</p>
+
+<p>The problem was that the result of running the
+targets that are defined by the CoreCompileDependsOn property are cached by Visual
+Studio for Mac.
+When Refit is installed the cached result was still being returned so the
+generated C# file was not available for code completion. To fix this the
+project is now re-evaluated before getting the CoreCompileDependsOn property
+if an MSBuild import has been added or removed. Note that projects that use
+Package References were unaffected. Only projects that use a packages.config
+file were affected.</p>
+
+<p><strong>Incorrect Android target framework used when the project has Package References</strong></p>
+
+<p>Configuring an Android project so it uses the latest Android framework
+could result in the wrong target framework being used when building if the
+project used Package References. This would result in a build error
+similar to:</p>
+
+<pre><code>Error: Your project is not referencing the "MonoAndroid,Version=v7.1" framework. 
+Add a reference to "MonoAndroid,Version=v7.1" in the "frameworks" section of your 
+project.json, and then re-run NuGet restore
+</code></pre>
+
+<p>The problem was that the wrong target framework was being used in the
+project.assets.json. Running a NuGet restore was
+a workaround for the problem.</p>
+
+<p>Now when the target framework version in project options is changed, and
+the project uses Package References, a NuGet restore is run after the
+project file is saved. This ensures the Package References work with
+the new target framework. This also re-generates the project.assets.json file
+so the build will use the correct references.</p>
+
+<p>Another problem here was that configuring the Android to use the latest
+target framework would not result in the target framework being changed
+in the project model stored in memory.
+This could also result in the project.assets.json file being out of
+sync with the Android project&rsquo;s target framework.</p>
+
+<p><strong>Build errors after creating a new Android project with NuGet packages</strong></p>
+
+<p>Creating a new Android project that installed NuGet packages as it was created
+would sometimes result in build errors that could be fixed by closing and
+re-opening the solution. An example build error is shown below.</p>
+
+<p>```</p>
+
+<pre><code>Resources/values/styles.xml : error APT0000: 1: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.DarkActionBar'.
+Resources/values/styles.xml : error APT0000: 2: error: Error: No resource found that matches the given   name: attr 'colorAccent'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimary'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimaryDark'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowActionBar'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'windowActionModeOverlay'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowNoTitle'.
+Resources/values/styles.xml : error APT0000: 3: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.Dialog'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'colorAccent'.
+</code></pre>
+
+<p>The build errors varied but in each case the error was caused by a
+missing reference to an assembly from one of the Android Support NuGet packages installed
+when the project was created. The project file created would have
+the correct reference information but Visual Studio for Mac was
+building an old version of the project.</p>
+
+<p>If the project was modified in memory when a build is requested this
+results in the unsaved project xml being given to the remote MSBuild
+host. In some cases this project xml was not being cleared and would
+result in an out of date project xml being used when building. This
+could occur if the MSBuild host did not have any projects
+loaded at the time when an attempt was made to unload the project from
+the host. Now the unsaved project xml is removed in all cases when the
+project is unloaded from the MSBuild host.</p>
+
+<p><strong>Fix missing child package dependencies in Solution window</strong></p>
+
+<p>After creating a new ASP.NET Core project sometimes the package dependencies
+shown in the Solution window under the SDK folder and the NuGet folder
+could not be expanded to view the child dependencies.</p>
+
+<p>The problem was that if the call to get the package dependencies
+using MSBuild was cancelled this would result an empty list of depenencies
+being cached. Since no package dependencies were returned the Solution window
+would fallback to showing the package dependencies that were listed in the
+project and a default top level SDK package dependency.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Language Server Protocol support in Visual Studio for Mac 7.4]]></title>
@@ -626,6 +797,14 @@ and the associated MSBuild item was copied but was still referring
 back to the original location. Another problem was that an incorrect
 match was being made when looking for remove items resulting in the
 wrong files being removed from the project.</p>
+
+<p><strong>Fixed being unable to use NUnit in a .NET Core test project</strong></p>
+
+<p>The problem was that the NUnit test provider, which supports running NUnit tests
+for non .NET Core projects, was finding a PackageReference for NUnit, and then
+trying to load the tests for the .NET Core project and failing. To fix this the
+NUnit test provider now ignores .NET Core projects so the VS Test provider will
+load the tests for the project.</p>
 ]]></content>
   </entry>
   
@@ -1123,180 +1302,6 @@ MSBuildSDKsPath property.</p>
 
 <p>Deleting a file link in a .NET Core project would add a remove item
 for the file instead of removing the link from the project.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.3]]></title>
-    <link href="http://lastexitcode.com/blog/2017/12/10/NuGetSupportInVisualStudioMac7-3/"/>
-    <updated>2017-12-10T11:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2017/12/10/NuGetSupportInVisualStudioMac7-3</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> Support installing System.ValueTuple NuGet Package from Quick Fixes</li>
-<li> NuGetizer 3000 &ndash; Update NuGet.Build.Packaging to version 0.2</li>
-<li> Support NuGet Restore MSBuild Properties
-
-<ul>
-<li>RestoreAdditionalProjectFallbackFolders</li>
-<li>RestoreAdditionalProjectSources</li>
-<li>RestoreFallbackFolders</li>
-<li>RestorePackagesPath</li>
-<li>RestoreSources</li>
-</ul>
-</li>
-<li> Fixed transitive dependencies not available when using project.json</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.3</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-december-4-2017---visual-studio-2017-version-73-730797">release notes</a>.</p>
-
-<h2>Quick Fix &ndash; Install System.ValueTuple NuGet Package</h2>
-
-<p><a href="https://blogs.msdn.microsoft.com/dotnet/2016/08/24/whats-new-in-csharp-7-0/">C# 7.0 introduced tuple types</a>
-that may require the System.ValueTuple NuGet package
-to be added to the project. Visual Studio for Mac
-now offers to install the System.ValueTuple NuGet package if the project requires this NuGet package.</p>
-
-<p>Creating a .NET Framework 4.6 project with the following code:</p>
-
-<p>```</p>
-
-<pre><code>public (string, int) GetValues(string id)
-{
-    return ("Name", 25);
-}
-</code></pre>
-
-<p>```</p>
-
-<p>You will see error markers in the text editor. If you hover over
-one of these error markers you will see a
-<strong>Predefined type &lsquo;System.ValueTuple`2&rsquo; is not defined or imported</strong> message.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-3/ValueTupleTextEditorErrorTooltip.png" title="&lsquo;ValueTuple type not defined text editor error tooltip&rsquo; &lsquo;ValueTuple type not defined text editor error tooltip&rsquo;" ></p>
-
-<p>If you right click the error marker there is now a new
-<strong>Install Package &lsquo;System.ValueTuple&rsquo;</strong> Quick Fix action available.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-3/TextEditorInstallSystemValueTuplePackageQuickFix.png" title="&lsquo;Text editor Install System.ValueTuple Package quick fix menu item&rsquo; &lsquo;Text editor Install System.ValueTuple Package quick fix menu item&rsquo;" ></p>
-
-<p>From this menu you can install the latest System.ValueTuple NuGet package
-or open the Add Packages dialog to search for a specific version of the System.ValueTuple NuGet
-package.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-3/TextEditorInstallLatestSystemValueTupleQuickFix.png" title="&lsquo;Text editor install latest System.ValueTuple package quick fix menu item&rsquo; &lsquo;Text editor install latest System.ValueTuple package quick fix menu item&rsquo;" ></p>
-
-<p>Note that if the project is targeting .NET Framework 4.7 or .NET Standard 2.0 then the
-System.ValueTuple NuGet package is not required.</p>
-
-<p>Also note that the official nuget.org package source needs to be available
-for this feature to work.</p>
-
-<h2>NuGetizer 3000 &ndash; Updated NuGet.Build.Packaging to version 0.2</h2>
-
-<p>The version of the NuGet.Build.Packaging NuGet package used by default for NuGetizer 3000 support
-has been updated from 0.1.276 to 0.2.0. This fixes a
-potential build error when building with Mono 5.6.</p>
-
-<p><code>
-Using "ReportAssetsLogMessages" task from assembly "/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/../tools/net46/Microsoft.NET.Build.Tasks.dll".
-Task "ReportAssetsLogMessages"
-/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: The "ReportAssetsLogMessages" task failed unexpectedly. [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: System.TypeLoadException: Could not resolve type with token 0100005b (from typeref, class/assembly NuGet.ProjectModel.IAssetsLogMessage, NuGet.ProjectModel, Version=4.3.0.5, Culture=neutral, PublicKeyToken=31bf3856ad364e35) [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.NET.Build.Tasks.TaskBase.Execute () [0x00000] in &lt;01420900fd004c128de2d2ee31bad624&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.Build.BackEnd.TaskExecutionHost.Microsoft.Build.BackEnd.ITaskExecutionHost.Execute () [0x00023] in &lt;765502eb2f884ce79731edeb4b0517fb&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.Build.BackEnd.TaskBuilder+d__26.MoveNext () [0x0022d] in &lt;765502eb2f884ce79731edeb4b0517fb&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-</code></p>
-
-<p>The ReadLegacyDependencies target from NuGet.Build.Packaging.Tasks is called when PackOnBuild
-is set to true.</p>
-
-<p>The NuGet.Build.Packaging.Tasks assembly was loading an embedded NuGet.ProjectModel
-assembly that conflicts with the version that is used by Microsoft.NET.Build.Tasks.</p>
-
-<h2>Support RestoreAdditionalProjectFallbackFolders MSBuild Property</h2>
-
-<p>The RestoreAdditionalProjectFallbackFolders MSBuild property is
-read and appended to the list of fallback folders stored in the
-project.assets.json file. The .NET Core 2.0 SDK will set this
-MSBuild property to point to the NuGet package fallback folder
-that is installed with the SDK. This will be used
-to resolve NuGet packages first before downloading them to the
-~/.nuget/packages folder.</p>
-
-<h2>Support RestoreAdditionalProjectSources MSBuild Property</h2>
-
-<p>The RestoreAdditionalProjectSources MSBuild property can be used
-to add additional package sources to the existing list of sources
-used to resolve packages.</p>
-
-<h2>Support RestoreFallbackFolders MSBuild Property</h2>
-
-<p>The RestoreFallbackFolders MSBuild property can be used by project that uses
-PackageReferences to define a set of package fallback folders that
-will override any specified in the NuGet.Config file. It can also
-be used to clear any pre-defined fallback folders by specifying
-&lsquo;clear&rsquo; as its value. Note that this value does not affect any
-folders defined by RestoreAdditionalProjectFallbackFolders which
-will be appended even if RestoreFallbackFolders is set to &lsquo;clear&rsquo;.</p>
-
-<h2>Support RestorePackagesPath MSBuild Property</h2>
-
-<p>The RestorePackagesPath MSBuild property can be used to override the global packages
-folder location when a project uses a PackageReference.</p>
-
-<h2>Support RestoreSources MSBuild property</h2>
-
-<p>The RestoreSources MSBuild property can be used to override
-the sources defined by any NuGet.Config file. Any sources defined in the
-RestoreAdditionalProjectSources MSBuild property will still be appended to the
-list of sources if RestoreSources is defined.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Transitive dependencies not available when using project.json</strong></p>
-
-<p>With two projects A and B that both use project.json files, project B
-referencing project A, the NuGet package dependencies used by project
-A were not available to project B transitively. This was because the
-project reference information was not being used
-when a restore occurred. This caused the assemblies from the transitively
-referenced NuGet packages to not be added to the
-project.lock.json file for Project B.</p>
-
-<p><strong>Unable to debug a new Azure Functions project without re-opening project</strong></p>
-
-<p>After creating a new Azure Functions project it was possible to build the
-project but not to debug it or run it. On closing and re-opening the solution
-it would be possible to debug and run the Azure Functions project.</p>
-
-<p>When Visual Studio for Mac created a new Azure Functions project
-it initially determined that it could not run or debug the project.
-After the Azure Functions project has its PackageReferences restored
-it gains an AzureFunctions project capability. This capability is used to
-determine if the project can be run. This change in the capability
-was not handled by Visual Studio for Mac so it did not allow the
-project to be run until the project was closed and re-opened.</p>
-
-<p>Now, after the NuGet package restore is finished, the project is
-re-evaluated and a check is made to see if the project can now be run.</p>
-
-<p><strong>Fix generated NuGet files being imported twice</strong></p>
-
-<p>The generated ProjectName.nuget.g.targets and ProjectName.nuget.g.props
-that are created for .NET Core projects in the base intermediate
-directory were being imported twice when evaluating the project.
-Once by Microsoft.Common.props, provided with Mono, and once
-by Visual Studio for Mac.</p>
-
-<p>This duplicate import was resulting in a duplicate file being added
-to the project held in memory by Visual Studio for Mac when the
-Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
-project and no .NET Core SDK is installed. This would result in the
-content page xaml and associated C# file not being nested in the
-solution window.</p>
 ]]></content>
   </entry>
   

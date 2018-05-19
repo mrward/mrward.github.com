@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nuget | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/nuget/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-03-19T21:40:56+00:00</updated>
+  <updated>2018-05-19T17:22:32+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,177 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.5]]></title>
+    <link href="http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5/"/>
+    <updated>2018-05-19T15:30:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Support installing NuGet packages with item templates</li>
+<li> Fixed generated NuGet package files not available for code completion</li>
+<li> Fixed incorrect Android target framework used when the project has Package References</li>
+<li> Fixed build errors after creating a new Android project with NuGet packages</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.5</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes">release notes</a>.</p>
+
+<h1>Support installing NuGet packages with item templates</h1>
+
+<p>Initial support for creating new files from item templates that use
+the new dotnet templating engine has been added. This is currently used
+by the Azure Functions support in Visual Studio for Mac when a new Azure
+Function is added to the project. Currently the New File dialog does not
+have support for showing these templates but there is an API that can
+be used by extensions to create files from these templates.</p>
+
+<p>The item templates can define post actions that indicate that a NuGet
+package is needed. These post actions are read and the NuGet
+package will be installed into the project by Visual Studio for Mac.</p>
+
+<pre><code>"postActions": [
+  {
+    "Description": "Adding Reference to Microsoft.Azure.WebJobs.Extensions.DocumentDB Nuget package",
+    "ActionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
+    "ContinueOnError": "true",
+    "ManualInstructions": [],
+    "args": {
+      "referenceType": "package",
+      "reference": "Microsoft.Azure.WebJobs.Extensions.DocumentDB",
+      "version": "1.2.0",
+      "projectFileExtensions": ".csproj"
+    }
+  }
+</code></pre>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Generated NuGet package files not available for code completion</strong></p>
+
+<p>On installing a NuGet package such as Refit, which extends the
+CoreCompileDependsOn to generate a C# file, the generated file would
+not be available for code completion until the solution was closed
+and re-opened again.</p>
+
+<p>Below is a section of the refit.targets file used by the Refit NuGet package.</p>
+
+<pre><code>&lt;PropertyGroup&gt;
+  &lt;CoreCompileDependsOn&gt;
+    $(CoreCompileDependsOn);
+    GenerateRefitStubs;
+  &lt;/CoreCompileDependsOn&gt;
+&lt;/PropertyGroup&gt;
+
+&lt;Target Name="GenerateRefitStubs" BeforeTargets="CoreCompile"&gt;
+
+  &lt;Error Condition="'$(MSBuildRuntimeType)' == 'Core' and '$(RefitMinCoreVersionRequired)' &gt; '$(RefitNetCoreAppVersion)' "
+       Text="Refit requires at least the .NET Core SDK v2.0 to run with 'dotnet build'"
+       ContinueOnError="false"
+       /&gt;
+
+  &lt;GenerateStubsTask SourceFiles="@(Compile)" BaseDirectory="$(MSBuildProjectDirectory)"   OutputFile="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+
+  &lt;Message Text="Processed Refit Stubs" /&gt;      
+
+  &lt;ItemGroup Condition="Exists('$(IntermediateOutputPath)\RefitStubs.g.cs')"&gt;
+    &lt;Compile Include="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+  &lt;/ItemGroup&gt;    
+&lt;/Target&gt;
+</code></pre>
+
+<p>The CoreCompileDependsOn property is re-defined so the GenerateRefitsStubs MSBuild
+target will be run. This creates a new RefitStubs.g.cs file which is included in the
+project by the Compile MSBuild item.</p>
+
+<p>The problem was that the result of running the
+targets that are defined by the CoreCompileDependsOn property are cached by Visual
+Studio for Mac.
+When Refit is installed the cached result was still being returned so the
+generated C# file was not available for code completion. To fix this the
+project is now re-evaluated before getting the CoreCompileDependsOn property
+if an MSBuild import has been added or removed. Note that projects that use
+Package References were unaffected. Only projects that use a packages.config
+file were affected.</p>
+
+<p><strong>Incorrect Android target framework used when the project has Package References</strong></p>
+
+<p>Configuring an Android project so it uses the latest Android framework
+could result in the wrong target framework being used when building if the
+project used Package References. This would result in a build error
+similar to:</p>
+
+<pre><code>Error: Your project is not referencing the "MonoAndroid,Version=v7.1" framework. 
+Add a reference to "MonoAndroid,Version=v7.1" in the "frameworks" section of your 
+project.json, and then re-run NuGet restore
+</code></pre>
+
+<p>The problem was that the wrong target framework was being used in the
+project.assets.json. Running a NuGet restore was
+a workaround for the problem.</p>
+
+<p>Now when the target framework version in project options is changed, and
+the project uses Package References, a NuGet restore is run after the
+project file is saved. This ensures the Package References work with
+the new target framework. This also re-generates the project.assets.json file
+so the build will use the correct references.</p>
+
+<p>Another problem here was that configuring the Android to use the latest
+target framework would not result in the target framework being changed
+in the project model stored in memory.
+This could also result in the project.assets.json file being out of
+sync with the Android project&rsquo;s target framework.</p>
+
+<p><strong>Build errors after creating a new Android project with NuGet packages</strong></p>
+
+<p>Creating a new Android project that installed NuGet packages as it was created
+would sometimes result in build errors that could be fixed by closing and
+re-opening the solution. An example build error is shown below.</p>
+
+<p>```</p>
+
+<pre><code>Resources/values/styles.xml : error APT0000: 1: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.DarkActionBar'.
+Resources/values/styles.xml : error APT0000: 2: error: Error: No resource found that matches the given   name: attr 'colorAccent'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimary'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimaryDark'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowActionBar'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'windowActionModeOverlay'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowNoTitle'.
+Resources/values/styles.xml : error APT0000: 3: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.Dialog'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'colorAccent'.
+</code></pre>
+
+<p>The build errors varied but in each case the error was caused by a
+missing reference to an assembly from one of the Android Support NuGet packages installed
+when the project was created. The project file created would have
+the correct reference information but Visual Studio for Mac was
+building an old version of the project.</p>
+
+<p>If the project was modified in memory when a build is requested this
+results in the unsaved project xml being given to the remote MSBuild
+host. In some cases this project xml was not being cleared and would
+result in an out of date project xml being used when building. This
+could occur if the MSBuild host did not have any projects
+loaded at the time when an attempt was made to unload the project from
+the host. Now the unsaved project xml is removed in all cases when the
+project is unloaded from the MSBuild host.</p>
+
+<p><strong>Fix missing child package dependencies in Solution window</strong></p>
+
+<p>After creating a new ASP.NET Core project sometimes the package dependencies
+shown in the Solution window under the SDK folder and the NuGet folder
+could not be expanded to view the child dependencies.</p>
+
+<p>The problem was that if the call to get the package dependencies
+using MSBuild was cancelled this would result an empty list of depenencies
+being cached. Since no package dependencies were returned the Solution window
+would fallback to showing the package dependencies that were listed in the
+project and a default top level SDK package dependency.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.4]]></title>
@@ -606,139 +777,6 @@ the Dependencies folder to be displayed and the References folder
 to be removed. Visual Studio for Mac now checks the project has the
 Sdk attribute instead of looking at the MSBuild properties defined
 by the project when determining the project type.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.0]]></title>
-    <link href="http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0/"/>
-    <updated>2017-06-04T12:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0</id>
-    <content type="html"><![CDATA[<h2>New Features</h2>
-
-<ul>
-<li> .NET Core support</li>
-<li> NuGet 4.0 support</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.0</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes">release notes</a>.</p>
-
-<h2>.NET Core Support</h2>
-
-<p>.NET Core projects do not show a Packages folder in the Solution window. Instead the NuGet packages are displayed in a NuGet folder, which is inside a Dependencies folder.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageInSolutionWindow.png" title="&lsquo;Newtonsoft.Json NuGet package in Solution window &ndash; .NET Core project&rsquo; &lsquo;Newtonsoft.Json NuGet package in Solution window &ndash; .NET Core project&rsquo;" ></p>
-
-<p>The version of the NuGet package is displayed directly in the Solution window. For other project types you need to right click the package to see the version.</p>
-
-<p>If the NuGet package depends on other packages then these can be seen by clicking on the arrow to expand the dependencies.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageExpandedInSolutionWindow.png" title="&lsquo;Newtonsoft.Json NuGet package expanded in Solution window &ndash; .NET Core project&rsquo; &lsquo;Newtonsoft.Json NuGet package expanded in Solution window &ndash; .NET Core project&rsquo;" ></p>
-
-<h3>Restoring Packages</h3>
-
-<p>NuGet packages will be restored automatically on opening a .NET Core project. This can be disabled in preferences by unchecking <strong>Automatically restore packages when opening a solution</strong> in the NuGet &ndash; General section.</p>
-
-<p>You can manually restore NuGet packages for .NET Core projects by:</p>
-
-<ul>
-<li>Right clicking the Dependencies folder and selecting Restore.</li>
-<li>Right clicking the NuGet folder and selecting Restore.</li>
-<li>Selecting Restore NuGet Packages from the Project menu.</li>
-</ul>
-
-
-<p>Selecting Restore NuGet Packages from the Project menu will restore packages for the project or the solution depending on what is currently selected in the Solution window.</p>
-
-<p>Restoring NuGet packages for a .NET Core project works differently compared with a project that uses a packages.config file. The NuGet packages themselves will be downloaded into the NuGet package cache folder ~/.nuget/packages if they do not exist, as before, but the NuGet packages will not be copied into a packages directory inside the solution&rsquo;s directory. The project file will not contain have any Reference items added when a NuGet package is installed.</p>
-
-<p>When a NuGet restore is run for a .NET Core project three files in the obj directory are created.</p>
-
-<ul>
-<li>project.assets.json</li>
-<li>ProjectName.csproj.nuget.g.props</li>
-<li>ProjectName.csproj.nuget.g.targets</li>
-</ul>
-
-
-<p>The project.assets.json file contains the dependencies for your project.</p>
-
-<p>The nuget.g.props and nuget.g.targets files will contain any MSBuild imports that your NuGet package requires and they also define some properties, such as the path to the NuGet package cache on your machine.</p>
-
-<p>These three files are used when building your project to resolve the assemblies to be referenced now that they are no longer explicitly stored in your project file.</p>
-
-<h3>Updating Packages</h3>
-
-<p>NuGet packages can be updated by:</p>
-
-<ul>
-<li>Right clicking the package inside the NuGet folder and selecting Update.</li>
-<li>Right clicking the NuGet folder and selecting Update.</li>
-<li>Right clicking the Dependencies folder and selecting Update.</li>
-<li>Selecting Update NuGet Packages from the Project menu.</li>
-</ul>
-
-
-<p>Selecting Update NuGet Packages from the Project menu will update all packages in the project or in the solution depending on what is currently selected in the Solution window.</p>
-
-<h3>Removing Multiple NuGet Packages in One Step</h3>
-
-<p>You can remove multiple NuGet packages in one step from a .NET Core project by selecting the packages in the Solution window, right clicking and selecting Remove.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectRemoveMultipleNuGetPackagesInSolutionWindow.png" title="&lsquo;Removing multiple NuGet packages in Solution window &ndash; .NET Core project&rsquo; &lsquo;Removing multiple NuGet packages in Solution window &ndash; .NET Core project&rsquo;" ></p>
-
-<p>Projects that use a packages.config file do not support removing multiple NuGet packages in one step.</p>
-
-<h3>Installing NuGet Packages</h3>
-
-<p>NuGet packages are installed by using the Add Packages dialog in the same way as with other project types. To open the Add Packages dialog for a .NET Core project:</p>
-
-<ul>
-<li>Right click the NuGet folder and select Add Packages&hellip;</li>
-<li>Right click the Dependencies folder and select Add Packages&hellip;</li>
-<li>Right click the project and select Add &ndash; Add NuGet Packages&hellip;</li>
-<li>From the Project menu select Add NuGet Packages&hellip;</li>
-</ul>
-
-
-<p>When the first NuGet package is installed into a .NET Core project a packages.config file will not be created. Instead the NuGet package will be added as a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> that is saved in the project file.</p>
-
-<h3>Package Reference</h3>
-
-<p>.NET Core projects do not use a packages.config file to record their NuGet dependencies. Instead the .NET Core project file will contain a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> after the NuGet package is installed into the project.</p>
-
-<p>```
-<Project Sdk="Microsoft.NET.Sdk"></p>
-
-<p>  <PropertyGroup></p>
-
-<pre><code>&lt;OutputType&gt;Exe&lt;/OutputType&gt;
-&lt;TargetFramework&gt;netcoreapp1.1&lt;/TargetFramework&gt;
-</code></pre>
-
-<p>  </PropertyGroup></p>
-
-<p>  <ItemGroup></p>
-
-<pre><code>&lt;PackageReference Include="Newtonsoft.Json" Version="10.0.2" /&gt;
-</code></pre>
-
-<p>  </ItemGroup>
-</Project>
-```</p>
-
-<p>Please note that Visual Studio for Mac currently only supports package references with the new SDK style projects which are used by .NET Core. If you use package references in other project types then the Solution window will not show the packages and a packages.config file will be created if you install a NuGet package.</p>
-
-<h3>Updated Packages Available</h3>
-
-<p>For other project types the Solution window will check for updated packages and show this information in the Packages folder. This is not currently supported with .NET Core projects.</p>
-
-<h2>NuGet 4.0 Support</h2>
-
-<p>Visual Studio for Mac now includes <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0</a>.</p>
-
-<p>More information on the new features provided by NuGet 4.&ndash; can be found in the <a href="http://blog.nuget.org/20170308/Announcing-NuGet-4.0-RTM.html">Announcing NuGet 4.0 RTM blog post</a> and the <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0 release notes</a>.</p>
 ]]></content>
   </entry>
   

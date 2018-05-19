@@ -244,6 +244,14 @@ and the associated MSBuild item was copied but was still referring
 back to the original location. Another problem was that an incorrect
 match was being made when looking for remove items resulting in the
 wrong files being removed from the project.</p>
+
+<p><strong>Fixed being unable to use NUnit in a .NET Core test project</strong></p>
+
+<p>The problem was that the NUnit test provider, which supports running NUnit tests
+for non .NET Core projects, was finding a PackageReference for NUnit, and then
+trying to load the tests for the .NET Core project and failing. To fix this the
+NUnit test provider now ignores .NET Core projects so the VS Test provider will
+load the tests for the project.</p>
 </div>
 
 
