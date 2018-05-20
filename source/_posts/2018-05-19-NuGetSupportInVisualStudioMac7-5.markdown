@@ -12,14 +12,15 @@ categories: NuGet Xamarin VSMac MonoDevelop
    * Fixed generated NuGet package files not available for code completion
    * Fixed incorrect Android target framework used when the project has Package References
    * Fixed build errors after creating a new Android project with NuGet packages
+   * Missing package dependencies in Solution window
 
 More information on all the new features and changes in [Visual Studio for Mac 7.5](https://www.visualstudio.com/vs/visual-studio-mac/)
 can be found in the [release notes](https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes).
     
-# Support installing NuGet packages with item templates
+## Support installing NuGet packages with item templates
 
 Initial support for creating new files from item templates that use 
-the new dotnet templating engine has been added. This is currently used
+the .NET Core templating engine has been added. This is currently used
 by the Azure Functions support in Visual Studio for Mac when a new Azure
 Function is added to the project. Currently the New File dialog does not
 have support for showing these templates but there is an API that can
@@ -124,7 +125,6 @@ Creating a new Android project that installed NuGet packages as it was created
 would sometimes result in build errors that could be fixed by closing and
 re-opening the solution. An example build error is shown below.
 
-```
     Resources/values/styles.xml : error APT0000: 1: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.DarkActionBar'.
     Resources/values/styles.xml : error APT0000: 2: error: Error: No resource found that matches the given   name: attr 'colorAccent'.
     Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimary'.
@@ -150,7 +150,7 @@ loaded at the time when an attempt was made to unload the project from
 the host. Now the unsaved project xml is removed in all cases when the 
 project is unloaded from the MSBuild host.
 
-**Fix missing child package dependencies in Solution window**
+**Missing package dependencies in Solution window**
 
 After creating a new ASP.NET Core project sometimes the package dependencies
 shown in the Solution window under the SDK folder and the NuGet folder 
