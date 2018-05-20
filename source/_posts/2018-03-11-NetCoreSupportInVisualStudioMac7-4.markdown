@@ -34,7 +34,7 @@ Deleting project files and directories will remove the files from
 the Solution window. The Solution window will also update after
 a file or a directory is renamed outside Visual Studio for Mac.
 
-**Allow unknown target framework projects to be loaded**
+## Allow unknown target framework projects to be loaded
 
 The target framework of an SDK style project is no longer restricted.
 Previously Visual Studio for Mac would fail to load an SDK style
