@@ -116,16 +116,17 @@
 <li> Fixed generated NuGet package files not available for code completion</li>
 <li> Fixed incorrect Android target framework used when the project has Package References</li>
 <li> Fixed build errors after creating a new Android project with NuGet packages</li>
+<li> Missing package dependencies in Solution window</li>
 </ul>
 
 
 <p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.5</a>
 can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes">release notes</a>.</p>
 
-<h1>Support installing NuGet packages with item templates</h1>
+<h2>Support installing NuGet packages with item templates</h2>
 
 <p>Initial support for creating new files from item templates that use
-the new dotnet templating engine has been added. This is currently used
+the .NET Core templating engine has been added. This is currently used
 by the Azure Functions support in Visual Studio for Mac when a new Azure
 Function is added to the project. Currently the New File dialog does not
 have support for showing these templates but there is an API that can
@@ -233,8 +234,6 @@ sync with the Android project&rsquo;s target framework.</p>
 would sometimes result in build errors that could be fixed by closing and
 re-opening the solution. An example build error is shown below.</p>
 
-<p>&#8220;`</p>
-
 <pre><code>Resources/values/styles.xml : error APT0000: 1: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.DarkActionBar'.
 Resources/values/styles.xml : error APT0000: 2: error: Error: No resource found that matches the given   name: attr 'colorAccent'.
 Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimary'.
@@ -261,7 +260,7 @@ loaded at the time when an attempt was made to unload the project from
 the host. Now the unsaved project xml is removed in all cases when the
 project is unloaded from the MSBuild host.</p>
 
-<p><strong>Fix missing child package dependencies in Solution window</strong></p>
+<p><strong>Missing package dependencies in Solution window</strong></p>
 
 <p>After creating a new ASP.NET Core project sometimes the package dependencies
 shown in the Solution window under the SDK folder and the NuGet folder
@@ -319,6 +318,8 @@ project and a default top level SDK package dependency.</p>
       
         <a class="basic-alignment left" href="/blog/2018/03/18/LanguageServerSupportInVisualStudioMac7-4/" title="Previous Post: Language Server Protocol support in Visual Studio for Mac 7.4">&laquo; Language Server Protocol support in Visual Studio for Mac 7.4</a>
       
+      
+        <a class="basic-alignment right" href="/blog/2018/05/20/NetCoreSupportInVisualStudioMac7-5/" title="Next Post: .NET Core Support in Visual Studio for Mac 7.5">.NET Core Support in Visual Studio for Mac 7.5 &raquo;</a>
       
     </p>
   </footer>

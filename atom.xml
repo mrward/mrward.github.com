@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-05-19T17:22:32+01:00</updated>
+  <updated>2018-05-20T15:19:09+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,518 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.5]]></title>
+    <link href="http://lastexitcode.com/blog/2018/05/20/NetCoreSupportInVisualStudioMac7-5/"/>
+    <updated>2018-05-20T09:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2018/05/20/NetCoreSupportInVisualStudioMac7-5</id>
+    <content type="html"><![CDATA[<h2>New Features</h2>
+
+<ul>
+<li>.NET Core 2.1 SDK support
+
+<ul>
+<li>.NET Core 2.1 SDK project templates</li>
+<li>HTTPS development certificate support</li>
+<li>.NET Core global tools added to PATH on startup</li>
+</ul>
+</li>
+<li>.NET Core location can now be configured</li>
+<li>Xamarin.Forms project templates now use .NET Standard projects</li>
+<li>Performance improvements when using projects with many files</li>
+<li>.NET Core templating engine has been updated</li>
+<li>Improved support for Xamarin.Forms</li>
+<li>Item templates are now supported with the .NET Core templating engine</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.5</a> can be found in the
+<a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes">release notes</a>.</p>
+
+<h2>.NET Core 2.1 SDK support</h2>
+
+<p>Visual Studio for Mac 7.5 includes support for the .NET Core 2.1 SDK which is currently
+available as a <a href="https://blogs.msdn.microsoft.com/dotnet/2018/05/07/announcing-net-core-2-1-rc-1/">release candidate</a>. The following
+sections will look into the support provided by Visual Studio for Mac 7.5 for the .NET Core 2.1 SDK.</p>
+
+<h3>.NET Core 2.1 SDK project templates</h3>
+
+<p>If .NET Core 2.1.300 SDK is installed then the .NET Core 2.1 project templates
+will be available in the New Project dialog.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-5/NewProjectDialogNetCore21TargetFramework.png" title="New Project dialog - .NET Core 2.1 target framework option" alt="New Project dialog - .NET Core 2.1 target framework option"></p>
+
+<p>The .NET Core 2.1 project templates are not included with Visual Studio for Mac and
+will be searched for in the 2.1.300 SDK templates directory.</p>
+
+<pre><code>/usr/local/share/dotnet/sdk/2.1.300-rc1-008673/Templates/
+</code></pre>
+
+<p>The project templates for .NET Core 2.0 and 1.1 are currently still being shipped
+with Visual Studio for Mac.</p>
+
+<h3>HTTPS development certificate support</h3>
+
+<p>ASP.NET Core 2.1 projects use HTTPS by default. In order to be able to run
+ASP.NET Core 2.1 projects with HTTPS a development certificate needs to be installed.
+Visual Studio for Mac will detect if the development certificate is missing
+and offer to install it when you run an ASP.NET Core 2.1 project that uses
+HTTPS.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-5/HttpsDevCertificateNotInstalledMessage.png" title="HTTPS development certificate not installed message" alt="HTTPS development certificate not installed message"></p>
+
+<p>Visual Studio for Mac will use the dotnet dev-certs tool to check if the
+HTTPS development certificate is installed and trusted.</p>
+
+<pre><code>dotnet dev-certs https --trust --check
+</code></pre>
+
+<p>Installing the HTTPS certificate requires administrator privileges so you may be
+prompted for your username and password after clicking the Yes button. Currently
+the prompt for credentials shows <strong>mono-sgen64 wants to make changes</strong>. In the future this will show a
+custom message indicating that the credentials are required to install the HTTPS development certificate.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-5/MonoSGenAdminPrompt.png" title="Mono sgen administrator dialog prompt" alt="Mono sgen administrator dialog prompt"></p>
+
+<p>After entering your credentials the following command is run as administrator.</p>
+
+<pre><code>dotnet dev-certs https --trust
+</code></pre>
+
+<p>After the certificate is installed the ASP.NET Core 2.1 project will be
+opened in the default browser using HTTPS.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-5/AspNetCoreProjectInChromeUsingHttps.png" title="ASP.NET Core 2.1 project open in browser using HTTPS" alt="ASP.NET Core 2.1 project open in browser using HTTPS"></p>
+
+<p>Running <strong>dotnet dev-certs https &mdash;trust</strong> to install and trust the certificate needs to be
+done with administrator privileges with the user id 0. To do this Visual Studio for Mac
+does the following:</p>
+
+<ol>
+<li>Launches a separate custom console app.</li>
+<li>The console app uses the AuthorizationExecuteWithPrivileges Mac
+API provided by Xamarin.Mac to launch itself as again as administrator.
+It is not possible to run dotnet as administrator initially since it requires the user id to be
+set to 0, which is what happens when you use <strong>sudo dotnet</strong>, and this can only be done
+when running with administrator privileges. So the console app is launched again but this
+time with administrator privileges.</li>
+<li>The console app, now being run with administrator privileges, will use setuid to set the
+current user id to 0.</li>
+<li>The console app then runs <strong>dotnet dev-certs https &mdash;trust</strong> which
+will install and trust the HTTPS development certificate.</li>
+</ol>
+
+
+<p>The <strong>dotnet dev-certs https &mdash;trust</strong> command will add two localhost certificates. You
+can see these by opening the Keychain Access application and searching for
+localhost.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-5/LocalhostCertificateInKeychain.png" title="localhost certificate created by dotnet dev-certs in Keychain Access application" alt="localhost certificate created by dotnet dev-certs in Keychain Access application"></p>
+
+<p>If the HTTPS development certificate is found to be valid and
+trusted then this will be remembered for the current Visual Studio for Mac
+session and a check will not be run again during the current session.</p>
+
+<h3>.NET Core global tools added to path on startup</h3>
+
+<p>The .NET Core SDK 2.1 supports installing global tools. These tools are .NET Core console apps
+that are available as NuGet packages and can be installed and used from the command line.
+To be able to use these tools with the dotnet command line the <strong>~/.dotnet/tools</strong>
+directory needs to be added to the PATH environment variable. The path to
+these global tools is now added to Visual Studio&rsquo;s PATH environment variable
+when it starts.</p>
+
+<h3>Prompt to install .NET Core 2.1 SDK if not installed</h3>
+
+<p>If a .NET Core 2.1 project is opened and .NET Core 2.1.300 SDK is not
+installed then a dialog will be shown allowing the SDK to
+be downloaded. The project in the Solution window will show an error
+icon indicating that the .NET Core 2.1 SDK is not
+installed.</p>
+
+<h3>Launching a browser when running an ASP.NET Core 2.1 project</h3>
+
+<p>The .NET Core SDK 2.1 project templates for ASP.NET Core
+specify the https and http urls in the launchSettings.json file
+by using the applicationUrl property.</p>
+
+<pre><code>    "MyAspNetCore21Project": {
+        "commandName": "Project",
+        "launchBrowser": true,
+        "applicationUrl": "https://localhost:5001;http://localhost:5000",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+    }
+</code></pre>
+
+<p>With earlier .NET Core 2.1 preview SDKs this was defined in the
+ASPNETCORE_URLS environment variable. The full applicationUrl
+property was used unmodified when running the ASP.NET Core 2.1 project and
+resulted in an invalid url being used causing the AspNetCoreExecutionHandler to log a warning
+and not opening the browser. Now the first url in the applicationUrl
+is used if there are multiple urls.</p>
+
+<h3>Support ASPNETCORE_URLS when launching the browser</h3>
+
+<p>If the launchSettings.json does not define an applicationUrl then
+Visual Studio for Mac will fallback to checking the environment variable defined
+for ASPNETCORE_URLS in the launchSettings.json file and will use the first url
+found there. This url will be used to launch the browser when running the project.</p>
+
+<p>An example launchSettings.json that was used in the .NET Core 2.1 preview SDKs
+is shown below.</p>
+
+<pre><code>"MyProject": {
+  "commandName": "Project",
+  "launchBrowser": true,
+  "environmentVariables": {
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "ASPNETCORE_URLS": "https://localhost:5001;http://localhost:5000"
+  }
+}
+</code></pre>
+
+<p>Compared with the .NET Core SDK 2.0.</p>
+
+<pre><code>"MyProject": {
+  "commandName": "Project",
+  "launchBrowser": true,
+  "environmentVariables": {
+    "ASPNETCORE_ENVIRONMENT": "Development"
+  },
+  "applicationUrl": "http://localhost:5000/"
+}
+</code></pre>
+
+<h2>Allow .NET Core location to be configured</h2>
+
+<p>In Preferences there is now a Projects &ndash; SDK Locations &ndash; .NET Core
+section that can be used to configure the location of the .NET Core
+command line tool (dotnet).</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-5/NetCoreLocationConfiguration.png" title=".NET Core location configured in preferences" alt=".NET Core location configured in preferneces"></p>
+
+<p>This can be used to configure Visual Studio for Mac to use a
+.NET Core SDK that is not installed in the default location. After this is
+changed the MSBuild engine hosts are recycled and all .NET Core projects
+are re-evaluated to ensure the new locations of any MSBuild targets
+are used.</p>
+
+<p>If the location is invalid, or no runtimes or SDKs can be found at the configured
+location, a Not found error will be displayed.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-5/NetCoreLocationInvalidPath.png" title="Invalid .NET Core location path specified in preferences" alt="Invalid .NET Core location path specified in preferences"></p>
+
+<h2>Xamarin.Forms Project Templates now include .NET Standard projects</h2>
+
+<p>The Xamarin.Forms project templates, Blank Forms App and Forms App, will now
+create a .NET Standard 2.0 project instead of a Portable Class Library (PCL) project
+if .NET Standard is selected in the New Project dialog.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-5/NewProjectDialogFormsNetStandard.png" title="New Project dialog - Blank Forms - .NET Standard option" alt="New Project dialog - Blank Forms - .NET Standard option"></p>
+
+<p>The Xamarin.Forms Class Library project template now creates a .NET Standard 2.0 project instead of
+a Portable Class Library project.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-5/NewProjectDialogXamarinFormsLibraryProject.png" title="New Project dialog - Xamarin.Forms Class Library project" alt="New Project dialog - Xamarin.Forms Class Library project"></p>
+
+<h2>Prevent .xaml.cs file from being renamed in a .NET Core project</h2>
+
+<p>The Xamarin.Forms NuGet package has an MSBuild .targets file that is imported
+after the project items are defined. This .targets file overrides
+the DependentUpon property for all .xaml.cs files. This means that renaming the
+.xaml.cs file to be different to the .xaml file is not supported.
+To prevent this the Rename menu is now disabled in the Solution
+window for .xaml.cs files if they depend on a .xaml file.</p>
+
+<h2>Exclude None build action for XAML files in .NET Core projects</h2>
+
+<p>Recent versions of Xamarin.Forms NuGet packages exclude all .xaml files from the
+default None file wildcard defined by the .NET Core SDK. This exclusion is
+done in a .targets file which is applied after the items in the project
+file have been added. This means that a .NET Standard project should not use
+None items for .xaml files since they will be removed. To avoid this problem
+the None build action is excluded from the list of build actions for .xaml files.
+This list of build actions is available when right
+clicking the file in the Solution window and in the Properties window when
+the file is selected.</p>
+
+<h2>Dependent files now renamed on renaming parent file in the Solution window</h2>
+
+<p>When a file is renamed in the Solution window the dependent files will
+also be renamed if they start with the same name as the parent file.
+This avoids problems with XAML files since a different name for the .xaml file
+and the associated .xaml.cs file is not supported.</p>
+
+<h2>Improve project load times for projects with many files</h2>
+
+<p>Opening a .NET Core project that contained many files that
+were not excluded, such as a .NET Core console project that has a
+node_modules directory, could take a long time to load.</p>
+
+<p>Some performance improvements have been made to speed up the
+loading of .NET Core projects. For a .NET Core console project that had a node_modules
+directory containing around 17000 files the initial project load time which
+was taking around 70-80 seconds and now it takes around 20 seconds. Visual Studio 2017 on
+Windows takes around 15-20 seconds to load the same project before
+it is visible in the Solution Explorer window.</p>
+
+<p>The performance improvements include:</p>
+
+<ol>
+<li>Adding a faster project item lookup used when finding an existing
+project item on loading the project.</li>
+<li>Updating the existing project items is now faster avoiding iterating
+over the existing items.</li>
+<li>Evaluating MSBuild items is now only done when evaluating properties.
+Previously this was done when evaluating project configurations and run configurations.
+This would result in
+files and directories being searched multiple times when looking
+wildcard matches on loading the project. Now the files
+and directories are searched once during the initial project load.</li>
+</ol>
+
+
+<h2>.NET Core templating engine updated</h2>
+
+<p>Updated the .NET Core templating to version 1.0.0-beta3-20171117-314. This new
+version of the .NET Core templating engine fixes the following problems:</p>
+
+<ol>
+<li>Templates that use files with @ character in their names being generated with the
+@ symbol encoded.</li>
+<li>Templates that use the Guid macro and did not specify a format
+would cause the template generation to fail. An exception was thrown
+since the format was not defined. Now
+if the format is not defined the default format is used.</li>
+</ol>
+
+
+<h2>Report template creation failures when using the .NET Core templating engine</h2>
+
+<p>To help diagnose problems with project and item templates that use the
+.NET Core templating engine more detailed information about the failure is now logged
+in the IDE log.</p>
+
+<h2>Support item templates with the new templating engine</h2>
+
+<p>Item templates that use the .NET Core
+templating engine can be defined through a new extension point.</p>
+
+<pre><code>&lt;Extension path="/MonoDevelop/Ide/ItemTemplates"&gt;
+        &lt;Template
+                id="Azure.Function.CSharp.BlobTrigger"
+                _overrideName="Blob Trigger"
+                path="Templates/Azure.Functions.Templates.nupkg" /&gt;
+&lt;/Extension&gt;
+</code></pre>
+
+<p>Item templates are not currently supported in the New File dialog however there
+is an API that can be used by extensions to create files from these templates.
+This is currently used when adding a new Azure Function to a project.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Missing child package dependencies in Solution window</strong></p>
+
+<p>After creating a new ASP.NET Core project sometimes the package dependencies
+shown in the Solution window under the SDK folder and the NuGet folder
+could not be expanded to view the child dependencies.</p>
+
+<p>The problem was that if the call to get the package dependencies
+using MSBuild was cancelled this would result an empty list of depenencies
+being cached. Since no package dependencies were returned the Solution window
+would fallback to showing the package dependencies that were listed in the
+project and a default top level SDK package dependency.</p>
+
+<p><strong>MSBuild wildcards being expanded on saving a project</strong></p>
+
+<p>Saving a project with a file wildcard that had a Link with
+MSBuild item metadata, as shown below, would result in the wildcard
+being removed and replaced with MSBuild items for each file included
+by the wildcard.</p>
+
+<pre><code>&lt;Compile Include="**\*.cs" Exclude="obj\**"&gt;
+  &lt;Link&gt;%(RecursiveDir)%(Filename).cs&lt;/Link&gt;
+&lt;/Compile&gt;
+</code></pre>
+
+<p>The problem was that the evaluated Link property value was being
+compared with the unevaluated value, which did not match, resulting
+in the wildcard being replaced with individual MSBuild items for
+each file. Now if the property value contains a % character a comparison is
+made against the evaluated value when checking if the project item
+has changed.</p>
+
+<p><strong>MSBuild items added for wildcards with link metadata on saving project</strong></p>
+
+<p>A project containing the following MSBuild file wildcards would have
+extra MSBuild items added when the project file was saved.</p>
+
+<pre><code>&lt;ItemGroup&gt;
+  &lt;Compile Include="..\**\*.cs"&gt;
+    &lt;Link&gt;%(RecursiveDir)%(Filename)%(Extension)&lt;/Link&gt;
+  &lt;/Compile&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
+
+<p>On saving the project Compile update items would be added for each
+file included by the file wildcard.</p>
+
+<pre><code>&lt;ItemGroup&gt;
+  &lt;Compile Update="..\Test\Class1.cs"&gt;
+    &lt;Link&gt;Class1.cs&lt;/Link&gt;
+  &lt;/Compile&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
+
+<p>This problem is similar to the previous problem where the evaluated Link value was being
+compared with the unevaluated value, which did not match, resulting
+MSBuild update items being added to the project when it was saved. Now if the property
+value contains a % character a comparison is made against the evaluated value when checking if
+the project item has changed.</p>
+
+<p><strong>TargetFramework changed on saving project</strong></p>
+
+<p>Adding a file to an SDK style project that targeted Tizen 4.0 would
+result in the TargetFramework changing from <strong>tizen40</strong> to <strong>tizen4.0</strong>.
+Now the original framework identifier name is not modified and if
+the version of the framework changes then the version will be
+dotted or contain only numbers based on the format that was originally used
+in the project file.</p>
+
+<p><strong>ASP.NET Core file templates modifying project file</strong></p>
+
+<p>Adding a new .cshtml file from a file template to an ASP.NET Core
+project would modify the project file when it should not have been
+modified. The problem was the files were added as None items whilst
+.cshtml are Content items. The project file would contain the
+following after adding a new cshtml file from a template:</p>
+
+<pre><code>&lt;ItemGroup&gt;
+  &lt;Content Remove="Views\Index.cshtml" /&gt;
+&lt;/ItemGroup&gt;
+&lt;ItemGroup&gt;
+  &lt;None Include="Views\Index.cshtml" /&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
+
+<p>Another problem was that the Razor Page with view model file
+template specifies a DependentUpon property so this was added to the
+project file. This would result in the .cshtml and .cs files being nested whilst
+the other .cshtml and .cs files created with the initial ASP.NET
+Core project template were not nested. The project file would include
+the following:</p>
+
+<pre><code>&lt;ItemGroup&gt;
+  &lt;Compile Update="Views\Index.cshtml.cs"&gt;
+    &lt;DependentUpon&gt;Index.cshtml&lt;/DependentUpon&gt;
+  &lt;/Compile&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
+
+<p>The .NET Core SDK does not indicate that .cshtml and .cs
+files are dependent on each other so they are not currently nested
+in the Solution window. New .cshtml files created from these updated
+file templates will now not be nested in Solution window.</p>
+
+<p><strong>XAML files not nested after editing project file in editor</strong></p>
+
+<p>Adding a new content page with xaml to a .NET Standard project,
+then excluding the files from the project, but not deleting it,
+then editing the project file and commenting out the MSBuild remove
+items, would then result in the xaml files not being nested in the
+Solution window. The problem was that the MSBuild update item
+for the .xaml.cs file, defined by the Xamarin.Forms default msbuild
+items, was being removed from the MSBuild project in
+memory. This MSBuild update item had the DependsOn property defined
+so this information was lost on reloading the project. Now a check
+is to made to ensure only update items that exist in the original
+project file are removed.</p>
+
+<p><strong>MSBuild item added for XAML file copied to a .NET Standard project</strong></p>
+
+<p>When copying a .xaml file from a Portable Class Library project to a .NET Standard project
+an MSBuild include item for the file would be added if the .xaml file did
+not have the default metadata properties defined by Xamarin.Forms.
+Now .NET Core projects opt-in to supporting items not being excluded if they
+are missing MSBuild item metadata
+which prevents an MSBuild include item added for the .xaml file.</p>
+
+<p><strong>Duplicate XAML file build error when copying file to a .NET Standard project</strong></p>
+
+<p>Copying a .xaml file from a Portable Class Library project to a .NET Standard project
+would result an MSBuild item for the .xaml file to the project causing it to not
+build due to a duplicate .xaml file.</p>
+
+<p>Now when a xaml file is copied into a .NET Standard project, and it is missing
+properties that are included in by an update wildcard,
+an MSBuild item will not be added to the project.</p>
+
+<p><strong>MSBuild remove item not added for .xaml.cs file</strong></p>
+
+<p>With a .NET Core project, containing a single .xaml file and a
+dependent .xaml.cs file, removing but not deleting the .xaml file
+from the Solution window would not add an MSBuild remove item for
+the .xaml.cs file even though it was removed from the Solution window.</p>
+
+<p>The problem was that the Xamarin.Forms NuGet package includes a
+Compile update item and only this was being considered when saving
+the project file. The default file wildcard, that includes all .cs files,
+provided by the .NET Core SDK was not considered. Only the last MSBuild item
+associated with the .xaml.cs file was being considered. If there was another .cs
+file in the project then the MSBuild remove item was added correctly. To avoid this
+all MSBuild items associated with a project item are now considered.</p>
+
+<p><strong>MSBuild remove item not removed on adding XAML file to project</strong></p>
+
+<p>When an .xaml file was removed but not deleted, and Xamarin.Forms 2.5
+used, which has default MSBuild items defined, on adding the .xaml
+file back again to the project the EmbeddedResource
+remove item was not removed from the project.</p>
+
+<p>The problem was that the .xaml file was being added as a None item
+since by default there is no build action specified for .xaml files.</p>
+
+<p>Another problem was that the MSBuild remove
+items, defined by Xamarin.Forms that remove all .xaml files from the default None
+included by the .NET Core SDK, were being ignored since the file wildcards were not
+found.</p>
+
+<p>Also an msbuild item is no longer added for an existing xaml file when it is
+added to the project. The Xamarin.Forms default msbuild items
+for .xaml files have extra metadata which were not being added to
+the file when it was added to the project from the file system.</p>
+
+<p><strong>Update item added on renaming xaml.cs file</strong></p>
+
+<p>When the .xaml and .xaml.cs file were renamed at the same time an
+MSBuild update item was added for the .xaml.cs file even though the Xamarin
+Forms NuGet package has a default MSBuild item that was the same as
+the generated MSBuild update item.</p>
+
+<p><strong>Argument null exception logged on opening .NET Core project</strong></p>
+
+<p>Opening a .NET Core project would sometimes log an unhandled
+ArgumentNullException. A file created event was sometimes raised before
+the project had finished loading and could result in
+a null set of items being used when checking if the
+new file should be added to the project. This is now handled. The files being
+created on project load are typically in the obj folder and would be
+ignored by the default file wildcards.</p>
+
+<pre><code>An unhandled exception has occured. Terminating Visual Studio? False
+System.ArgumentNullException: Value cannot be null.
+Parameter name: source
+  at System.Linq.Enumerable.Where[TSource]
+  in corefx/src/System.Linq/src/System/Linq/Where.cs:42
+  at MonoDevelop.Projects.Project.OnFileCreatedExternally
+in src/core/MonoDevelop.Core/MonoDevelop.Projects/Project.cs:4041
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.5]]></title>
@@ -25,16 +537,17 @@
 <li> Fixed generated NuGet package files not available for code completion</li>
 <li> Fixed incorrect Android target framework used when the project has Package References</li>
 <li> Fixed build errors after creating a new Android project with NuGet packages</li>
+<li> Missing package dependencies in Solution window</li>
 </ul>
 
 
 <p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.5</a>
 can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes">release notes</a>.</p>
 
-<h1>Support installing NuGet packages with item templates</h1>
+<h2>Support installing NuGet packages with item templates</h2>
 
 <p>Initial support for creating new files from item templates that use
-the new dotnet templating engine has been added. This is currently used
+the .NET Core templating engine has been added. This is currently used
 by the Azure Functions support in Visual Studio for Mac when a new Azure
 Function is added to the project. Currently the New File dialog does not
 have support for showing these templates but there is an API that can
@@ -142,8 +655,6 @@ sync with the Android project&rsquo;s target framework.</p>
 would sometimes result in build errors that could be fixed by closing and
 re-opening the solution. An example build error is shown below.</p>
 
-<p>&#8220;`</p>
-
 <pre><code>Resources/values/styles.xml : error APT0000: 1: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.DarkActionBar'.
 Resources/values/styles.xml : error APT0000: 2: error: Error: No resource found that matches the given   name: attr 'colorAccent'.
 Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimary'.
@@ -170,7 +681,7 @@ loaded at the time when an attempt was made to unload the project from
 the host. Now the unsaved project xml is removed in all cases when the
 project is unloaded from the MSBuild host.</p>
 
-<p><strong>Fix missing child package dependencies in Solution window</strong></p>
+<p><strong>Missing package dependencies in Solution window</strong></p>
 
 <p>After creating a new ASP.NET Core project sometimes the package dependencies
 shown in the Solution window under the SDK folder and the NuGet folder
@@ -820,7 +1331,7 @@ appear in the Solution window automatically.</p>
 the Solution window. The Solution window will also update after
 a file or a directory is renamed outside Visual Studio for Mac.</p>
 
-<p><strong>Allow unknown target framework projects to be loaded</strong></p>
+<h2>Allow unknown target framework projects to be loaded</h2>
 
 <p>The target framework of an SDK style project is no longer restricted.
 Previously Visual Studio for Mac would fail to load an SDK style
@@ -3602,120 +4113,6 @@ but the package does not contain any assembly references or content files that a
 <li> <a href="http://xunit.github.io/docs/getting-started-dotnet-core.html">Getting started with xUnit.net (.NET Core / ASP.NET Core)</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.0]]></title>
-    <link href="http://lastexitcode.com/blog/2016/06/12/NuGetSupportInXamarinStudio6-0/"/>
-    <updated>2016-06-12T14:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2016/06/12/NuGetSupportInXamarinStudio6-0</id>
-    <content type="html"><![CDATA[<p>Xamarin Studio 6.0 was released last week and it includes a lot of <a href="https://blog.xamarin.com/live-from-dotnetconf-cycle-7-xamarin-studio-6-and-more/">new features</a>, such as a new dark theme and <a href="https://github.com/dotnet/roslyn">Roslyn integration</a>. This release also includes some improvements made to the NuGet support.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-0/AddPackagesDialogDarkTheme.png" title="Add Packages Dialog - Dark Theme" alt="Add Packages Dialog - Dark Theme"></p>
-
-<h2>New Features</h2>
-
-<ul>
-<li> Support NuGet packages targeting tvOS.</li>
-<li> Support updating pre-release NuGet packages.</li>
-<li> Show updates available for pre-release NuGet packages.</li>
-<li> Remember Show pre-release Packages setting in Add Packages dialog.</li>
-<li> Error dialog displayed if NuGet.Config file cannot be read.</li>
-</ul>
-
-
-<p>More information on all the changes in Xamarin Studio 6.0 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.0/xamarin.studio_6.0/">release notes</a>.</p>
-
-<h2>Support NuGet packages targeting watchOS</h2>
-
-<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
-
-<h2>Support updating pre-release NuGet packages</h2>
-
-<p>Previously it was not possible to update a pre-release NuGet package to a later pre-release  from the Solution window, only updates to stable NuGet packages were supported. The only way to update to a later pre-release NuGet package was to use the Add Packages dialog.</p>
-
-<p>Now an individual pre-release NuGet package can be updated by right clicking and selecting Update. When all packages in a project or solution are updated then pre-release NuGet packages will be updated to a later pre-release version if they are available.</p>
-
-<h2>Show updates available for pre-release NuGet packages</h2>
-
-<p>Previously Xamarin Studio would only show stable NuGet package updates as being available if a pre-release NuGet package was installed. Now Xamarin Studio will check for updates for pre-release NuGet packages as well as stable packages and display this information in the Solution window.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-0/PreReleaseNuGetPackageUpdatesInSolutionWindow.png" title="Pre-release NuGet package updates in Solution window" alt="Pre-release NuGet package updates in Solution window"></p>
-
-<p>Only if an installed NuGet package is a pre-release version will pre-release updates be shown as available in the Solution window. Xamarin Studio will not check for pre-release updates for stable NuGet package versions that are installed.</p>
-
-<h2>Remember Show pre-release Packages setting in Add Packages dialog</h2>
-
-<p>The Show pre-release Packages check box setting will now be remembered in the Add Packages dialog on a per solution basis.</p>
-
-<h2>Error dialog displayed if the NuGet.Config file cannot be read</h2>
-
-<p>Previously if the NuGet.Config file could not be read the error would
-be silently logged, but not reported, and Xamarin Studio would
-then switch to using the default official NuGet package source. Now an error
-dialog is shown indicating that there was a problem reading the
-NuGet.Config file.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Support NuGet packages that use icons from local files</strong></p>
-
-<p>A NuGet package can now use an icon, which will be shown in the Add Packages
-dialog, taken from the local file system using a file url. Previously this would fail with an invalid cast exception.</p>
-
-<p><strong>Incorrect update count displayed after updating NuGet packages.</strong></p>
-
-<p>When an update caused a NuGet package to be uninstalled the Packages
-folder in the Solution window would show an incorrect count for the available updates.</p>
-
-<p><strong>NuGet restore and update not working for workspaces</strong></p>
-
-<p>With a workspace opened, or multiple solutions opened in Xamarin Studio, then restoring and updating NuGet packages would only work for one of the solutions.</p>
-
-<p><strong>Unable to add Google Play Services packages</strong></p>
-
-<p>The Xamarin.Android.Support.v7.AppCompat NuGet package depends on
-a single version of the Xamarin.Android.Support.v4 NuGet package.
-When a Xamarin Google Play Services NuGet package is installed
-that depends on a higher version of the Xamarin.Android.Support.v4
-NuGet package the install would fail to find a version of the
-AppCompat NuGet package that is compatible. An error similar to the
-following would be displayed in the Package Console window:</p>
-
-<pre><code>Could not add Xamarin.GooglePlayServices.Ads.
-Updating 'Xamarin.Android.Support.v4 23.1.1.0' to
-'Xamarin.Android.Support.v4 23.1.1.1' failed. Unable to find a version
-of 'Xamarin.Android.Support.v7.AppCompat' that is compatible with
-'Xamarin.Android.Support.v4 23.1.1.1'.
-</code></pre>
-
-<p>The problem was that the AppCompat NuGet package is not involved
-in the initial NuGet package resolution using the remote package
-source so it is initially not considered for installation into the
-packages directory. When a package reference is then added to the
-packages.config file a search for a compatible AppCompat package was
-only using the local solution&rsquo;s packages directory which fails causing
-the install to fail.</p>
-
-<p>To fix this the local solution packages directory is used first
-when looking for a compatible AppCompat NuGet package and will
-fallback to using the configured remote package sources if no suitable package
-is found in this directory. To handle a package being added to the
-packages.config at this point, after the original NuGet packages have
-already been downloaded to the solution&rsquo;s packages directory, Xamarin Studio will detect a package is added to the packages.config file and install the NuGet package if it is not
-already in the local solution packages directory.</p>
-
-<p><strong>Incorrect package version being installed</strong></p>
-
-<p>When installing a NuGet package using the Google Play Services dialog a package version is not specified by the dialog. If the NuGet package being installed was found in the local machine&rsquo;s NuGet cache it would be used instead of the latest version from the official NuGet gallery at nuget.org. This could result in a lower version being installed than expected.</p>
-
-<p><strong>MSBuild property files (.props) not being added at correct project location</strong></p>
-
-<p>Installing a NuGet package that included an MSBuild .props file would
-add an Import element for the .props at the end of the project file
-(.csproj) instead of at the start. The .props files are now added to the project
-file as the first child element inside the project&rsquo;s root element.</p>
 ]]></content>
   </entry>
   

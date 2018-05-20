@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Xamarin Studio and MonoDevelop now have support for ASP.NET Core 1.0 RC2 with an alpha release of the .NET Core addin. This is an update of the &hellip;">
+  <meta name="description" content="Xamarin Studio 6.0 was released last week and it includes a lot of new features, such as a new dark theme and Roslyn integration. This release also &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,147 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/12/NuGetSupportInXamarinStudio6-0/">NuGet Support in Xamarin Studio 6.0</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-12T14:00:00+01:00" pubdate data-updated="true">Jun 12<sup>th</sup>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Xamarin Studio 6.0 was released last week and it includes a lot of <a href="https://blog.xamarin.com/live-from-dotnetconf-cycle-7-xamarin-studio-6-and-more/">new features</a>, such as a new dark theme and <a href="https://github.com/dotnet/roslyn">Roslyn integration</a>. This release also includes some improvements made to the NuGet support.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-0/AddPackagesDialogDarkTheme.png" title="Add Packages Dialog - Dark Theme" alt="Add Packages Dialog - Dark Theme"></p>
+
+<h2>New Features</h2>
+
+<ul>
+<li> Support NuGet packages targeting tvOS.</li>
+<li> Support updating pre-release NuGet packages.</li>
+<li> Show updates available for pre-release NuGet packages.</li>
+<li> Remember Show pre-release Packages setting in Add Packages dialog.</li>
+<li> Error dialog displayed if NuGet.Config file cannot be read.</li>
+</ul>
+
+
+<p>More information on all the changes in Xamarin Studio 6.0 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.0/xamarin.studio_6.0/">release notes</a>.</p>
+
+<h2>Support NuGet packages targeting watchOS</h2>
+
+<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
+
+<h2>Support updating pre-release NuGet packages</h2>
+
+<p>Previously it was not possible to update a pre-release NuGet package to a later pre-release  from the Solution window, only updates to stable NuGet packages were supported. The only way to update to a later pre-release NuGet package was to use the Add Packages dialog.</p>
+
+<p>Now an individual pre-release NuGet package can be updated by right clicking and selecting Update. When all packages in a project or solution are updated then pre-release NuGet packages will be updated to a later pre-release version if they are available.</p>
+
+<h2>Show updates available for pre-release NuGet packages</h2>
+
+<p>Previously Xamarin Studio would only show stable NuGet package updates as being available if a pre-release NuGet package was installed. Now Xamarin Studio will check for updates for pre-release NuGet packages as well as stable packages and display this information in the Solution window.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio6-0/PreReleaseNuGetPackageUpdatesInSolutionWindow.png" title="Pre-release NuGet package updates in Solution window" alt="Pre-release NuGet package updates in Solution window"></p>
+
+<p>Only if an installed NuGet package is a pre-release version will pre-release updates be shown as available in the Solution window. Xamarin Studio will not check for pre-release updates for stable NuGet package versions that are installed.</p>
+
+<h2>Remember Show pre-release Packages setting in Add Packages dialog</h2>
+
+<p>The Show pre-release Packages check box setting will now be remembered in the Add Packages dialog on a per solution basis.</p>
+
+<h2>Error dialog displayed if the NuGet.Config file cannot be read</h2>
+
+<p>Previously if the NuGet.Config file could not be read the error would
+be silently logged, but not reported, and Xamarin Studio would
+then switch to using the default official NuGet package source. Now an error
+dialog is shown indicating that there was a problem reading the
+NuGet.Config file.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Support NuGet packages that use icons from local files</strong></p>
+
+<p>A NuGet package can now use an icon, which will be shown in the Add Packages
+dialog, taken from the local file system using a file url. Previously this would fail with an invalid cast exception.</p>
+
+<p><strong>Incorrect update count displayed after updating NuGet packages.</strong></p>
+
+<p>When an update caused a NuGet package to be uninstalled the Packages
+folder in the Solution window would show an incorrect count for the available updates.</p>
+
+<p><strong>NuGet restore and update not working for workspaces</strong></p>
+
+<p>With a workspace opened, or multiple solutions opened in Xamarin Studio, then restoring and updating NuGet packages would only work for one of the solutions.</p>
+
+<p><strong>Unable to add Google Play Services packages</strong></p>
+
+<p>The Xamarin.Android.Support.v7.AppCompat NuGet package depends on
+a single version of the Xamarin.Android.Support.v4 NuGet package.
+When a Xamarin Google Play Services NuGet package is installed
+that depends on a higher version of the Xamarin.Android.Support.v4
+NuGet package the install would fail to find a version of the
+AppCompat NuGet package that is compatible. An error similar to the
+following would be displayed in the Package Console window:</p>
+
+<pre><code>Could not add Xamarin.GooglePlayServices.Ads.
+Updating 'Xamarin.Android.Support.v4 23.1.1.0' to
+'Xamarin.Android.Support.v4 23.1.1.1' failed. Unable to find a version
+of 'Xamarin.Android.Support.v7.AppCompat' that is compatible with
+'Xamarin.Android.Support.v4 23.1.1.1'.
+</code></pre>
+
+<p>The problem was that the AppCompat NuGet package is not involved
+in the initial NuGet package resolution using the remote package
+source so it is initially not considered for installation into the
+packages directory. When a package reference is then added to the
+packages.config file a search for a compatible AppCompat package was
+only using the local solution&rsquo;s packages directory which fails causing
+the install to fail.</p>
+
+<p>To fix this the local solution packages directory is used first
+when looking for a compatible AppCompat NuGet package and will
+fallback to using the configured remote package sources if no suitable package
+is found in this directory. To handle a package being added to the
+packages.config at this point, after the original NuGet packages have
+already been downloaded to the solution&rsquo;s packages directory, Xamarin Studio will detect a package is added to the packages.config file and install the NuGet package if it is not
+already in the local solution packages directory.</p>
+
+<p><strong>Incorrect package version being installed</strong></p>
+
+<p>When installing a NuGet package using the Google Play Services dialog a package version is not specified by the dialog. If the NuGet package being installed was found in the local machine&rsquo;s NuGet cache it would be used instead of the latest version from the official NuGet gallery at nuget.org. This could result in a lower version being installed than expected.</p>
+
+<p><strong>MSBuild property files (.props) not being added at correct project location</strong></p>
+
+<p>Installing a NuGet package that included an MSBuild .props file would
+add an Import element for the .props at the end of the project file
+(.csproj) instead of at the start. The .props files are now added to the project
+file as the first child element inside the project&rsquo;s root element.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1215,138 +1356,6 @@ The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.5
 <li><p><a href="ttps://github.com/mrward/typescript-addin/tree/monodevelop-v8-dotnet">TypeScript addin source code</a>.</p></li>
 <li><p><a href="https://github.com/chrisber/v8dotnet/tree/development-mono">V8.NET source code</a>.</p></li>
 </ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/21/NuGetSupportInXamarinStudio5-8/">NuGet Support in Xamarin Studio 5.8</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-21T12:00:00+00:00" pubdate data-updated="true">Mar 21<sup>st</sup>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Xamarin Studio 5.8 <a href="http://blog.xamarin.com/xamarin-releases-watch-kit-support-like-clockwork/">added support for Apple&rsquo;s Watch Kit</a> and it also includes some NuGet bug fixes.</p>
-
-<h2>Bug Fixes</h2>
-
-<ul>
-<li> Allow ASP.NET project templates to work offline.</li>
-<li> Build error after updating Xamarin.Forms in a project created by Visual Studio</li>
-<li> Custom MSBuild task not updated after updating Xamarin.Forms</li>
-<li> Update information in the Solution window incorrect after updating packages</li>
-<li> Check for package updates continues after closing a solution</li>
-<li> Check for package updates prevents packages from being removed</li>
-<li> Incorrect error message displayed when checking for package updates</li>
-<li> Exception when checking for package updates after changing target framework of a project</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 5.8 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.8/xamarin.studio_5.8/">release notes</a>.</p>
-
-<p><strong>Allow ASP.NET project templates to work offline</strong></p>
-
-<p>Previously it was not possible to create an ASP.NET project without an internet connection even if all the NuGet packages were available in the local machine&rsquo;s NuGet packages cache.</p>
-
-<p>Now the local machine&rsquo;s NuGet cache is used as the primary source of packages for project templates so it is possible to create an ASP.NET project without an internet connection if the NuGet packages are already in this cache.</p>
-
-<p>This problem did not affect project templates, such as Xamarin.Forms, which include the NuGet packages with their project templates.</p>
-
-<p><strong>Build error after updating Xamarin.Forms in a project created by Visual Studio</strong></p>
-
-<p>When a NuGet package that uses custom MSBuild targets file, such as Xamarin.Forms, is added to a project by Visual Studio the project file has an extra Target added, as shown below.</p>
-
-<pre><code>&lt;Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild"&gt;
-  &lt;PropertyGroup&gt;
-    &lt;ErrorText&gt;This project references NuGet package(s) that are missing on this computer.
-Enable NuGet Package Restore to download them.  For more information, see
-http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.&lt;/ErrorText&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;Error Condition="!Exists('packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Xamarin.Forms.1.2.1.6229\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets'))" /&gt;
-&lt;/Target&gt;
-</code></pre>
-
-<p>When the project was opened in a previous version of Xamarin Studio, and the NuGet package is updated or removed, the Error task was not updated. The project would then fail to compile with an error being reported that the old .targets file could not be found.</p>
-
-<p>Now when updating or removing a NuGet package the EnsureNuGetPackageBuildImports target is
-checked and the matching Error task will be removed. If there are no remaining Error tasks then the EnsureNuGetPackageBuildImports target is also removed. This prevents build errors after updating or uninstalling the old
-NuGet package from the project.</p>
-
-<p>Note that Xamarin Studio will not add an EnsureNuGetPackageBuildImports target and will not add Error tasks to a project when a NuGet package is added or updated.</p>
-
-<p><strong>Custom MSBuild task not updated after updating Xamarin.Forms</strong></p>
-
-<p>If a project that had a reference to Xamarin.Forms was compiled once, then the NuGet package was updated, the old MSBuild task was still being used when compiling.</p>
-
-<p>For Xamarin.Forms this could cause a &ldquo;XamlG Task failed unexpectedly&rdquo; build error to be reported. Also the Package Console would report not being able to access the Xamarin.Forms.Build.Tasks.dll when updating or removing the NuGet package.</p>
-
-<p>The problem was that MonoDevelop.Projects.Formats.MSBuild.exe that compiles the project would lock the MSBuild task assembly.</p>
-
-<p>Now when an MSBuild import is removed on updating a NuGet package Xamarin Studio will dispose the current project builder which will shutdown the MonoDevelop.Projects.Formats.MSBuild.exe process. This unlocks any custom MSBuild task assemblies loaded by this process,
-allowing the old NuGet package to be removed without any access denied errors, and when the project is recompiled again it will use the correct MSBuild task assembly.</p>
-
-<p><strong>Update information in the Solution window incorrect after updating packages</strong></p>
-
-<p>With check for updates enabled in Preferences, when an ASP.NET project is created, updates are shown as available for several packages. When
-the packages are updated the Solution window would still show updates as being available even though the packages had been updated.</p>
-
-<p>The problem was that a change was made in Xamarin Studio 5.7 to update package dependencies at the same time as the package was updated. This meant that an update event was not fired for each
-package being updated which would result in some package updates being shown as available in the Solution window even when they had been updated.</p>
-
-<p>Now Xamarin Studio will check all package references when a package is updated so if any package dependencies are updated the Solution
-window will show the correct status of the packages.</p>
-
-<p><strong>Check for package updates continues after closing a solution</strong></p>
-
-<p>Xamarin Studio will now stop checking for package updates when the current solution is closed. Previously this would continue until the check was completed.</p>
-
-<p><strong>Check for updates prevents packages from being removed</strong></p>
-
-<p>Previously when Xamarin Studio was checking for package updates all other NuGet actions, such as updating, adding or removing packages, would not be run until the check for updates had completed.
-Now the check for NuGet package updates is done on a separate thread so other NuGet actions can be run at the same time.</p>
-
-<p><strong>Incorrect error message displayed when checking for package updates</strong></p>
-
-<p>The Package Console would sometimes show the error message &ldquo;An exception was thrown while dispatching a method call in the UI thread.&rdquo; instead of the underlying error making it difficult to determine the cause of the problem.
-For example if there was a zero byte sized .nupkg file in the solution&rsquo;s package directory, and check for updates is enabled, then
-the wrong error was displayed in the Package Console.</p>
-
-<p><strong>Exception when checking for package updates after changing target framework of a project</strong></p>
-
-<p>Previously a null reference exception would be reported in the Package console window when doing the following:</p>
-
-<ol>
-<li> Create a project with one NuGet package added.</li>
-<li> Create two NuGet package sources in Preferences. Disable all other package sources.</li>
-<li> Open the Add Packages dialog and select All Sources.</li>
-<li> Go back to Preferences and uncheck both of the package sources.</li>
-<li> Change the target framework of the project in the project options.</li>
-</ol>
 
 </div>
   
