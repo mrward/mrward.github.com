@@ -7,6 +7,12 @@ sharing: true
 footer: true
 ---
 
+## Version 0.4
+
+2018-06-02
+
+ * Ignore .vs folder in template.json to avoid db.lock sharing violation on creating new project from template
+
 ## Version 0.3
 
 2018-06-02
