@@ -1,11 +1,16 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2017-12-05 22:00
+date: 2018-06-12 22:30
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.13
+
+ * Show license dialog one time only when installing, updating or 
+  consolidating NuGet packages into multiple projects.
 
 ## Version 0.12.6
 
