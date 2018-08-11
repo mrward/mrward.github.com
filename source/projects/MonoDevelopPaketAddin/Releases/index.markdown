@@ -1,11 +1,20 @@
 ---
 layout: page
 title: "MonoDevelop Paket Addin Releases"
-date: 2017-11-07 17:00
+date: 20178-08-11 17:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.5
+
+2018-08-11
+
+* Update to paket 5.176.4
+* Show errors reading paket.references in Solution window
+* Show errors reading paket.dependencies in Solution window
+
 ## Version 0.4
 
 2017-11-07
