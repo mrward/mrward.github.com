@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>.NET Core Support in Visual Studio for Mac 7.6 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes NuGet SDK resolver now used to find NuGet SDK packages
+Fixed Synchronous operation cancelled message on stopping debugging
+Fixed debugger &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2018/09/02/NetCoreSupportInVisualStudioMac7-6">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">.NET Core Support in Visual Studio for Mac 7.6</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-09-02T11:00:00+01:00" pubdate data-updated="true">Sep 2<sup>nd</sup>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li>NuGet SDK resolver now used to find NuGet SDK packages</li>
+<li>Fixed Synchronous operation cancelled message on stopping debugging</li>
+<li>Fixed debugger hanging when debugging unit tests</li>
+<li>Fixed command line arguments not used with a new project</li>
+<li>Fixed hang when discovering unit tests</li>
+<li>Allow loading of SDK style projects without a main PropertyGroup</li>
+<li>Fixed TargetFramework not being updated in project</li>
+<li>Fixed .xaml.cs code completion in new Xamarin.Forms .NET Standard project</li>
+<li>Fixed default build action for new HTML file</li>
+<li>Fixed SDK version not being parsed from Sdk attribute</li>
+<li>Fixed null reference on opening .NET Core project with sdk version</li>
+<li>Fixed editor errors when .NET Standard assembly referenced in Xamarin.iOS project</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.6</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-76">release notes</a>.</p>
+
+<h2>NuGet SDK resolver now used to find NuGet SDK packages</h2>
+
+<p>Visual Studio for Mac now has support for the
+<a href="https://github.com/Microsoft/msbuild/issues/2803">NuGet SDK resolver</a>. The NuGet
+SDK resolver will download and install SDKs for SDK style
+projects if these SDKs are missing.</p>
+
+<pre><code>&lt;Project Sdk="My.Custom.Sdk/2.3.4"&gt;
+  ...
+&lt;/Project&gt;
+</code></pre>
+
+<p>The SDK resolution is done in the background
+when the project is opened and there is currently no visual indication that
+this is happening.</p>
+
+<p>The NuGet library assemblies are not available to the remote MSBuild host used by
+Visual Studio for Mac so the NuGet SDK resolver was previously failing to load. The NuGet SDK
+resolver supports a MSBUILD_NUGET_PATH environment variable which is now set by
+Visual Studio for Mac to point to the directory containing the NuGet assemblies
+that are included with the IDE.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed synchronous operation cancelled message on stopping debugging</strong></p>
+
+<p>Stopping the .NET Core debugger would sometimes result in
+a dialog being displayed indicating that the debugger operation failed.</p>
+
+<p><img src="/images/blog/NetCoreSupportInVisualStudioMac7-6/DebuggerOperationFailedMessage.png" title="Debugger operation failed - Synchronous operation cancelled - dialog" alt="Debugger operation failed - Synchronous operation cancelled - dialog"></p>
+
+<p><strong>Fixed debugger hanging when debugging unit tests</strong></p>
+
+<p>The .NET Core debugger would sometimes hang Visual Studio for Mac when debugging unit tests.
+The problem was that if the breakpoint was placed on an invalid line then the .NET Core debugger
+would send back the adjusted breakpoint location. Visual Studio for Mac would then send back
+an incorrect breakpoint line back to the .NET Core debugger, which again resulted in the debugger
+sending back a corrected line. This would repeat resulting in the IDE and debugger
+getting stuck in a loop.</p>
+
+<p><strong>Fixed command line arguments not used with a new project</strong></p>
+
+<p>Creating a new .NET Core console project, editing the project run
+configuration to use extra command line arguments, or to not use the
+external console, then building and running the project would result
+in the project run configuration not being used. No extra
+arguments would be passed to the console project, and the external
+console would still be used. This could be fixed by closing and
+re-opening the solution.</p>
+
+<p>The problem was that when the project is re-evaluated, after it is
+created, its run configurations are cleared. The solution&rsquo;s
+startup run configuration would still be using
+the original project run configuration that was no longer used.
+Changes made to the project run configuration then had no affect. Closing and
+re-opening the solution fixed this since
+the run configuration defined in the .csproj.user file is re-used when the
+project is re-evaluated on reloading so both the solution run configuration and
+the project run configuration refer to the same configuration. To fix this,
+on re-evaluating the project, if the solution&rsquo;s run configuration
+refers to a project run configuration that has been removed then
+the solution&rsquo;s startup configuration is refreshed.</p>
+
+<p>Note that there is a similar problem with multiple solution run
+configurations that can occur which is not addressed by this fix.</p>
+
+<p><strong>Fixed hang when discovering unit tests</strong></p>
+
+<p>Opening a solution containing a .NET Core test project would sometimes
+result in the IDE hanging when discovering tests. On running <code>kill -QUIT pid</code>
+the IDE log would show a background thread and the UI thread both
+awaiting test discovery to complete:</p>
+
+<pre><code>var discoveredTests = await VsTestDiscoveryAdapter.Instance.DiscoverTestsAsync (Project);
+
+VsTestProjectTestSuite/&lt;OnCreateTests&gt;d__12.MoveNext
+in MonoDevelop.UnitTesting.VsTest/VsTestProjectTestSuite.cs:95
+</code></pre>
+
+<p><strong>Allow loading of SDK style projects without a main PropertyGroup</strong></p>
+
+<p>On loading an SDK style project that did not have a main PropertyGroup
+Visual Studio for Mac would show the error message
+&ldquo;Error while trying to load project:
+Object reference not set to an instance of an object&rdquo;.</p>
+
+<p>A project may define MSBuild properties in a Directory.Build.props file
+instead of having this in the main project file. It is then
+possible for the main project file to have no main property group.</p>
+
+<p>Directory.Build.props:</p>
+
+<pre><code>&lt;Project&gt;
+  &lt;PropertyGroup&gt;
+    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+    &lt;TargetFramework&gt;netcoreapp2.1&lt;/TargetFramework&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+
+<p>MainProject.csproj:</p>
+
+<pre><code>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+&lt;/Project&gt;
+</code></pre>
+
+<p>Visual Studio for Mac now handles the missing main PropertyGroup.</p>
+
+<p><strong>Fixed TargetFramework not being updated in project</strong></p>
+
+<p>Changing a .NET Core project&rsquo;s target framework to a different version in
+Project Options, then re-opening Project Options and changing the
+target framework version back again, would result in the target framework
+not being updated in the project. The problem was the original target framework the
+project had on opening was cached and the changing back to the same
+target framework version was being ignored resulting in the project file not
+being updated.</p>
+
+<p><strong>Fixed .xaml.cs code completion in new Xamarin.Forms .NET Standard project</strong></p>
+
+<p>Creating a new Xamarin.Forms .NET Standard project, then
+modifing the .xaml to add new named UI items, would result in no
+code completion in the .xaml.cs file for these new items
+until the solution was closed and re-opened. The problem was that the
+.xaml and .xaml.cs files
+were being removed from the file information held in memory
+when the project was re-evaluated. On re-evaluation, after
+the NuGet restore is first run for the project, the old MSBuild items for the
+.xaml and .xaml.cs file have the wrong metadata, so they need
+to be removed, whilst new MSBuild items with the updated metadata
+need to be added. The removal was done after adding the updated files
+and, since they had the same filename, the new updated files were being
+removed. The removal is now done before adding the updated files to
+avoid the files being removed incorrectly.</p>
+
+<p><strong>Fixed default build action for new HTML file</strong></p>
+
+<p>Adding a new .html file to the wwwroot folder of an ASP.NET Core
+project would add the file as a None item instead of a Content
+item. This would result in the .html file not being used when
+publishing the project. When &lsquo;dotnet publish&rsquo; was used the
+publish directory would not contain the .html file.</p>
+
+<p>ASP.NET Core projects have different build actions for files based on where they
+are added. A .html file in the root directory would be a None item by default,
+whilst a .html file in the wwwroot directory would be a Content item
+by default. To fix this the default build action for a file is
+determined by the file wildcard information available from the .NET
+Core SDK.</p>
+
+<p><strong>Fixed SDK version not being parsed from Sdk attribute</strong></p>
+
+<p>The Sdk attribute would have its forward slash / replaced with a
+backslash \ which meant Visual Studio for Mac was creating an
+SdkReference with the wrong name, for example:</p>
+
+<pre><code>Microsoft.NET.Sdk.Razor\2.1.0-preview2-final
+</code></pre>
+
+<p>Instead of having Microsoft.NET.Sdk.Razor as the name with the
+version being separate.</p>
+
+<p><strong>Fixed null reference on opening .NET Core project with SDK version</strong></p>
+
+<p>Opening a SDK style project that used a Sdk attribute with a version
+would show an error message &ldquo;Error while trying to load project:
+Object reference not set to an instance of an object&rdquo;. The problem
+was that an SdkResolver can return null from its Resolve method.
+These null results were added to a list and then an attempt was made
+to log the result warnings on a null result.</p>
+
+<pre><code>&lt;Project Sdk="Microsoft.NET.Sdk.Razor/2.1.0-preview2-final"&gt;
+</code></pre>
+
+<p><strong>Fixed editor errors when .NET Standard assembly referenced in Xamarin.iOS project</strong></p>
+
+<p>When a Xamarin.iOS project used an assembly that was compiled
+for .NET Standard, such as the assembly in the
+System.Collections.Immutable NuGet package, the netstandard assembly
+was not made available for code completion. This then resulted in the text editor
+showing errors even though the project could be compiled succesfully.
+The errors displayed were similar to:</p>
+
+<pre><code>  The type 'ValueType' is defined in an assembly that is not
+  referenced. You must add a reference to assembly 'netstandard,
+  Version=2.0.0.0, Culture=neutral, PublicKeytoken=cc7b1dffcd2ddd51'.
+</code></pre>
+
+<p>Now a check is made to determine
+if an assembly is referencing netstandard and if so the facade assemblies,
+which for Xamarin.iOS will include the netstandard.dll, are made available
+for code completion. Previously only a check was made for the project having
+an assembly referencing System.Runtime before including the facade assemblies.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-09-02T11:00:00+01:00" pubdate data-updated="true">Sep 2<sup>nd</sup>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/netcore/'>netcore</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2018/09/02/NetCoreSupportInVisualStudioMac7-6/" data-via="" data-counturl="http://lastexitcode.com/blog/2018/09/02/NetCoreSupportInVisualStudioMac7-6/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/09/01/NuGetSupportInVisualStudioMac7-6/" title="Previous Post: NuGet Support in Visual Studio for Mac 7.6">&laquo; NuGet Support in Visual Studio for Mac 7.6</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
