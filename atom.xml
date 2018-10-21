@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-09-02T14:29:22+01:00</updated>
+  <updated>2018-10-21T13:22:31+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Proxy Testing a Mac Application with Fiddler]]></title>
+    <link href="http://lastexitcode.com/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler/"/>
+    <updated>2018-10-21T12:38:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler</id>
+    <content type="html"><![CDATA[<p>Here we look at using <a href="https://www.telerik.com/fiddler">Fiddler</a> as
+a proxy server in order to test a Mac client application, such as Safari or Visual Studio for Mac, can make web
+requests through the proxy. Enabling Basic proxy authentication with Fiddler will be covered, as well as using
+the Fiddler as a proxy without any authentication.</p>
+
+<p>Fiddler will run on a separate Windows machine. Using a separate machine
+allows us to check that the Mac client application is not bypassing the proxy and making direct
+web requests to any server. This check can be done by configuring the local firewall to block all direct
+connections out from the Mac machine but allow connections from the machine running Fiddler.</p>
+
+<ul>
+<li>Mac High Sierra 10.13</li>
+<li>Fiddler 5.0 on Windows</li>
+</ul>
+
+
+<h2>Fiddler Proxy &ndash; No authentication</h2>
+
+<p>To enable the Mac to use Fiddler as its proxy first configure Fiddler to allow remote connections.
+This can be done by open the Tools menu, selecting Options, opening the Connections tab, and
+checking <a href="http://docs.telerik.com/fiddler/Configure-Fiddler/Tasks/MonitorRemoteMachine">Allow remote computers to connect</a>.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerRemoteConnections.png" title="Fiddler allow remote connections" alt="Fiddler allow remote connections"></p>
+
+<p>Configuring the Mac to use Fiddler as its proxy server can be done by opening System Preferences &ndash; Network.
+For the active network select the Advanced button and open the Proxies tab. Enter the Fiddler&rsquo;s machine IP address and
+port into the Web Proxy (HTTP) and Secure Web Proxy (HTTPS) sections, and ensure both
+of these are checked.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkWebProxySettings.png" title="Mac web proxy settings" alt="Mac web proxy settings"></p>
+
+<p>Finally click OK and Apply to enable the proxy settings.</p>
+
+<p>Now http and https requests should be sent through Fiddler. A simple way to test this is
+to open Safari and open a web page.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerNuGetHttpsRequest.png" title="Fiddler https request recorded" alt="Fiddler https request recorded"></p>
+
+<h2>Fiddler Proxy &ndash; Basic authentication</h2>
+
+<p>To enable Basic proxy authentication in Fiddler open the Rules menu and ensure that
+Require Proxy Authentication is checked.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthEnabled.png" title="Fiddler require proxy authentication option" alt="Fiddler require proxy authentication option"></p>
+
+<p>This will result in Fiddler requiring Basic authentication with a username &lsquo;1&rsquo; and a
+password &lsquo;1&rsquo;.</p>
+
+<p>Unfortunately it seems that the native Mac networking API does not work with Fiddler
+for https requests but will work for non-secure http requests. Opening a web page in Safari will cause the Mac to prompt for
+the proxy credentials.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyAuthenticationRequiredDialog.png" title="Mac proxy authentication required dialog" alt="Mac proxy authentication required dialog"></p>
+
+<p>Clicking the System Preferences button will show open a dialog where you can enter the credentials for the proxy.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsDialog.png" title="Mac proxy authentcation required - credentials dialog" alt="Mac proxy authentication required - credentials dialog"></p>
+
+<p>Entering the credentials will result in the Mac&rsquo;s key chain being updated with the credentials associated with the proxy&rsquo;s address.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsMacKeyChain.png" title="Proxy credentials stored in Mac key chain" alt="Proxy credentials stored in Mac key chain"></p>
+
+<p>If you open the Mac&rsquo;s Network settings you will see the Web Proxy and Secure Web Proxy settings now have a username and password
+associated with them.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkSettingsProxyUserNamePassword.png" title="Username and password associated with proxy in network settings" alt="Username and password associated with proxy in network settings"></p>
+
+<p>Safari will display an error page when accessing a web page over https when the Mac is configured to use Fiddler&rsquo;s basic authentation proxy.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/SafariProxyServerError.png" title="Safari 310 proxy error" alt="Safari 310 proxy error"></p>
+
+<p>It seems that for a https request the Mac sends the request with two keep alive headers:</p>
+
+<ul>
+<li>Connection: keep-alive</li>
+<li>Proxy-Connection: keep-alive</li>
+</ul>
+
+
+<p>Fiddler responds with a 407 proxy authentication required response and a close
+header.</p>
+
+<ul>
+<li>Connection: close</li>
+</ul>
+
+
+<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthHttpsRequestDenied.png" title="Fiddler https request denied" alt="Fiddler https request denied"></p>
+
+<p>Since the keep-alive is not being honoured by Fiddler the web request sent from the Mac fails and an kCFErrorDomainCFNetwork 310
+error occurs. This maps to the kCFErrorHTTPSProxyConnectionFailure status code.</p>
+
+<p>Other applications that do not use the native Mac networking API, such as the Google Chrome web browser,
+will work with Fiddler and will prompt for credentials.</p>
+
+<p>Unfortunately you currently cannot use Fiddler with basic proxy authentication enabled to test
+a Mac application making https requests. As an alternative you can use another proxy server, such as Apache.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.6]]></title>
@@ -4221,97 +4326,6 @@ even though the NuGet packages may be available in the local NuGet cache on your
 points to a local directory containing all the required NuGet packages and disable all online
 NuGet package sources. With just the local package source enabled you can then restore the NuGet packages when you are
 offline. Note that this problem also affects Visual Studio 2015.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Package Explorer for Xamarin Studio]]></title>
-    <link href="http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio/"/>
-    <updated>2016-08-20T12:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2016/08/20/NuGetExplorerForXamarinStudio</id>
-    <content type="html"><![CDATA[<p>When diagnosing why a NuGet package cannot be installed into a project the application I use is the excellent <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a>. Whenever there is an error trying to install a NuGet package, similar to the one shown below, you can open the NuGet package with NuGet Package Explorer and take a look at the target frameworks it supports.</p>
-
-<pre><code>You are trying to install this package into a project that targets 'MonoAndroid,Version=v6.0',
-but the package does not contain any assembly references or content files that are compatible with that framework.
-</code></pre>
-
-<p>Currently <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a> is only available on Windows. On other operating systems you can change the file extension to .zip, extract the contents of the NuGet package, or open it into a zip application, and take a look at the files.</p>
-
-<p>To make exploring NuGet packages easier on operating systems where the NuGet Package Explorer application is not available there is a now <a href="https://github.com/mrward/monodevelop-nuget-package-explorer">NuGet Explorer addin</a> that you can install into Xamarin Studio or MonoDevelop. With this addin you can open and explore NuGet packages from online package sources or from the local file system.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingAndroidSupportNuGetPackageContents.png" title="Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio" alt="Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio"></p>
-
-<p>Now let us take a look in more detail of the features provided by the NuGet Package Explorer addin.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Open and view NuGet packages from online package sources or from the local file system.</li>
-<li>View the NuGet package metadata.</li>
-<li>View the NuGet package files.</li>
-<li>View the NuGet package .nuspec file.</li>
-<li>Open any file stored inside the NuGet package.</li>
-<li>Open other NuGet packages that are listed as dependencies.</li>
-</ul>
-
-
-<p>Supports Xamarin Studio 6.0 and MonoDevelop 6.0.</p>
-
-<h2>Opening a NuGet Package from a Package Source</h2>
-
-<p>To open a NuGet package from a package source you can select Open NuGet Package from the File menu.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/FileOpenNuGetPackageMenu.png" title="File Open NuGet Package menu" alt="File Open NuGet Package menu"></p>
-
-<p>Alternatively if you have a project open you can right click the Packages folder in the Solution window and select Open NuGet Package.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/OpenNuGetPackagePackagesFolderMenu.png" title="Open Package menu on Packages folder" alt="Open Package menu on Packages folder"></p>
-
-<p>This will open the Open Package dialog. This dialog is the same as the Add Packages dialog used when installing a NuGet package and allows you to search for NuGet packages. The dialog is based on the version available with Xamarin Studio 6.1 so it has a version combo box where you can select a specific package version instead of having to remember the syntax for the package version search.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/OpenPackageDialog.png" title="Open NuGet Package dialog" alt="Open Package dialog"></p>
-
-<p>Select one or more NuGet packages and click the Open Package button to download and display them in Xamarin Studio.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageContents.png" title="Exploring the JSON.NET NuGet package in Xamarin Studio" alt="Exploring the JSON.NET NuGet package in Xamarin Studio"></p>
-
-<p>The NuGet package metadata is shown on the left. On the right are the files that the NuGet package contains. You can also view the .nuspec file stored in the NuGet package by selecting the NuSpec tab at the bottom of the window.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetNuSpec.png" title="Viewing JSON.NET .nuspec file" alt="Viewing JSON.NET .nuspec file"></p>
-
-<h2>Exploring Dependencies</h2>
-
-<p>NuGet package dependencies are displayed with hyperlinks.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageDependencies.png" title="'Viewing JSON.NET dependencies' 'Viewing JSON.NET dependencies" ></p>
-
-<p>If you click one these hyperlinks the Open Package dialog will be opened and the package will be searched for. You can then choose a package version and open the NuGet package.</p>
-
-<h2>Opening Files Contained Inside the NuGet Package</h2>
-
-<p>To open a file contained inside a NuGet package you can double click the file, or right click the file and select Open.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/OpenFileInsideNuGetPackageMenu.png" title="Open menu to open file inside NuGet package into Xamarin Studio" alt="Open menu to open file inside NuGet package into Xamarin Studio"></p>
-
-<p>The file will then be opened inside Xamarin Studio.</p>
-
-<h2>Opening a NuGet Package File</h2>
-
-<p>If you have a NuGet Package (.nupkg) stored on the local machine that is not available from any package source you can open the file directly in Xamarin Studio by selecting Open from the File menu.</p>
-
-<p>You can also associate .nupkg files directly with Xamarin Studio and have them automatically open inside the IDE.</p>
-
-<h2>Opening a NuGet Package Installed in a Project</h2>
-
-<p>You can explore NuGet packages that are installed in your project by right clicking the package in the Solution window and selecting Open Package.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/OpenInstalledPackageMenu.png" title="Open installed package context menu" alt="Open installed package context menu"></p>
-
-<h2>Installing the NuGet Package Explorer addin</h2>
-
-<p>The NuGet Package Explorer addin is available from the MonoDevelop addin repository on the beta channel. It can be installed by from the Add-in Manager by searching the gallery and then clicking the Install button.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetPackageExplorerForXamarinStudio/AddinManagerDialog.png" title="Addin Manager dialog" alt="Addin Manager dialog"></p>
 ]]></content>
   </entry>
   

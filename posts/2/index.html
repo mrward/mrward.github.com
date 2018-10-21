@@ -9,7 +9,8 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes Support NuGet package fallback folders Support AssetTargetFallback Xamarin.Forms 2.4 support (VS for Mac 7.2.2) Fixed transitive types from &hellip;">
+  <meta name="description" content="The Template Creator extension provides a way to create a project template from an existing project
+or solution open in Visual Studio for Mac and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +82,262 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/11/12/TemplateCreatorForVisualStudioMac/">Template Creator for Visual Studio for Mac</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-11-12T14:30:00+00:00" pubdate data-updated="true">Nov 12<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The <a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension</a> provides a way to create a project template from an existing project
+or solution open in Visual Studio for Mac and have the project template available in the New
+Project dialog straight away.</p>
+
+<p>The Template Creator uses the <a href="https://github.com/dotnet/templating">.NET Core templating engine</a>
+to create the projects from the project templates.</p>
+
+<p>Let us take a look in more detail at what the Template Creator extension provides in Visual Studio for Mac.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li> Create a project template from an existing solution or project</li>
+<li> Create custom top level project template categories</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 7.0 or later.</li>
+</ul>
+
+
+<h2>Creating a new Project Template</h2>
+
+<p>To create a new project template for a project opened in Visual Studio for Mac,
+right click the project and select Create Template.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/ProjectCreateTemplateMenu.png" title="Project - Create Template context menu" alt="Project - Create Template context menu"></p>
+
+<p>A Template Information dialog is then opened.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TemplateInformationDialog.png" title="Template Information dialog" alt="Template Information dialog"></p>
+
+<p>The information in the dialog is used to populate the generated template.json file. Further
+details on what the template.json file holds is available in the <a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">reference for template.json</a>].</p>
+
+<ul>
+<li>Author
+
+<ul>
+<li>Author of the project template.</li>
+</ul>
+</li>
+<li>Display Name
+
+<ul>
+<li>This is the template name displayed in the New Project dialog.</li>
+</ul>
+</li>
+<li>Description
+
+<ul>
+<li>This is the description displayed in the New Project dialog.</li>
+</ul>
+</li>
+<li>Category
+
+<ul>
+<li>This is the category in the New Project dialog used by the template.</li>
+</ul>
+</li>
+<li>Short Name
+
+<ul>
+<li>This is the short name for the template that can be used from the .NET Core command line.</li>
+</ul>
+</li>
+<li>Default Project Name
+
+<ul>
+<li>This is the default project name that will be used with the .NET Core command line.</li>
+</ul>
+</li>
+<li>Identity
+
+<ul>
+<li>This is the unique id for the template. This should be unique across all custom
+project templates.</li>
+</ul>
+</li>
+<li>Group Identity
+
+<ul>
+<li>This is typically a substring of the template&rsquo;s Identity.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>By default the project template will use the Other &ndash; .NET &ndash; General category in the
+New Project dialog. To change the category click the browse button next to the category text
+box to open the Template Categories dialog.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TemplateCategoriesDialog.png" title="Template Categories dialog" alt="Template Categories dialog"></p>
+
+<p>Select the required category and click OK. The selected category will then be updated
+in the Template Information dialog.</p>
+
+<p>Click OK to generate the template.json file. The template.json file will be opened
+in the text editor. It will also be displayed in the Solution window in the
+.template.config folder.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/ProjectTemplateJsonFile.png" title="template.json file created for project" alt="template.json file created for project"></p>
+
+<p>The project template is now available in the New Project dialog.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/CustomProjectTemplateInNewProjectDialog.png" title="Custom project template in New Project dialog" alt="Custom template in New Project dialog"></p>
+
+<h2>Updating a Project Template</h2>
+
+<p>After the project template is created you can modify the original project and its
+template.json file as required.</p>
+
+<p>Changes made to the project are available in the New Project dialog immediately.</p>
+
+<p>Changes made to the template.json file are available immediately in the same
+instance of Visual Studio for Mac where the template.json file is being edited.</p>
+
+<h2>Multiple Projects in a Template</h2>
+
+<p>A project template may create more than one project. To create a project template
+for all projects in the solution right click the solution and select Create Template.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/SolutionCreateTemplateMenu.png" title="Solution - Create Template context menu" alt="Solution - Create Template context menu"></p>
+
+<p>A template.json file will be created in a .template.config directory inside the solution&rsquo;s
+directory.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TwoProjectsTemplateJsonFile.png" title="template.json file created for soluton" alt="template.json file created for solution"></p>
+
+<p>Note that in order for the new projects created to use the name specified in the New Project
+dialog they should all have a common start to their name. The template.json file&rsquo;s <code>sourceName</code>
+will be the part that is replaced with the name of the project specified in the New Project dialog.</p>
+
+<h2>Configuring Registered Project Templates</h2>
+
+<p>The .NET Core templating engine supports project templates in NuGet packages or project templates
+that unpackaged in a directory. The Template Creator extension does
+not package the project templates into a NuGet package and instead stores a set of directories that
+are scanned by the .NET Core templating engine for templates. The set of directories that are
+registered can be viewed and updated in the Preferences dialog from the Templates &ndash; Custom Folders section.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomFolders.png" title="Preferences dialog - Templates - Custom Folders" alt="Preferences dialog - Templates - Custom Folders"></p>
+
+<p>The templating engine will scan the configured directories and look for all the template.json files
+which define the project templates. The project templates found are then made available to the
+Visual Studio for Mac&rsquo;s New Project dialog by the Template Creator extension.</p>
+
+<p>When the template.json file is created using the information in the Template Information dialog
+the Template Creator extenxion also registers the
+project&rsquo;s directory so it will be scanned by the templating engine.</p>
+
+<p>To remove a project
+template from the New Project dialog you can either delete the template.json file or
+remove the folder from the Custom Folders defined in the Preferences dialog.</p>
+
+<p>If you have an existing set of project templates that use template.json files and are not
+in a NuGet package then you can register a single parent directory in the Preferences dialog.</p>
+
+<h2>Custom Categories</h2>
+
+<p>Custom top level categories can be defined for your project templates by adding them in
+Preferences &ndash; Templates &ndash; Custom Categories.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomCategories.png" title="Preferences dialog - Templates - Custom Categories" alt="Preferences dialog - Templates - Custom Categories"></p>
+
+<p>The Add Top Level Category button will add a new top level category and two child category
+levels. The New Project dialog requires three category levels. The ids used should ensure that
+the full path to the template&rsquo;s category is unique. For example, with a custom category
+<code>custom/net/general</code> there should not be another top level <code>custom</code> category id, but the second
+and third level category ids can be re-used in another top level category, such as <code>top/net/general</code>.</p>
+
+<p>The Add Category button will add a single child category to the currently selected category
+whilst the Remove button will remove the selected category.</p>
+
+<p>Note that changes to the categories require Visual Studio for Mac to be restarted before they
+are visible in the New Project dialog.</p>
+
+<p>Also note that it is not currently possible to extend existing project template categories
+using the Template Creator extension.</p>
+
+<h2>Diagnosing Template Problems</h2>
+
+<p>If the template does not appear in the New Project dialog or fails to be created then
+you may be able to diagnose the problem by opening the Templating Log window. This is
+available from the View &ndash; Pads menu.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/MainMenuViewPadsTemplatingLog.png" title="Main menu - View - Pads - Templating Log" alt="Main menu - View - Templating Log"></p>
+
+<p>This window will show messages returned from the .NET Core templating engine and any errors
+reported by the Template Creator extension.</p>
+
+<p><img src="/images/blog/TemplateCreatorForVisualStudioMac/TemplatingLogWindow.png" title="Templating Log window" alt="Templating Log window"></p>
+
+<h2>Installation</h2>
+
+<p>The Template Creator extension is available to download from <a href="https://github.com/mrward/monodevelop-template-creator-addin/releases/download/0.1/MonoDevelop.TemplateCreator_0.1.mpack">GitHub</a>.</p>
+
+<p>To install the extension open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
+
+<p>The extension is also available in the Extensions Manager from the
+<a href="http://addins.monodevelop.com/Project/Index/305">Visual Studio Extension Repository (Beta channel)</a>.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension for Visual Studio for Mac and MonoDevelop</a></li>
+</ul>
+
+
+<h2>Further Reading</h2>
+
+<ul>
+<li><a href="https://blogs.msdn.microsoft.com/dotnet/2017/04/02/how-to-create-your-own-templates-for-dotnet-new/">How to create your own templates for dotnet new</a></li>
+<li><a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">Reference for template.json</a></li>
+<li><a href="https://www.jimbobbennett.io/creating-visual-studio-project-and-solution-templates-part-3-vs-for-mac-extension/">Creating Visual Studio project and solution templates &ndash; Part 3, VS for Mac extension</a></li>
+<li><a href="https://github.com/ligershark/sidewafflev2">SideWaffle v2 for Visual Studio</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1777,124 +2034,6 @@ even though the NuGet packages may be available in the local NuGet cache on your
 points to a local directory containing all the required NuGet packages and disable all online
 NuGet package sources. With just the local package source enabled you can then restore the NuGet packages when you are
 offline. Note that this problem also affects Visual Studio 2015.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/20/NuGetExplorerForXamarinStudio/">NuGet Package Explorer for Xamarin Studio</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-08-20T12:00:00+01:00" pubdate data-updated="true">Aug 20<sup>th</sup>, 2016</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>When diagnosing why a NuGet package cannot be installed into a project the application I use is the excellent <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a>. Whenever there is an error trying to install a NuGet package, similar to the one shown below, you can open the NuGet package with NuGet Package Explorer and take a look at the target frameworks it supports.</p>
-
-<pre><code>You are trying to install this package into a project that targets 'MonoAndroid,Version=v6.0',
-but the package does not contain any assembly references or content files that are compatible with that framework.
-</code></pre>
-
-<p>Currently <a href="https://github.com/NuGetPackageExplorer/NuGetPackageExplorer">NuGet Package Explorer</a> is only available on Windows. On other operating systems you can change the file extension to .zip, extract the contents of the NuGet package, or open it into a zip application, and take a look at the files.</p>
-
-<p>To make exploring NuGet packages easier on operating systems where the NuGet Package Explorer application is not available there is a now <a href="https://github.com/mrward/monodevelop-nuget-package-explorer">NuGet Explorer addin</a> that you can install into Xamarin Studio or MonoDevelop. With this addin you can open and explore NuGet packages from online package sources or from the local file system.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingAndroidSupportNuGetPackageContents.png" title="Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio" alt="Exploring the Xamarin.Android.Support NuGet package in Xamarin Studio"></p>
-
-<p>Now let us take a look in more detail of the features provided by the NuGet Package Explorer addin.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Open and view NuGet packages from online package sources or from the local file system.</li>
-<li>View the NuGet package metadata.</li>
-<li>View the NuGet package files.</li>
-<li>View the NuGet package .nuspec file.</li>
-<li>Open any file stored inside the NuGet package.</li>
-<li>Open other NuGet packages that are listed as dependencies.</li>
-</ul>
-
-
-<p>Supports Xamarin Studio 6.0 and MonoDevelop 6.0.</p>
-
-<h2>Opening a NuGet Package from a Package Source</h2>
-
-<p>To open a NuGet package from a package source you can select Open NuGet Package from the File menu.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/FileOpenNuGetPackageMenu.png" title="File Open NuGet Package menu" alt="File Open NuGet Package menu"></p>
-
-<p>Alternatively if you have a project open you can right click the Packages folder in the Solution window and select Open NuGet Package.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenNuGetPackagePackagesFolderMenu.png" title="Open Package menu on Packages folder" alt="Open Package menu on Packages folder"></p>
-
-<p>This will open the Open Package dialog. This dialog is the same as the Add Packages dialog used when installing a NuGet package and allows you to search for NuGet packages. The dialog is based on the version available with Xamarin Studio 6.1 so it has a version combo box where you can select a specific package version instead of having to remember the syntax for the package version search.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenPackageDialog.png" title="Open NuGet Package dialog" alt="Open Package dialog"></p>
-
-<p>Select one or more NuGet packages and click the Open Package button to download and display them in Xamarin Studio.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageContents.png" title="Exploring the JSON.NET NuGet package in Xamarin Studio" alt="Exploring the JSON.NET NuGet package in Xamarin Studio"></p>
-
-<p>The NuGet package metadata is shown on the left. On the right are the files that the NuGet package contains. You can also view the .nuspec file stored in the NuGet package by selecting the NuSpec tab at the bottom of the window.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetNuSpec.png" title="Viewing JSON.NET .nuspec file" alt="Viewing JSON.NET .nuspec file"></p>
-
-<h2>Exploring Dependencies</h2>
-
-<p>NuGet package dependencies are displayed with hyperlinks.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/ViewingJsonNetPackageDependencies.png" title="'Viewing JSON.NET dependencies' 'Viewing JSON.NET dependencies" ></p>
-
-<p>If you click one these hyperlinks the Open Package dialog will be opened and the package will be searched for. You can then choose a package version and open the NuGet package.</p>
-
-<h2>Opening Files Contained Inside the NuGet Package</h2>
-
-<p>To open a file contained inside a NuGet package you can double click the file, or right click the file and select Open.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenFileInsideNuGetPackageMenu.png" title="Open menu to open file inside NuGet package into Xamarin Studio" alt="Open menu to open file inside NuGet package into Xamarin Studio"></p>
-
-<p>The file will then be opened inside Xamarin Studio.</p>
-
-<h2>Opening a NuGet Package File</h2>
-
-<p>If you have a NuGet Package (.nupkg) stored on the local machine that is not available from any package source you can open the file directly in Xamarin Studio by selecting Open from the File menu.</p>
-
-<p>You can also associate .nupkg files directly with Xamarin Studio and have them automatically open inside the IDE.</p>
-
-<h2>Opening a NuGet Package Installed in a Project</h2>
-
-<p>You can explore NuGet packages that are installed in your project by right clicking the package in the Solution window and selecting Open Package.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/OpenInstalledPackageMenu.png" title="Open installed package context menu" alt="Open installed package context menu"></p>
-
-<h2>Installing the NuGet Package Explorer addin</h2>
-
-<p>The NuGet Package Explorer addin is available from the MonoDevelop addin repository on the beta channel. It can be installed by from the Add-in Manager by searching the gallery and then clicking the Install button.</p>
-
-<p><img src="/images/blog/NuGetPackageExplorerForXamarinStudio/AddinManagerDialog.png" title="Addin Manager dialog" alt="Addin Manager dialog"></p>
 </div>
   
   

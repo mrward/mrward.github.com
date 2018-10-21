@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Proxy Testing a Mac Application with Fiddler - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Here we look at using Fiddler as
+a proxy server in order to test a Mac client application, such as Safari or Visual Studio for Mac, can make web &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Proxy Testing a Mac Application with Fiddler</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-10-21T12:38:00+01:00" pubdate data-updated="true">Oct 21<sup>st</sup>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Here we look at using <a href="https://www.telerik.com/fiddler">Fiddler</a> as
+a proxy server in order to test a Mac client application, such as Safari or Visual Studio for Mac, can make web
+requests through the proxy. Enabling Basic proxy authentication with Fiddler will be covered, as well as using
+the Fiddler as a proxy without any authentication.</p>
+
+<p>Fiddler will run on a separate Windows machine. Using a separate machine
+allows us to check that the Mac client application is not bypassing the proxy and making direct
+web requests to any server. This check can be done by configuring the local firewall to block all direct
+connections out from the Mac machine but allow connections from the machine running Fiddler.</p>
+
+<ul>
+<li>Mac High Sierra 10.13</li>
+<li>Fiddler 5.0 on Windows</li>
+</ul>
+
+
+<h2>Fiddler Proxy &ndash; No authentication</h2>
+
+<p>To enable the Mac to use Fiddler as its proxy first configure Fiddler to allow remote connections.
+This can be done by open the Tools menu, selecting Options, opening the Connections tab, and
+checking <a href="http://docs.telerik.com/fiddler/Configure-Fiddler/Tasks/MonitorRemoteMachine">Allow remote computers to connect</a>.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerRemoteConnections.png" title="Fiddler allow remote connections" alt="Fiddler allow remote connections"></p>
+
+<p>Configuring the Mac to use Fiddler as its proxy server can be done by opening System Preferences &ndash; Network.
+For the active network select the Advanced button and open the Proxies tab. Enter the Fiddler&rsquo;s machine IP address and
+port into the Web Proxy (HTTP) and Secure Web Proxy (HTTPS) sections, and ensure both
+of these are checked.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkWebProxySettings.png" title="Mac web proxy settings" alt="Mac web proxy settings"></p>
+
+<p>Finally click OK and Apply to enable the proxy settings.</p>
+
+<p>Now http and https requests should be sent through Fiddler. A simple way to test this is
+to open Safari and open a web page.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerNuGetHttpsRequest.png" title="Fiddler https request recorded" alt="Fiddler https request recorded"></p>
+
+<h2>Fiddler Proxy &ndash; Basic authentication</h2>
+
+<p>To enable Basic proxy authentication in Fiddler open the Rules menu and ensure that
+Require Proxy Authentication is checked.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthEnabled.png" title="Fiddler require proxy authentication option" alt="Fiddler require proxy authentication option"></p>
+
+<p>This will result in Fiddler requiring Basic authentication with a username &lsquo;1&rsquo; and a
+password &lsquo;1&rsquo;.</p>
+
+<p>Unfortunately it seems that the native Mac networking API does not work with Fiddler
+for https requests but will work for non-secure http requests. Opening a web page in Safari will cause the Mac to prompt for
+the proxy credentials.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyAuthenticationRequiredDialog.png" title="Mac proxy authentication required dialog" alt="Mac proxy authentication required dialog"></p>
+
+<p>Clicking the System Preferences button will show open a dialog where you can enter the credentials for the proxy.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsDialog.png" title="Mac proxy authentcation required - credentials dialog" alt="Mac proxy authentication required - credentials dialog"></p>
+
+<p>Entering the credentials will result in the Mac&rsquo;s key chain being updated with the credentials associated with the proxy&rsquo;s address.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsMacKeyChain.png" title="Proxy credentials stored in Mac key chain" alt="Proxy credentials stored in Mac key chain"></p>
+
+<p>If you open the Mac&rsquo;s Network settings you will see the Web Proxy and Secure Web Proxy settings now have a username and password
+associated with them.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkSettingsProxyUserNamePassword.png" title="Username and password associated with proxy in network settings" alt="Username and password associated with proxy in network settings"></p>
+
+<p>Safari will display an error page when accessing a web page over https when the Mac is configured to use Fiddler&rsquo;s basic authentation proxy.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/SafariProxyServerError.png" title="Safari 310 proxy error" alt="Safari 310 proxy error"></p>
+
+<p>It seems that for a https request the Mac sends the request with two keep alive headers:</p>
+
+<ul>
+<li>Connection: keep-alive</li>
+<li>Proxy-Connection: keep-alive</li>
+</ul>
+
+
+<p>Fiddler responds with a 407 proxy authentication required response and a close
+header.</p>
+
+<ul>
+<li>Connection: close</li>
+</ul>
+
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthHttpsRequestDenied.png" title="Fiddler https request denied" alt="Fiddler https request denied"></p>
+
+<p>Since the keep-alive is not being honoured by Fiddler the web request sent from the Mac fails and an kCFErrorDomainCFNetwork 310
+error occurs. This maps to the kCFErrorHTTPSProxyConnectionFailure status code.</p>
+
+<p>Other applications that do not use the native Mac networking API, such as the Google Chrome web browser,
+will work with Fiddler and will prompt for credentials.</p>
+
+<p>Unfortunately you currently cannot use Fiddler with basic proxy authentication enabled to test
+a Mac application making https requests. As an alternative you can use another proxy server, such as Apache.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-10-21T12:38:00+01:00" pubdate data-updated="true">Oct 21<sup>st</sup>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/proxy/'>proxy</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler/" data-via="" data-counturl="http://lastexitcode.com/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/09/02/NetCoreSupportInVisualStudioMac7-6/" title="Previous Post: .NET Core Support in Visual Studio for Mac 7.6">&laquo; .NET Core Support in Visual Studio for Mac 7.6</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

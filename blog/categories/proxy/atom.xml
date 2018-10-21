@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: proxy | Matt Ward]]></title>
+  <link href="http://lastexitcode.com/blog/categories/proxy/atom.xml" rel="self"/>
+  <link href="http://lastexitcode.com/"/>
+  <updated>2018-10-21T13:22:31+01:00</updated>
+  <id>http://lastexitcode.com/</id>
+  <author>
+    <name><![CDATA[Matt Ward]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Proxy Testing a Mac Application with Fiddler]]></title>
+    <link href="http://lastexitcode.com/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler/"/>
+    <updated>2018-10-21T12:38:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler</id>
+    <content type="html"><![CDATA[<p>Here we look at using <a href="https://www.telerik.com/fiddler">Fiddler</a> as
+a proxy server in order to test a Mac client application, such as Safari or Visual Studio for Mac, can make web
+requests through the proxy. Enabling Basic proxy authentication with Fiddler will be covered, as well as using
+the Fiddler as a proxy without any authentication.</p>
+
+<p>Fiddler will run on a separate Windows machine. Using a separate machine
+allows us to check that the Mac client application is not bypassing the proxy and making direct
+web requests to any server. This check can be done by configuring the local firewall to block all direct
+connections out from the Mac machine but allow connections from the machine running Fiddler.</p>
+
+<ul>
+<li>Mac High Sierra 10.13</li>
+<li>Fiddler 5.0 on Windows</li>
+</ul>
+
+
+<h2>Fiddler Proxy &ndash; No authentication</h2>
+
+<p>To enable the Mac to use Fiddler as its proxy first configure Fiddler to allow remote connections.
+This can be done by open the Tools menu, selecting Options, opening the Connections tab, and
+checking <a href="http://docs.telerik.com/fiddler/Configure-Fiddler/Tasks/MonitorRemoteMachine">Allow remote computers to connect</a>.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerRemoteConnections.png" title="&lsquo;Fiddler allow remote connections&rsquo; &lsquo;Fiddler allow remote connections&rsquo;" ></p>
+
+<p>Configuring the Mac to use Fiddler as its proxy server can be done by opening System Preferences &ndash; Network.
+For the active network select the Advanced button and open the Proxies tab. Enter the Fiddler&rsquo;s machine IP address and
+port into the Web Proxy (HTTP) and Secure Web Proxy (HTTPS) sections, and ensure both
+of these are checked.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkWebProxySettings.png" title="&lsquo;Mac web proxy settings&rsquo; &lsquo;Mac web proxy settings&rsquo;" ></p>
+
+<p>Finally click OK and Apply to enable the proxy settings.</p>
+
+<p>Now http and https requests should be sent through Fiddler. A simple way to test this is
+to open Safari and open a web page.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerNuGetHttpsRequest.png" title="&lsquo;Fiddler https request recorded&rsquo; &lsquo;Fiddler https request recorded&rsquo;" ></p>
+
+<h2>Fiddler Proxy &ndash; Basic authentication</h2>
+
+<p>To enable Basic proxy authentication in Fiddler open the Rules menu and ensure that
+Require Proxy Authentication is checked.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthEnabled.png" title="&lsquo;Fiddler require proxy authentication option&rsquo; &lsquo;Fiddler require proxy authentication option&rsquo;" ></p>
+
+<p>This will result in Fiddler requiring Basic authentication with a username &lsquo;1&rsquo; and a
+password &lsquo;1&rsquo;.</p>
+
+<p>Unfortunately it seems that the native Mac networking API does not work with Fiddler
+for https requests but will work for non-secure http requests. Opening a web page in Safari will cause the Mac to prompt for
+the proxy credentials.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyAuthenticationRequiredDialog.png" title="&lsquo;Mac proxy authentication required dialog&rsquo; &lsquo;Mac proxy authentication required dialog&rsquo;" ></p>
+
+<p>Clicking the System Preferences button will show open a dialog where you can enter the credentials for the proxy.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsDialog.png" title="&lsquo;Mac proxy authentcation required &ndash; credentials dialog&rsquo; &lsquo;Mac proxy authentication required &ndash; credentials dialog&rsquo;" ></p>
+
+<p>Entering the credentials will result in the Mac&rsquo;s key chain being updated with the credentials associated with the proxy&rsquo;s address.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsMacKeyChain.png" title="&lsquo;Proxy credentials stored in Mac key chain&rsquo; &lsquo;Proxy credentials stored in Mac key chain&rsquo;" ></p>
+
+<p>If you open the Mac&rsquo;s Network settings you will see the Web Proxy and Secure Web Proxy settings now have a username and password
+associated with them.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkSettingsProxyUserNamePassword.png" title="&lsquo;Username and password associated with proxy in network settings&rsquo; &lsquo;Username and password associated with proxy in network settings&rsquo;" ></p>
+
+<p>Safari will display an error page when accessing a web page over https when the Mac is configured to use Fiddler&rsquo;s basic authentation proxy.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/SafariProxyServerError.png" title="&lsquo;Safari 310 proxy error&rsquo; &lsquo;Safari 310 proxy error&rsquo;" ></p>
+
+<p>It seems that for a https request the Mac sends the request with two keep alive headers:</p>
+
+<ul>
+<li>Connection: keep-alive</li>
+<li>Proxy-Connection: keep-alive</li>
+</ul>
+
+
+<p>Fiddler responds with a 407 proxy authentication required response and a close
+header.</p>
+
+<ul>
+<li>Connection: close</li>
+</ul>
+
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthHttpsRequestDenied.png" title="&lsquo;Fiddler https request denied&rsquo; &lsquo;Fiddler https request denied&rsquo;" ></p>
+
+<p>Since the keep-alive is not being honoured by Fiddler the web request sent from the Mac fails and an kCFErrorDomainCFNetwork 310
+error occurs. This maps to the kCFErrorHTTPSProxyConnectionFailure status code.</p>
+
+<p>Other applications that do not use the native Mac networking API, such as the Google Chrome web browser,
+will work with Fiddler and will prompt for credentials.</p>
+
+<p>Unfortunately you currently cannot use Fiddler with basic proxy authentication enabled to test
+a Mac application making https requests. As an alternative you can use another proxy server, such as Apache.</p>
+]]></content>
+  </entry>
+  
+</feed>
