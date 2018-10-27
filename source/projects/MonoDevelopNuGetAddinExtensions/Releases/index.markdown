@@ -1,13 +1,23 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2018-06-12 22:30
+date: 2018-10-27 15:20
 comments: true
 sharing: true
 footer: true
 ---
 
+## Version 0.14
+
+2018-10-27
+
+ * Support Visual Studio for Mac 7.7.0.1738 which uses NuGet 4.7
+ * Change clear button icon used in Package Console Extension to match
+   other output windows.
+
 ## Version 0.13
+
+2018-06-12
 
  * Show license dialog one time only when installing, updating or 
   consolidating NuGet packages into multiple projects.
