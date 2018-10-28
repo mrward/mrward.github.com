@@ -151,7 +151,7 @@ In the forensic.log file you should see the basic proxy authorization header bei
 ## Apache Proxy - NTLM authentication
 
 In order to enable NTLM authentication the [NTLM authentication module](https://github.com/TQsoft-GmbH/mod_authn_ntlm) needs to be downloaded.
-Download [Mod Auth NTLM for Apache 2.4.x x64 - mod_authn_ntml.zip](www.apachehaus.com/cgi-bin/download.plx),
+Download [Mod Auth NTLM for Apache 2.4.x x64 - mod_authn_ntml.zip](https://www.apachehaus.com/cgi-bin/download.plx),
 extract the files and copy the mod_auth_ntlm.so file to the Apache24\modules directory.
 
 Add a LoadModule to the httpd.conf file for the mod_authn_ntlm.so file.
