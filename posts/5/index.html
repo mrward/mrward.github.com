@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="New Features Automatic package update check Package framework retargeting Support for custom packages directory in NuGet.Config Add all checked &hellip;">
+  <meta name="description" content="Changes NuGet package restore is now part of Xamarin Studio and no longer uses NuGet.exe Add Packages dialog &ndash; Package sources could not be &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,139 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/07/NuGetSupportInXamarinStudio5-3/">NuGet Support in Xamarin Studio 5.3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-07T10:00:00+01:00" pubdate data-updated="true">Sep 7<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet package restore is now part of Xamarin Studio and no longer uses NuGet.exe</li>
+<li> Add Packages dialog &ndash; Package sources could not be reached shown for failing package sources</li>
+<li> Packages restored for the selected project instead of the solution</li>
+<li> Show packages added to solution in Add Packages dialog</li>
+<li> Show packages up to date message in status bar if there are no package updates available</li>
+<li> Show status bar warning message when no updates found and package sources are unavailable</li>
+<li> Restore missing packages before updating a package</li>
+<li> Do not check for updated packages if the project has no packages</li>
+<li> Fix version shown as download count in Add Packages dialog when searching for package versions</li>
+<li> Fix empty source being selected in Add Packages dialog when package source disabled and All Sources selected</li>
+<li> Fix packages.config marked as deleted by Git when updating packages</li>
+</ul>
+
+
+<p>More information on all the new features and changes in Xamarin Studio 5.3 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.3/xamarin.studio_5.3/">release notes</a>. Now let us take a more detailed look at the new NuGet changes.</p>
+
+<h2>NuGet package restore no longer uses NuGet.exe</h2>
+
+<p>The NuGet package restore is now a part of Xamarin Studio and no longer uses NuGet.exe. This allows the package restore to integrate with the Xamarin Studio credential provider and provides more control over the package restore process. So if a package source needs authentication, or uses a proxy, then Xamarin Studio will now show a dialog asking for credentials if the credentials are not stored. Previously the package restore would fail with an error message logged in the Package Console.</p>
+
+<h2>Add Packages dialog &ndash; Package sources could not be reached</h2>
+
+<p>Previously when All Sources was selected and if any package source could not be reached then an error message would be displayed and no packages would be shown in the list. Now packages will be displayed with a warning even if one package source could not be reached.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/AddPackagesDialogPackageSourcesCouldNotBeReachedWarning.png" title="Add Packages dialog - package sources could not be reached warning" alt="Add Packages dialog - package sources could not be reached warning"></p>
+
+<h2>Packages restored for the selected project instead of the solution</h2>
+
+<p>Xamarin Studio will now restore packages for the selected project instead of the entire solution. When you right click the <strong>Packages</strong> folder in the Solution window and select <strong>Restore</strong> only the packages for that project will be restored.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-0/SolutionWindowRestorePackagesMenu.png" title="Packages folder - Restore menu" alt="Packages folder - Restore menu"></p>
+
+<p>This is now possible since Xamarin Studio is now responsible for restoring packages instead of using NuGet.exe which would only restore for the entire solution.</p>
+
+<p>To restore packages for the entire solution you can still use the <strong>Restore Packages</strong> menu which is available from the Project menu or by right clicking the solution in the Solution window.</p>
+
+<h2>Show packages added to solution in Add Packages dialog</h2>
+
+<p>Opening the Add Packages dialog will now show the packages added to all projects in the current solution.</p>
+
+<p>The order of the items displayed in the Add Packages dialog is recent packages first, then solution packages, and then the packages from the active package source.</p>
+
+<h2>Show packages up to date message in status bar if there are no package updates available</h2>
+
+<p>When you try to update a package and there are no package updates available then the status bar now displays a message indicating that the package is already up to date.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/PackageUpToDateStatusBarMessage.png" title="Package up to date status bar message" alt="Package up to date status bar message"></p>
+
+<p>Similarly if you update multiple packages and there are no updates available then the status bar will now show a packages are up to date message.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/PackagesAreUpToDateStatusBarMessage.png" title="Packages are up to date status bar message" alt="Packages are up to date status bar message"></p>
+
+<p>Previously the status bar would show a message that the package was updated successfully even if nothing was updated.</p>
+
+<h2>Show status bar warning message when no updates found and package sources are unavailable</h2>
+
+<p>When one or more of the package sources is unavailable or invalid then Xamarin Studio will now report a warning in the status bar after checking for updates.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/NoUpdateFoundButWarningsReportedStatusBarMessage.png" title="No update but warnings reported status bar message" alt="No updated found but warnings reported status bar message"></p>
+
+<h2>Restoring missing packages before updating packages</h2>
+
+<p>Previously when NuGet packages were unrestored and an attempt was made to update a NuGet package, which had updates available from the package source, the update would fail with a message indicating that the package was installed successfully but the project did not reference the package.</p>
+
+<p>To prevent the update from failing Xamarin Studio will now check that the packages are restored for the project before trying to update and restore any missing packages. In the status bar a <strong>Restoring packages before update</strong> message will be displayed when a restore must be completed first.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-3/RestoringPackagesBeforeUpdateStatusBarMessage.png" title="Restoring packages before update status bar message" alt="Restoring packages before update status bar message"></p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Do not check for updated packages if the project has no packages</strong></p>
+
+<p>Xamarin Studio was checking for package updates in all projects even if they had no packages.config file when the solution was opened. This would result in the <strong>Packages are up to date</strong> message being displayed in the status bar even when no projects were using any NuGet packages.</p>
+
+<p>Now if the project has no packages.config file then Xamarin Studio will not check for updates.</p>
+
+<p><strong>Fix version shown as download count in Add Packages dialog when searching for package versions</strong></p>
+
+<p>When running a package version search, such as <strong>Xamarin.Forms version:</strong>*, the right hand side of the dialog was showing the version number instead of the download count.</p>
+
+<p>Now the dialog shows the download count. Ideally it would show the download count of that particular version but this is not currently available from the Package object returned by NuGet. It is returned in the results back from the package source but it is not available on the Package object.</p>
+
+<p>Also the download counts are different for the same package if you compare the normal search result with a package version search result. The package version search shows a larger download count number. This may be related to the <a href="http://blog.nuget.org/20140603/nuget-stats.html">stats problem</a> NuGet had recently. Currently Xamarin Studio is showing the download count it receives. The standard search download counts match those shown in Visual Studio&rsquo;s Manage Packages dialog. For the package version search the download count value matches that shown on the NuGet.org website for an individual package (e.g. <a href="https://www.nuget.org/packages/jQuery">https://www.nuget.org/packages/jQuery</a>).</p>
+
+<p><strong>Fix empty source being selected in Add Packages dialog when package source disabled and All Sources selected</strong></p>
+
+<p>An empty package source selected in the Add Packages dialog could occur when All Sources was selected in the Add Packages dialog and one of the enabled package sources was unchecked in Preferences. On opening the Add Packages dialog again an empty package source would be displayed as the selected package source.</p>
+
+<p>Now the Add Packages dialog will have the remaining enabled package source selected.</p>
+
+<p><strong>Fix packages.config marked as deleted by Git when updating packages</strong></p>
+
+<p>On updating packages in a project, and the project is using Git for version control, then the update was causing Git to show the packages.config file as deleted. This would occur if all the NuGet packages were uninstalled as part of the update which caused NuGet to see that there were no NuGet packages referenced and delete the packages.config file.</p>
+
+<p>Now the packages.config file is shown as modified instead of deleted.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -929,84 +1062,6 @@ Also some of the newer NuGet packages, such as Microsoft.Bcl.Immutable 1.1.20-be
 
 
 <p>For a detailed look at the new features please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.5/">release note</a>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/17/IronPythonErrorAttributeOfNamespaceObjectIsReadOnly/">IronPython Error: Attribute of Namespace Object is Read-Only</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-17T14:40:00+00:00" pubdate data-updated="true">Nov 17<sup>th</sup>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>If you are seeing an AttributeError, as shown below, when running IronPython 2.7 then check you have added all the required assembly reference to your application.</p>
-
-<pre><code>AttributeError: attribute 'Xml' of 'namespace#' object is read-only
-</code></pre>
-
-<p>The attribute name displayed will most likely be different but the underlying problem is that you are trying to use a type that exists in an assembly that is not referenced. Here is a simple example that reproduces the error.</p>
-
-<pre><code>import System
-doc = System.Xml.XmlDocument()
-</code></pre>
-
-<p>The code above is importing the System namespace and then attempting to create an XmlDocument object. Running the above code with ipy.exe will result in the AttributeError being displayed.</p>
-
-<pre><code>D:\projects&gt;ipy
-IronPython 2.7.3 (2.7.0.40) on .NET 4.0.30319.296 (32-bit)
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; import System
-&gt;&gt;&gt; doc = System.Xml.Document()
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-AttributeError: attribute 'Xml' of 'namespace#' object is read-only
-&gt;&gt;&gt;
-</code></pre>
-
-<p>The cryptic error message indicates that we do not have a reference to the System.Xml assembly. To fix the problem we add the following two lines of code before the code that creates the XmlDocument object.</p>
-
-<pre><code>import clr
-clr.AddReference("System.Xml")
-</code></pre>
-
-<p>Running the code again will now cause the XmlDocument object to be created without an error.</p>
-
-<pre><code>D:\projects&gt;ipy
-IronPython 2.7.3 (2.7.0.40) on .NET 4.0.30319.296 (32-bit)
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; import clr
-&gt;&gt;&gt; clr.AddReference("System.Xml")
-&gt;&gt;&gt; import System
-&gt;&gt;&gt; doc = System.Xml.XmlDocument()
-&gt;&gt;&gt; doc.ToString()
-'System.Xml.XmlDocument'
-&gt;&gt;&gt;
-</code></pre>
 </div>
   
   
