@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Package Explorer Addin Releases"
-date: 2017-06-07 22:00
+date: 2018-12-19 22:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.3
+
+2018-12-19
+
+ * Support showing SemVer 2.0 NuGet packages in search results.
 
 ## Version 0.2
 
