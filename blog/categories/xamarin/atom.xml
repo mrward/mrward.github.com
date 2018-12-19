@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-10-28T13:53:30+00:00</updated>
+  <updated>2018-12-19T16:00:00+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.7]]></title>
+    <link href="http://lastexitcode.com/blog/2018/12/19/NuGetSupportInVisualStudioMac7-7/"/>
+    <updated>2018-12-19T14:40:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2018/12/19/NuGetSupportInVisualStudioMac7-7</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 4.8 support</li>
+<li> Support PackageReferences without a Version</li>
+<li> Fixed NuGet sdk resolver not being found in Mono 5.16</li>
+<li> Fixed null reference exception in package compatiblity check</li>
+<li> Fixed Update menu enabled when project has no PackageReferences</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.7</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-77">release notes</a>.</p>
+
+<h2>NuGet 4.8 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.8-rtm">NuGet 4.8.0.5385</a> is now
+included with Visual Studio for Mac 7.7.2.</p>
+
+<h2>Support PackageReferences without a Version</h2>
+
+<p>Visual Studio for Mac did not support projects that used PackageReferences without
+specifying a version.</p>
+
+<pre><code>&lt;ItemGroup&gt;
+    &lt;PackageReference Include="Newtonsoft.Json" /&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
+
+<p>The version may be defined elsewhere in another MSBuild file, such as the Directory.props file,
+or by the .NET Core SDK, as with the
+Microsoft.AspNetCore.App PackageReference in ASP.NET Core projects. By default a
+PackageReference without a version will restore the lowest available version for
+the NuGet package.</p>
+
+<p>However in Visual Studio for Mac there were several problems with PackageReferences that
+did not specify a version.</p>
+
+<p>Opening a project with a PackageReference without a Version
+would result in an ArgumentNullException being logged and the
+Add Packages dialog could not be opened.</p>
+
+<p>If the PackageReference, in a non-SDK project, had no Version
+then it was not displayed in the Packages folder and a null reference
+exception was logged. The Solution window would try to find
+the package to check if it was installed which is not possible
+with a missing version and NuGet&rsquo;s VersionFolderPathResolver
+would throw a null reference exception.</p>
+
+<p>If a PackageReference had no Version then a null reference exception
+was logged when checking for updates. A null version is now handled.</p>
+
+<p>Right clicking the package in the Packages folder would log a
+null reference exception if a non-SDK style project was used and it
+had a PackageReference without a version. This is now handled and the
+menu label will show &ldquo;Version None&rdquo;.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed NuGet sdk resolver not being found in Mono 5.16</strong></p>
+
+<p>More recent versions of MSBuild, such as MSBuild 16.0.40 which is included
+with Mono 5.16.0.173, allow the sdk resolver to use a manifest.xml file to
+define the assembly where the resolver can be found:</p>
+
+<pre><code>&lt;SdkResolver&gt;
+  &lt;Path&gt;..\..\Microsoft.Build.NuGetSdkResolver.dll&lt;/Path&gt;
+&lt;/SdkResolver&gt;
+</code></pre>
+
+<p>This manifest file not supported and resulted in the NuGet sdk resolver not
+being loaded. Any projects that use an MSBuild sdk from a NuGet
+package no longer worked and would result in an &lsquo;Invalid configuration
+mapping&rsquo; error shown in the Solution window. The sdk resolution in
+Visual Studio for Mac has now
+been updated based on the latest MSBuild source code.</p>
+
+<p><strong>Fixed null reference exception in compatiblity check</strong></p>
+
+<p>Changing the target framework of a project that uses a packages.config
+file will result in a package compatiblity check being run.
+If the project had both a PackageReference and a packages.config file
+the package compatiblity check would fail with a null
+reference exception. Visual Studio for Mac was treating the project as
+though it was using a packages.config file, when it should have been
+treated as a PackageReference project. This resulted in a null
+reference exception being thrown when checking for package compatiblity.</p>
+
+<p><strong>Fixed Update menu enabled when project has no PackageReferences</strong></p>
+
+<p>The Update menu was enabled if the project used PackageReferences but
+had none in the project. Without any PackageReferences in the
+project there is no packages to update. The check to determine if the Update
+menu should be enabled has been changed to make sure the project has
+PackageReferences in the project file, not just imported
+PackageReferences. The Update
+NuGet Packages menu, which is used to update packages for the solution,
+has also been changed to have the same behaviour.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.6]]></title>
@@ -1090,479 +1196,6 @@ using MSBuild was cancelled this would result an empty list of depenencies
 being cached. Since no package dependencies were returned the Solution window
 would fallback to showing the package dependencies that were listed in the
 project and a default top level SDK package dependency.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Language Server Protocol support in Visual Studio for Mac 7.4]]></title>
-    <link href="http://lastexitcode.com/blog/2018/03/18/LanguageServerSupportInVisualStudioMac7-4/"/>
-    <updated>2018-03-18T12:30:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2018/03/18/LanguageServerSupportInVisualStudioMac7-4</id>
-    <content type="html"><![CDATA[<p>A preview of support for the <a href="https://github.com/Microsoft/language-server-protocol">Language Server Protocol</a>
-is now available for Visual Studio for Mac 7.4 as a separate extension.</p>
-
-<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/DockerLanguageServerClient.gif" title="&lsquo;Docker Language Server client being used in Visual Studio for Mac&rsquo; &lsquo;Docker Language Server client being used in Visual Studio for Mac&rsquo;" ></p>
-
-<p>A Language Server can provide support for programming language features such as:</p>
-
-<ul>
-<li>Code completion</li>
-<li>Find references</li>
-<li>Go to definition</li>
-<li>Quick fixes</li>
-<li>Method signature help</li>
-<li>Errors and warnings diagnostics</li>
-<li>Documentation on hover</li>
-<li>Document formatting</li>
-<li>Rename refactoring</li>
-</ul>
-
-
-<p>The <a href="https://github.com/Microsoft/language-server-protocol">Language Server Protocol</a> provides a way for a
-client application, such as Visual Studio for Mac, to communicate with the Language Server in order to
-use the programming language features it supports.</p>
-
-<p><a href="https://code.visualstudio.com">Visual Studio Code</a> supports the
-<a href="https://code.visualstudio.com/blogs/2016/06/27/common-language-protocol">Language Server Protocol</a>.</p>
-
-<p>A preview of <a href="https://blogs.msdn.microsoft.com/visualstudio/2017/11/21/announcing-language-server-protocol-preview-release/">Language Server Protocol support in Visual Studio 2017 on Windows</a>
-has also been announced.</p>
-
-<p>Currently there is no support for debugging. Whilst there is a
-<a href="https://code.visualstudio.com/docs/extensionAPI/api-debugging">debugging protocol</a> support
-for this is not currently available in Visual Studio for Mac.</p>
-
-<p>The Language Server Protocol does not provide any support for compiling the code. This would need
-to be provided by the extension that implements the language client.</p>
-
-<p>More detailed information about the Language Server Protocol can be found on the
-<a href="https://microsoft.github.io/language-server-protocol/">Language Server Protocol site</a>.</p>
-
-<p>The <strong>Creating a Language Client</strong> section below will take a more detailed look at how to implement
-a custom Language Server Client extension in Visual Studio for Mac.</p>
-
-<h2>Supports</h2>
-
-<ul>
-<li>MonoDevelop or Visual Studio Mac 7.4 or later.</li>
-</ul>
-
-
-<h2>Source Code</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-language-server-addin">Language Server Client extension for Visual Studio for Mac and MonoDevelop</a></li>
-</ul>
-
-
-<h2>Installation</h2>
-
-<p>The Language Server Client extension is available to download from <a href="https://github.com/mrward/monodevelop-language-server-addin/releases/download/0.1-monodevelop-7.4/MonoDevelop.LanguageServer.Client_0.1.mpack">GitHub</a>.</p>
-
-<p>To install the extension open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
-
-<p>The extension is also available in the Extensions Manager from the
-<a href="http://addins.monodevelop.com/Project/Index/307">Visual Studio Extension Repository (Beta channel)</a>.</p>
-
-<h2>Creating a Language Client</h2>
-
-<p>The API provided by the Language Server Client extension follows the <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/adding-an-lsp-extension">API defined by the
-Language Server Protocol extension used by Visual Studio on Windows</a> as
-closely as possible.</p>
-
-<p>More detailed documentation on the <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/language-server-protocol">Language Server Client API</a> provided
-by Visual Studio on Windows is available from the <a href="https://docs.microsoft.com/en-us/visualstudio/extensibility/language-server-protocol">Microsoft docs site</a>.</p>
-
-<h3>Prerequisites</h3>
-
-<p>The <a href="https://github.com/mrward/monodevelop-language-server-addin">Language Server Client Extension</a> for
-Visual Studio for Mac should be installed.</p>
-
-<p>Also ensure you have the <a href="https://github.com/mhutch/MonoDevelop.AddinMaker">Addin Maker extension installed</a>.
-This can be installed by selecting Extensions&hellip; from the main menu top open the Extensions Manager.
-Select the Gallery tab and use the text box at the top right to search for the Addin Maker extension.</p>
-
-<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/ExtensionsDialogAddinMaker.png" title="&lsquo;Addin maker selected in Extensions Manager dialog&rsquo; &lsquo;Addin maker selected in Extensions Manager dialog&rsquo;" ></p>
-
-<p>Click the Install button to install the Addin Maker extension.</p>
-
-<p>The Addin Maker will be used to create the language client extension.</p>
-
-<h3>Creating an IDE Extension project</h3>
-
-<p>The starting point is to create an IDE Extension project. This project template is provided by the
-Addin Maker extension and is available
-from the New Project dialog, in the Other &ndash; IDE Extensions category.</p>
-
-<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/NewProjectDialogIdeExtension.png" title="&lsquo;IDE Extension project selected in New Project dialog&rsquo; &lsquo;IDE Extension project selected in New Project dialog&rsquo;" ></p>
-
-<p>After creating the IDE Extensions project, expand the Dependencies folder to show the
-Extensions folder. Right click the Extensions folder and select Add Addin Reference.</p>
-
-<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/NewProjectDialogIdeExtension.png" title="&lsquo;IDE Extension project selected in New Project dialog&rsquo; &lsquo;IDE Extension project selected in New Project dialog&rsquo;" ></p>
-
-<p>Find the MonoDevelop.LanguageServer.Client in the Add Extension Reference dialog. Select it to
-toggle its check box and then click the Add button to reference it.</p>
-
-<p><img src="/images/blog/LanguageServerSupportInVisualStudioMac/AddExtensionReferenceDialogLanguageServerClient.png" title="&lsquo;Language Server Client extension in Add Extension Reference dialog&rsquo; &lsquo;Language Server Client extension in Add Extension Reference dialog&rsquo;" ></p>
-
-<p>There are three parts to implementing a language client:</p>
-
-<ul>
-<li>Enabling <a href="https://github.com/Microsoft/vs-mef">Managed Extensibility Framework (MEF)</a> support</li>
-<li>Defining the supported content
-types</li>
-<li>Implementing the ILanguageClient interface.</li>
-</ul>
-
-
-<p>First we will take a look at enabling MEF support.</p>
-
-<h3>Enabling Managed Extensibility Framework Support</h3>
-
-<p>Registration of the language client with Visual Studio for Mac is done using the <a href="https://github.com/Microsoft/vs-mef">Managed Extensibility Framework (MEF)</a>
-which is supported by Visual Studio for Mac.</p>
-
-<p>In order to use MEF in your language client extension you need to indicate to Visual Studio
-for Mac that it should scan your extension for dependencies. This can be done in the
-extension&rsquo;s .addin.xml file by adding the filename of your assembly.</p>
-
-<p>```</p>
-
-<pre><code>&lt;Extension path="/MonoDevelop/Ide/Composition"&gt;
-    &lt;Assembly file="MockLanguageExtension.dll" /&gt;
-&lt;/Extension&gt;
-</code></pre>
-
-<p>```</p>
-
-<h3>Content Type Definition</h3>
-
-<p>Your language client needs to indicate what files are supported. This is done by defining
-a content type definition.</p>
-
-<p>```
-using System.ComponentModel.Composition;
-using Microsoft.VisualStudio.LanguageServer.Client;
-using Microsoft.VisualStudio.Utilities;</p>
-
-<p>namespace MockLanguageExtension
-{</p>
-
-<pre><code>#pragma warning disable CS0649 // Field is never assigned to.
-
-public class FooContentDefinition
-{
-    [Export]
-    [Name("foo")]
-    [BaseDefinition(CodeRemoteContentDefinition.CodeRemoteContentTypeName)]
-    internal static ContentTypeDefinition FooContentTypeDefinition;
-
-    [Export]
-    [FileExtension(".foo")]
-    [ContentType("foo")]
-    internal static FileExtensionToContentTypeDefinition FooFileExtensionDefinition;
-}
-
-#pragma warning restore CS0649
-</code></pre>
-
-<p>}
-```</p>
-
-<p>The above content definition indicates that the .foo file extension is supported by the language client.</p>
-
-<p>You can also define a filename, instead of a file extension, as supported by the language client by using
-the FileName attribute instead of the FileExtension attribute.</p>
-
-<p>```</p>
-
-<pre><code>class DockerContentTypeDefinition
-{
-    [Export]
-    [Name("docker")]
-    [BaseDefinition(CodeRemoteContentDefinition.CodeRemoteContentTypeName)]
-    internal static ContentTypeDefinition contentTypeDefinition;
-
-    [Export]
-    [FileName("Dockerfile")]
-    [ContentType("docker")]
-    internal static FileExtensionToContentTypeDefinition dockerFileDefinition;
-}
-</code></pre>
-
-<p>```</p>
-
-<p>You will need to add a reference to <strong>System.ComponentModel.Composition</strong> so the <a href="https://msdn.microsoft.com/library/system.componentmodel.composition.exportattribute.aspx">Export attribute</a>
-can be used.</p>
-
-<h3>Implementing ILanguageClient</h3>
-
-<p>To integrate the Language Server with Visual Studio for Mac the
-<a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclient">ILanguageClient interface</a>
-needs to be implemented.</p>
-
-<p>```
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.LanguageServer.Client;
-using Microsoft.VisualStudio.Threading;
-using Microsoft.VisualStudio.Utilities;</p>
-
-<p>namespace MockLanguageExtension
-{</p>
-
-<pre><code>[ContentType("foo")]
-[Export(typeof(ILanguageClient))]
-public class FooLanguageClient : ILanguageClient
-{
-    public IEnumerable&lt;string&gt; ConfigurationSections =&gt; null;
-
-    public object InitializationOptions =&gt; null;
-
-    public IEnumerable&lt;string&gt; FilesToWatch =&gt; null;
-
-    public string Name =&gt; "Foo Language Extension";
-
-    public event AsyncEventHandler&lt;EventArgs&gt; StartAsync;
-    public event AsyncEventHandler&lt;EventArgs&gt; StopAsync;
-
-    public async Task OnLoadedAsync()
-    {
-        await StartAsync?.InvokeAsync(this, EventArgs.Empty);
-    }
-
-    public Task&lt;Connection&gt; ActivateAsync(CancellationToken token)
-    {
-        var info = new ProcessStartInfo();
-        var programPath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), "server", @"LanguageServer.UI.exe");
-        info.FileName = "mono";
-        info.Arguments = programPath;
-        info.WorkingDirectory = Path.GetDirectoryName(programPath);
-        info.UseShellExecute = false;
-        info.RedirectStandardInput = true;
-        info.RedirectStandardOutput = true;
-
-        var process = new Process();
-        process.StartInfo = info;
-
-        Connection connection = null;
-
-        if (process.Start())
-        {
-            connection = new Connection(process.StandardOutput.BaseStream, process.StandardInput.BaseStream);
-        }
-
-        return Task.FromResult(connection);
-    }
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>The class that implements the ILanguageClient interface needs to indicate it supports
-the content types that you have defined, and it also needs to indicate that it implements the
-ILanguageClient by using the Export attribute.</p>
-
-<p>```</p>
-
-<pre><code>[ContentType("foo")]
-[Export(typeof(ILanguageClient))]
-</code></pre>
-
-<p>```
-The language client should return a unique description for the ILanguageClient.Name
-property.</p>
-
-<p>The two methods that should be implemented are:</p>
-
-<ul>
-<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclient.onloadedasync">OnLoadedAsync</a></li>
-<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclient.activateasync">ActivateAsync</a>.</li>
-</ul>
-
-
-<p>OnLoadedAsync is called when Visual Studio for Mac has loaded your extension. To activate
-your Language Server you need to call StartAsync. The simplest approach is to call StartAsync
-in the OnLoadedAsync method.</p>
-
-<p>```</p>
-
-<pre><code>    public async Task OnLoadedAsync()
-    {
-        await StartAsync?.InvokeAsync(this, EventArgs.Empty);
-    }
-</code></pre>
-
-<p>```</p>
-
-<p>Calling StartAsync will cause Visual Studio for Mac to call the ILanguageClient&rsquo;s
-ActivateAsync method. This is where you can start the Language Server.</p>
-
-<p>The ActivateAsync method should return a Connection object with the streams that
-will be used to communicate with the Language Server. Standard input and output streams
-are supported as well as sockets.</p>
-
-<p><code>
-var connection = new Connection(process.StandardOutput.BaseStream, process.StandardInput.BaseStream);
-</code></p>
-
-<p>The first time you try to run and debug your language client extension you will see an error
-in the Application Output similar to:</p>
-
-<p><code>
-WARNING: The add-in 'MockLanguageExtension,1.0' could not be updated because some of its
-dependencies are missing or not compatible:
-  missing: MonoDevelop.LanguageServer.Client,0.1
-</code></p>
-
-<p>The Addin Maker runs your language client extension using its own extension database. The
-MonoDevelop.LanguageServer.Client extension needs to be installed into this separate database
-in order to be able to run and debug your language client extension.</p>
-
-<p>To do this run your language client extension project in Visual Studio for Mac and
-install the Language Server Client extension using the Extensions Manager in the instance
-of Visual Studio for Mac that is started. Then stop debugging and re-run your extension project
-again, and your language client should now be used when you open a supported file.</p>
-
-<p>The content type registration and the ILanguageClient implementation is the minimum
-that is needed in order to integrate your Language Server with Visual Studio for Mac.
-Now let us take a look at other optional things that can be implemented.</p>
-
-<h3>Receiving Custom Messages</h3>
-
-<p>Your Language Server may support messages that are not part of the standard
-Language Server Protocol.</p>
-
-<p>In order to support receiving custom messages the class that implements ILanguageClient should also
-implement the
-<a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientcustommessage">ILanguageClientCustomMessage</a>
-interface. The CustomMessageTarget property should return an object that will receive the messages.</p>
-
-<p>```
-public object CustomMessageTarget => new CustomMessageTarget ();
-public object MiddleLayer => null;</p>
-
-<p>public Task AttachForCustomMessageAsync(JsonRpc rpc)
-{</p>
-
-<pre><code>return Task.CompletedTask;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>An example CustomMessageTarget class is shown below.</p>
-
-<p>```
-using Newtonsoft.Json.Linq;
-using StreamJsonRpc;</p>
-
-<p>namespace MockLanguageExtension
-{</p>
-
-<pre><code>public class CustomMessageTarget
-{
-    [JsonRpcMethod("test/customNotification")]
-    public void OnCustomNotification(JToken arg)
-    {
-        // Handle custom message from the Language Server.
-    }
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<h3>Sending Custom Messages</h3>
-
-<p>To send custom messages to the Language Server the class that implements the
-ILanguageClient interface should also implement the
-<a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientcustommessage">ILanguageClientCustomMessage</a> interface.</p>
-
-<p>The AttachForCustomMessageAsync method
-should save the JsonRpc object passed and then you can use the JsonRpc object to
-send custom messages to the Language Server.</p>
-
-<p>```</p>
-
-<pre><code>    JsonRpc rpc;
-
-    public Task AttachForCustomMessageAsync(JsonRpc rpc)
-    {
-        this.rpc = rpc;
-        return Task.CompletedTask;
-    }
-
-    public async Task SendMessageToServer()
-    {
-        string text = await rpc.InvokeWithParameterObjectAsync&lt;string&gt;("GetText");
-        MessageService.ShowMessage("Text from language server:", text);
-    }
-</code></pre>
-
-<p>```</p>
-
-<h3>Middle Layer</h3>
-
-<p>The ILanguageClientCustomMessage defines a MiddleLayer property. An object returned
-from the MiddleLayer property can be used to intercept messages sent to and received
-from the Language Server. The MiddleLayer object can implement the following
-interfaces:</p>
-
-<ul>
-<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientcompletionprovider">ILanguageClientCompletionProvider</a></li>
-<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientexecutecommandprovider">ILanguageClientExecuteCommandProvider</a></li>
-<li><a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.languageserver.client.ilanguageclientworkspacesymbolprovider">ILanguageClientWorkspaceSymbolProvider</a></li>
-</ul>
-
-
-<p>```
-using System;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.LanguageServer.Client;
-using Microsoft.VisualStudio.LanguageServer.Protocol;</p>
-
-<p>namespace MockLanguageExtension
-{</p>
-
-<pre><code>class MiddleLayerProvider : ILanguageClientCompletionProvider
-{
-    public Task&lt;object&gt; RequestCompletions(
-        TextDocumentPositionParams param,
-        Func&lt;TextDocumentPositionParams, Task&lt;object&gt;&gt; sendRequest)
-    {
-        return sendRequest(param);
-    }
-
-    public async Task&lt;CompletionItem&gt; ResolveCompletion(
-        CompletionItem item,
-        Func&lt;CompletionItem, Task&lt;CompletionItem&gt;&gt; sendRequest)
-    {
-        return await sendRequest(item);
-    }
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>Note that currently not all the Language Server messages can be intercepted.</p>
-
-<p>The full source code to the sample Language Server Client Extension created
-whilst writing this blog post is available on
-<a href="https://github.com/mrward/sample-language-server-client-extension">GitHub</a></p>
-
-<p>There are other examples included with the
-<a href="https://github.com/mrward/monodevelop-language-server-addin">Language Server Client extension source code</a>
-on GitHub, however these are not standalone and are compiled with the
-Language Server Client extension.</p>
 ]]></content>
   </entry>
   
