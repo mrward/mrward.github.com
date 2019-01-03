@@ -36,7 +36,7 @@ A Template Information dialog is then opened.
 {% img /images/blog/TemplateCreatorForVisualStudioMac/TemplateInformationDialog.png 'Template Information dialog' 'Template Information dialog' %}
 
 The information in the dialog is used to populate the generated template.json file. Further
-details on what the template.json file holds is available in the [reference for template.json](https://github.com/dotnet/templating/wiki/Reference-for-template.json)].
+details on what the template.json file holds is available in the [reference for template.json](https://github.com/dotnet/templating/wiki/Reference-for-template.json).
 
  - Author
    - Author of the project template.
