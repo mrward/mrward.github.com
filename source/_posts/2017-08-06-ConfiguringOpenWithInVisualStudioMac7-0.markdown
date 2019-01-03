@@ -61,7 +61,7 @@ The Open With addin is available to download from [GitHub](https://github.com/mr
 To install the addin open the Extensions Manager by selecting Extensions... from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.
 
 The addin is also in the Extensions Manager from the 
-[Visual Studio Extension Repository (Beta channel)](http://addins.monodevelop.com/Project/Index/306). It is not currently published to the main MonoDevelop addin server.
+[Visual Studio Extension Repository (Beta channel)](http://addins.monodevelop.com/Project/Index/306).
 
 ## Source Code
 
