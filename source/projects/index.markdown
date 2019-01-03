@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Projects"
-date: 2018-03-18 12:30
+date: 2019-01-04 12:30
 comments: true
 sharing: true
 footer: true
@@ -16,6 +16,7 @@ footer: true
  * [MonoDevelop Open With Addin](MonoDevelopOpenWithAddin/)
  * [MonoDevelop Paket Addin](MonoDevelopPaketAddin/)
  * [MonoDevelop PowerShell Addin](MonoDevelopPowerShellAddin/)
+ * [MonoDevelop Task Runner Explorer Addin](MonoDevelopTaskRunnerExplorerAddin/)
  * [MonoDevelop Template Creator Addin](MonoDevelopTemplateCreatorAddin/)
  * [MonoDevelop TypeScript Addin](MonoDevelopTypeScriptAddin/) 
  * [NuGet](NuGet/)
