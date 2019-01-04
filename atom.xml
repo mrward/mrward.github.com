@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2018-12-19T16:00:00+00:00</updated>
+  <updated>2019-01-04T13:45:28+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,236 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Task Runner Explorer in Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2019/01/04/TaskRunnerExplorerInVisualStudioMac/"/>
+    <updated>2019-01-04T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2019/01/04/TaskRunnerExplorerInVisualStudioMac</id>
+    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-language-server-addin">Task Runner Explorer addin</a> provides a
+Task Runner Explorer
+window, similar to the one in Visual Studio on Windows, which can be used to run tasks with
+Cake, Gulp, Grunt, NPM and TypeScript.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerWindowGruntNpmTasks.png" title="Task Runner Explorer window" alt="Task Runner Explorer Window"></p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Task Runner Explorer Window
+
+<ul>
+<li>View tasks</li>
+<li>Run tasks</li>
+<li>View task output</li>
+<li>Run and cancel long running tasks, such as tcs watch</li>
+<li>Configure tasks to run when specific IDE events occur
+
+<ul>
+<li>Before Build</li>
+<li>After Build</li>
+<li>Clean</li>
+<li>Project Opened</li>
+<li>Solution Opened</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Task Runners
+
+<ul>
+<li>Cake</li>
+<li>Gulp</li>
+<li>Grunt</li>
+<li>NPM</li>
+<li>TypeScript</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 7.5 or later.</li>
+</ul>
+
+
+<h2>Task Runner Explorer</h2>
+
+<p>To open the Task Runner Explorer window, from the View menu select Pads, then
+select Task Runner Explorer.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/ViewTaskRunnerExplorerMenu.png" title="View Task Runner Explorer menu" alt="View Task Runner Explorer menu"></p>
+
+<p>The Task Runner Explorer will look for files supported by a task runner in the
+solution directory and the project directory. It will also look at all files
+that have been added to a project or that have been added to a solution folder.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerTypeScriptNpmTasks.png" title="Task Runner Explorer TypeScript and NPM tasks" alt="Task Runner Explorer TypeScript and NPM tasks"></p>
+
+<p>The top left of the Task Runner Explorer shows a list of projects
+or the solution that have tasks available. This can be used to filter the tasks shown in the
+Task Runner Explorer window.</p>
+
+<p>Currently changes made to tasks will not be detected automatically. To refresh
+the task information you can click the Refresh button
+available at the top left of the Task Runner Explorer window.</p>
+
+<h3>Running a Task</h3>
+
+<p>To run a task you can double click it or right click and select Run.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerRunMenu.png" title="Task Runner Explorer Run menu" alt="Task Runner Explorer Run menu"></p>
+
+<p>Output from the task is shown on the right hand side of the Task Runner Explorer
+window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerNpmUpdateRunning.png" title="NPM update running" alt="NPM update running"></p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/NpmUpdateRunCompleted.png" title="NPM update completed" alt="NPM update completed"></p>
+
+<p>A long running task, such as tcs watch, will run until the solution is closed,
+or the Stop button, available on the right hand side
+of the Task Runner Explorer window, is clicked.</p>
+
+<h3>Binding Tasks to IDE Events</h3>
+
+<p>Tasks can be configured to run when the following IDE events occur:</p>
+
+<ul>
+<li>After Build</li>
+<li>Before Build</li>
+<li>Clean</li>
+<li>Project or Solution Opened</li>
+</ul>
+
+
+<p>If the task runner file is in a project directory then the build and clean
+events are associated with the project. If the task runner file is in a solution directory
+then the build events are associated with the solution.</p>
+
+<p>To configure a task, right click it, select Bindings and then select the
+event.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMenu.png" title="Task Runner Explorer Bindings menu" alt="Task Runner Explorer Bindings menu"></p>
+
+<p>The binding will be displayed in the Bindings tab and will also be shown as
+checked when the context menu for the task is opened.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBeforeBuildBindingAdded.png" title="Task Runner Explorer Before Build binding added" alt="Task Runner Explorer Before Build binding added"></p>
+
+<p>To remove the binding you can right click the task, select Bindings and
+select the event again to uncheck it. Alternatively you can right click
+it in the Bindings tab and select Remove.</p>
+
+<p>The order in which the tasks are run for a particular IDE event can be changed
+by right clicking the binding in the Bindings tab and selecting Move Up or Move Down.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMoveDownMenu.png" title="Task Runner Explorer binding Move Up and Down menus" alt="Task Runner Explorer binding Move Up and Down menus"></p>
+
+<p>The binding information is typically saved in a file in the same directory as the corresponding task
+runner file, however this depends on how the task runner is implemented.</p>
+
+<h3>Disabling Automatic Running of Tasks</h3>
+
+<p>In preferences there is a Task Runner Explorer section which shows
+a check box that can be used to enable or disable the automatic
+running of tasks on opening a project or solution, and when building or cleaning.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerPreferences.png" title="Preferences - Automatically run tasks option" alt="Preferences - Automatically run tasks option"></p>
+
+<h2>Cake Task Runner</h2>
+
+<p>The Cake task runner supports running tasks defined in a build.cake file.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/CakeTaskRunner.png" title="Cake Task Runner" alt="Cake Task Runner"></p>
+
+<p>This is based on the <a href="https://github.com/cake-build/cake-vs">Cake Task Runner for Visual Studio</a>.</p>
+
+<h2>Gulp Task Runner</h2>
+
+<p>The Gulp task runner supports running tasks defined in a gulpfile.js file.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/GulpTaskRunner.png" title="Gulp Task Runner" alt="Gulp Task Runner"></p>
+
+<p><a href="https://gulpjs.com">Gulp</a> needs to be installed separately.</p>
+
+<h2>Grunt Task Runner</h2>
+
+<p>The Grunt task runner supports running tasks defined in a Gruntfile.js file.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/GruntTaskRunner.png" title="Grunt Task Runner" alt="Grunt Task Runner"></p>
+
+<p><a href="https://gruntjs.com">Grunt</a> needs to be installed separately.</p>
+
+<h2>NPM Task Runner</h2>
+
+<p>The NPM task runner supports running tasks defined in a package.json file.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/NpmTaskRunner.png" title="NPM task runner" alt="NPM task runner"></p>
+
+<p>The NPM task runner is a port of <a href="https://madskristensen.net/">Mads Kristensen&rsquo;s</a>
+<a href="https://github.com/madskristensen/NpmTaskRunner">NPM Task Runner</a>.</p>
+
+<p>The NPM task runner supports running with the verbose NPM option defined. If a
+task is selected then a button will be displayed on the left hand side of the
+Task Runner Explorer window. If this is selected then npm will be passed the
+<code>-d</code> argument when it is run.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/NpmTaskRunnerVerboseButton.png" title="NPM task runner Verbose button" alt="NPM task runner Verbose button"></p>
+
+<p>NPM needs to be installed separately.</p>
+
+<h2>TypeScript Task Runner</h2>
+
+<p>The TypeScript task runner supports running tcs build and tcs watch if a tsconfig.json file
+is found.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TypeScriptTaskRunner.png" title="TypeScript task runner" alt="TypeScript task runner"></p>
+
+<p><img src="http://lastexitcode.com/images/blog/TaskRunnerExplorerInVisualStudioMac/TypeScriptWatchTaskOutput.png" title="TypeScript tcs watch output" alt="TypeScript tcs watch output"></p>
+
+<p>The TypeScript task runner will try to use tsc that is distributed with the Web Tools extension that
+is included in Visual Studio for Mac. If the Web Tools extension is not installed then the task
+runner will fall back to running tsc directly.</p>
+
+<h2>Installation</h2>
+
+<p>There are two addins to be installed:</p>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-task-runner-addin/releases/download/0.1/MonoDevelop.TaskRunner_0.1.mpack">Task Runner</a></li>
+<li><a href="https://github.com/mrward/monodevelop-task-runner-addin/releases/download/0.1/MonoDevelop.TaskRunnersBundle_0.1.mpack">Task Runners Bundle</a></li>
+</ul>
+
+
+<p>The Task Runner is the main addin. This will be used by other task runner addins and provides the
+main task runner API and services.</p>
+
+<p>The Task Runners Bundle addin contains the Cake, Gulp, Grunt, NPM and TypeScript task runners. These
+are currently included together as a single addin instead of being distributed separately.</p>
+
+<p>Download both of the above .mpack files. Install the Task Runner addin first since the Task Runners Bundle
+addin depends on it. To install an addin&rsquo;s .mpack file, open the Extensions Manager
+by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file
+and then click the Open button. After installing both the addins restart Visual Studio for Mac.</p>
+
+<p>These addins are not currently available from the main Visual Studio for Mac extensions server.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-language-server-addin">Task Runner Explorer for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/monodevelop-cake-task-runner">Cake Task Runner for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/monodevelop-grunt-task-runner">Grunt Task Runner for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/monodevelop-gulp-task-runner">Gulp Task Runner for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/NpmTaskRunner">NPM Task Runner for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/monodevelop-typescript-task-runner">TypeScript Task Runner for Visual Studio for Mac</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.7]]></title>
@@ -3007,7 +3237,7 @@ right click the project and select Create Template.</p>
 <p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/TemplateInformationDialog.png" title="Template Information dialog" alt="Template Information dialog"></p>
 
 <p>The information in the dialog is used to populate the generated template.json file. Further
-details on what the template.json file holds is available in the <a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">reference for template.json</a>].</p>
+details on what the template.json file holds is available in the <a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">reference for template.json</a>.</p>
 
 <ul>
 <li>Author
@@ -3954,7 +4184,7 @@ the .NET Core SDK.</p>
 <p>To install the addin open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
 
 <p>The addin is also in the Extensions Manager from the
-<a href="http://addins.monodevelop.com/Project/Index/306">Visual Studio Extension Repository (Beta channel)</a>. It is not currently published to the main MonoDevelop addin server.</p>
+<a href="http://addins.monodevelop.com/Project/Index/306">Visual Studio Extension Repository (Beta channel)</a>.</p>
 
 <h2>Source Code</h2>
 
@@ -4099,189 +4329,6 @@ the .NET Core SDK.</p>
 <p>Visual Studio for Mac now includes <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0</a>.</p>
 
 <p>More information on the new features provided by NuGet 4.&ndash; can be found in the <a href="http://blog.nuget.org/20170308/Announcing-NuGet-4.0-RTM.html">Announcing NuGet 4.0 RTM blog post</a> and the <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0 release notes</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Xamarin Studio 6.2]]></title>
-    <link href="http://lastexitcode.com/blog/2017/03/05/NuGetSupportInXamarinStudio6-2/"/>
-    <updated>2017-03-05T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2017/03/05/NuGetSupportInXamarinStudio6-2</id>
-    <content type="html"><![CDATA[<ul>
-<li> Integrated support for creating NuGet packages with <a href="https://github.com/nuget/nuget.build.packaging">NuGetizer 3000</a></li>
-<li> NuGet 3.5 support</li>
-<li> Improved project.json support</li>
-<li> Native License Acceptance dialog</li>
-</ul>
-
-
-<p>More information on all the new features and changes in Xamarin Studio 6.2 can be found in the <a href="https://developer.xamarin.com/releases/studio/xamarin.studio_6.2/xamarin.studio_6.2/">release notes</a>.</p>
-
-<h2>NuGetizer 3000</h2>
-
-<p><a href="https://github.com/nuget/nuget.build.packaging">NuGetizer 3000</a> is a set of build tools for creating NuGet packages inspired by <a href="http://nuproj.net/">NuProj</a>. Support for NuGetizer 3000 in Xamarin Studio includes:</p>
-
-<ul>
-<li>Project templates for creating NuGet packages</li>
-<li>Support for creating a NuGet package from an existing project</li>
-<li>Reference assembly generation for Portable Class Library profiles</li>
-</ul>
-
-
-<p>The following sections look at the NuGetizer 3000 features provided by Xamarin Studio. For more detailed information on what is supported by NuGetizer 3000 please read the <a href="https://github.com/NuGet/Home/wiki/NuGetizer-3000">NuGetizer 3000 feature spec</a>.</p>
-
-<h3>Project Templates</h3>
-
-<p>There are two new project templates available.</p>
-
-<ul>
-<li>Multiplatform Library</li>
-<li>NuGet package</li>
-</ul>
-
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/MultiplatformLibraryNewProjectDialog.png" title="Mulitplatform Library project template in New Project dialog" alt="Mulitplatform Library project template in New Project dialog"></p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/NuGetPackageNewProjectDialog.png" title="NuGet Package project template in New Project dialog" alt="NuGet Package project template in New Project dialog"></p>
-
-<h3>Multiplatform Library &ndash; Single for all platforms</h3>
-
-<p>The Mulitplatform Library project template will create a Portable Class Library project with NuGet package metadata when the Single for all platforms option is selected.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/MultiplatformLibraryWizardSingleSelected.png" title="Multiplatform library - single for all platforms selected" alt="Multiplatform library - single for all platforms selected"></p>
-
-<p>To create a NuGet package right click the project and select Create NuGet Package. This will generate a NuGet package (.nupkg) in the output directory with the Portable Class Library assembly in the corresponding portable lib directory inside the NuGet package.</p>
-
-<h3>Multiplatform Library &ndash; Platform specific</h3>
-
-<p>This Multiplatform Library will create a shared project, an iOS project, an Android project and a NuGet packaging project when the iOS and Android options are selected.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/MultiplatformLibraryWizardPlatformsSelected.png" title="Multiplatform library - iOS and Android selected" alt="Multiplatform library - iOS and Android selected"></p>
-
-<p>The iOS and Android project will reference the shared project. The NuGet packaging project will reference the iOS and Android projects. The NuGet packaging project will contain the NuGet package metadata.</p>
-
-<p>When the NuGet packaging project is built it will create the NuGet package in its output folder and inside the NuGet package will be the Android and iOS output assemblies each in their own platform specific lib folders.</p>
-
-<h3>NuGet Packaging Project</h3>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/NuGetPackageWizard.png" title="NuGet package project template configuration" alt="NuGet package project template configuration"></p>
-
-<p>The NuGet packaging project can be used to create a meta NuGet package, which is a NuGet package that has no content itself but references other NuGet packages, or it can reference other projects and it will add their output assemblies to the NuGet package. If the referenced project has NuGet package references then these will be added to the generated NuGet package as dependencies.</p>
-
-<p>NuGet packages can be added to the NuGet packaging project by using the Add Packages dialog.</p>
-
-<p>To include files in the NuGet packaging project the files need to have Include in Package property set to true. This can be done by right clicking the file in the solution window, selecting Properties, then selecting Include in Package from the NuGet section in the Properties window.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/IncludeInPackagePropertiesWindow.png" title="Include in Package in Properties window" alt="Include in Package in Properties window"></p>
-
-<h3>Adding NuGet Package Metadata</h3>
-
-<p>NuGet package metadata can be added to any .NET project by selecting the NuGet Package &ndash; Metadata page available in the project options.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/NuGetPackageMetadataProjectOptions.png" title="NuGet Package metadata in project options" alt="NuGet package metadata in project options"></p>
-
-<p>The General tab shows compulsory metadata that must be specified for a NuGet package. The Details tab shows other optional metadata that can be specified. This NuGet package metadata is saved directly into the project file (.csproj).</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/NuGetPackageMetadataDetailsProjectOptions.png" title="NuGet Package metadata in project options" alt="NuGet package metadata in project options"></p>
-
-<p>Once NuGet package metadata has been added then the NuGet.Build.Packaging NuGet package will be added to the project if it does not already exist. This NuGet package provides MSBuild tasks that are used when creating the NuGet package for the project.</p>
-
-<p>NuGet package metadata should be added to project if you want to be able to create a NuGet package for that project on its own. Without NuGet package metadata the project would need to be referenced by a NuGet packaging project, or another project with NuGet package metadata, for it to be included in a NuGet package.</p>
-
-<p>If a NuGet packaging project references a project that has its own NuGet package metadata then a dependency will be added to the NuGet package created by the NuGet packaging project. The referenced project&rsquo;s output assembly would not be included in the NuGet package created by the packaging project in this case.</p>
-
-<h3>Generating a NuGet Package</h3>
-
-<p>To generate a NuGet package you can right click the project and select Create NuGet Package.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/CreateNuGetPackageMenuItem.png" title="Create NuGet Package menu item" alt="Create NuGet Package menu item"></p>
-
-<p>For NuGet packaging projects you can also build the project and it will create a NuGet package.</p>
-
-<p>For a .NET project that has NuGet package metadata you can generate a NuGet package when building the project by enabling the &ldquo;Create a NuGet Package when building the project&rdquo; option in the Project Options dialog.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/CreateNuGetPackageWhenBuildingOption.png" title="Creating a NuGet Package when building the project option - project options" alt="Creating a NuGet Package when building the project - project options"></p>
-
-<h3>Adding Platform Implementations</h3>
-
-<p>If you have a Portable Class Library with NuGet package metadata you can add platform specific implementations for iOS and Android by right clicking the project and selecting Add &ndash; Add Platform Implementation. This will open a dialog where you can choose iOS and Android, and also whether to create a shared project.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/AddPlatformImplementationDialog.png" title="Add Platform Implementation dialog" alt="Add Platform Implementation dialog"></p>
-
-<p>After clicking OK an Android and iOS project will be created along with a NuGet packaging project that references these projects. The NuGet package metadata will be moved from the Portable Class Library project to the NuGet packaging project. If the shared project option was selected then the code from the Portable Class Library project will be moved to the shared project. The shared project will be referenced by the iOS and Android project.</p>
-
-<h3>Reference Assembly Generation</h3>
-
-<p>In the Project Options for a NuGet Packaging project there is a Reference Assemblies page in the NuGet Package category. This pages shows a list of Portable Class Library profiles that can be selected.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/ReferenceAssembliesProjectOptions.png" title="Reference assemblies in project options" alt="Reference assemblies in project options"></p>
-
-<p>Reference assemblies for the selected profiles will be generated based on the output assemblies from the projects referenced by the NuGet packaging project.</p>
-
-<p>That brings us to the end of the walkthrough of the NuGetizer 3000 features provided by Xamarin Studio.</p>
-
-<h2>NuGet 3.5 Support</h2>
-
-<p>Xamarin Studio now includes <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-3.5-rtm">NuGet 3.5</a>.</p>
-
-<p>More information on the new features provided by NuGet 3.5 can be found in the <a href="http://blog.nuget.org/20161027/Announcing-NuGet-3.5-RTM.html">Announcing NuGet 3.5 RTM blog post</a> and the <a href="http://docs.nuget.org/ndocs/release-notes/nuget-3.5-RTM">NuGet 3.5 release notes</a>.</p>
-
-<h2>Improved project.json Support</h2>
-
-<p>NuGet packages are now automatically restored when the project.json file is saved in the text editor.</p>
-
-<h2>Native License Acceptance Dialog</h2>
-
-<p>The Licence Acceptance dialog now uses native UI.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInXamarinStudio6-2/LicenseAcceptanceDialog.png" title="License Acceptance dialog" alt="License Acceptance dialog"></p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Updating all NuGet packages installs unexpected pre-release NuGet packages</strong></p>
-
-<p>With a pre-release NuGet package installed in a project, updating
-all the NuGet packages in the project could cause the stable NuGet
-packages to be updated to pre-release versions. On updating all the packages if any were pre-release the include
-pre-release flag would be set on updating which would allow any
-pre-release NuGet packages to be used on updating. Now the include pre-release flag is not set on updating. NuGet 3
-will still update pre-release NuGet packages to the latest pre-release
-or latest stable, depending on which is the latest version, without
-this include pre-release flag being set. NuGet 2 required the include
-pre-release flag set to update a pre-release to the latest pre-release.</p>
-
-<p>An example &ndash; project has the following NuGet packages
-installed:</p>
-
-<pre><code>Xamarin.Forms 2.3.3.180
-Xamarin.Forms.CarouselView 2.3.0-pre1
-</code></pre>
-
-<p>Latest available packages from nuget.org:</p>
-
-<pre><code>Xamarin.Forms 2.3.3.180 (latest stable)
-Xamarin.Forms 2.3.4.184-pre1 (latest pre-release)
-Xamarin.Forms.CarouselView 2.3.0-pre2
-</code></pre>
-
-<p>Expected result on updating all packages in the project:</p>
-
-<pre><code>Xamarin.Forms 2.3.3.180
-Xamarin.Forms.CarouselView 2.3.0-pre2
-</code></pre>
-
-<p>Actual result:</p>
-
-<pre><code>Xamarin.Forms 2.3.4.184-pre1
-Xamarin.Forms.CarouselView 2.3.0-pre2
-</code></pre>
-
-<p><strong>Types unavailable when NuGet package added to project.json file</strong></p>
-
-<p>When a NuGet package was added to a project that used a project.json file
-the types from the assembly provided by the NuGet package were not
-available until the project was reloaded or the references were
-modified. This prevented code completion from showing the correct information.</p>
 ]]></content>
   </entry>
   
