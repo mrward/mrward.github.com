@@ -19,7 +19,7 @@ Cake, Gulp, Grunt, NPM and TypeScript.
    - View tasks
    - Run tasks
    - View task output
-   - Run and cancel long running tasks - e.g. tcs watch
+   - Run and cancel long running tasks, such as tcs watch
    - Configure tasks to run when specific IDE events occur
      - Before Build
      - After Build
@@ -39,19 +39,20 @@ Cake, Gulp, Grunt, NPM and TypeScript.
 
 ## Task Runner Explorer
 
-To open the Task Runner Explorer, from the View menu select Pads, then
+To open the Task Runner Explorer window, from the View menu select Pads, then
 select Task Runner Explorer.
 
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/ViewTaskRunnerExplorerMenu.png 'View Task Runner Explorer menu' 'View Task Runner Explorer menu' %}
 
 The Task Runner Explorer will look for files supported by a task runner in the
 solution directory and the project directory. It will also look at all files
-that have been added to the project.
+that have been added to a project or that have been added to a solution folder.
 
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerTypeScriptNpmTasks.png 'Task Runner Explorer TypeScript and NPM tasks' 'Task Runner Explorer TypeScript and NPM tasks' %}
 
-There is a combo box at the top left of the Task Runner Explorer which shows a list of projects
-or the solution that have tasks available.
+The top left of the Task Runner Explorer shows a list of projects
+or the solution that have tasks available. This can be used to filter the tasks shown in the
+Task Runner Explorer window.
 
 Currently changes made to tasks will not be detected automatically. To refresh
 the task information you can click the Refresh button in the Task Runner Explorer
@@ -61,7 +62,7 @@ window.
 
 ### Running a Task
 
-To run a task you can double click the task or right click it and select Run.
+To run a task you can double click it or right click and select Run.
 
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerRunMenu.png 'Task Runner Explorer Run menu' 'Task Runner Explorer Run menu' %}
 
@@ -73,8 +74,8 @@ window.
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/NpmUpdateRunCompleted.png 'NPM update completed' 'NPM update completed' %}
 
 A long running task, such as tcs watch, will run until the solution is closed,
-or the Stop button is clicked, on the right hand side
-of the Task Runner Explorer window.
+or the Stop button, availalble on the right hand side
+of the Task Runner Explorer window, is clicked.
 
 ### Binding Tasks to IDE Events
 
@@ -95,7 +96,7 @@ event.
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMenu.png 'Task Runner Explorer Bindings menu' 'Task Runner Explorer Bindings menu' %}
 
 The binding will be displayed in the Bindings tab and will also be shown as
-checked in the context menu for the task.
+checked when the context menu for the task is opened.
 
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBeforeBuildBindingAdded.png 'Task Runner Explorer Before Build binding added' 'Task Runner Explorer Before Build binding added' %}
 
@@ -109,13 +110,13 @@ by right clicking the binding in the Bindings tab and selecting Move Up or Move 
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMoveDownMenu.png 'Task Runner Explorer binding Move Up/Down menus' 'Task Runner Explorer binding Move Up/Down menus' %}
 
 The binding information is typically saved in a file in the same directory as the corresponding task
-runner file, however this is task runner specific.
+runner file, however this depends on how the task runner is implemented.
 
 ### Disabling Automatic Running of Tasks
 
 In preferences there is a Task Runner Explorer section which shows
 a check box that can be used to enable or disable the automatic
-running of tasks on project open, and when building or cleaning
+running of tasks on opening a project or solution, and when building or cleaning
 the project.
 
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerPreferences.png 'Preferences - Automatically run tasks option' 'Preferences - Automatically run tasks option' %}
@@ -150,7 +151,7 @@ The NPM task runner supports running tasks defined in a package.json file.
 
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/NpmTaskRunner.png 'NPM task runner' 'NPM task runner' %}
 
-This addin is a port of [Mads Kristensen's](https://madskristensen.net/) 
+The NPM task runner is a port of [Mads Kristensen's](https://madskristensen.net/) 
 [NPM Task Runner](https://github.com/madskristensen/NpmTaskRunner).
 
 The NPM task runner supports running with the verbose NPM option defined. If a
@@ -179,14 +180,14 @@ runner will fall back to running tsc directly.
 
 There are two addins to be installed:
 
- - Task Runner
- - Task Runners Bundle
+ - [Task Runner](https://github.com/mrward/monodevelop-task-runner-addin/releases/download/0.1/MonoDevelop.TaskRunner_0.1.mpack)
+ - [Task Runners Bundle](https://github.com/mrward/monodevelop-task-runner-addin/releases/download/0.1/MonoDevelop.TaskRunnersBundle_0.1.mpack)
 
- The Task Runner is the core addin. This will be used by other task runner addins and provides the
- main task runner API and services.
+The Task Runner is the main addin. This will be used by other task runner addins and provides the
+main task runner API and services.
 
- The Task Runners Bundle addin contains the Cake, Gulp, Grunt, NPM and TypeScript task runners. These
- are currently included together as a single addin instead of being distributed separately.
+The Task Runners Bundle addin contains the Cake, Gulp, Grunt, NPM and TypeScript task runners. These
+are currently included together as a single addin instead of being distributed separately.
 
 Download both of the above .mpack files. Install the Task Runner addin first since the Task Runners Bundle
 addin depends on it. To install an addin's .mpack file, open the Extensions Manager 
