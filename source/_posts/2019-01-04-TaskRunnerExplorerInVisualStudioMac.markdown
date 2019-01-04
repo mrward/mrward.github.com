@@ -7,7 +7,8 @@ categories: Xamarin MonoDevelop VSMac
 ---
 
 
-The [Task Runner Explorer addin]([Task Runner Explorer for Visual Studio for Mac](https://github.com/mrward/monodevelop-language-server-addin)) provides a Task Runner Explorer
+The [Task Runner Explorer addin](https://github.com/mrward/monodevelop-language-server-addin) provides a
+Task Runner Explorer
 window, similar to the one in Visual Studio on Windows, which can be used to run tasks with
 Cake, Gulp, Grunt, NPM and TypeScript.
 
@@ -55,10 +56,8 @@ or the solution that have tasks available. This can be used to filter the tasks 
 Task Runner Explorer window.
 
 Currently changes made to tasks will not be detected automatically. To refresh
-the task information you can click the Refresh button in the Task Runner Explorer
-window.
-
-{% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerRefreshButton.png 'Task Runner Explorer Refresh button' 'Task Runner Explorer Refresh button' %}
+the task information you can click the Refresh button
+available at the top left of the Task Runner Explorer window.
 
 ### Running a Task
 
@@ -74,7 +73,7 @@ window.
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/NpmUpdateRunCompleted.png 'NPM update completed' 'NPM update completed' %}
 
 A long running task, such as tcs watch, will run until the solution is closed,
-or the Stop button, availalble on the right hand side
+or the Stop button, available on the right hand side
 of the Task Runner Explorer window, is clicked.
 
 ### Binding Tasks to IDE Events
@@ -107,7 +106,7 @@ it in the Bindings tab and select Remove.
 The order in which the tasks are run for a particular IDE event can be changed
 by right clicking the binding in the Bindings tab and selecting Move Up or Move Down.
 
-{% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMoveDownMenu.png 'Task Runner Explorer binding Move Up/Down menus' 'Task Runner Explorer binding Move Up/Down menus' %}
+{% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMoveDownMenu.png 'Task Runner Explorer binding Move Up and Down menus' 'Task Runner Explorer binding Move Up and Down menus' %}
 
 The binding information is typically saved in a file in the same directory as the corresponding task
 runner file, however this depends on how the task runner is implemented.
@@ -116,8 +115,7 @@ runner file, however this depends on how the task runner is implemented.
 
 In preferences there is a Task Runner Explorer section which shows
 a check box that can be used to enable or disable the automatic
-running of tasks on opening a project or solution, and when building or cleaning
-the project.
+running of tasks on opening a project or solution, and when building or cleaning.
 
 {% img /images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerPreferences.png 'Preferences - Automatically run tasks option' 'Preferences - Automatically run tasks option' %}
 
@@ -194,7 +192,7 @@ addin depends on it. To install an addin's .mpack file, open the Extensions Mana
 by selecting Extensions... from the main menu. Click the Install from file button. Select the .mpack file 
 and then click the Open button. After installing both the addins restart Visual Studio for Mac.
 
-The addin is not currently available from the main Visual Studio for Mac extensions server.
+These addins are not currently available from the main Visual Studio for Mac extensions server.
 
 ## Source Code
 
