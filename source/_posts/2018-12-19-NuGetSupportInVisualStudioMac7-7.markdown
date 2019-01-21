@@ -13,6 +13,8 @@ categories: NuGet Xamarin VSMac MonoDevelop
    * Fixed NuGet sdk resolver not being found in Mono 5.16
    * Fixed null reference exception in package compatiblity check
    * Fixed Update menu enabled when project has no PackageReferences
+   * Fixed updating a NuGet package changing a reference's ItemGroup
+   * Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path
 
 More information on all the new features and changes in [Visual Studio for Mac 7.7](https://www.visualstudio.com/vs/visual-studio-mac/)
 can be found in the [release notes](https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-77).
@@ -99,3 +101,38 @@ PackageReferences in the project file, not just imported
 PackageReferences. The Update
 NuGet Packages menu, which is used to update packages for the solution,
 has also been changed to have the same behaviour.
+
+**Fixed updating a NuGet package changing a reference's ItemGroup**
+
+On updating a NuGet package the Reference item will now be modified in 
+place in the project file.
+
+On updating a NuGet package in a project that used a packages.config
+the old NuGet package is uninstalled and the new one is installed.
+This removes the old references and adds new references. If the
+references are in an ItemGroup with a condition then the new
+reference may be added into a different ItemGroup if there are other
+ItemGroups with references. To prevent this from happening the
+changes to made to references are cached and not applied to the
+project until all the NuGet actions have all been run. This allows
+a NuGet package update which would remove a reference and then
+add a new reference to be
+converted into an update of the original Reference in the project,
+changing just its HintPath, so its
+location in the project file is not changed.
+
+This was fixed in Visual Studio for Mac 7.7.3.
+
+**Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path**
+
+Updating a NuGet package, where the project, which uses a packages.config file,
+had been modified so the
+original reference had a fully qualified hint path, would result in
+a relative path used for the hint path when the reference was updated.
+
+Now if the original hint path was full path then if the hint
+path for the reference is changed it is saved using a full
+path. This is different behaviour to how Visual Studio on Windows works, which
+will always add a relative hint path for the reference.
+
+This was fixed in Visual Studio for Mac 7.7.3.
