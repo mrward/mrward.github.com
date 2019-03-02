@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 7.8 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes NuGet package diagnostics displayed in Solution window Support restoring multi-target framework projects Display summary of NuGet restore &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2019/03/02/NuGetSupportInVisualStudioMac7-8">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 7.8</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-02T12:40:00+00:00" pubdate data-updated="true">Mar 2<sup>nd</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet package diagnostics displayed in Solution window</li>
+<li> Support restoring multi-target framework projects</li>
+<li> Display summary of NuGet restore errors in Package Console</li>
+<li> Fixed wrong version of Microsoft.AspNetCore.App being restored</li>
+<li> Fixed Paket restore not working with SDK style projects</li>
+<li> Fixed NuGet restore ignoring build targets</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.8</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-78">release notes</a>.</p>
+
+<h2>NuGet package diagnostics displayed in Solution window</h2>
+
+<p>NuGet package diagnostic warnings are now shown in the Solution window.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/NuGetPackageDiagnosticWarningInSolutionWindow.png" title="NuGet package diagnostic warnings in Solution Window" alt="NuGet package diagnostic warnings in Solution Window"></p>
+
+<p>The diagnostic warnings are shown underneath the NuGet package with
+a warning icon. Hovering over the warning icon will show a tooltip.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/NuGetPackageDiagnosticWarningTooltip.png" title="NuGet package diagnostic warning tooltip in Solution Window" alt="NuGet package diagnostic warning tooltip in Solution Window"></p>
+
+<h2>Support restoring multi-target framework projects</h2>
+
+<p>Projects that have multiple target frameworks now have all frameworks restored.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/MultiTargetProjectInSolutionWindow.png" title="Multi-target framework project restored in Solution window" alt="Multi-target framework project restored in Solution window"></p>
+
+<p>Previously only the first target framework would be restored.</p>
+
+<p>Conditional PackageReferences defined in the project file are also now
+respected when restoring the project. Previously the conditions on the
+PackageReferences would be ignored.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/ConditionalPackageReferences.png" title="Conditional PackageReferences restored in Solution window" alt="Conditional PackageReferences restored in Solution window"></p>
+
+<p>Visual Studio for Mac now uses the GenerateRestoreGraphFile MSBuild target to determine
+package dependencies. Previously this information was obtained from the project information
+held in memory. This fixes several NuGet restore bugs in Visual Studio for Mac.</p>
+
+<h2>Display summary of NuGet restore errors in Package Console</h2>
+
+<p>Creating an xUnit .NET Core test project named &lsquo;xunit&rsquo; fails to
+restore since there is a package reference cycle between the project
+and the xunit NuGet package. Whilst this reference cycle is reported it is
+hidden in the Package Console output and all you would see was a message
+indicating that the restore had failed. Now the error information is
+shown at the end of the
+Package Console as a summary of the failures to make it easier to
+see the problem.</p>
+
+<p>Now for the xunit project you will see the following
+at the end of the Package Console output:</p>
+
+<pre><code>Cycle detected.
+  xunit -&gt; xunit (&gt;= 2.3.1).
+Restore failed.
+</code></pre>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed wrong version of Microsoft.AspNetCore.App being restored</strong></p>
+
+<p>With an ASP.NET Core 2.1 project, that had included a PackageReference for
+Microsoft.AspNetCore.App version 2.1.5, Visual Studio for Mac would incorrectly restore
+Microsoft.AspNetCore.App version 2.1.1.</p>
+
+<p>Using the GenerateRestoreGraphFile MSBuild target to determine package reference
+information when restoring has fixed this problem.</p>
+
+<p><strong>Fixed Paket restore not working with SDK style projects</strong></p>
+
+<p>When Paket is used with an SDK style project it injects PackageReferences
+via the PaketRestore target from the Paket.Restore.targets file. Visual Studio for
+Mac was not using MSBuild to get the package reference information so
+PackageReferences defined by Paket were not being restored or made available.</p>
+
+<p><strong>Fixed NuGet restore ignoring build targets</strong></p>
+
+<p>OrchardCore would fail to restore when opened in Visual Studio for Mac. OrchardCore
+defines the PackageReference versions in a separate MSBuild .props file and has a custom
+MSBuild target to define these versions. This custom MSBuild target is now supported
+since Visual Studio for Mac uses the GenerateRestoreGraphFile MSBuild target to
+determine package references when restoring.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-02T12:40:00+00:00" pubdate data-updated="true">Mar 2<sup>nd</sup>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2019/03/02/NuGetSupportInVisualStudioMac7-8/" data-via="" data-counturl="http://lastexitcode.com/blog/2019/03/02/NuGetSupportInVisualStudioMac7-8/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/01/04/TaskRunnerExplorerInVisualStudioMac/" title="Previous Post: Task Runner Explorer in Visual Studio for Mac">&laquo; Task Runner Explorer in Visual Studio for Mac</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -9,9 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="The Task Runner Explorer addin provides a
-Task Runner Explorer
-window, similar to the one in Visual Studio on Windows, which can be used to run tasks &hellip;">
+  <meta name="description" content="Changes NuGet package diagnostics displayed in Solution window Support restoring multi-target framework projects Display summary of NuGet restore &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +81,129 @@ window, similar to the one in Visual Studio on Windows, which can be used to run
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/03/02/NuGetSupportInVisualStudioMac7-8/">NuGet Support in Visual Studio for Mac 7.8</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-02T12:40:00+00:00" pubdate data-updated="true">Mar 2<sup>nd</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet package diagnostics displayed in Solution window</li>
+<li> Support restoring multi-target framework projects</li>
+<li> Display summary of NuGet restore errors in Package Console</li>
+<li> Fixed wrong version of Microsoft.AspNetCore.App being restored</li>
+<li> Fixed Paket restore not working with SDK style projects</li>
+<li> Fixed NuGet restore ignoring build targets</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.8</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-78">release notes</a>.</p>
+
+<h2>NuGet package diagnostics displayed in Solution window</h2>
+
+<p>NuGet package diagnostic warnings are now shown in the Solution window.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/NuGetPackageDiagnosticWarningInSolutionWindow.png" title="NuGet package diagnostic warnings in Solution Window" alt="NuGet package diagnostic warnings in Solution Window"></p>
+
+<p>The diagnostic warnings are shown underneath the NuGet package with
+a warning icon. Hovering over the warning icon will show a tooltip.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/NuGetPackageDiagnosticWarningTooltip.png" title="NuGet package diagnostic warning tooltip in Solution Window" alt="NuGet package diagnostic warning tooltip in Solution Window"></p>
+
+<h2>Support restoring multi-target framework projects</h2>
+
+<p>Projects that have multiple target frameworks now have all frameworks restored.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/MultiTargetProjectInSolutionWindow.png" title="Multi-target framework project restored in Solution window" alt="Multi-target framework project restored in Solution window"></p>
+
+<p>Previously only the first target framework would be restored.</p>
+
+<p>Conditional PackageReferences defined in the project file are also now
+respected when restoring the project. Previously the conditions on the
+PackageReferences would be ignored.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/ConditionalPackageReferences.png" title="Conditional PackageReferences restored in Solution window" alt="Conditional PackageReferences restored in Solution window"></p>
+
+<p>Visual Studio for Mac now uses the GenerateRestoreGraphFile MSBuild target to determine
+package dependencies. Previously this information was obtained from the project information
+held in memory. This fixes several NuGet restore bugs in Visual Studio for Mac.</p>
+
+<h2>Display summary of NuGet restore errors in Package Console</h2>
+
+<p>Creating an xUnit .NET Core test project named &lsquo;xunit&rsquo; fails to
+restore since there is a package reference cycle between the project
+and the xunit NuGet package. Whilst this reference cycle is reported it is
+hidden in the Package Console output and all you would see was a message
+indicating that the restore had failed. Now the error information is
+shown at the end of the
+Package Console as a summary of the failures to make it easier to
+see the problem.</p>
+
+<p>Now for the xunit project you will see the following
+at the end of the Package Console output:</p>
+
+<pre><code>Cycle detected.
+  xunit -&gt; xunit (&gt;= 2.3.1).
+Restore failed.
+</code></pre>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed wrong version of Microsoft.AspNetCore.App being restored</strong></p>
+
+<p>With an ASP.NET Core 2.1 project, that had included a PackageReference for
+Microsoft.AspNetCore.App version 2.1.5, Visual Studio for Mac would incorrectly restore
+Microsoft.AspNetCore.App version 2.1.1.</p>
+
+<p>Using the GenerateRestoreGraphFile MSBuild target to determine package reference
+information when restoring has fixed this problem.</p>
+
+<p><strong>Fixed Paket restore not working with SDK style projects</strong></p>
+
+<p>When Paket is used with an SDK style project it injects PackageReferences
+via the PaketRestore target from the Paket.Restore.targets file. Visual Studio for
+Mac was not using MSBuild to get the package reference information so
+PackageReferences defined by Paket were not being restored or made available.</p>
+
+<p><strong>Fixed NuGet restore ignoring build targets</strong></p>
+
+<p>OrchardCore would fail to restore when opened in Visual Studio for Mac. OrchardCore
+defines the PackageReference versions in a separate MSBuild .props file and has a custom
+MSBuild target to define these versions. This custom MSBuild target is now supported
+since Visual Studio for Mac uses the GenerateRestoreGraphFile MSBuild target to
+determine package references when restoring.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -377,6 +498,8 @@ and then click the Open button. After installing both the addins restart Visual 
 <li> Fixed NuGet sdk resolver not being found in Mono 5.16</li>
 <li> Fixed null reference exception in package compatiblity check</li>
 <li> Fixed Update menu enabled when project has no PackageReferences</li>
+<li> Fixed updating a NuGet package changing a reference&rsquo;s ItemGroup</li>
+<li> Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path</li>
 </ul>
 
 
@@ -467,6 +590,41 @@ PackageReferences in the project file, not just imported
 PackageReferences. The Update
 NuGet Packages menu, which is used to update packages for the solution,
 has also been changed to have the same behaviour.</p>
+
+<p><strong>Fixed updating a NuGet package changing a reference&rsquo;s ItemGroup</strong></p>
+
+<p>On updating a NuGet package the Reference item will now be modified in
+place in the project file.</p>
+
+<p>On updating a NuGet package in a project that used a packages.config
+the old NuGet package is uninstalled and the new one is installed.
+This removes the old references and adds new references. If the
+references are in an ItemGroup with a condition then the new
+reference may be added into a different ItemGroup if there are other
+ItemGroups with references. To prevent this from happening the
+changes to made to references are cached and not applied to the
+project until all the NuGet actions have all been run. This allows
+a NuGet package update which would remove a reference and then
+add a new reference to be
+converted into an update of the original Reference in the project,
+changing just its HintPath, so its
+location in the project file is not changed.</p>
+
+<p>This was fixed in Visual Studio for Mac 7.7.3.</p>
+
+<p><strong>Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path</strong></p>
+
+<p>Updating a NuGet package, where the project, which uses a packages.config file,
+had been modified so the
+original reference had a fully qualified hint path, would result in
+a relative path used for the hint path when the reference was updated.</p>
+
+<p>Now if the original hint path was full path then if the hint
+path for the reference is changed it is saved using a full
+path. This is different behaviour to how Visual Studio on Windows works, which
+will always add a relative hint path for the reference.</p>
+
+<p>This was fixed in Visual Studio for Mac 7.7.3.</p>
 </div>
   
   
@@ -2656,184 +2814,6 @@ whilst writing this blog post is available on
 <a href="https://github.com/mrward/monodevelop-language-server-addin">Language Server Client extension source code</a>
 on GitHub, however these are not standalone and are compiled with the
 Language Server Client extension.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4/">.NET Core Support in Visual Studio for Mac 7.4</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-03-11T11:00:00+00:00" pubdate data-updated="true">Mar 11<sup>th</sup>, 2018</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Changes</h2>
-
-<ul>
-<li> Solution window detects file system changes outside Visual Studio for Mac</li>
-<li> Projects with unknown target frameworks can now be loaded
-
-<ul>
-<li><a href="https://oren.codes/2017/08/29/use-all-tfms-with-sdk-style-projects-in-visual-studio-for-mac/">MSBuild SDK Extras</a> is now supported without requiring an extra extension to be installed</li>
-<li>Tizen.NET projects are now supported</li>
-</ul>
-</li>
-<li> Fixed xUnit test messages not being displayed</li>
-<li> ASP.NET Core minified files are no longer formatted</li>
-<li> Support target framework defined in another MSBuild property</li>
-<li> Show SDK information before dependencies are restored</li>
-<li> Fixed failure to add new file when the default project namespace contains only numbers</li>
-<li> Fixed remove item not added for .xaml.cs file</li>
-<li> Fixed incorrect project updates when moving a file</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a> can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
-
-<h2>Solution window detects file system changes</h2>
-
-<p>Files created in the project directory, or a subdirectory,
-outside Visual Studio for Mac are now added to the project and
-appear in the Solution window automatically.</p>
-
-<p><img src="/images/blog/NetCoreSupportInVisualStudioMac7-4/DotNetCoreProjectFileWatcher.gif" title="File added and removed from command line - Solution window updated" alt="File added and removed from command line - Solution window updated"></p>
-
-<p>Deleting project files and directories will remove the files from
-the Solution window. The Solution window will also update after
-a file or a directory is renamed outside Visual Studio for Mac.</p>
-
-<h2>Allow unknown target framework projects to be loaded</h2>
-
-<p>The target framework of an SDK style project is no longer restricted.
-Previously Visual Studio for Mac would fail to load an SDK style
-project unless its target framework was .NET Standard, .NET Core App
-or .NET Framework.</p>
-
-<p>This allows Tizen projects to be loaded without the error message
-&ldquo;Project does not support framework &lsquo;Tizen,Version=v4.0&rsquo;&rdquo; being
-displayed. Tizen projects have a Tizen.NET package reference which
-imports an MSBuild .props file that defines the Tizen target framework.</p>
-
-<p>The <a href="https://github.com/onovotny/MSBuildSdkExtras">MSBuild.Sdk.Extras</a> NuGet
-package is now supported so SDK style projects can use target frameworks
-that this NuGet package
-supports, such as Xamarin.iOS and MonoAndroid.</p>
-
-<p>On building a project with an unknown target framework, that is
-not defined by any used NuGet package references, a build error
-that indicates the framework is not supported will occur:</p>
-
-<pre><code>The TargetFramework value 'test1.0' was not recognized.
-</code></pre>
-
-<p>NuGet restore will also fail for an unknown target framework with
-a message indicating the framework is invalid.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fix xUnit test messages not displayed</strong></p>
-
-<p>xUnit tests support an ITestOutputHelper interface which can be
-passed to the constructor of the test. This has a WriteLine method
-which can be used to output messages whilst running the test. When
-this was used the text displayed in Visual Studio for Mac&rsquo;s Test Results
-window was:</p>
-
-<pre><code>Microsoft.VisualStudio.TestPlatform.ObjectModel.TestResultMessage
-</code></pre>
-
-<p>Now the text from the message is shown in the Tests Results window.</p>
-
-<p><strong>Support target framework defined in another MSBuild property</strong></p>
-
-<p>An SDK style project that defined the <TargetFrameworks> element to
-be another MSBuild property would fail to restore.</p>
-
-<p>In the example below the property TheFramework is defined in the
-Frameworks.props file.</p>
-
-<pre><code>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
-  &lt;Import Project="Frameworks.props" /&gt;
-  &lt;PropertyGroup&gt;
-    &lt;TargetFrameworks&gt;$(TheFramework)&lt;/TargetFrameworks&gt;
-  &lt;/PropertyGroup&gt;
-&lt;/Project&gt;
-</code></pre>
-
-<p>The unevaluated MSBuild property value was used and would result in the
-NuGet package restore failing.</p>
-
-<p>Now the evaluated property value is used when restoring dependencies.</p>
-
-<p><strong>ASP.NET Core minified files and map files are no longer formatted</strong></p>
-
-<p>On creating a new ASP.NET Core project the minified files were being
-re-formatted and were no longer minified. Now the .min.css, .min.js and
-.map files are excluded from being re-formatted when a new ASP.NET Core
-project is created.</p>
-
-<p><strong>Fixed failure to add a new file when the default project namespace contains only numbers</strong></p>
-
-<p>If a project has a default namespace of &lsquo;1&rsquo; then adding a new C#
-file from a template would throw a null reference
-exception. The problem was that the sanitized namespace for the project&rsquo;s
-default namespace was null.</p>
-
-<p><strong>Show SDK information before dependencies are restored</strong></p>
-
-<p>When a new .NET Core project is created the Dependencies &ndash; SDK folder
-would show no items until the NuGet package restore completed. Now
-the SDK dependency is shown whilst the dependencies are being restored.</p>
-
-<p><strong>Fixed remove item not added for .xaml.cs file</strong></p>
-
-<p>When a new content page with xaml file was
-added and then removed, but not deleted,
-a remove item was not added for the .xaml.cs file.</p>
-
-<p><strong>Fixed incorrect project updates when moving a file</strong></p>
-
-<p>Moving a Resource file from one folder to another would not update
-the project file correctly. Either the project file would not be
-modified or the file would be removed.</p>
-
-<p>One problem was that on moving a clone is taken of the original item
-and the associated MSBuild item was copied but was still referring
-back to the original location. Another problem was that an incorrect
-match was being made when looking for remove items resulting in the
-wrong files being removed from the project.</p>
-
-<p><strong>Fixed being unable to use NUnit in a .NET Core test project</strong></p>
-
-<p>The problem was that the NUnit test provider, which supports running NUnit tests
-for non .NET Core projects, was finding a PackageReference for NUnit, and then
-trying to load the tests for the .NET Core project and failing. To fix this the
-NUnit test provider now ignores .NET Core projects so the VS Test provider will
-load the tests for the project.</p>
 </div>
   
   

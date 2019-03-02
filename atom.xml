@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-01-04T13:45:28+00:00</updated>
+  <updated>2019-03-02T14:20:13+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.8]]></title>
+    <link href="http://lastexitcode.com/blog/2019/03/02/NuGetSupportInVisualStudioMac7-8/"/>
+    <updated>2019-03-02T12:40:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2019/03/02/NuGetSupportInVisualStudioMac7-8</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet package diagnostics displayed in Solution window</li>
+<li> Support restoring multi-target framework projects</li>
+<li> Display summary of NuGet restore errors in Package Console</li>
+<li> Fixed wrong version of Microsoft.AspNetCore.App being restored</li>
+<li> Fixed Paket restore not working with SDK style projects</li>
+<li> Fixed NuGet restore ignoring build targets</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.8</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-78">release notes</a>.</p>
+
+<h2>NuGet package diagnostics displayed in Solution window</h2>
+
+<p>NuGet package diagnostic warnings are now shown in the Solution window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-8/NuGetPackageDiagnosticWarningInSolutionWindow.png" title="NuGet package diagnostic warnings in Solution Window" alt="NuGet package diagnostic warnings in Solution Window"></p>
+
+<p>The diagnostic warnings are shown underneath the NuGet package with
+a warning icon. Hovering over the warning icon will show a tooltip.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-8/NuGetPackageDiagnosticWarningTooltip.png" title="NuGet package diagnostic warning tooltip in Solution Window" alt="NuGet package diagnostic warning tooltip in Solution Window"></p>
+
+<h2>Support restoring multi-target framework projects</h2>
+
+<p>Projects that have multiple target frameworks now have all frameworks restored.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-8/MultiTargetProjectInSolutionWindow.png" title="Multi-target framework project restored in Solution window" alt="Multi-target framework project restored in Solution window"></p>
+
+<p>Previously only the first target framework would be restored.</p>
+
+<p>Conditional PackageReferences defined in the project file are also now
+respected when restoring the project. Previously the conditions on the
+PackageReferences would be ignored.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-8/ConditionalPackageReferences.png" title="Conditional PackageReferences restored in Solution window" alt="Conditional PackageReferences restored in Solution window"></p>
+
+<p>Visual Studio for Mac now uses the GenerateRestoreGraphFile MSBuild target to determine
+package dependencies. Previously this information was obtained from the project information
+held in memory. This fixes several NuGet restore bugs in Visual Studio for Mac.</p>
+
+<h2>Display summary of NuGet restore errors in Package Console</h2>
+
+<p>Creating an xUnit .NET Core test project named &lsquo;xunit&rsquo; fails to
+restore since there is a package reference cycle between the project
+and the xunit NuGet package. Whilst this reference cycle is reported it is
+hidden in the Package Console output and all you would see was a message
+indicating that the restore had failed. Now the error information is
+shown at the end of the
+Package Console as a summary of the failures to make it easier to
+see the problem.</p>
+
+<p>Now for the xunit project you will see the following
+at the end of the Package Console output:</p>
+
+<pre><code>Cycle detected.
+  xunit -&gt; xunit (&gt;= 2.3.1).
+Restore failed.
+</code></pre>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed wrong version of Microsoft.AspNetCore.App being restored</strong></p>
+
+<p>With an ASP.NET Core 2.1 project, that had included a PackageReference for
+Microsoft.AspNetCore.App version 2.1.5, Visual Studio for Mac would incorrectly restore
+Microsoft.AspNetCore.App version 2.1.1.</p>
+
+<p>Using the GenerateRestoreGraphFile MSBuild target to determine package reference
+information when restoring has fixed this problem.</p>
+
+<p><strong>Fixed Paket restore not working with SDK style projects</strong></p>
+
+<p>When Paket is used with an SDK style project it injects PackageReferences
+via the PaketRestore target from the Paket.Restore.targets file. Visual Studio for
+Mac was not using MSBuild to get the package reference information so
+PackageReferences defined by Paket were not being restored or made available.</p>
+
+<p><strong>Fixed NuGet restore ignoring build targets</strong></p>
+
+<p>OrchardCore would fail to restore when opened in Visual Studio for Mac. OrchardCore
+defines the PackageReference versions in a separate MSBuild .props file and has a custom
+MSBuild target to define these versions. This custom MSBuild target is now supported
+since Visual Studio for Mac uses the GenerateRestoreGraphFile MSBuild target to
+determine package references when restoring.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Task Runner Explorer in Visual Studio for Mac]]></title>
@@ -256,6 +352,8 @@ and then click the Open button. After installing both the addins restart Visual 
 <li> Fixed NuGet sdk resolver not being found in Mono 5.16</li>
 <li> Fixed null reference exception in package compatiblity check</li>
 <li> Fixed Update menu enabled when project has no PackageReferences</li>
+<li> Fixed updating a NuGet package changing a reference&rsquo;s ItemGroup</li>
+<li> Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path</li>
 </ul>
 
 
@@ -346,6 +444,41 @@ PackageReferences in the project file, not just imported
 PackageReferences. The Update
 NuGet Packages menu, which is used to update packages for the solution,
 has also been changed to have the same behaviour.</p>
+
+<p><strong>Fixed updating a NuGet package changing a reference&rsquo;s ItemGroup</strong></p>
+
+<p>On updating a NuGet package the Reference item will now be modified in
+place in the project file.</p>
+
+<p>On updating a NuGet package in a project that used a packages.config
+the old NuGet package is uninstalled and the new one is installed.
+This removes the old references and adds new references. If the
+references are in an ItemGroup with a condition then the new
+reference may be added into a different ItemGroup if there are other
+ItemGroups with references. To prevent this from happening the
+changes to made to references are cached and not applied to the
+project until all the NuGet actions have all been run. This allows
+a NuGet package update which would remove a reference and then
+add a new reference to be
+converted into an update of the original Reference in the project,
+changing just its HintPath, so its
+location in the project file is not changed.</p>
+
+<p>This was fixed in Visual Studio for Mac 7.7.3.</p>
+
+<p><strong>Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path</strong></p>
+
+<p>Updating a NuGet package, where the project, which uses a packages.config file,
+had been modified so the
+original reference had a fully qualified hint path, would result in
+a relative path used for the hint path when the reference was updated.</p>
+
+<p>Now if the original hint path was full path then if the hint
+path for the reference is changed it is saved using a full
+path. This is different behaviour to how Visual Studio on Windows works, which
+will always add a relative hint path for the reference.</p>
+
+<p>This was fixed in Visual Studio for Mac 7.7.3.</p>
 ]]></content>
   </entry>
   
@@ -4192,143 +4325,6 @@ the .NET Core SDK.</p>
 <li><a href="https://github.com/mrward/monodevelop-open-with-addin">Open With addin for Visual Studio for Mac</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.0]]></title>
-    <link href="http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0/"/>
-    <updated>2017-06-04T12:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2017/06/04/NuGetSupportInVisualStudioMac7-0</id>
-    <content type="html"><![CDATA[<h2>New Features</h2>
-
-<ul>
-<li> .NET Core support</li>
-<li> NuGet 4.0 support</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.0</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes">release notes</a>.</p>
-
-<h2>.NET Core Support</h2>
-
-<p>.NET Core projects do not show a Packages folder in the Solution window. Instead the NuGet packages are displayed in a NuGet folder, which is inside a Dependencies folder.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageInSolutionWindow.png" title="Newtonsoft.Json NuGet package in Solution window - .NET Core project" alt="Newtonsoft.Json NuGet package in Solution window - .NET Core project"></p>
-
-<p>The version of the NuGet package is displayed directly in the Solution window. For other project types you need to right click the package to see the version.</p>
-
-<p>If the NuGet package depends on other packages then these can be seen by clicking on the arrow to expand the dependencies.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectJsonNetPackageExpandedInSolutionWindow.png" title="Newtonsoft.Json NuGet package expanded in Solution window - .NET Core project" alt="Newtonsoft.Json NuGet package expanded in Solution window - .NET Core project"></p>
-
-<h3>Restoring Packages</h3>
-
-<p>NuGet packages will be restored automatically on opening a .NET Core project. This can be disabled in preferences by unchecking <strong>Automatically restore packages when opening a solution</strong> in the NuGet &ndash; General section.</p>
-
-<p>You can manually restore NuGet packages for .NET Core projects by:</p>
-
-<ul>
-<li>Right clicking the Dependencies folder and selecting Restore.</li>
-<li>Right clicking the NuGet folder and selecting Restore.</li>
-<li>Selecting Restore NuGet Packages from the Project menu.</li>
-</ul>
-
-
-<p>Selecting Restore NuGet Packages from the Project menu will restore packages for the project or the solution depending on what is currently selected in the Solution window.</p>
-
-<p>Restoring NuGet packages for a .NET Core project works differently compared with a project that uses a packages.config file. The NuGet packages themselves will be downloaded into the NuGet package cache folder ~/.nuget/packages if they do not exist, as before, but the NuGet packages will not be copied into a packages directory inside the solution&rsquo;s directory. The project file will not contain have any Reference items added when a NuGet package is installed.</p>
-
-<p>When a NuGet restore is run for a .NET Core project three files in the obj directory are created.</p>
-
-<ul>
-<li>project.assets.json</li>
-<li>ProjectName.csproj.nuget.g.props</li>
-<li>ProjectName.csproj.nuget.g.targets</li>
-</ul>
-
-
-<p>The project.assets.json file contains the dependencies for your project.</p>
-
-<p>The nuget.g.props and nuget.g.targets files will contain any MSBuild imports that your NuGet package requires and they also define some properties, such as the path to the NuGet package cache on your machine.</p>
-
-<p>These three files are used when building your project to resolve the assemblies to be referenced now that they are no longer explicitly stored in your project file.</p>
-
-<h3>Updating Packages</h3>
-
-<p>NuGet packages can be updated by:</p>
-
-<ul>
-<li>Right clicking the package inside the NuGet folder and selecting Update.</li>
-<li>Right clicking the NuGet folder and selecting Update.</li>
-<li>Right clicking the Dependencies folder and selecting Update.</li>
-<li>Selecting Update NuGet Packages from the Project menu.</li>
-</ul>
-
-
-<p>Selecting Update NuGet Packages from the Project menu will update all packages in the project or in the solution depending on what is currently selected in the Solution window.</p>
-
-<h3>Removing Multiple NuGet Packages in One Step</h3>
-
-<p>You can remove multiple NuGet packages in one step from a .NET Core project by selecting the packages in the Solution window, right clicking and selecting Remove.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-0/NetCoreProjectRemoveMultipleNuGetPackagesInSolutionWindow.png" title="Removing multiple NuGet packages in Solution window - .NET Core project" alt="Removing multiple NuGet packages in Solution window - .NET Core project"></p>
-
-<p>Projects that use a packages.config file do not support removing multiple NuGet packages in one step.</p>
-
-<h3>Installing NuGet Packages</h3>
-
-<p>NuGet packages are installed by using the Add Packages dialog in the same way as with other project types. To open the Add Packages dialog for a .NET Core project:</p>
-
-<ul>
-<li>Right click the NuGet folder and select Add Packages&hellip;</li>
-<li>Right click the Dependencies folder and select Add Packages&hellip;</li>
-<li>Right click the project and select Add &ndash; Add NuGet Packages&hellip;</li>
-<li>From the Project menu select Add NuGet Packages&hellip;</li>
-</ul>
-
-
-<p>When the first NuGet package is installed into a .NET Core project a packages.config file will not be created. Instead the NuGet package will be added as a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> that is saved in the project file.</p>
-
-<h3>Package Reference</h3>
-
-<p>.NET Core projects do not use a packages.config file to record their NuGet dependencies. Instead the .NET Core project file will contain a <a href="https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files">PackageReference</a> after the NuGet package is installed into the project.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
-</span><span class='line'>
-</span><span class='line'>  &lt;PropertyGroup&gt;
-</span><span class='line'>    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
-</span><span class='line'>    &lt;TargetFramework&gt;netcoreapp1.1&lt;/TargetFramework&gt;
-</span><span class='line'>  &lt;/PropertyGroup&gt;
-</span><span class='line'>
-</span><span class='line'>  &lt;ItemGroup&gt;
-</span><span class='line'>    &lt;PackageReference Include="Newtonsoft.Json" Version="10.0.2" /&gt;
-</span><span class='line'>  &lt;/ItemGroup&gt;
-</span><span class='line'>&lt;/Project&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Please note that Visual Studio for Mac currently only supports package references with the new SDK style projects which are used by .NET Core. If you use package references in other project types then the Solution window will not show the packages and a packages.config file will be created if you install a NuGet package.</p>
-
-<h3>Updated Packages Available</h3>
-
-<p>For other project types the Solution window will check for updated packages and show this information in the Packages folder. This is not currently supported with .NET Core projects.</p>
-
-<h2>NuGet 4.0 Support</h2>
-
-<p>Visual Studio for Mac now includes <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0</a>.</p>
-
-<p>More information on the new features provided by NuGet 4.&ndash; can be found in the <a href="http://blog.nuget.org/20170308/Announcing-NuGet-4.0-RTM.html">Announcing NuGet 4.0 RTM blog post</a> and the <a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.0-rtm">NuGet 4.0 release notes</a>.</p>
 ]]></content>
   </entry>
   
