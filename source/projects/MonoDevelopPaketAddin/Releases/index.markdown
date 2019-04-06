@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop Paket Addin Releases"
-date: 20178-08-11 17:00
+date: 2019-04-06 13:40
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.5.1
+
+2019-04-06
+
+* Support MonoDevelop 8.0
+* Fix ordering of Paket Dependencies and Paket References folders in Solution window
 
 ## Version 0.5
 
