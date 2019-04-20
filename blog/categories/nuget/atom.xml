@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nuget | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/nuget/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-03-02T14:20:13+00:00</updated>
+  <updated>2019-04-20T12:36:54+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,47 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.0]]></title>
+    <link href="http://lastexitcode.com/blog/2019/04/20/NuGetSupportInVisualStudioMac8-0/"/>
+    <updated>2019-04-20T12:40:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2019/04/20/NuGetSupportInVisualStudioMac8-0</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Fixed build action not available after installing package into a PackageReference project</li>
+<li> Fixed NuGet extension api install events not raised for PackageReference projects</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.0</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed build action not available on installing package into a PackageReference project</strong></p>
+
+<p>After installing the Xamarin.GooglePlayServices.Basement NuGet package, into a project
+that used PackageReferences, the GoogleServicesJson build action, defined by this NuGet package,
+was not available in the list of build actions when you right clicked a file in the
+Solution window. The build action was available after the solution was closed and re-opened.</p>
+
+<p>Installing a NuGet package into a project that used PackageReferences
+would not re-evaluate the project&rsquo;s MSBuild information. This resulted in any custom
+<a href="https://docs.microsoft.com/en-us/visualstudio/msbuild/visual-studio-integration-msbuild?view=vs-2019#additional-build-actions">AvailableItemNames</a>
+not being available to be used as a build action
+in the Solution window. The build actions for a project were cached so these
+are now cleared to ensure the latest items are available
+after an re-evaluation.</p>
+
+<p><strong>Fixed NuGet extension api install events not raised for PackageReference projects</strong></p>
+
+<p>The NuGet extension API has a PackageReferenceAdded event and a
+PackageReferenceRemoved. These were being raised if a project had
+a packages.config file but not if the project used PackageReferences.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.8]]></title>
@@ -595,87 +636,6 @@ using MSBuild was cancelled this would result an empty list of depenencies
 being cached. Since no package dependencies were returned the Solution window
 would fallback to showing the package dependencies that were listed in the
 project and a default top level SDK package dependency.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.4]]></title>
-    <link href="http://lastexitcode.com/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4/"/>
-    <updated>2018-03-10T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> Support NuGet RestoreProjectStyle MSBuild Property</li>
-<li> .NET Core xUnit tests not displayed if NuGet packages not cached</li>
-<li> No tests displayed when project uses a NUnit PackageReference</li>
-<li> NuGet MSBuild imports not removed when migrating to project.json</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
-
-<h2>Support RestoreProjectStyle MSBuild property</h2>
-
-<p>If a project sets the RestoreProjectStyle property to be
-PackageReference then the project will be restored as though it has
-PackageReferences even if it does not have any.</p>
-
-<pre><code>&lt;RestoreProjectStyle&gt;PackageReference&lt;/RestoreProjectStyle&gt;
-</code></pre>
-
-<p>This fixes runtime problems when a project references a .NET Standard
-project that has PackageReferences. Without the RestoreProjectStyle set
-the assemblies from the NuGet packages are not copied to the output
-directory and would have to be added to the main project.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>.NET Core xUnit tests not displayed if NuGet packages are not in local NuGet cache</strong></p>
-
-<p>If the NuGet packages that contain the VS Test adapters were not available in
-the local machine&rsquo;s NuGet package cache then
-the Unit Tests window would not show any tests after the NuGet
-packages were restored and the project was compiled.</p>
-
-<p>Visual Studio for Mac would not initially find any test adapter dlls
-and would not attempt to discover any tests for the project after the
-NuGet packages were downloaded into the NuGet package cache.</p>
-
-<p>Now after the NuGet package restore has completed the check for a
-VS Test adapter is now re-run.</p>
-
-<p><strong>No tests displayed when a project uses a NUnit PackageReference</strong></p>
-
-<p>The Unit Tests window would not show any unit tests when a non .NET
-Core project contained a NUnit PackageReference. Visual Studio for
-Mac was looking for a PackageReference that contained &lsquo;nunit.framework&rsquo;
-and was not finding the NUnit NuGet package reference.</p>
-
-<p><strong>NuGet MSBuild imports not removed when migrating to project.json</strong></p>
-
-<p>When a Portable Class Library project was migrated to use a project.json
-file the MSBuild imports added by NuGet were not removed. These imports
-are added by NuGet into the generated ProjectName.nuget.props and
-ProjectName.nuget.targets files on restoring a project.json file.
-Leaving the import in the project file would result in the import
-being used twice. When a PCL project that used Xamarin.Forms was
-migrated to project.json the project would fail to compile with the
-error:</p>
-
-<pre><code>Error XF001: Xamarin.Forms targets have been imported multiple times.
-Please check your project file and remove the duplicate import(s).
-</code></pre>
-
-<p>Now on migrating to project.json the MSBuild imports added by NuGet packages
-to the project are removed.</p>
-
-<p><strong>Fix unhandled exception when searching for packages</strong></p>
-
-<p>An unhandled exception was being logged if a package source returned
-an error or the package source url was invalid. This was because a
-task was not being observed when the package sources were being used.</p>
 ]]></content>
   </entry>
   

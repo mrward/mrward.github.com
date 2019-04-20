@@ -9,8 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released. New Features NuGet 2.7.1 support.
-Improved support for &hellip;">
+  <meta name="description" content="A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released. New Features The main change is support for NuGet 2.7.2 so you &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +81,48 @@ Improved support for &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/15/MonoDevelopNuGetAddin0-8Released/">MonoDevelop NuGet Addin 0.8 Released</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-15T18:22:00+00:00" pubdate data-updated="true">Dec 15<sup>th</sup>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A new version of the NuGet addin for Xamarin Studio and MonoDevelop has been released.</p>
+
+<h2>New Features</h2>
+
+<p>The main change is support for <a href="http://docs.nuget.org/docs/release-notes/nuget-2.7.2">NuGet 2.7.2</a> so you can now add NuGet packages, that include Portable Class Libraries (PCLs), to projects that target MonoAndroid.</p>
+
+<p>For a detailed look at the changes please read the <a href="/projects/MonoDevelopNuGetAddin/Releases/0.8/">release note</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1000,366 +1041,9 @@ File content: &lt;#= text #&gt;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/08/21/UsingAntlrJavascriptParserInCSharp/">Creating a JavaScript Parser with ANTLR that can be used from CSharp</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-21T19:30:00+01:00" pubdate data-updated="true">Aug 21<sup>st</sup>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>How do you create a JavaScript parser that you can use from C#? One way is to use <a href="http://www.antlr.org/about.html">ANTLR</a>. ANother Tool for Language Recognition (ANTLR) is a parser generated created and maintained by Terence Parr.</p>
-
-<p>The ANTLR website has a JavaScript grammar already defined so we will take that grammar, get ANTLR to create a parser, and then use that parser to parse some JavaScript code. The following guide is based on using <a href="http://www.antlr.org/works/index.html">ANTLRWorks 1.4.2</a>, which includes ANTLR 3.3, and the CSharp3 code generator version 3.3.1.</p>
-
-<h2>Installing ANTLR</h2>
-
-<ol>
-<li>Install the <a href="http://www.oracle.com/technetwork/java/javase/downloads/index-jdk5-jsp-142662.html">Java JDK 1.5</a>. Newer versions than 1.5 may work with ANTLR.</li>
-<li>Download <a href="http://www.antlr.org/download/antlrworks-1.4.2.jar">ANTLRWorks 1.4.2</a> (which includes Antlr 3.3).</li>
-</ol>
-
-
-<p>Check ANTLRWorks can be started by either double clicking the antlrworks-1.4.2.jar file or opening a command prompt and running the following command.</p>
-
-<pre><code>java -jar antlrworks-1.4.2.jar
-</code></pre>
-
-<h2>Generating a JavaScript Parser</h2>
-
-<p>Download a JavaScript grammar from <a href="http://www.antlr.org/grammar/list">http://www.antlr.org/grammar/list</a>](<a href="http://www.antlr.org/grammar/list">http://www.antlr.org/grammar/list</a>).</p>
-
-<p>I used <a href="http://www.antlr.org/grammar/1206736738015/JavaScript.g">Chris Lambrou&rsquo;s JavaScript grammar</a> since this was the most recent.</p>
-
-<p>Open the JavaScript.g file in ANTLRWorks by selecting Open from the File menu.</p>
-
-<p>Edit the JavaScript.g file and add &ldquo;language=CSharp3&rdquo; to the options section.</p>
-
-<pre><code>options 
-{ 
-    output=AST; 
-    backtrack=true; 
-    memoize=true; 
-    language=CSharp3; 
-}
-</code></pre>
-
-<p>The language determines what language the parser code will be generated in. To generate C# there are 3 choices for the language.</p>
-
-<ol>
-<li><a href="http://www.antlr.org/wiki/display/ANTLR3/Antlr+3+CSharp+Target">CSharp</a>  (.NET 1.1 code generated)</li>
-<li>CSharp2 (.NET 2.0 code generated)</li>
-<li><a href="http://www.antlr.org/wiki/display/ANTLR3/Antlr3CSharpReleases">CSharp3</a> (.NET 3 code generated)</li>
-</ol>
-
-
-<p>To specify a namespace for the generated C# classes add another line to the JavaScript.g file.</p>
-
-<pre><code>@namespace { ICSharpCode.JavaScriptBinding }
-</code></pre>
-
-<p> In ANTLRWorks select Generate Code from the Generate menu. Three files should be generated in an output directory below where  JavaScript.g file is located</p>
-
-<ul>
-<li>JavaScript.tokens</li>
-<li>JavaScriptLexer.cs</li>
-<li>JavaScriptParser.cs</li>
-</ul>
-
-
-<p>The two C# files are the ones we are interested in and we will now take a look at how we can use them in a C# application.</p>
-
-<h2>Using the JavaScript Parser</h2>
-
-<p>The C# files that were generated depend on another set of assemblies.</p>
-
-<p>If you generated code using the CSharp3 target then download the <a href="http://www.tunnelvisionlabs.com/downloads/antlr/antlr-dotnet-tool-3.3.1.7705.7z">CSharp3 assemblies</a>.</p>
-
-<p>For code generated using the CSharp2 and CSharp then download <a href="http://www.antlr.org/download/CSharp">CSharp2 assemblies</a>.</p>
-
-<p>In both cases the assembly you need is Antlr3.Runtime.dll so extract that file from the downloaded zip file.</p>
-
-<p>Now we need to use our parser and lexer.</p>
-
-<p>Create a C# console project and add the JavaScriptLexer.cs and JavaScriptParser.cs files into the project. Add a reference to the Antlr3.Runtime.dll.</p>
-
-<p>Compile the project.</p>
-
-<p>If you receive an error about HIDDEN being undefined then rename HIDDEN to Hidden in the JavaScriptLexer.cs file.</p>
-
-<p>Remove the &ldquo;[System.CLSCompliant(false)]&rdquo; from the lexer and parser files to fix the warning about not requiring CLSCompliant to be set.</p>
-
-<p>In order to get access to the results the parser generates you will need to make a modification to the JavaScriptParser.cs. Make the program() method public, as shown below.</p>
-
-<pre><code>public JavaScriptParser.program_return program()
-</code></pre>
-
-<p>If you generate the parser and lexer as java source code files this method is public but for it is private when using any of the CSharp targets.</p>
-
-<p>The correct way to fix the problem with the program method being private is to modify the JavaScript grammar file. If you add the public keyword to JavaScript.g grammar file as shown below then after regenerating the lexer and parser files using ANTLRWorks the  program method will be public.</p>
-
-<pre><code> public program 
-      : LT!* sourceElements LT!* EOF! 
-      ; 
-</code></pre>
-
-<p>Now how do we use the parser? The following code shows you  how.</p>
-
-<pre><code>using System; 
-using Antlr.Runtime; 
-using Antlr.Runtime.Tree; 
-using ICSharpCode.JavaScriptBinding; 
-
-namespace JavaScriptParserConsole 
-{ 
-    class Program 
-    { 
-        public static void Main(string[] args) 
-        { 
-            try { 
-                string text = "var a = 1;"; 
-
-                var stream = new ANTLRStringStream(text); 
-                var lexer = new JavaScriptLexer(stream); 
-                var tokenStream = new CommonTokenStream(lexer); 
-                var parser = new JavaScriptParser(tokenStream); 
-                JavaScriptParser.program_return programReturn = parser.program(); 
-
-            } catch (Exception ex) { 
-                Console.WriteLine(ex.ToString()); 
-            } 
-
-            Console.Write("Press any key to continue..."); 
-            Console.ReadKey(true); 
-        } 
-    } 
-} 
-</code></pre>
-
-<p>First we have some JavaScript code to parse. In this case we have a simple variable assignment. This JavaScript code is then passed to a ANTLRStringStream class. The lexer takes this stream and produces a set of tokens. We turn the lexer into a CommonTokenStream and then this is passed to the parser. The program_return class returned from the parser is an <a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> (AST). Getting access to the AST will depend on how the grammar has been defined. In the JavaScript grammar the top part of the AST is called program.</p>
-
-<pre><code>  public program 
-      : LT!* sourceElements LT!* EOF! 
-      ;
-</code></pre>
-
-<p>This maps to a method called program in our parser class.</p>
-
-<p>Does a grammar always create an AST? It depends on the grammar options. For the JavaScript grammar we are using:</p>
-
-<pre><code>options 
-{ 
-    output=AST; 
-    backtrack=true; 
-    memoize=true; 
-    language=CSharp3; 
-}
-</code></pre>
-
-<p>The output is defined to be AST so ANTLR generates classes to produce an AST after parsing the source code. There are two <a href="http://www.antlr.org/wiki/display/ANTLR3/Grammar+options">options</a> for output: AST and template. If this option is not specified the default is AST.</p>
-
-<p>Now we still have not done anything useful with the parse results. So let us display the AST.</p>
-
-<pre><code>using System; 
-using Antlr.Runtime; 
-using Antlr.Runtime.Tree; 
-using ICSharpCode.JavaScriptBinding; 
-
-namespace JavaScriptParserConsole 
-{ 
-    class Program 
-    { 
-        public static void Main(string[] args) 
-        { 
-            try { 
-                string text = "var a = 1;"; 
-
-                var stream = new ANTLRStringStream(text); 
-                var lexer = new JavaScriptLexer(stream); 
-                var tokenStream = new CommonTokenStream(lexer); 
-                var parser = new JavaScriptParser(tokenStream); 
-                JavaScriptParser.program_return programReturn = parser.program(); 
-
-                var tree = programReturn.Tree as CommonTree; 
-                WriteTree(tree); 
-
-            } catch (Exception ex) { 
-                Console.WriteLine(ex.ToString()); 
-            } 
-
-            Console.Write("Press any key to continue..."); 
-            Console.ReadKey(true); 
-        } 
-
-        static void WriteTree(CommonTree tree) 
-        { 
-            WriteLine("Tree.Text: " + tree.Text); 
-            WriteLine("Tree.Type: " + tree.Type); 
-            WriteLine("Tree.Line: " + tree.Line); 
-            WriteLine("Tree.CharPositionInLine: " + tree.CharPositionInLine); 
-            WriteLine("Tree.ChildCount: " + tree.ChildCount); 
-            WriteLine(""); 
-
-            if (tree.Children != null) { 
-                IncreaseIndent(); 
-                foreach (CommonTree child in tree.Children) { 
-                    WriteTree(child); 
-                } 
-                DecreaseIndent(); 
-            } 
-        } 
-
-        static int indent = 0; 
-
-        static void WriteLine(string text) 
-        { 
-            string indentText = String.Empty.PadRight(indent * 2); 
-            Console.WriteLine(indentText + text); 
-        } 
-
-        static void IncreaseIndent() 
-        { 
-            indent++; 
-        } 
-
-        static void DecreaseIndent() 
-        { 
-            indent--; 
-        } 
-    } 
-} 
-</code></pre>
-
-<p>We have taken the program_return class that is returned from the parser&rsquo;s program method and displayed its tree.</p>
-
-<pre><code>public class program_return 
-    : ParserRuleReturnScope&lt;IToken&gt;, IAstRuleReturnScope&lt;object&gt; 
-{ 
-    private object _tree; 
-    public object Tree { 
-        get { return _tree; } 
-        set { _tree = value; } 
-    } 
-}
-</code></pre>
-
-<p>The Tree property is a CommonTree but by default ANTLR returns this as an object. We then pass this tree to a method that displays a few properties from the tree and then looks at the tree&rsquo;s children and displays them. Each child is also a tree so we call the WriteTree method recursively. With the simple javascript code of &ldquo;var a = 1;&rdquo; we get the following output when running this code:</p>
-
-<pre><code>Tree.Text: 
-Tree.Type: 0 
-Tree.Line: 1 
-Tree.CharPositionInLine: 0 
-Tree.ChildCount: 4 
-
-  Tree.Text: var 
-  Tree.Type: 37 
-  Tree.Line: 1 
-  Tree.CharPositionInLine: 0 
-  Tree.ChildCount: 0 
-
-  Tree.Text: a 
-  Tree.Type: 5 
-  Tree.Line: 1 
-  Tree.CharPositionInLine: 4 
-  Tree.ChildCount: 0 
-
-  Tree.Text: = 
-  Tree.Type: 39 
-  Tree.Line: 1 
-  Tree.CharPositionInLine: 6 
-  Tree.ChildCount: 0 
-
-  Tree.Text: 1 
-  Tree.Type: 7 
-  Tree.Line: 1 
-  Tree.CharPositionInLine: 8 
-  Tree.ChildCount: 0 
-</code></pre>
-
-<p>Can we specify the type of the Tree? The answer is yes. In the  JavaScript grammar we can specify the type to be used for the Tree property by using the ASTLabelType.</p>
-
-<pre><code>options 
-{ 
-    output=AST; 
-    backtrack=true; 
-    memoize=true; 
-    ASTLabelType=CommonTree; 
-    language=CSharp3; 
-} 
-</code></pre>
-
-<p>So we can set the tree&rsquo;s type to be CommonTree and we would not need to convert the Tree property from an Object to a CommonTree each time. With this change made the lexer and parser class files need to be regenerated with AntlrWorks. We also have to make the fixes described above (HIDDEN and ClsCompliant) to the generated code.</p>
-
-<p>Now the program_return class has been changed:</p>
-
-<pre><code>public class program_return 
-    : ParserRuleReturnScope&lt;IToken&gt;, IAstRuleReturnScope&lt;CommonTree&gt; 
-{ 
-    private CommonTree _tree; 
-    public CommonTree Tree {
-        get { return _tree; } 
-        set { _tree = value; }
-    } 
-} 
-</code></pre>
-
-<p>Unfortunately this code does not compile and we get the error shown below.</p>
-
-<p>Error CS0738:  &lsquo;ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return&rsquo; does not implement interface member &lsquo;Antlr.Runtime.IAstRuleReturnScope.Tree&rsquo;. ICSharpCode.JavaScriptBinding.JavaScriptParser.program_return.Tree&#8217; cannot implement &lsquo;Antlr.Runtime.IAstRuleReturnScope.Tree&rsquo; because it does not have the matching return type of &lsquo;object&rsquo;.</p>
-
-<p>Looking at the interface definitions it looks like there is a problem with the code generation since the new program_return class does not implement the IAstRuleReturnScope interface completely:</p>
-
-<pre><code>public interface IAstRuleReturnScope&lt;TAstLabel&gt; 
-    : IAstRuleReturnScope, IRuleReturnScope 
-{ 
-    TAstLabel Tree 
-    { 
-        get; 
-    } 
-} 
-
-public interface IAstRuleReturnScope : IRuleReturnScope 
-{ 
-    object Tree 
-    { 
-        get; 
-    } 
-}
-</code></pre>
-
-<p>So we will have to switch back to not defining the tree&rsquo;s type by not using the ASTLabelType option.</p>
-
-<h2>Summary</h2>
-
-<p>In summary we have taken an existing JavaScript grammar, generated a parser using ANTLR and then used this parser to parse some JavaScript code and display the results held in the AST.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/posts/7">&larr; Older</a>
     
     <a href="/blog/archives/">Blog Archives</a>
     
