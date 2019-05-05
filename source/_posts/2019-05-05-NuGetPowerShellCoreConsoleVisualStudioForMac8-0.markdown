@@ -125,12 +125,13 @@ page which is also available from Preferences - NuGet - Sources.
 
 ## Installation
 
-The NuGet extensions addin is available from the MonoDevelop addin repository. To install the addin:
+The NuGet extensions addin is available from the Visual Studio for Mac extensions repository. To install the addin:
 
  - From the main menu, open the Extensions Manager dialog.
  - Select the Gallery tab.
  - Expand IDE extensions.
- - Select NuGet Package Management Extensions.
+ - Select NuGet Package Management Extensions 0.18 or later.
  - Click the Refresh button if the addin is not visible.
  - Click Install… to install the addin.
+ - Restart Visual Studio for Mac.
  
