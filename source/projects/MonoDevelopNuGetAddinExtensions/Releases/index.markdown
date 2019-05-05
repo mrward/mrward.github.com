@@ -1,11 +1,21 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2019-03-12 22:20
+date: 2019-05-05 13:20
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.18
+
+2019-05-05
+
+ * Add PowerShell Core based NuGet Package Manager Console
+   * Supports tab completion
+   * Supports Entity Framework Core PowerShell commands
+   * Supports Get-Help
+   * Supports stopping the running PowerShell command
 
 ## Version 0.17
 
