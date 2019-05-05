@@ -9,8 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="A preview of support for the Language Server Protocol
-is now available for Visual Studio for Mac 7.4 as a separate extension. A Language Server can &hellip;">
+  <meta name="description" content="Changes Support installing NuGet packages with item templates Fixed generated NuGet package files not available for code completion Fixed incorrect &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +81,203 @@ is now available for Visual Studio for Mac 7.4 as a separate extension. A Langua
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5/">NuGet Support in Visual Studio for Mac 7.5</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-05-19T15:30:00+01:00" pubdate data-updated="true">May 19<sup>th</sup>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> Support installing NuGet packages with item templates</li>
+<li> Fixed generated NuGet package files not available for code completion</li>
+<li> Fixed incorrect Android target framework used when the project has Package References</li>
+<li> Fixed build errors after creating a new Android project with NuGet packages</li>
+<li> Missing package dependencies in Solution window</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.5</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes">release notes</a>.</p>
+
+<h2>Support installing NuGet packages with item templates</h2>
+
+<p>Initial support for creating new files from item templates that use
+the .NET Core templating engine has been added. This is currently used
+by the Azure Functions support in Visual Studio for Mac when a new Azure
+Function is added to the project. Currently the New File dialog does not
+have support for showing these templates but there is an API that can
+be used by extensions to create files from these templates.</p>
+
+<p>The item templates can define post actions that indicate that a NuGet
+package is needed. These post actions are read and the NuGet
+package will be installed into the project by Visual Studio for Mac.</p>
+
+<pre><code>"postActions": [
+  {
+    "Description": "Adding Reference to Microsoft.Azure.WebJobs.Extensions.DocumentDB Nuget package",
+    "ActionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
+    "ContinueOnError": "true",
+    "ManualInstructions": [],
+    "args": {
+      "referenceType": "package",
+      "reference": "Microsoft.Azure.WebJobs.Extensions.DocumentDB",
+      "version": "1.2.0",
+      "projectFileExtensions": ".csproj"
+    }
+  }
+</code></pre>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Generated NuGet package files not available for code completion</strong></p>
+
+<p>On installing a NuGet package such as Refit, which extends the
+CoreCompileDependsOn to generate a C# file, the generated file would
+not be available for code completion until the solution was closed
+and re-opened again.</p>
+
+<p>Below is a section of the refit.targets file used by the Refit NuGet package.</p>
+
+<pre><code>&lt;PropertyGroup&gt;
+  &lt;CoreCompileDependsOn&gt;
+    $(CoreCompileDependsOn);
+    GenerateRefitStubs;
+  &lt;/CoreCompileDependsOn&gt;
+&lt;/PropertyGroup&gt;
+
+&lt;Target Name="GenerateRefitStubs" BeforeTargets="CoreCompile"&gt;
+
+  &lt;Error Condition="'$(MSBuildRuntimeType)' == 'Core' and '$(RefitMinCoreVersionRequired)' &gt; '$(RefitNetCoreAppVersion)' "
+       Text="Refit requires at least the .NET Core SDK v2.0 to run with 'dotnet build'"
+       ContinueOnError="false"
+       /&gt;
+
+  &lt;GenerateStubsTask SourceFiles="@(Compile)" BaseDirectory="$(MSBuildProjectDirectory)"   OutputFile="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+
+  &lt;Message Text="Processed Refit Stubs" /&gt;      
+
+  &lt;ItemGroup Condition="Exists('$(IntermediateOutputPath)\RefitStubs.g.cs')"&gt;
+    &lt;Compile Include="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
+  &lt;/ItemGroup&gt;    
+&lt;/Target&gt;
+</code></pre>
+
+<p>The CoreCompileDependsOn property is re-defined so the GenerateRefitsStubs MSBuild
+target will be run. This creates a new RefitStubs.g.cs file which is included in the
+project by the Compile MSBuild item.</p>
+
+<p>The problem was that the result of running the
+targets that are defined by the CoreCompileDependsOn property are cached by Visual
+Studio for Mac.
+When Refit is installed the cached result was still being returned so the
+generated C# file was not available for code completion. To fix this the
+project is now re-evaluated before getting the CoreCompileDependsOn property
+if an MSBuild import has been added or removed. Note that projects that use
+Package References were unaffected. Only projects that use a packages.config
+file were affected.</p>
+
+<p><strong>Incorrect Android target framework used when the project has Package References</strong></p>
+
+<p>Configuring an Android project so it uses the latest Android framework
+could result in the wrong target framework being used when building if the
+project used Package References. This would result in a build error
+similar to:</p>
+
+<pre><code>Error: Your project is not referencing the "MonoAndroid,Version=v7.1" framework. 
+Add a reference to "MonoAndroid,Version=v7.1" in the "frameworks" section of your 
+project.json, and then re-run NuGet restore
+</code></pre>
+
+<p>The problem was that the wrong target framework was being used in the
+project.assets.json. Running a NuGet restore was
+a workaround for the problem.</p>
+
+<p>Now when the target framework version in project options is changed, and
+the project uses Package References, a NuGet restore is run after the
+project file is saved. This ensures the Package References work with
+the new target framework. This also re-generates the project.assets.json file
+so the build will use the correct references.</p>
+
+<p>Another problem here was that configuring the Android to use the latest
+target framework would not result in the target framework being changed
+in the project model stored in memory.
+This could also result in the project.assets.json file being out of
+sync with the Android project&rsquo;s target framework.</p>
+
+<p><strong>Build errors after creating a new Android project with NuGet packages</strong></p>
+
+<p>Creating a new Android project that installed NuGet packages as it was created
+would sometimes result in build errors that could be fixed by closing and
+re-opening the solution. An example build error is shown below.</p>
+
+<pre><code>Resources/values/styles.xml : error APT0000: 1: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.DarkActionBar'.
+Resources/values/styles.xml : error APT0000: 2: error: Error: No resource found that matches the given   name: attr 'colorAccent'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimary'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimaryDark'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowActionBar'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'windowActionModeOverlay'.
+Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowNoTitle'.
+Resources/values/styles.xml : error APT0000: 3: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.Dialog'.
+Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'colorAccent'.
+</code></pre>
+
+<p>The build errors varied but in each case the error was caused by a
+missing reference to an assembly from one of the Android Support NuGet packages installed
+when the project was created. The project file created would have
+the correct reference information but Visual Studio for Mac was
+building an old version of the project.</p>
+
+<p>If the project was modified in memory when a build is requested this
+results in the unsaved project xml being given to the remote MSBuild
+host. In some cases this project xml was not being cleared and would
+result in an out of date project xml being used when building. This
+could occur if the MSBuild host did not have any projects
+loaded at the time when an attempt was made to unload the project from
+the host. Now the unsaved project xml is removed in all cases when the
+project is unloaded from the MSBuild host.</p>
+
+<p><strong>Missing package dependencies in Solution window</strong></p>
+
+<p>After creating a new ASP.NET Core project sometimes the package dependencies
+shown in the Solution window under the SDK folder and the NuGet folder
+could not be expanded to view the child dependencies.</p>
+
+<p>The problem was that if the call to get the package dependencies
+using MSBuild was cancelled this would result an empty list of depenencies
+being cached. Since no package dependencies were returned the Solution window
+would fallback to showing the package dependencies that were listed in the
+project and a default top level SDK package dependency.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2537,180 +2733,6 @@ the Dependencies folder to be displayed and the References folder
 to be removed. Visual Studio for Mac now checks the project has the
 Sdk attribute instead of looking at the MSBuild properties defined
 by the project when determining the project type.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/08/23/NetCoreSupportInVisualStudioMac7-1/">.NET Core Support in Visual Studio for Mac 7.1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-08-23T21:00:00+01:00" pubdate data-updated="true">Aug 23<sup>rd</sup>, 2017</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>New Features</h2>
-
-<ul>
-<li> .NET Core 2.0 support</li>
-<li> Target framework selection for new projects</li>
-<li> New project templates</li>
-<li> .NET Core Runtimes and SDKs displayed in About Dialog</li>
-<li> Improved support for multi target framework projects</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.1</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-august-14-2017---visual-studio-for-mac-7101297">release notes</a>.</p>
-
-<h2>.NET Core 2.0 Support</h2>
-
-<p>Visual Studio for Mac 7.1 adds support for <a href="https://blogs.msdn.microsoft.com/dotnet/2017/08/14/announcing-net-core-2-0/">.NET Core 2.0</a> and .NET Standard 2.0.</p>
-
-<p>The .NET Core 2.0 SDK needs to be <a href="https://www.microsoft.com/net/download/core">installed</a> separately.</p>
-
-<h2>Target Framework Selection for New Projects</h2>
-
-<p>If a project template supports multiple target frameworks, and the corresponding framework is available, then the New Project dialog will allow the framework to be selected before the project is created.</p>
-
-<p><img src="/images/blog/DotNetCoreSupportInVisualStudioMac7-1/NewNetCoreProjectTargetFrameworkSelection.png" title="New .NET Core target framework selection" alt="New .NET Core target framework selection"></p>
-
-<p>Visual Studio for Mac includes project templates for .NET Core 1.0, 1.1 and 2.0 as well as for .NET Standard versions 1.0 through to 2.0.</p>
-
-<p>To be able to create projects that target .NET Core 2.0 or .NET Standard 2.0 the .NET Core 2.0 SDK needs to be installed.</p>
-
-<h2>New Project Templates</h2>
-
-<p>The following project templates have been added:</p>
-
-<ul>
-<li>ASP.NET Core Web App (Razor Pages)
-
-<ul>
-<li>Available if .NET Core 2.0 SDK is installed.</li>
-</ul>
-</li>
-<li>Class Library
-
-<ul>
-<li>Targets .NET Core instead of .NET Standard.</li>
-</ul>
-</li>
-<li>MSTest</li>
-</ul>
-
-
-<p>Some project templates do not support all the target framework versions.
-For example, the ASP.NET Core Web App (Razor Pages) only supports
-.NET Core 2.0, so this template will only be displayed if .NET Core 2.0 SDK
-is installed.</p>
-
-<p>The F# project templates have some restrictions on what target frameworks
-they support. The F# .NET Standard project templates do not
-support selecting .NET Standard versions below 1.6. The F# Class Library project
-only supports .NET Core 2.0.</p>
-
-<h2>.NET Core Runtime and SDKs displayed in About Dialog</h2>
-
-<p>The About dialog will now display the .NET Core runtimes and SDKs that are installed on
-the local machine.</p>
-
-<p><img src="/images/blog/DotNetCoreSupportInVisualStudioMac7-1/NetCoreInformationAboutDialog.png" title=".NET Core runtime and SDK information in About dialog" alt=".NET Core runtime and SDK information in About dialog"></p>
-
-<h2>Improved Support for Multi Target Framework Projects</h2>
-
-<p>SDK style projects that target multiple frameworks can now be opened in Visual Studio for
-Mac 7.1 and will show source files as well as NuGet package dependencies.</p>
-
-<p>The project will be treated as though it only has
-one target framework which is the first one specified in the
-TargetFrameworks property in the project file.</p>
-
-<p>Please note that currently the support for multiple target frameworks is limited in
-comparison with Visual Studio on Windows.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>ASP.NET Core Web API project does not open API url on launching browser</strong></p>
-
-<p>When an ASP.NET Core Web API project was run it would open a blank web
-page in the browser instead of a page that showed the api values. Now when a new ASP.NET
-Core Web API project is run the <code>http://localhost:&lt;port&gt;/api/values</code> url is launched in
-the browser so the API values will be displayed.</p>
-
-<p><strong>Unable to run or debug ASP.NET Core project with empty SDK directory</strong></p>
-
-<p>If there was an empty directory inside the .NET Core SDK directory <code>/usr/local/share/dotnet/sdk</code> then it was
-not possible to run or debug an ASP.NET Core web project</p>
-
-<p>If the .NET Core SDK MSBuild files were not found in the SDK directory then the
-project&rsquo;s OutputType was not read and would result in the project being treated
-as a library project. This could also occur if only
-the .NET Core runtime is installed.</p>
-
-<p><strong>Shared project files shown for .NET Core project in Solution window</strong></p>
-
-<p>When a .NET Core project referenced a shared assets project the files
-from the shared project were incorrectly being displayed in the .NET Core project in
-the Solution window.</p>
-
-<p><strong>Fix generated code for resource files in .NET Core projects</strong></p>
-
-<p>Adding a resx file to a .NET Core 1.x or .NET Standard 1.x project would result in
-code being generated that could not be compiled.</p>
-
-<p>Projects that target .NET Core App 1.0, 1.1, or .NET Standard below version 2.0
-cannot compile code that uses <code>typeof(Resources).Assembly</code> which was
-being generated by the ResXFileCodeGenerator. If these target frameworks
-are used by the project then the code generated by Visual Studio for Mac
-will now use <code>typeof(Resources).GetTypeInfo().Assembly</code> which is supported.</p>
-
-<p>.NET Core 2.0 and .NET Standard 2.0 do not need to use GetTypeInfo so the
-code generated for these frameworks has not been changed.</p>
-
-<p><strong>Fix new resource file not added as Update item in Sdk projects</strong></p>
-
-<p>Adding a new resource file to a .NET Core project would add the
-.resx file and the .Designer.cs file as Include items instead of an
-Update items.</p>
-
-<pre><code>&lt;ItemGroup&gt;
-  &lt;EmbeddedResource Include="Resources.resx"&gt;
-    &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
-    &lt;LastGenOutput&gt;Resources.Designer.cs&lt;/LastGenOutput&gt;
-  &lt;/EmbeddedResource&gt;
-&lt;/ItemGroup&gt;
-&lt;ItemGroup&gt;
-  &lt;Compile Include="Resources.Designer.cs"&gt;
-    &lt;DependentUpon&gt;Resources.resx&lt;/DependentUpon&gt;
-  &lt;/Compile&gt;
-&lt;/ItemGroup&gt;
-</code></pre>
-
-<p>This then caused the build to fail since these files are already included by
-the .NET Core SDK.</p>
 </div>
   
   

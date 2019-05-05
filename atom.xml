@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-04-20T12:36:54+01:00</updated>
+  <updated>2019-05-05T14:34:24+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,167 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet PowerShell Core Console in Visual Studio for Mac 8.0]]></title>
+    <link href="http://lastexitcode.com/blog/2019/05/05/NuGetPowerShellCoreConsoleVisualStudioForMac8-0/"/>
+    <updated>2019-05-05T12:40:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2019/05/05/NuGetPowerShellCoreConsoleVisualStudioForMac8-0</id>
+    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a> now includes a PowerShell
+Core based NuGet Package Manager console for Visual Studio for Mac 8.0.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/NuGetPackageManagerConsoleWindow.png" title="NuGet Package Manager Console" alt="NuGet Package Manager Console window"></p>
+
+<p>A <a href="https://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/">NuGet PowerShell console</a> has been available with
+the <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a> since
+Xamarin Studio 5.0. Previously it used <a href="https://github.com/Pash-Project/Pash">Pash</a>, a cross-platform, open source reimplementation
+of PowerShell. Pash is no longer being actively developer on after Microsoft released <a href="https://github.com/PowerShell/PowerShell">PowerShell Core</a>.
+The PowerShell support in Pash was incomplete, so whilst the NuGet commands, such as Install-Package, were supported, more
+complicated commands, such as those provided by <a href="https://docs.microsoft.com/en-us/ef/core/">Entity Framework Core</a>, were not supported.
+Moving to PowerShell Core provides full PowerShell support, and with a partial implementation of the Visual Studio EnvDTE API,
+<a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell">Entity Framework Core commands</a> are now supported.</p>
+
+<p>The NuGet extensions addin runs a .NET Core console
+application that hosts PowerShell Core. Communication between
+the addin running in Visual Studio for Mac and the console application is through the
+<a href="https://github.com/Microsoft/vs-streamjsonrpc">StreamJsonRpc</a> library.</p>
+
+<h2>New Features</h2>
+
+<p>The following lists the new features compared with the Pash based PowerShell console.</p>
+
+<ul>
+<li>PowerShell Core based NuGet Package Manager Console
+
+<ul>
+<li>Full PowerShell support</li>
+<li>Get-Help now supported</li>
+</ul>
+</li>
+<li>Support for Entity Framework Core NuGet commands</li>
+<li>Tab completion</li>
+<li>Support for stopping the executing command</li>
+<li>Opening the NuGet package source configuration page from the console</li>
+</ul>
+
+
+<h2>Limitations</h2>
+
+<ul>
+<li><strong>Visual Studio EnvDTE API implementation is incomplete</strong></li>
+</ul>
+
+
+<p> The Visual Studio EnvDTE API is partially implemented. Whilst Entity Framework Core is
+ supported other PowerShell scripts included with NuGet packages may not work.</p>
+
+<ul>
+<li><p><strong>Password protected NuGet package sources not supported in the following PowerShell commands:</strong></p>
+
+<ul>
+<li>Find-Package</li>
+<li>Get-Package</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Note that the other NuGet PowerShell commands are supported.</p>
+
+<p>The NuGet extensions addin will not send usernames and passwords to the PowerShell Core
+host console application. .NET Core also does not support decrypting passwords stored in the
+NuGet.Config file.</p>
+
+<p>The Find-Package and Get-Package commands all run completely within PowerShell hosted in the .NET Core
+console application.</p>
+
+<p>The other commands work since they run partially within Visual for Mac where actions involving password protected
+NuGet package sources are supported.</p>
+
+<ul>
+<li><strong>Requires .NET Core 2.1 SDK to be installed</strong></li>
+</ul>
+
+
+<h2>Opening the NuGet Package Manager Console window</h2>
+
+<p>From the View menu, select Pads, then select NuGet Package Manager Console.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/ViewPadsNuGetPackageManagerConsoleMenu.png" title="View - Pages - NuGet Package Manager Console menu" alt="View - Pages - NuGet Package Manager Console menu"></p>
+
+<h2> Entity Framework Core Support</h2>
+
+<p>The PowerShell commands provided by the
+<a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell">Microsoft.EntityFrameworkCore.Tools NuGet package</a>
+are supported in .NET Core projects.</p>
+
+<ul>
+<li>Add-Migration</li>
+<li>Drop-Database</li>
+<li>Get-DbContext</li>
+<li>Remove-Migration</li>
+<li>Scaffold-DbContext</li>
+<li>Script-Migration</li>
+<li>Update-Database</li>
+</ul>
+
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/EntityFrameworkCoreMigrationPowerShellCommands.png" title="Package Manager Console - Entity Framework Core Add-Migration and Update-Database commands" alt="Package Manager Console - Entity Framework Core Add-Migration and Update-Database commands"></p>
+
+<p>Note that the Entity Framework Core commands are not currently supported in projects that target the .NET Framework. This
+is because the PowerShell commands attempt to directly run ef.exe that is included in the NuGet package instead of using the .NET Core ef.dll
+which is used with projects that target .NET Core.</p>
+
+<h2>Tab Completion</h2>
+
+<p>Pressing tab in the console window will try to auto-complete the command being typed in.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/TabCompletionNewtonsoftJson.png" title="Tab completion - Install-Package Newtonsoft.Json" alt="Tab completion - Install-Package Newtonsoft.Json"></p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/TabCompletionPackageVersion.png" title="Tab completion - Install-Package Newtonsoft.Json -Version" alt="Tab completion - Install-Package Newtonsoft.Json -Version"></p>
+
+<p>If there is only one match on pressing tab then the text will be inserted.</p>
+
+<p>If there are multiple possible matches then a window will be displayed allowing an
+item to be selected by pressing Tab, Enter or Return. Typing with this completion list
+window open will filter the items in the list.</p>
+
+<h2>Stopping the PowerShell command being run</h2>
+
+<p>When a PowerShell command is being run the Stop button is enabled. The Stop button is the last button on the top right of the NuGet
+Package Console window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsoleStopButton.png" title="Package Manager Console stop button" alt="Package Manager Console stop button"></p>
+
+<p>Clicking this button will attempt to stop the PowerShell command being run.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsolePipelineStopped.png" title="Package Manager Console pipeline stopped" alt="Package Manager Console pipeline stopped"></p>
+
+<h2>Opening the NuGet Package Console configuration page</h2>
+
+<p>At the top of the NuGet Package Console window there is a cog icon after the list of package sources.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsoleCogIcon.png" title="Package Manager Console configure sources - cog icon" alt="Package Manager Console configure sources cog icon"></p>
+
+<p>Clicking this cog icon will open the NuGet Package Sources configuration
+page which is also available from Preferences &ndash; NuGet &ndash; Sources.</p>
+
+<h2>Installation</h2>
+
+<p>The NuGet extensions addin is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
+
+<ul>
+<li>From the main menu, open the Extensions Manager dialog.</li>
+<li>Select the Gallery tab.</li>
+<li>Expand IDE extensions.</li>
+<li>Select NuGet Package Management Extensions 0.18 or later.</li>
+<li>Click the Refresh button if the addin is not visible.</li>
+<li>Click Install… to install the addin.</li>
+<li>Restart Visual Studio for Mac.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.0]]></title>
@@ -4142,153 +4303,6 @@ the Dependencies folder to be displayed and the References folder
 to be removed. Visual Studio for Mac now checks the project has the
 Sdk attribute instead of looking at the MSBuild properties defined
 by the project when determining the project type.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.1]]></title>
-    <link href="http://lastexitcode.com/blog/2017/08/23/NetCoreSupportInVisualStudioMac7-1/"/>
-    <updated>2017-08-23T21:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2017/08/23/NetCoreSupportInVisualStudioMac7-1</id>
-    <content type="html"><![CDATA[<h2>New Features</h2>
-
-<ul>
-<li> .NET Core 2.0 support</li>
-<li> Target framework selection for new projects</li>
-<li> New project templates</li>
-<li> .NET Core Runtimes and SDKs displayed in About Dialog</li>
-<li> Improved support for multi target framework projects</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.1</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-august-14-2017---visual-studio-for-mac-7101297">release notes</a>.</p>
-
-<h2>.NET Core 2.0 Support</h2>
-
-<p>Visual Studio for Mac 7.1 adds support for <a href="https://blogs.msdn.microsoft.com/dotnet/2017/08/14/announcing-net-core-2-0/">.NET Core 2.0</a> and .NET Standard 2.0.</p>
-
-<p>The .NET Core 2.0 SDK needs to be <a href="https://www.microsoft.com/net/download/core">installed</a> separately.</p>
-
-<h2>Target Framework Selection for New Projects</h2>
-
-<p>If a project template supports multiple target frameworks, and the corresponding framework is available, then the New Project dialog will allow the framework to be selected before the project is created.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/DotNetCoreSupportInVisualStudioMac7-1/NewNetCoreProjectTargetFrameworkSelection.png" title="New .NET Core target framework selection" alt="New .NET Core target framework selection"></p>
-
-<p>Visual Studio for Mac includes project templates for .NET Core 1.0, 1.1 and 2.0 as well as for .NET Standard versions 1.0 through to 2.0.</p>
-
-<p>To be able to create projects that target .NET Core 2.0 or .NET Standard 2.0 the .NET Core 2.0 SDK needs to be installed.</p>
-
-<h2>New Project Templates</h2>
-
-<p>The following project templates have been added:</p>
-
-<ul>
-<li>ASP.NET Core Web App (Razor Pages)
-
-<ul>
-<li>Available if .NET Core 2.0 SDK is installed.</li>
-</ul>
-</li>
-<li>Class Library
-
-<ul>
-<li>Targets .NET Core instead of .NET Standard.</li>
-</ul>
-</li>
-<li>MSTest</li>
-</ul>
-
-
-<p>Some project templates do not support all the target framework versions.
-For example, the ASP.NET Core Web App (Razor Pages) only supports
-.NET Core 2.0, so this template will only be displayed if .NET Core 2.0 SDK
-is installed.</p>
-
-<p>The F# project templates have some restrictions on what target frameworks
-they support. The F# .NET Standard project templates do not
-support selecting .NET Standard versions below 1.6. The F# Class Library project
-only supports .NET Core 2.0.</p>
-
-<h2>.NET Core Runtime and SDKs displayed in About Dialog</h2>
-
-<p>The About dialog will now display the .NET Core runtimes and SDKs that are installed on
-the local machine.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/DotNetCoreSupportInVisualStudioMac7-1/NetCoreInformationAboutDialog.png" title=".NET Core runtime and SDK information in About dialog" alt=".NET Core runtime and SDK information in About dialog"></p>
-
-<h2>Improved Support for Multi Target Framework Projects</h2>
-
-<p>SDK style projects that target multiple frameworks can now be opened in Visual Studio for
-Mac 7.1 and will show source files as well as NuGet package dependencies.</p>
-
-<p>The project will be treated as though it only has
-one target framework which is the first one specified in the
-TargetFrameworks property in the project file.</p>
-
-<p>Please note that currently the support for multiple target frameworks is limited in
-comparison with Visual Studio on Windows.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>ASP.NET Core Web API project does not open API url on launching browser</strong></p>
-
-<p>When an ASP.NET Core Web API project was run it would open a blank web
-page in the browser instead of a page that showed the api values. Now when a new ASP.NET
-Core Web API project is run the <code>http://localhost:&lt;port&gt;/api/values</code> url is launched in
-the browser so the API values will be displayed.</p>
-
-<p><strong>Unable to run or debug ASP.NET Core project with empty SDK directory</strong></p>
-
-<p>If there was an empty directory inside the .NET Core SDK directory <code>/usr/local/share/dotnet/sdk</code> then it was
-not possible to run or debug an ASP.NET Core web project</p>
-
-<p>If the .NET Core SDK MSBuild files were not found in the SDK directory then the
-project&rsquo;s OutputType was not read and would result in the project being treated
-as a library project. This could also occur if only
-the .NET Core runtime is installed.</p>
-
-<p><strong>Shared project files shown for .NET Core project in Solution window</strong></p>
-
-<p>When a .NET Core project referenced a shared assets project the files
-from the shared project were incorrectly being displayed in the .NET Core project in
-the Solution window.</p>
-
-<p><strong>Fix generated code for resource files in .NET Core projects</strong></p>
-
-<p>Adding a resx file to a .NET Core 1.x or .NET Standard 1.x project would result in
-code being generated that could not be compiled.</p>
-
-<p>Projects that target .NET Core App 1.0, 1.1, or .NET Standard below version 2.0
-cannot compile code that uses <code>typeof(Resources).Assembly</code> which was
-being generated by the ResXFileCodeGenerator. If these target frameworks
-are used by the project then the code generated by Visual Studio for Mac
-will now use <code>typeof(Resources).GetTypeInfo().Assembly</code> which is supported.</p>
-
-<p>.NET Core 2.0 and .NET Standard 2.0 do not need to use GetTypeInfo so the
-code generated for these frameworks has not been changed.</p>
-
-<p><strong>Fix new resource file not added as Update item in Sdk projects</strong></p>
-
-<p>Adding a new resource file to a .NET Core project would add the
-.resx file and the .Designer.cs file as Include items instead of an
-Update items.</p>
-
-<pre><code>&lt;ItemGroup&gt;
-  &lt;EmbeddedResource Include="Resources.resx"&gt;
-    &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
-    &lt;LastGenOutput&gt;Resources.Designer.cs&lt;/LastGenOutput&gt;
-  &lt;/EmbeddedResource&gt;
-&lt;/ItemGroup&gt;
-&lt;ItemGroup&gt;
-  &lt;Compile Include="Resources.Designer.cs"&gt;
-    &lt;DependentUpon&gt;Resources.resx&lt;/DependentUpon&gt;
-  &lt;/Compile&gt;
-&lt;/ItemGroup&gt;
-</code></pre>
-
-<p>This then caused the build to fail since these files are already included by
-the .NET Core SDK.</p>
 ]]></content>
   </entry>
   

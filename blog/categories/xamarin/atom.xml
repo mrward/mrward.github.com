@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-04-20T12:36:54+01:00</updated>
+  <updated>2019-05-05T14:34:24+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,167 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet PowerShell Core Console in Visual Studio for Mac 8.0]]></title>
+    <link href="http://lastexitcode.com/blog/2019/05/05/NuGetPowerShellCoreConsoleVisualStudioForMac8-0/"/>
+    <updated>2019-05-05T12:40:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2019/05/05/NuGetPowerShellCoreConsoleVisualStudioForMac8-0</id>
+    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a> now includes a PowerShell
+Core based NuGet Package Manager console for Visual Studio for Mac 8.0.</p>
+
+<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/NuGetPackageManagerConsoleWindow.png" title="&lsquo;NuGet Package Manager Console&rsquo; &lsquo;NuGet Package Manager Console window&rsquo;" ></p>
+
+<p>A <a href="https://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/">NuGet PowerShell console</a> has been available with
+the <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a> since
+Xamarin Studio 5.0. Previously it used <a href="https://github.com/Pash-Project/Pash">Pash</a>, a cross-platform, open source reimplementation
+of PowerShell. Pash is no longer being actively developer on after Microsoft released <a href="https://github.com/PowerShell/PowerShell">PowerShell Core</a>.
+The PowerShell support in Pash was incomplete, so whilst the NuGet commands, such as Install-Package, were supported, more
+complicated commands, such as those provided by <a href="https://docs.microsoft.com/en-us/ef/core/">Entity Framework Core</a>, were not supported.
+Moving to PowerShell Core provides full PowerShell support, and with a partial implementation of the Visual Studio EnvDTE API,
+<a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell">Entity Framework Core commands</a> are now supported.</p>
+
+<p>The NuGet extensions addin runs a .NET Core console
+application that hosts PowerShell Core. Communication between
+the addin running in Visual Studio for Mac and the console application is through the
+<a href="https://github.com/Microsoft/vs-streamjsonrpc">StreamJsonRpc</a> library.</p>
+
+<h2>New Features</h2>
+
+<p>The following lists the new features compared with the Pash based PowerShell console.</p>
+
+<ul>
+<li>PowerShell Core based NuGet Package Manager Console
+
+<ul>
+<li>Full PowerShell support</li>
+<li>Get-Help now supported</li>
+</ul>
+</li>
+<li>Support for Entity Framework Core NuGet commands</li>
+<li>Tab completion</li>
+<li>Support for stopping the executing command</li>
+<li>Opening the NuGet package source configuration page from the console</li>
+</ul>
+
+
+<h2>Limitations</h2>
+
+<ul>
+<li><strong>Visual Studio EnvDTE API implementation is incomplete</strong></li>
+</ul>
+
+
+<p> The Visual Studio EnvDTE API is partially implemented. Whilst Entity Framework Core is
+ supported other PowerShell scripts included with NuGet packages may not work.</p>
+
+<ul>
+<li><p><strong>Password protected NuGet package sources not supported in the following PowerShell commands:</strong></p>
+
+<ul>
+<li>Find-Package</li>
+<li>Get-Package</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Note that the other NuGet PowerShell commands are supported.</p>
+
+<p>The NuGet extensions addin will not send usernames and passwords to the PowerShell Core
+host console application. .NET Core also does not support decrypting passwords stored in the
+NuGet.Config file.</p>
+
+<p>The Find-Package and Get-Package commands all run completely within PowerShell hosted in the .NET Core
+console application.</p>
+
+<p>The other commands work since they run partially within Visual for Mac where actions involving password protected
+NuGet package sources are supported.</p>
+
+<ul>
+<li><strong>Requires .NET Core 2.1 SDK to be installed</strong></li>
+</ul>
+
+
+<h2>Opening the NuGet Package Manager Console window</h2>
+
+<p>From the View menu, select Pads, then select NuGet Package Manager Console.</p>
+
+<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/ViewPadsNuGetPackageManagerConsoleMenu.png" title="&lsquo;View &ndash; Pages &ndash; NuGet Package Manager Console menu&rsquo; &lsquo;View &ndash; Pages &ndash; NuGet Package Manager Console menu&rsquo;" ></p>
+
+<h2> Entity Framework Core Support</h2>
+
+<p>The PowerShell commands provided by the
+<a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell">Microsoft.EntityFrameworkCore.Tools NuGet package</a>
+are supported in .NET Core projects.</p>
+
+<ul>
+<li>Add-Migration</li>
+<li>Drop-Database</li>
+<li>Get-DbContext</li>
+<li>Remove-Migration</li>
+<li>Scaffold-DbContext</li>
+<li>Script-Migration</li>
+<li>Update-Database</li>
+</ul>
+
+
+<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/EntityFrameworkCoreMigrationPowerShellCommands.png" title="&lsquo;Package Manager Console &ndash; Entity Framework Core Add-Migration and Update-Database commands&rsquo; &lsquo;Package Manager Console &ndash; Entity Framework Core Add-Migration and Update-Database commands&rsquo;" ></p>
+
+<p>Note that the Entity Framework Core commands are not currently supported in projects that target the .NET Framework. This
+is because the PowerShell commands attempt to directly run ef.exe that is included in the NuGet package instead of using the .NET Core ef.dll
+which is used with projects that target .NET Core.</p>
+
+<h2>Tab Completion</h2>
+
+<p>Pressing tab in the console window will try to auto-complete the command being typed in.</p>
+
+<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/TabCompletionNewtonsoftJson.png" title="&lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json&rsquo; &lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json&rsquo;" ></p>
+
+<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/TabCompletionPackageVersion.png" title="&lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json -Version&rsquo; &lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json -Version&rsquo;" ></p>
+
+<p>If there is only one match on pressing tab then the text will be inserted.</p>
+
+<p>If there are multiple possible matches then a window will be displayed allowing an
+item to be selected by pressing Tab, Enter or Return. Typing with this completion list
+window open will filter the items in the list.</p>
+
+<h2>Stopping the PowerShell command being run</h2>
+
+<p>When a PowerShell command is being run the Stop button is enabled. The Stop button is the last button on the top right of the NuGet
+Package Console window.</p>
+
+<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsoleStopButton.png" title="&lsquo;Package Manager Console stop button&rsquo; &lsquo;Package Manager Console stop button&rsquo;" ></p>
+
+<p>Clicking this button will attempt to stop the PowerShell command being run.</p>
+
+<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsolePipelineStopped.png" title="&lsquo;Package Manager Console pipeline stopped&rsquo; &lsquo;Package Manager Console pipeline stopped&rsquo;" ></p>
+
+<h2>Opening the NuGet Package Console configuration page</h2>
+
+<p>At the top of the NuGet Package Console window there is a cog icon after the list of package sources.</p>
+
+<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsoleCogIcon.png" title="&lsquo;Package Manager Console configure sources &ndash; cog icon&rsquo; &lsquo;Package Manager Console configure sources cog icon&rsquo;" ></p>
+
+<p>Clicking this cog icon will open the NuGet Package Sources configuration
+page which is also available from Preferences &ndash; NuGet &ndash; Sources.</p>
+
+<h2>Installation</h2>
+
+<p>The NuGet extensions addin is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
+
+<ul>
+<li>From the main menu, open the Extensions Manager dialog.</li>
+<li>Select the Gallery tab.</li>
+<li>Expand IDE extensions.</li>
+<li>Select NuGet Package Management Extensions 0.18 or later.</li>
+<li>Click the Refresh button if the addin is not visible.</li>
+<li>Click Install… to install the addin.</li>
+<li>Restart Visual Studio for Mac.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.0]]></title>
@@ -520,228 +681,6 @@ path. This is different behaviour to how Visual Studio on Windows works, which
 will always add a relative hint path for the reference.</p>
 
 <p>This was fixed in Visual Studio for Mac 7.7.3.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.6]]></title>
-    <link href="http://lastexitcode.com/blog/2018/09/02/NetCoreSupportInVisualStudioMac7-6/"/>
-    <updated>2018-09-02T11:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2018/09/02/NetCoreSupportInVisualStudioMac7-6</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li>NuGet SDK resolver now used to find NuGet SDK packages</li>
-<li>Fixed Synchronous operation cancelled message on stopping debugging</li>
-<li>Fixed debugger hanging when debugging unit tests</li>
-<li>Fixed command line arguments not used with a new project</li>
-<li>Fixed hang when discovering unit tests</li>
-<li>Allow loading of SDK style projects without a main PropertyGroup</li>
-<li>Fixed TargetFramework not being updated in project</li>
-<li>Fixed .xaml.cs code completion in new Xamarin.Forms .NET Standard project</li>
-<li>Fixed default build action for new HTML file</li>
-<li>Fixed SDK version not being parsed from Sdk attribute</li>
-<li>Fixed null reference on opening .NET Core project with sdk version</li>
-<li>Fixed editor errors when .NET Standard assembly referenced in Xamarin.iOS project</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.6</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-76">release notes</a>.</p>
-
-<h2>NuGet SDK resolver now used to find NuGet SDK packages</h2>
-
-<p>Visual Studio for Mac now has support for the
-<a href="https://github.com/Microsoft/msbuild/issues/2803">NuGet SDK resolver</a>. The NuGet
-SDK resolver will download and install SDKs for SDK style
-projects if these SDKs are missing.</p>
-
-<pre><code>&lt;Project Sdk="My.Custom.Sdk/2.3.4"&gt;
-  ...
-&lt;/Project&gt;
-</code></pre>
-
-<p>The SDK resolution is done in the background
-when the project is opened and there is currently no visual indication that
-this is happening.</p>
-
-<p>The NuGet library assemblies are not available to the remote MSBuild host used by
-Visual Studio for Mac so the NuGet SDK resolver was previously failing to load. The NuGet SDK
-resolver supports a MSBUILD_NUGET_PATH environment variable which is now set by
-Visual Studio for Mac to point to the directory containing the NuGet assemblies
-that are included with the IDE.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed synchronous operation cancelled message on stopping debugging</strong></p>
-
-<p>Stopping the .NET Core debugger would sometimes result in
-a dialog being displayed indicating that the debugger operation failed.</p>
-
-<p><img src="/images/blog/NetCoreSupportInVisualStudioMac7-6/DebuggerOperationFailedMessage.png" title="&lsquo;Debugger operation failed &ndash; Synchronous operation cancelled &ndash; dialog&rsquo; &lsquo;Debugger operation failed &ndash; Synchronous operation cancelled &ndash; dialog&rsquo;" ></p>
-
-<p><strong>Fixed debugger hanging when debugging unit tests</strong></p>
-
-<p>The .NET Core debugger would sometimes hang Visual Studio for Mac when debugging unit tests.
-The problem was that if the breakpoint was placed on an invalid line then the .NET Core debugger
-would send back the adjusted breakpoint location. Visual Studio for Mac would then send back
-an incorrect breakpoint line back to the .NET Core debugger, which again resulted in the debugger
-sending back a corrected line. This would repeat resulting in the IDE and debugger
-getting stuck in a loop.</p>
-
-<p><strong>Fixed command line arguments not used with a new project</strong></p>
-
-<p>Creating a new .NET Core console project, editing the project run
-configuration to use extra command line arguments, or to not use the
-external console, then building and running the project would result
-in the project run configuration not being used. No extra
-arguments would be passed to the console project, and the external
-console would still be used. This could be fixed by closing and
-re-opening the solution.</p>
-
-<p>The problem was that when the project is re-evaluated, after it is
-created, its run configurations are cleared. The solution&rsquo;s
-startup run configuration would still be using
-the original project run configuration that was no longer used.
-Changes made to the project run configuration then had no affect. Closing and
-re-opening the solution fixed this since
-the run configuration defined in the .csproj.user file is re-used when the
-project is re-evaluated on reloading so both the solution run configuration and
-the project run configuration refer to the same configuration. To fix this,
-on re-evaluating the project, if the solution&rsquo;s run configuration
-refers to a project run configuration that has been removed then
-the solution&rsquo;s startup configuration is refreshed.</p>
-
-<p>Note that there is a similar problem with multiple solution run
-configurations that can occur which is not addressed by this fix.</p>
-
-<p><strong>Fixed hang when discovering unit tests</strong></p>
-
-<p>Opening a solution containing a .NET Core test project would sometimes
-result in the IDE hanging when discovering tests. On running <code>kill -QUIT pid</code>
-the IDE log would show a background thread and the UI thread both
-awaiting test discovery to complete:</p>
-
-<pre><code>var discoveredTests = await VsTestDiscoveryAdapter.Instance.DiscoverTestsAsync (Project);
-
-VsTestProjectTestSuite/&lt;OnCreateTests&gt;d__12.MoveNext
-in MonoDevelop.UnitTesting.VsTest/VsTestProjectTestSuite.cs:95
-</code></pre>
-
-<p><strong>Allow loading of SDK style projects without a main PropertyGroup</strong></p>
-
-<p>On loading an SDK style project that did not have a main PropertyGroup
-Visual Studio for Mac would show the error message
-&ldquo;Error while trying to load project:
-Object reference not set to an instance of an object&rdquo;.</p>
-
-<p>A project may define MSBuild properties in a Directory.Build.props file
-instead of having this in the main project file. It is then
-possible for the main project file to have no main property group.</p>
-
-<p>Directory.Build.props:</p>
-
-<pre><code>&lt;Project&gt;
-  &lt;PropertyGroup&gt;
-    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
-    &lt;TargetFramework&gt;netcoreapp2.1&lt;/TargetFramework&gt;
-  &lt;/PropertyGroup&gt;
-&lt;/Project&gt;
-</code></pre>
-
-<p>MainProject.csproj:</p>
-
-<pre><code>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
-&lt;/Project&gt;
-</code></pre>
-
-<p>Visual Studio for Mac now handles the missing main PropertyGroup.</p>
-
-<p><strong>Fixed TargetFramework not being updated in project</strong></p>
-
-<p>Changing a .NET Core project&rsquo;s target framework to a different version in
-Project Options, then re-opening Project Options and changing the
-target framework version back again, would result in the target framework
-not being updated in the project. The problem was the original target framework the
-project had on opening was cached and the changing back to the same
-target framework version was being ignored resulting in the project file not
-being updated.</p>
-
-<p><strong>Fixed .xaml.cs code completion in new Xamarin.Forms .NET Standard project</strong></p>
-
-<p>Creating a new Xamarin.Forms .NET Standard project, then
-modifing the .xaml to add new named UI items, would result in no
-code completion in the .xaml.cs file for these new items
-until the solution was closed and re-opened. The problem was that the
-.xaml and .xaml.cs files
-were being removed from the file information held in memory
-when the project was re-evaluated. On re-evaluation, after
-the NuGet restore is first run for the project, the old MSBuild items for the
-.xaml and .xaml.cs file have the wrong metadata, so they need
-to be removed, whilst new MSBuild items with the updated metadata
-need to be added. The removal was done after adding the updated files
-and, since they had the same filename, the new updated files were being
-removed. The removal is now done before adding the updated files to
-avoid the files being removed incorrectly.</p>
-
-<p><strong>Fixed default build action for new HTML file</strong></p>
-
-<p>Adding a new .html file to the wwwroot folder of an ASP.NET Core
-project would add the file as a None item instead of a Content
-item. This would result in the .html file not being used when
-publishing the project. When &lsquo;dotnet publish&rsquo; was used the
-publish directory would not contain the .html file.</p>
-
-<p>ASP.NET Core projects have different build actions for files based on where they
-are added. A .html file in the root directory would be a None item by default,
-whilst a .html file in the wwwroot directory would be a Content item
-by default. To fix this the default build action for a file is
-determined by the file wildcard information available from the .NET
-Core SDK.</p>
-
-<p><strong>Fixed SDK version not being parsed from Sdk attribute</strong></p>
-
-<p>The Sdk attribute would have its forward slash / replaced with a
-backslash \ which meant Visual Studio for Mac was creating an
-SdkReference with the wrong name, for example:</p>
-
-<pre><code>Microsoft.NET.Sdk.Razor\2.1.0-preview2-final
-</code></pre>
-
-<p>Instead of having Microsoft.NET.Sdk.Razor as the name with the
-version being separate.</p>
-
-<p><strong>Fixed null reference on opening .NET Core project with SDK version</strong></p>
-
-<p>Opening a SDK style project that used a Sdk attribute with a version
-would show an error message &ldquo;Error while trying to load project:
-Object reference not set to an instance of an object&rdquo;. The problem
-was that an SdkResolver can return null from its Resolve method.
-These null results were added to a list and then an attempt was made
-to log the result warnings on a null result.</p>
-
-<pre><code>&lt;Project Sdk="Microsoft.NET.Sdk.Razor/2.1.0-preview2-final"&gt;
-</code></pre>
-
-<p><strong>Fixed editor errors when .NET Standard assembly referenced in Xamarin.iOS project</strong></p>
-
-<p>When a Xamarin.iOS project used an assembly that was compiled
-for .NET Standard, such as the assembly in the
-System.Collections.Immutable NuGet package, the netstandard assembly
-was not made available for code completion. This then resulted in the text editor
-showing errors even though the project could be compiled succesfully.
-The errors displayed were similar to:</p>
-
-<pre><code>  The type 'ValueType' is defined in an assembly that is not
-  referenced. You must add a reference to assembly 'netstandard,
-  Version=2.0.0.0, Culture=neutral, PublicKeytoken=cc7b1dffcd2ddd51'.
-</code></pre>
-
-<p>Now a check is made to determine
-if an assembly is referencing netstandard and if so the facade assemblies,
-which for Xamarin.iOS will include the netstandard.dll, are made available
-for code completion. Previously only a check was made for the project having
-an assembly referencing System.Runtime before including the facade assemblies.</p>
 ]]></content>
   </entry>
   
