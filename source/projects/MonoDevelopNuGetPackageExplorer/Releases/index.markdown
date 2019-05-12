@@ -1,11 +1,26 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Package Explorer Addin Releases"
-date: 2018-12-19 22:00
+date: 2019-05-12 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.3.2
+
+2019-05-12
+
+ * Support MonoDevelop 8.1.
+ * ILMerge Lucene.NET instead of shipping it separately.
+
+
+## Version 0.3.1
+
+2019-04-11
+
+ * Re-packaged 0.3 to workaround problem with addin server returning old 0.3 addin for MonoDevelop 8.0
+
 
 ## Version 0.3
 
