@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-05-05T14:34:24+01:00</updated>
+  <updated>2019-06-22T13:28:52+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.1]]></title>
+    <link href="http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1/"/>
+    <updated>2019-06-22T12:40:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.0 support</li>
+<li> Fixed PackageReference metadata not added for development dependencies</li>
+<li> Fixed DotNetCliToolReferences not being restored</li>
+<li> Fixed Multiplatform Library build error with Android projects</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.1</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.0 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.0-rtm">NuGet 5.0.2.5988</a> is now
+included with Visual Studio for Mac 8.1.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed PackageReference metadata not added for development dependencies</strong></p>
+
+<p>Installing a NuGet package that is a development dependency, such as
+GitInfo, would not add the PrivateAssets nor the IncludeAssets
+metadata to the PackageReference. This is now supported and mirrors the
+behaviour of &lsquo;dotnet add package&rsquo; and Visual Studio on Windows.</p>
+
+<p><strong>Fixed DotNetCliToolReferences not being restored</strong></p>
+
+<p>DotNetCliToolReferences are available in the package dependency graph
+but are treated as separate projects in this graph. Since these did not map
+to an existing project in the solution they were not added to the full dependency
+graph which resulted in these tools not being restored.</p>
+
+<p>DotNetCliToolReferences are only restored when the entire solution is restored.
+Restoring a single project only restores the project itself not
+the dotnet cli tool project referenced by the project.</p>
+
+<p>MSBuild supports restoring DotNetCliToolReferences in any project type that
+uses PackageReferences so Visual Studio for Mac also supports this.</p>
+
+<p><strong>Fixed Multiplatform Library build error with Android projects</strong></p>
+
+<p>When generating a Portable Class Library (PCL) assembly from the intersection of project
+assemblies the ApiIntersect build task would throw an exception since
+it could not resolve the Mono.Android assembly. This problem has been
+fixed in a more recent NuGet.Build.Packaging where the failure to
+resolve has been converted to a warning.</p>
+
+<p>```
+System.Exception: Could not resolve Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065</p>
+
+<pre><code>at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name, Mono.Cecil.ReaderParameters parameters) [0x0001b] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name) [0x00000] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+at ICSharpCode.Decompiler.Ast.Transforms.IntroduceUsingDeclarations.Run (ICSharpCode.NRefactory.CSharp.AstNode compilationUnit) [0x00142] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+at ICSharpCode.Decompiler.Ast.Transforms.TransformationPipeline.RunTransformationsUntil (ICSharpCode.NRefactory.CSharp.AstNode node, System.Predicate`1[T] abortCondition, ICSharpCode.Decompiler.DecompilerContext context) [0x0002c] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations (System.Predicate`1[T] transformAbortCondition) [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations () [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+at ApiIntersect.MainClass.DumpTypes (System.Collections.Generic.List`1[T] types, System.String baseDir) [0x000a7] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+at ApiIntersect.MainClass.Process (System.Collections.Generic.List`1[T] intersections, System.Collections.Generic.List`1[T] exclusions, Mono.Cecil.ReaderParameters readerParameters, System.String outputPath) [0x00319] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+at ApiIntersect.MainClass.Main (System.String[] args) [0x0039f] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+</code></pre>
+
+<p>```</p>
+
+<p>An updated NuGet.Build.Packaging has not been published to nuget.org
+so only new projects created with Visual Studio for Mac will get the
+NuGet package containing the fix.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet PowerShell Core Console in Visual Studio for Mac 8.0]]></title>
@@ -538,149 +614,6 @@ and then click the Open button. After installing both the addins restart Visual 
 <li><a href="https://github.com/mrward/monodevelop-typescript-task-runner">TypeScript Task Runner for Visual Studio for Mac</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.7]]></title>
-    <link href="http://lastexitcode.com/blog/2018/12/19/NuGetSupportInVisualStudioMac7-7/"/>
-    <updated>2018-12-19T14:40:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2018/12/19/NuGetSupportInVisualStudioMac7-7</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet 4.8 support</li>
-<li> Support PackageReferences without a Version</li>
-<li> Fixed NuGet sdk resolver not being found in Mono 5.16</li>
-<li> Fixed null reference exception in package compatiblity check</li>
-<li> Fixed Update menu enabled when project has no PackageReferences</li>
-<li> Fixed updating a NuGet package changing a reference&rsquo;s ItemGroup</li>
-<li> Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.7</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-77">release notes</a>.</p>
-
-<h2>NuGet 4.8 support</h2>
-
-<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.8-rtm">NuGet 4.8.0.5385</a> is now
-included with Visual Studio for Mac 7.7.2.</p>
-
-<h2>Support PackageReferences without a Version</h2>
-
-<p>Visual Studio for Mac did not support projects that used PackageReferences without
-specifying a version.</p>
-
-<pre><code>&lt;ItemGroup&gt;
-    &lt;PackageReference Include="Newtonsoft.Json" /&gt;
-&lt;/ItemGroup&gt;
-</code></pre>
-
-<p>The version may be defined elsewhere in another MSBuild file, such as the Directory.props file,
-or by the .NET Core SDK, as with the
-Microsoft.AspNetCore.App PackageReference in ASP.NET Core projects. By default a
-PackageReference without a version will restore the lowest available version for
-the NuGet package.</p>
-
-<p>However in Visual Studio for Mac there were several problems with PackageReferences that
-did not specify a version.</p>
-
-<p>Opening a project with a PackageReference without a Version
-would result in an ArgumentNullException being logged and the
-Add Packages dialog could not be opened.</p>
-
-<p>If the PackageReference, in a non-SDK project, had no Version
-then it was not displayed in the Packages folder and a null reference
-exception was logged. The Solution window would try to find
-the package to check if it was installed which is not possible
-with a missing version and NuGet&rsquo;s VersionFolderPathResolver
-would throw a null reference exception.</p>
-
-<p>If a PackageReference had no Version then a null reference exception
-was logged when checking for updates. A null version is now handled.</p>
-
-<p>Right clicking the package in the Packages folder would log a
-null reference exception if a non-SDK style project was used and it
-had a PackageReference without a version. This is now handled and the
-menu label will show &ldquo;Version None&rdquo;.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed NuGet sdk resolver not being found in Mono 5.16</strong></p>
-
-<p>More recent versions of MSBuild, such as MSBuild 16.0.40 which is included
-with Mono 5.16.0.173, allow the sdk resolver to use a manifest.xml file to
-define the assembly where the resolver can be found:</p>
-
-<pre><code>&lt;SdkResolver&gt;
-  &lt;Path&gt;..\..\Microsoft.Build.NuGetSdkResolver.dll&lt;/Path&gt;
-&lt;/SdkResolver&gt;
-</code></pre>
-
-<p>This manifest file not supported and resulted in the NuGet sdk resolver not
-being loaded. Any projects that use an MSBuild sdk from a NuGet
-package no longer worked and would result in an &lsquo;Invalid configuration
-mapping&rsquo; error shown in the Solution window. The sdk resolution in
-Visual Studio for Mac has now
-been updated based on the latest MSBuild source code.</p>
-
-<p><strong>Fixed null reference exception in compatiblity check</strong></p>
-
-<p>Changing the target framework of a project that uses a packages.config
-file will result in a package compatiblity check being run.
-If the project had both a PackageReference and a packages.config file
-the package compatiblity check would fail with a null
-reference exception. Visual Studio for Mac was treating the project as
-though it was using a packages.config file, when it should have been
-treated as a PackageReference project. This resulted in a null
-reference exception being thrown when checking for package compatiblity.</p>
-
-<p><strong>Fixed Update menu enabled when project has no PackageReferences</strong></p>
-
-<p>The Update menu was enabled if the project used PackageReferences but
-had none in the project. Without any PackageReferences in the
-project there is no packages to update. The check to determine if the Update
-menu should be enabled has been changed to make sure the project has
-PackageReferences in the project file, not just imported
-PackageReferences. The Update
-NuGet Packages menu, which is used to update packages for the solution,
-has also been changed to have the same behaviour.</p>
-
-<p><strong>Fixed updating a NuGet package changing a reference&rsquo;s ItemGroup</strong></p>
-
-<p>On updating a NuGet package the Reference item will now be modified in
-place in the project file.</p>
-
-<p>On updating a NuGet package in a project that used a packages.config
-the old NuGet package is uninstalled and the new one is installed.
-This removes the old references and adds new references. If the
-references are in an ItemGroup with a condition then the new
-reference may be added into a different ItemGroup if there are other
-ItemGroups with references. To prevent this from happening the
-changes to made to references are cached and not applied to the
-project until all the NuGet actions have all been run. This allows
-a NuGet package update which would remove a reference and then
-add a new reference to be
-converted into an update of the original Reference in the project,
-changing just its HintPath, so its
-location in the project file is not changed.</p>
-
-<p>This was fixed in Visual Studio for Mac 7.7.3.</p>
-
-<p><strong>Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path</strong></p>
-
-<p>Updating a NuGet package, where the project, which uses a packages.config file,
-had been modified so the
-original reference had a fully qualified hint path, would result in
-a relative path used for the hint path when the reference was updated.</p>
-
-<p>Now if the original hint path was full path then if the hint
-path for the reference is changed it is saved using a full
-path. This is different behaviour to how Visual Studio on Windows works, which
-will always add a relative hint path for the reference.</p>
-
-<p>This was fixed in Visual Studio for Mac 7.7.3.</p>
 ]]></content>
   </entry>
   

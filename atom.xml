@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-05-05T14:34:24+01:00</updated>
+  <updated>2019-06-22T13:28:52+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.1]]></title>
+    <link href="http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1/"/>
+    <updated>2019-06-22T12:40:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.0 support</li>
+<li> Fixed PackageReference metadata not added for development dependencies</li>
+<li> Fixed DotNetCliToolReferences not being restored</li>
+<li> Fixed Multiplatform Library build error with Android projects</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.1</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.0 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.0-rtm">NuGet 5.0.2.5988</a> is now
+included with Visual Studio for Mac 8.1.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed PackageReference metadata not added for development dependencies</strong></p>
+
+<p>Installing a NuGet package that is a development dependency, such as
+GitInfo, would not add the PrivateAssets nor the IncludeAssets
+metadata to the PackageReference. This is now supported and mirrors the
+behaviour of &lsquo;dotnet add package&rsquo; and Visual Studio on Windows.</p>
+
+<p><strong>Fixed DotNetCliToolReferences not being restored</strong></p>
+
+<p>DotNetCliToolReferences are available in the package dependency graph
+but are treated as separate projects in this graph. Since these did not map
+to an existing project in the solution they were not added to the full dependency
+graph which resulted in these tools not being restored.</p>
+
+<p>DotNetCliToolReferences are only restored when the entire solution is restored.
+Restoring a single project only restores the project itself not
+the dotnet cli tool project referenced by the project.</p>
+
+<p>MSBuild supports restoring DotNetCliToolReferences in any project type that
+uses PackageReferences so Visual Studio for Mac also supports this.</p>
+
+<p><strong>Fixed Multiplatform Library build error with Android projects</strong></p>
+
+<p>When generating a Portable Class Library (PCL) assembly from the intersection of project
+assemblies the ApiIntersect build task would throw an exception since
+it could not resolve the Mono.Android assembly. This problem has been
+fixed in a more recent NuGet.Build.Packaging where the failure to
+resolve has been converted to a warning.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>System.Exception: Could not resolve Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065
+</span><span class='line'>    at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name, Mono.Cecil.ReaderParameters parameters) [0x0001b] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+</span><span class='line'>    at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name) [0x00000] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+</span><span class='line'>    at ICSharpCode.Decompiler.Ast.Transforms.IntroduceUsingDeclarations.Run (ICSharpCode.NRefactory.CSharp.AstNode compilationUnit) [0x00142] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+</span><span class='line'>    at ICSharpCode.Decompiler.Ast.Transforms.TransformationPipeline.RunTransformationsUntil (ICSharpCode.NRefactory.CSharp.AstNode node, System.Predicate`1[T] abortCondition, ICSharpCode.Decompiler.DecompilerContext context) [0x0002c] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+</span><span class='line'>    at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations (System.Predicate`1[T] transformAbortCondition) [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+</span><span class='line'>    at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations () [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+</span><span class='line'>    at ApiIntersect.MainClass.DumpTypes (System.Collections.Generic.List`1[T] types, System.String baseDir) [0x000a7] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+</span><span class='line'>    at ApiIntersect.MainClass.Process (System.Collections.Generic.List`1[T] intersections, System.Collections.Generic.List`1[T] exclusions, Mono.Cecil.ReaderParameters readerParameters, System.String outputPath) [0x00319] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+</span><span class='line'>    at ApiIntersect.MainClass.Main (System.String[] args) [0x0039f] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An updated NuGet.Build.Packaging has not been published to nuget.org
+so only new projects created with Visual Studio for Mac will get the
+NuGet package containing the fix.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet PowerShell Core Console in Visual Studio for Mac 8.0]]></title>
@@ -4178,131 +4260,6 @@ the NuGet package restore to fail in some cases. For example, if a .NET Standard
 project has a project reference to a .NET Core App project, but has the
 ReferenceOutputAssembly set to false, then running dotnet restore from the
 command line would work, but the restore would fail in Visual Studio for Mac.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.1]]></title>
-    <link href="http://lastexitcode.com/blog/2017/08/26/NuGetSupportInVisualStudioMac7-1/"/>
-    <updated>2017-08-26T14:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2017/08/26/NuGetSupportInVisualStudioMac7-1</id>
-    <content type="html"><![CDATA[<h2>New Features</h2>
-
-<ul>
-<li> NuGet 4.3 support</li>
-<li> Support PackageReference in non .NET Core projects</li>
-<li> Enable file template when a NuGet package is installed</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.1</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-august-14-2017---visual-studio-for-mac-7101297">release notes</a>.</p>
-
-<h2>NuGet 4.3 Support</h2>
-
-<p>NuGet 4.3.0.2418 is now included with Visual Studio for Mac 7.1.</p>
-
-<p>This version of NuGet adds support for .NET Core 2.0 and .NET Standard 2.0
-target frameworks.</p>
-
-<h2>Support PackageReference in non .NET Core projects</h2>
-
-<p>Non .NET Core Sdk style projects that use a PackageReference MSBuild item are now supported.</p>
-
-<pre><code>&lt;PackageReference Include="Newtonsoft.Json"&gt;
-  &lt;Version&gt;10.0.1&lt;/Version&gt;
-&lt;/PackageReference&gt;
-</code></pre>
-
-<p>In Visual Studio for Mac 7.0 the Solution
-window would not show any packages for the project, would not allow
-the packages to be restored, and would create a packages.config file when installing
-a NuGet package even though the project was using PackageReferences.</p>
-
-<p>Now if the project has a PackageReference the Packages folder
-shows the installed packages and can be used to update or install
-NuGet packages which will also create PackageReference MSBuild items.</p>
-
-<p>If the project has no PackageReferences then by default a
-packages.config file will be created when a NuGet package is installed.</p>
-
-<p>Currently it is not possible to opt-in to using PackageReferences by default.
-So the project file will need to be edited in the text editor to include at
-least one PackageReference before the default behaviour of using a packages.config
-file is overridden.</p>
-
-<h2>Enable file template when a NuGet package is installed</h2>
-
-<p>A file template can now specify that it should be enabled if the project
-has a specific reference or has a specific NuGet package installed.
-Previously it was only possible to enable a file template based on the
-references defined in the project file.</p>
-
-<pre><code>&lt;HasPackageOrReference PackageId="Xamarin.Forms" Assembly="Xamarin.Forms" /&gt;
-</code></pre>
-
-<p>Whilst a reference will work for projects that use a packages.config
-file, if the project uses a project.json file or PackageReferences
-then checking the references defined in the project would not find any matches and
-the file template would not be enabled.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Do not require description when creating a new NuGet package project</strong></p>
-
-<p>When creating a NuGet package project or a multiplatform project the description
-needed to be specified in the New Project dialog.</p>
-
-<p>To simplify the project creation
-process the package id is used as the description by default. As you type the
-package id into the New Project dialog the description text
-box will be updated. The description can be changed to be different
-to the package id if required.</p>
-
-<p><strong>Fix being unable to load NuGet Package Project created by Visual Studio on Windows</strong></p>
-
-<p>Visual Studio on Windows creates a NuGet package project (.nuproj)
-with no target framework version which resulted in 4.0 being used by
-default in Visual Studio for Mac. This would cause the project to fail to
-load in Visual Studio for Mac since it was checking for 4.5 or later.</p>
-
-<p><strong>Fix no packages shown in Packages folder for NuGet Package Projects</strong></p>
-
-<p>Opening a previously created NuGet package project (.nuproj) would show no
-packages in the Packages folder.</p>
-
-<p>The problem was that the PackageReference project item was defined by
-both the NuGet addin and the Packaging addin. The NuGet addin&rsquo;s PackageReference
-project item was used instead of the one defined by the Packaging addin so no
-package references were found for the NuGet package project.</p>
-
-<p><strong>Fix NuGet Package Project&rsquo;s MSBuild targets not being created</strong></p>
-
-<p>If the NuGet package project&rsquo;s generated .nuget.targets or .nuget.props are missing
-then these are now created on opening the solution if
-automatic restore is enabled.</p>
-
-<p><strong>Fix being unable to package .NET Standard projects</strong></p>
-
-<p>A NuGet package project that referenced an Sdk style .NET Standard project
-would fail to build the NuGet package. The build would fail with an error:</p>
-
-<pre><code>Error: Project targets '.NETStandard,Version=v1.4'. It cannot be
-referenced by a project that targets 'NuGet,Version=v1.0'
-</code></pre>
-
-<p>Updating to a more recent NuGet.Build.Packaging NuGet
-package, such as version 0.1.276, fixes this problem.</p>
-
-<p><strong>NuGet Package project treated as .NET Core project</strong></p>
-
-<p>NuGet package projects (.nuproj) that use the NuGet.Build.Packaging
-0.1.276 NuGet package define a TargetFramework property in an
-imported MSBuild .props file. This was causing the project to
-be treated as a .NET Core project by Visual Studio for Mac. This caused
-the Dependencies folder to be displayed and the References folder
-to be removed. Visual Studio for Mac now checks the project has the
-Sdk attribute instead of looking at the MSBuild properties defined
-by the project when determining the project type.</p>
 ]]></content>
   </entry>
   

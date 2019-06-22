@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 8.1 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes NuGet 5.0 support Fixed PackageReference metadata not added for development dependencies Fixed DotNetCliToolReferences not being restored &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 8.1</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-06-22T12:40:00+01:00" pubdate data-updated="true">Jun 22<sup>nd</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.0 support</li>
+<li> Fixed PackageReference metadata not added for development dependencies</li>
+<li> Fixed DotNetCliToolReferences not being restored</li>
+<li> Fixed Multiplatform Library build error with Android projects</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.1</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.0 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.0-rtm">NuGet 5.0.2.5988</a> is now
+included with Visual Studio for Mac 8.1.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed PackageReference metadata not added for development dependencies</strong></p>
+
+<p>Installing a NuGet package that is a development dependency, such as
+GitInfo, would not add the PrivateAssets nor the IncludeAssets
+metadata to the PackageReference. This is now supported and mirrors the
+behaviour of &lsquo;dotnet add package&rsquo; and Visual Studio on Windows.</p>
+
+<p><strong>Fixed DotNetCliToolReferences not being restored</strong></p>
+
+<p>DotNetCliToolReferences are available in the package dependency graph
+but are treated as separate projects in this graph. Since these did not map
+to an existing project in the solution they were not added to the full dependency
+graph which resulted in these tools not being restored.</p>
+
+<p>DotNetCliToolReferences are only restored when the entire solution is restored.
+Restoring a single project only restores the project itself not
+the dotnet cli tool project referenced by the project.</p>
+
+<p>MSBuild supports restoring DotNetCliToolReferences in any project type that
+uses PackageReferences so Visual Studio for Mac also supports this.</p>
+
+<p><strong>Fixed Multiplatform Library build error with Android projects</strong></p>
+
+<p>When generating a Portable Class Library (PCL) assembly from the intersection of project
+assemblies the ApiIntersect build task would throw an exception since
+it could not resolve the Mono.Android assembly. This problem has been
+fixed in a more recent NuGet.Build.Packaging where the failure to
+resolve has been converted to a warning.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>System.Exception: Could not resolve Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065
+</span><span class='line'>    at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name, Mono.Cecil.ReaderParameters parameters) [0x0001b] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+</span><span class='line'>    at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name) [0x00000] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+</span><span class='line'>    at ICSharpCode.Decompiler.Ast.Transforms.IntroduceUsingDeclarations.Run (ICSharpCode.NRefactory.CSharp.AstNode compilationUnit) [0x00142] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+</span><span class='line'>    at ICSharpCode.Decompiler.Ast.Transforms.TransformationPipeline.RunTransformationsUntil (ICSharpCode.NRefactory.CSharp.AstNode node, System.Predicate`1[T] abortCondition, ICSharpCode.Decompiler.DecompilerContext context) [0x0002c] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+</span><span class='line'>    at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations (System.Predicate`1[T] transformAbortCondition) [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+</span><span class='line'>    at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations () [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
+</span><span class='line'>    at ApiIntersect.MainClass.DumpTypes (System.Collections.Generic.List`1[T] types, System.String baseDir) [0x000a7] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+</span><span class='line'>    at ApiIntersect.MainClass.Process (System.Collections.Generic.List`1[T] intersections, System.Collections.Generic.List`1[T] exclusions, Mono.Cecil.ReaderParameters readerParameters, System.String outputPath) [0x00319] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
+</span><span class='line'>    at ApiIntersect.MainClass.Main (System.String[] args) [0x0039f] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An updated NuGet.Build.Packaging has not been published to nuget.org
+so only new projects created with Visual Studio for Mac will get the
+NuGet package containing the fix.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-06-22T12:40:00+01:00" pubdate data-updated="true">Jun 22<sup>nd</sup>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1/" data-via="" data-counturl="http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/05/05/NuGetPowerShellCoreConsoleVisualStudioForMac8-0/" title="Previous Post: NuGet PowerShell Core Console in Visual Studio for Mac 8.0">&laquo; NuGet PowerShell Core Console in Visual Studio for Mac 8.0</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
