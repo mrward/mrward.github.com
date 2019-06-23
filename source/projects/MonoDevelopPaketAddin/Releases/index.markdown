@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop Paket Addin Releases"
-date: 2019-04-06 13:40
+date: 2019-06-23 13:40
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.6
+
+2019-06-23
+
+* Support MonoDevelop 8.1
 
 ## Version 0.5.1
 
