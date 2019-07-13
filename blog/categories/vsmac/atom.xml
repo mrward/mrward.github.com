@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-06-22T13:28:52+01:00</updated>
+  <updated>2019-07-13T14:27:34+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LibMan support in Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2019/07/13/LibManSupportInVisualStudioMac8-1/"/>
+    <updated>2019-07-13T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2019/07/13/LibManSupportInVisualStudioMac8-1</id>
+    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/LibraryManager">Library Manager addin</a> provides
+Microsoft Library Manager (LibMan) support for Visual Studio for Mac. LibMan provides a way to install
+third-party client-side JavaScript libraries for ASP.NET Core and ASP.NET projects.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Add Client-Side Library dialog</li>
+<li>Restore client-side libraries</li>
+<li>Deleting client-side libraries</li>
+<li>Automatic client-side library restore on saving libman.json file</li>
+</ul>
+
+
+<p>Full text editor support is not currently available. The following text editor quick actions are not supported:</p>
+
+<ul>
+<li>Uninstall a client-side library</li>
+<li>Check for client-side library updates</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 8.1 or later.</li>
+<li>ASP.NET Core and ASP.NET projects</li>
+</ul>
+
+
+<h2>Add Client-Side Library Dialog</h2>
+
+<p>To open the Add Client-Side Library dialog, right click the project, or a folder, and select Add &ndash; Client-Side Library.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryMenuItem.png" title="&lsquo;Add &ndash; Client-Side Library menu&rsquo; &lsquo;Add &ndash; Client-Side Library menu&rsquo;" ></p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialog.png" title="&lsquo;Add Client-Side Library dialog&rsquo; &lsquo;Add Client-Side Library dialog&rsquo;" ></p>
+
+<p>The library provider can be selected from the Provider list.</p>
+
+<p>Typing in the Library text field will search the library provider and show a list of matching libraries.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialogCompletion.png" title="&lsquo;Add Client-Side Library dialog completion list&rsquo; &lsquo;Add Client-Side Library dialog completion list&rsquo;" ></p>
+
+<p>Pressing tab or return will insert the selected library from the completion list into the Library text field.</p>
+
+<p>You can then choose to include all the client-side library files or a selection of those files.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialogSelectFiles.png" title="&lsquo;Add Client-Side Library dialog select files&rsquo; &lsquo;Add Client-Side Library dialog select files&rsquo;" ></p>
+
+<p>The Target Location indicates where the client-side library files will be installed.</p>
+
+<p>Clicking the Install button will create a libman.json file and install the client-side library into your project.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibManJQueryInstalledInProject.png" title="&lsquo;jQuery installed into project&rsquo; &lsquo;jQuery installed into project&rsquo;" ></p>
+
+<p>More detailed information about the client-side library installation is available by clicking the status bar or by selecting
+View &ndash; Pads &ndash; Library Manager Output.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibraryManagerOutputWindow.png" title="&lsquo;Library Manager Output window&rsquo; &lsquo;Library Manager Output window&rsquo;" ></p>
+
+<h2>Adding a libman.json file</h2>
+
+<p>To add a libman.json file without using the Add Client-Side Library dialog, right click the ASP.NET project and select
+Manage Client-Side Libraries.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/ManageClientSideLibrariesMenu.png" title="&lsquo;Manage Client-Side Libraries menu&rsquo; &lsquo;Manage Client-Side Libraries menu&rsquo;" ></p>
+
+<p>This will create a libman.json file and open it in the text editor.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibManFileInTextEditor.png" title="&lsquo;libman.json file in text editor&rsquo; &lsquo;libman.json file in text editor&rsquo;" ></p>
+
+<h2>Restoring Client-Side Libraries</h2>
+
+<p>To restore the client-side libraries you can right click the libman.json file in the Solution window and
+select Restore Client-Side Libraries.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/RestoreClientSideLibraries.png" title="&lsquo;Restore Client-Side Libraries menu&rsquo; &lsquo;Restore Client-Side Libraries menu&rsquo;" ></p>
+
+<p>Information about the restore operation is available from the Library Manager Output window.</p>
+
+<p>Alternatively saving the libman.json file in the text editor will run a restore.</p>
+
+<p>Restore errors are displayed in the Errors window and in the libman.json file if it is open in the text editor.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibManRestoreError.png" title="&lsquo;LibMan restore error&rsquo; &lsquo;LibMan restore error&rsquo;" ></p>
+
+<h2>Deleting Client-Side Libraries</h2>
+
+<p>To remove the client-side libraries you can right click the libman.json file in the Solution window and
+select Clean Client-Side Libraries.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/CleanClientSideLibrariesMenu.png" title="&lsquo;Clean Client-Side Libraries menu&rsquo; &lsquo;Clean Client-Side Libraries menu&rsquo;" ></p>
+
+<p>This will delete the client-side libraries from the project.</p>
+
+<h2>Library Manager Addin Installation</h2>
+
+<p>The Library Manager addin is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
+
+<ul>
+<li>From the main menu, open the Extensions Manager dialog.</li>
+<li>Select the Gallery tab.</li>
+<li>Expand IDE extensions.</li>
+<li>Select the Library Manager addin</li>
+<li>Click the Refresh button if the addin is not visible.</li>
+<li>Click Install… to install the addin.</li>
+<li>Restart Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/LibraryManager">Library Manager for Visual Studio for Mac</a></li>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/core/client-side/libman/libman-vs">Use LibMan with ASP.NET Core in Visual Studio</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.1]]></title>
@@ -384,236 +510,6 @@ defines the PackageReference versions in a separate MSBuild .props file and has 
 MSBuild target to define these versions. This custom MSBuild target is now supported
 since Visual Studio for Mac uses the GenerateRestoreGraphFile MSBuild target to
 determine package references when restoring.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Task Runner Explorer in Visual Studio for Mac]]></title>
-    <link href="http://lastexitcode.com/blog/2019/01/04/TaskRunnerExplorerInVisualStudioMac/"/>
-    <updated>2019-01-04T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2019/01/04/TaskRunnerExplorerInVisualStudioMac</id>
-    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-language-server-addin">Task Runner Explorer addin</a> provides a
-Task Runner Explorer
-window, similar to the one in Visual Studio on Windows, which can be used to run tasks with
-Cake, Gulp, Grunt, NPM and TypeScript.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerWindowGruntNpmTasks.png" title="&lsquo;Task Runner Explorer window&rsquo; &lsquo;Task Runner Explorer Window&rsquo;" ></p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Task Runner Explorer Window
-
-<ul>
-<li>View tasks</li>
-<li>Run tasks</li>
-<li>View task output</li>
-<li>Run and cancel long running tasks, such as tcs watch</li>
-<li>Configure tasks to run when specific IDE events occur
-
-<ul>
-<li>Before Build</li>
-<li>After Build</li>
-<li>Clean</li>
-<li>Project Opened</li>
-<li>Solution Opened</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Task Runners
-
-<ul>
-<li>Cake</li>
-<li>Gulp</li>
-<li>Grunt</li>
-<li>NPM</li>
-<li>TypeScript</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li>Visual Studio Mac 7.5 or later.</li>
-</ul>
-
-
-<h2>Task Runner Explorer</h2>
-
-<p>To open the Task Runner Explorer window, from the View menu select Pads, then
-select Task Runner Explorer.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/ViewTaskRunnerExplorerMenu.png" title="&lsquo;View Task Runner Explorer menu&rsquo; &lsquo;View Task Runner Explorer menu&rsquo;" ></p>
-
-<p>The Task Runner Explorer will look for files supported by a task runner in the
-solution directory and the project directory. It will also look at all files
-that have been added to a project or that have been added to a solution folder.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerTypeScriptNpmTasks.png" title="&lsquo;Task Runner Explorer TypeScript and NPM tasks&rsquo; &lsquo;Task Runner Explorer TypeScript and NPM tasks&rsquo;" ></p>
-
-<p>The top left of the Task Runner Explorer shows a list of projects
-or the solution that have tasks available. This can be used to filter the tasks shown in the
-Task Runner Explorer window.</p>
-
-<p>Currently changes made to tasks will not be detected automatically. To refresh
-the task information you can click the Refresh button
-available at the top left of the Task Runner Explorer window.</p>
-
-<h3>Running a Task</h3>
-
-<p>To run a task you can double click it or right click and select Run.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerRunMenu.png" title="&lsquo;Task Runner Explorer Run menu&rsquo; &lsquo;Task Runner Explorer Run menu&rsquo;" ></p>
-
-<p>Output from the task is shown on the right hand side of the Task Runner Explorer
-window.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerNpmUpdateRunning.png" title="&lsquo;NPM update running&rsquo; &lsquo;NPM update running&rsquo;" ></p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/NpmUpdateRunCompleted.png" title="&lsquo;NPM update completed&rsquo; &lsquo;NPM update completed&rsquo;" ></p>
-
-<p>A long running task, such as tcs watch, will run until the solution is closed,
-or the Stop button, available on the right hand side
-of the Task Runner Explorer window, is clicked.</p>
-
-<h3>Binding Tasks to IDE Events</h3>
-
-<p>Tasks can be configured to run when the following IDE events occur:</p>
-
-<ul>
-<li>After Build</li>
-<li>Before Build</li>
-<li>Clean</li>
-<li>Project or Solution Opened</li>
-</ul>
-
-
-<p>If the task runner file is in a project directory then the build and clean
-events are associated with the project. If the task runner file is in a solution directory
-then the build events are associated with the solution.</p>
-
-<p>To configure a task, right click it, select Bindings and then select the
-event.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMenu.png" title="&lsquo;Task Runner Explorer Bindings menu&rsquo; &lsquo;Task Runner Explorer Bindings menu&rsquo;" ></p>
-
-<p>The binding will be displayed in the Bindings tab and will also be shown as
-checked when the context menu for the task is opened.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBeforeBuildBindingAdded.png" title="&lsquo;Task Runner Explorer Before Build binding added&rsquo; &lsquo;Task Runner Explorer Before Build binding added&rsquo;" ></p>
-
-<p>To remove the binding you can right click the task, select Bindings and
-select the event again to uncheck it. Alternatively you can right click
-it in the Bindings tab and select Remove.</p>
-
-<p>The order in which the tasks are run for a particular IDE event can be changed
-by right clicking the binding in the Bindings tab and selecting Move Up or Move Down.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMoveDownMenu.png" title="&lsquo;Task Runner Explorer binding Move Up and Down menus&rsquo; &lsquo;Task Runner Explorer binding Move Up and Down menus&rsquo;" ></p>
-
-<p>The binding information is typically saved in a file in the same directory as the corresponding task
-runner file, however this depends on how the task runner is implemented.</p>
-
-<h3>Disabling Automatic Running of Tasks</h3>
-
-<p>In preferences there is a Task Runner Explorer section which shows
-a check box that can be used to enable or disable the automatic
-running of tasks on opening a project or solution, and when building or cleaning.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerPreferences.png" title="&lsquo;Preferences &ndash; Automatically run tasks option&rsquo; &lsquo;Preferences &ndash; Automatically run tasks option&rsquo;" ></p>
-
-<h2>Cake Task Runner</h2>
-
-<p>The Cake task runner supports running tasks defined in a build.cake file.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/CakeTaskRunner.png" title="&lsquo;Cake Task Runner&rsquo; &lsquo;Cake Task Runner&rsquo;" ></p>
-
-<p>This is based on the <a href="https://github.com/cake-build/cake-vs">Cake Task Runner for Visual Studio</a>.</p>
-
-<h2>Gulp Task Runner</h2>
-
-<p>The Gulp task runner supports running tasks defined in a gulpfile.js file.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/GulpTaskRunner.png" title="&lsquo;Gulp Task Runner&rsquo; &lsquo;Gulp Task Runner&rsquo;" ></p>
-
-<p><a href="https://gulpjs.com">Gulp</a> needs to be installed separately.</p>
-
-<h2>Grunt Task Runner</h2>
-
-<p>The Grunt task runner supports running tasks defined in a Gruntfile.js file.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/GruntTaskRunner.png" title="&lsquo;Grunt Task Runner&rsquo; &lsquo;Grunt Task Runner&rsquo;" ></p>
-
-<p><a href="https://gruntjs.com">Grunt</a> needs to be installed separately.</p>
-
-<h2>NPM Task Runner</h2>
-
-<p>The NPM task runner supports running tasks defined in a package.json file.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/NpmTaskRunner.png" title="&lsquo;NPM task runner&rsquo; &lsquo;NPM task runner&rsquo;" ></p>
-
-<p>The NPM task runner is a port of <a href="https://madskristensen.net/">Mads Kristensen&rsquo;s</a>
-<a href="https://github.com/madskristensen/NpmTaskRunner">NPM Task Runner</a>.</p>
-
-<p>The NPM task runner supports running with the verbose NPM option defined. If a
-task is selected then a button will be displayed on the left hand side of the
-Task Runner Explorer window. If this is selected then npm will be passed the
-<code>-d</code> argument when it is run.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/NpmTaskRunnerVerboseButton.png" title="&lsquo;NPM task runner Verbose button&rsquo; &lsquo;NPM task runner Verbose button&rsquo;" ></p>
-
-<p>NPM needs to be installed separately.</p>
-
-<h2>TypeScript Task Runner</h2>
-
-<p>The TypeScript task runner supports running tcs build and tcs watch if a tsconfig.json file
-is found.</p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TypeScriptTaskRunner.png" title="&lsquo;TypeScript task runner&rsquo; &lsquo;TypeScript task runner&rsquo;" ></p>
-
-<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TypeScriptWatchTaskOutput.png" title="&lsquo;TypeScript tcs watch output&rsquo; &lsquo;TypeScript tcs watch output&rsquo;" ></p>
-
-<p>The TypeScript task runner will try to use tsc that is distributed with the Web Tools extension that
-is included in Visual Studio for Mac. If the Web Tools extension is not installed then the task
-runner will fall back to running tsc directly.</p>
-
-<h2>Installation</h2>
-
-<p>There are two addins to be installed:</p>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-task-runner-addin/releases/download/0.1/MonoDevelop.TaskRunner_0.1.mpack">Task Runner</a></li>
-<li><a href="https://github.com/mrward/monodevelop-task-runner-addin/releases/download/0.1/MonoDevelop.TaskRunnersBundle_0.1.mpack">Task Runners Bundle</a></li>
-</ul>
-
-
-<p>The Task Runner is the main addin. This will be used by other task runner addins and provides the
-main task runner API and services.</p>
-
-<p>The Task Runners Bundle addin contains the Cake, Gulp, Grunt, NPM and TypeScript task runners. These
-are currently included together as a single addin instead of being distributed separately.</p>
-
-<p>Download both of the above .mpack files. Install the Task Runner addin first since the Task Runners Bundle
-addin depends on it. To install an addin&rsquo;s .mpack file, open the Extensions Manager
-by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file
-and then click the Open button. After installing both the addins restart Visual Studio for Mac.</p>
-
-<p>These addins are not currently available from the main Visual Studio for Mac extensions server.</p>
-
-<h2>Source Code</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-language-server-addin">Task Runner Explorer for Visual Studio for Mac</a></li>
-<li><a href="https://github.com/mrward/monodevelop-cake-task-runner">Cake Task Runner for Visual Studio for Mac</a></li>
-<li><a href="https://github.com/mrward/monodevelop-grunt-task-runner">Grunt Task Runner for Visual Studio for Mac</a></li>
-<li><a href="https://github.com/mrward/monodevelop-gulp-task-runner">Gulp Task Runner for Visual Studio for Mac</a></li>
-<li><a href="https://github.com/mrward/NpmTaskRunner">NPM Task Runner for Visual Studio for Mac</a></li>
-<li><a href="https://github.com/mrward/monodevelop-typescript-task-runner">TypeScript Task Runner for Visual Studio for Mac</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

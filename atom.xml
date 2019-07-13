@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-06-22T13:28:52+01:00</updated>
+  <updated>2019-07-13T14:27:34+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LibMan support in Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2019/07/13/LibManSupportInVisualStudioMac8-1/"/>
+    <updated>2019-07-13T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2019/07/13/LibManSupportInVisualStudioMac8-1</id>
+    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/LibraryManager">Library Manager addin</a> provides
+Microsoft Library Manager (LibMan) support for Visual Studio for Mac. LibMan provides a way to install
+third-party client-side JavaScript libraries for ASP.NET Core and ASP.NET projects.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Add Client-Side Library dialog</li>
+<li>Restore client-side libraries</li>
+<li>Deleting client-side libraries</li>
+<li>Automatic client-side library restore on saving libman.json file</li>
+</ul>
+
+
+<p>Full text editor support is not currently available. The following text editor quick actions are not supported:</p>
+
+<ul>
+<li>Uninstall a client-side library</li>
+<li>Check for client-side library updates</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 8.1 or later.</li>
+<li>ASP.NET Core and ASP.NET projects</li>
+</ul>
+
+
+<h2>Add Client-Side Library Dialog</h2>
+
+<p>To open the Add Client-Side Library dialog, right click the project, or a folder, and select Add &ndash; Client-Side Library.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryMenuItem.png" title="Add - Client-Side Library menu" alt="Add - Client-Side Library menu"></p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialog.png" title="Add Client-Side Library dialog" alt="Add Client-Side Library dialog"></p>
+
+<p>The library provider can be selected from the Provider list.</p>
+
+<p>Typing in the Library text field will search the library provider and show a list of matching libraries.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialogCompletion.png" title="Add Client-Side Library dialog completion list" alt="Add Client-Side Library dialog completion list"></p>
+
+<p>Pressing tab or return will insert the selected library from the completion list into the Library text field.</p>
+
+<p>You can then choose to include all the client-side library files or a selection of those files.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialogSelectFiles.png" title="Add Client-Side Library dialog select files" alt="Add Client-Side Library dialog select files"></p>
+
+<p>The Target Location indicates where the client-side library files will be installed.</p>
+
+<p>Clicking the Install button will create a libman.json file and install the client-side library into your project.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/LibManJQueryInstalledInProject.png" title="jQuery installed into project" alt="jQuery installed into project"></p>
+
+<p>More detailed information about the client-side library installation is available by clicking the status bar or by selecting
+View &ndash; Pads &ndash; Library Manager Output.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/LibraryManagerOutputWindow.png" title="Library Manager Output window" alt="Library Manager Output window"></p>
+
+<h2>Adding a libman.json file</h2>
+
+<p>To add a libman.json file without using the Add Client-Side Library dialog, right click the ASP.NET project and select
+Manage Client-Side Libraries.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/ManageClientSideLibrariesMenu.png" title="Manage Client-Side Libraries menu" alt="Manage Client-Side Libraries menu"></p>
+
+<p>This will create a libman.json file and open it in the text editor.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/LibManFileInTextEditor.png" title="libman.json file in text editor" alt="libman.json file in text editor"></p>
+
+<h2>Restoring Client-Side Libraries</h2>
+
+<p>To restore the client-side libraries you can right click the libman.json file in the Solution window and
+select Restore Client-Side Libraries.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/RestoreClientSideLibraries.png" title="Restore Client-Side Libraries menu" alt="Restore Client-Side Libraries menu"></p>
+
+<p>Information about the restore operation is available from the Library Manager Output window.</p>
+
+<p>Alternatively saving the libman.json file in the text editor will run a restore.</p>
+
+<p>Restore errors are displayed in the Errors window and in the libman.json file if it is open in the text editor.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/LibManRestoreError.png" title="LibMan restore error" alt="LibMan restore error"></p>
+
+<h2>Deleting Client-Side Libraries</h2>
+
+<p>To remove the client-side libraries you can right click the libman.json file in the Solution window and
+select Clean Client-Side Libraries.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/LibManSupportInVisualStudioMac8-1/CleanClientSideLibrariesMenu.png" title="Clean Client-Side Libraries menu" alt="Clean Client-Side Libraries menu"></p>
+
+<p>This will delete the client-side libraries from the project.</p>
+
+<h2>Library Manager Addin Installation</h2>
+
+<p>The Library Manager addin is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
+
+<ul>
+<li>From the main menu, open the Extensions Manager dialog.</li>
+<li>Select the Gallery tab.</li>
+<li>Expand IDE extensions.</li>
+<li>Select the Library Manager addin</li>
+<li>Click the Refresh button if the addin is not visible.</li>
+<li>Click Install… to install the addin.</li>
+<li>Restart Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/LibraryManager">Library Manager for Visual Studio for Mac</a></li>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/core/client-side/libman/libman-vs">Use LibMan with ASP.NET Core in Visual Studio</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.1]]></title>
@@ -4030,227 +4156,6 @@ package were not available to LibB or LibC without restarting Visual Studio
 for Mac or until the packages were restored for the solution. Now when the project file
 is saved the projects that directly or indirectly reference the project
 will be restored.</p>
-
-<p><strong>Ignore project references with ReferenceOutputAssembly set to false when restoring</strong></p>
-
-<p>Project references that have ReferenceOutputAssembly are now not
-added to the project.assets.json file. This was causing
-the NuGet package restore to fail in some cases. For example, if a .NET Standard
-project has a project reference to a .NET Core App project, but has the
-ReferenceOutputAssembly set to false, then running dotnet restore from the
-command line would work, but the restore would fail in Visual Studio for Mac.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.2]]></title>
-    <link href="http://lastexitcode.com/blog/2017/10/28/NuGetSupportInVisualStudioMac7-2/"/>
-    <updated>2017-10-28T12:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2017/10/28/NuGetSupportInVisualStudioMac7-2</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet 4.3.1 support</li>
-<li> NuGet fallback folders support</li>
-<li> AssetTargetFallback support</li>
-<li> NuGet operations can be cancelled on closing the solution</li>
-<li> Fixed transitive types from references not being available</li>
-<li> Fixed credential dialog being shown multiple times on opening a solution</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.2</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-october-9-2017---visual-studio-2017-for-mac-720636">release notes</a>.</p>
-
-<h2>NuGet 4.3.1 support</h2>
-
-<p>NuGet 4.3.1.4445 is now included with Visual Studio for Mac 7.2.</p>
-
-<p>NuGet 4.3.1 includes <a href="https://github.com/NuGet/Home/issues/5806">a fix for imports in the project.json file being ignored</a> which could cause a NuGet package
-to incorrectly be considered incompatible when restoring NuGet packages.</p>
-
-<h2>NuGet package fallback folders support</h2>
-
-<p>The .NET Core SDK 2.0 defines a NuGet package fallback folder <code>/usr/local/share/dotnet/sdk/NuGetFallbackFolder</code> that can be used when looking
-for NuGet packages whilst restoring. This fallback folder is now supported by
-Visual Studio for Mac 7.2 so that on restoring a .NET Core 2.0 project the NuGet
-packages from the fallback folder will be found and do not need to be downloaded from nuget.org into the
-local machine NuGet package cache <code>~/.nuget/packages</code>. This should speed up NuGet package restore for .NET Core 2.0 and .NET Standard 2.0 projects the first time it occurs.</p>
-
-<p>As well as the NuGet fallback folders Visual Studio for Mac will now add the following items to the generated project.assets.json
-if they are available:</p>
-
-<ul>
-<li>configFilePaths</li>
-<li>sources</li>
-<li>warningProperties</li>
-</ul>
-
-
-<h2>AssetTargetFallback support</h2>
-
-<p>The .NET Core 2.0 SDK uses an AssetTargetFallback MSBuild property
-defined in an imported SDK MSBuild files. This is used instead
-of the PackageTargetFallback property when determining if a NuGet
-package is compatible. Currently the AssetTargetFallback property
-is set to net461 by the .NET Core 2.0 SDK which allows .NET Core projects to use NuGet
-packages that include assemblies that target the full .NET Framework.
-The supported fallback frameworks are now added to the generated
-project.assets.json file by Visual Studio for Mac when a .NET Core 2.0 project is restored.</p>
-
-<h2>NuGet operations can be cancelled on the closing the solution</h2>
-
-<p>Previously when closing the solution, or closing Visual Studio for Mac, when a NuGet package
-operation was still running would result in a dialog being displayed saying that the
-solution cannot be closed until the NuGet operation was completed.
-NuGet v3 and above now allow the NuGet
-operations to be cancelled so now the dialog allows the current
-operation to be cancelled. If the
-operation is taking a while to cancel a busy spinner image will be displayed in
-the dialog.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-2/CancelNuGetOperationOnClosingSolutionDialog.png" title="Cancel NuGet operation dialog on closing solution" alt="Cancel NuGet operation dialog on closing solution"></p>
-
-<p>If a restore is being run when the solution
-will be closed the restore will be cancelled automatically without showing the dialog.</p>
-
-<h2>NuGet package restore now fails if package and asset target fallbacks are defined by a project</h2>
-
-<p>If both AssetTargetFallback and PackageTargetFallback are defined by a project then the
-NuGet restore will fail with an error indicating that they cannot
-be used together. This mirrors the behaviour of the .NET Core command
-line restore.</p>
-
-<h2>Support imported package references in non .NET Core projects</h2>
-
-<p>If a non .NET Core project had no PackageReference items but imported a file that
-did have PackageReference items the NuGet packages were not restored
-on opening the solution. This was because only the PackageReference
-items defined directly in the project were checked to determine if the
-project used NuGet packages. Now the evaluated MSBuild items are checked
-so any imported PackageReference items are detected and a restore
-will be run on opening the solution.</p>
-
-<p>Note that imported PackageReference items are not displayed in the
-Packages folder.</p>
-
-<h2>Package Console is no longer opened when a NuGet operation is cancelled</h2>
-
-<p>When a NuGet operation is cancelled from the main status bar the
-Package Console is now not opened when the NuGet operation fails due
-to the cancellation. If the NuGet operation is not cancelled then the
-Package Console window will still be opened as before if the operation fails.
-This is also a workaround for Visual Studio for Mac closing the currently displayed
-dialog when the Package Console window opens after the NuGet operation
-is cancelled when closing the solution.</p>
-
-<h2>Whitespace is now trimmed when creating a new package source</h2>
-
-<p>When creating a new package source copying and pasting NuGet package source url can sometimes copy extra
-whitespace which can then result in NuGet package restore errors such as:</p>
-
-<pre><code>Failed to verify the root directory of local source
-' https://api.nuget.org/v3/index.json'.
-</code></pre>
-
-<p>The package source name and url will now have whitespace trimmed to avoid
-this copy and paste problem. This also
-matches Visual Studio on Windows behaviour.</p>
-
-<h2>Mark implicit PackageReferences as auto referenced</h2>
-
-<p>PackageReference items that have IsImplicitlyDefined set to true
-in their metadata now have autoRefererenced set to true in the project.assets.json file.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed transitive assembly references not available until restart</strong></p>
-
-<p>Given a solution that contains three .NET Standard projects: LibC
-references LibB which references LibA. If the Newtonsoft.Json NuGet
-package was installed into LibA the types from this NuGet package
-were not available in LibB or LibC until the solution was closed and
-re-opened again. Closing and re-opening the solution refreshes the
-reference information used by the type system. Now when a NuGet
-package is installed into a .NET Core project the projects that
-reference this project have their reference information refreshed. Types from
-the installed NuGet packages are then available in projects that
-reference this updated project either directly or indirectly.</p>
-
-<p><strong>Fixed transitive project references after editing a project file</strong></p>
-
-<p>Given a solution that contains three .NET Standard projects: LibC references
-LibB which references LibA. If a NuGet package is added to LibA by
-editing its project file in the text editor the types from this NuGet
-package were not available to LibB or LibC without restarting Visual Studio
-for Mac or until the packages were restored for the solution. Now when the project file
-is saved the projects that directly or indirectly reference the project
-will be restored.</p>
-
-<p><strong>Fixed credential dialog shown multiple times on opening a solution</strong></p>
-
-<p>With check for updates enabled, multiple projects in the solution,
-and a package source that was missing or had invalid credentials,
-on opening the solution the credential dialog would be displayed multiple
-times even if the correct username and password was entered or the
-dialog was cancelled. The dialog was being displayed for each
-project and the credential information was not being re-used.</p>
-
-<p>Now the NuGet source repositories are re-used when checking
-for updates and also when restoring the projects when the solution
-is first opened. Any valid credentials entered will be re-used
-when checking the remaining projects. If the credential dialog is
-cancelled then the dialog is no longer displayed again whilst
-checking for updates for the other projects.</p>
-
-<p><strong>Fixed credential dialog displayed when credentials are available</strong></p>
-
-<p>With valid credentials stored in the Mac key chain the credential dialog would
-still be displayed when it should not have been. The problem was that the
-NuGet credential service puts itself in a retry mode if any of the
-credential providers are used when trying to authenticate against a
-package source. Once in this retry mode the Visual Studio for Mac credential
-provider would always show a dialog asking for the credentials instead
-of re-using the existing credentials. To avoid this the credential
-service is reset before any user actions, such as opening the Add Packages
-dialog, running a restore or an update.</p>
-
-<p><strong>Fixed crash when displaying Chinese characters in the Add Packages dialog</strong></p>
-
-<p>With the NuGet v3 package source <a href="https://api.nuget.org/v3/index.json">https://api.nuget.org/v3/index.json</a>
-selected, searching for Microsoft.AspNet.WebApi.Client would result in
-the Visual Studio for Mac terminating when an attempt was made to display the results
-in the Add Packages dialog.
-The crash was in the Pango library when it attempted to determine the size of
-the package title displayed in the search results. If the package
-title contained Chinese characters then Pango would throw an exception:</p>
-
-<pre><code>Illegal byte sequence encounted in the input.
-at (wrapper managed-to-native) Pango.Layout:pango_layout_get_pixel_size (intptr,int&amp;,int&amp;)
-</code></pre>
-
-<p>Then when Visual Studio for Mac tried to use Pango again to determine the
-size of the text this would result in Visual Studio for Mac terminating.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Pango-WARNING (recursed) **: shaping failure, expect ugly output.
-</span><span class='line'>shape-engine='BasicEngineCoreText', font='.SF NS Text',
-</span><span class='line'>text='∫ê'Stacktrace:
-</span><span class='line'>
-</span><span class='line'>  at &lt;unknown&gt; &lt;0xffffffff&gt;
-</span><span class='line'>  at (wrapper managed-to-native) Pango.Layout.pango_layout_get_pixel_size (intptr,int&,int&) [0x0000b] in &lt;c7aa2d93df4045df8dc71d5439f99d72&gt;:0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If the NuGet v2 package source was used then this crash did not occur
-since the package title was not returned in the search results and the package id would be
-displayed instead which does not contain Chinese characters.</p>
-
-<p>As a workaround the Add Packages dialog now displays the package id
-instead of the package title.</p>
 
 <p><strong>Ignore project references with ReferenceOutputAssembly set to false when restoring</strong></p>
 

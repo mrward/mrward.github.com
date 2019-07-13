@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>LibMan support in Visual Studio for Mac - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="The Library Manager addin provides
+Microsoft Library Manager (LibMan) support for Visual Studio for Mac. LibMan provides a way to install
+third-party &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2019/07/13/LibManSupportInVisualStudioMac8-1">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">LibMan support in Visual Studio for Mac</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-07-13T12:00:00+01:00" pubdate data-updated="true">Jul 13<sup>th</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>The <a href="https://github.com/mrward/LibraryManager">Library Manager addin</a> provides
+Microsoft Library Manager (LibMan) support for Visual Studio for Mac. LibMan provides a way to install
+third-party client-side JavaScript libraries for ASP.NET Core and ASP.NET projects.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Add Client-Side Library dialog</li>
+<li>Restore client-side libraries</li>
+<li>Deleting client-side libraries</li>
+<li>Automatic client-side library restore on saving libman.json file</li>
+</ul>
+
+
+<p>Full text editor support is not currently available. The following text editor quick actions are not supported:</p>
+
+<ul>
+<li>Uninstall a client-side library</li>
+<li>Check for client-side library updates</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 8.1 or later.</li>
+<li>ASP.NET Core and ASP.NET projects</li>
+</ul>
+
+
+<h2>Add Client-Side Library Dialog</h2>
+
+<p>To open the Add Client-Side Library dialog, right click the project, or a folder, and select Add &ndash; Client-Side Library.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryMenuItem.png" title="Add - Client-Side Library menu" alt="Add - Client-Side Library menu"></p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialog.png" title="Add Client-Side Library dialog" alt="Add Client-Side Library dialog"></p>
+
+<p>The library provider can be selected from the Provider list.</p>
+
+<p>Typing in the Library text field will search the library provider and show a list of matching libraries.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialogCompletion.png" title="Add Client-Side Library dialog completion list" alt="Add Client-Side Library dialog completion list"></p>
+
+<p>Pressing tab or return will insert the selected library from the completion list into the Library text field.</p>
+
+<p>You can then choose to include all the client-side library files or a selection of those files.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialogSelectFiles.png" title="Add Client-Side Library dialog select files" alt="Add Client-Side Library dialog select files"></p>
+
+<p>The Target Location indicates where the client-side library files will be installed.</p>
+
+<p>Clicking the Install button will create a libman.json file and install the client-side library into your project.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibManJQueryInstalledInProject.png" title="jQuery installed into project" alt="jQuery installed into project"></p>
+
+<p>More detailed information about the client-side library installation is available by clicking the status bar or by selecting
+View &ndash; Pads &ndash; Library Manager Output.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibraryManagerOutputWindow.png" title="Library Manager Output window" alt="Library Manager Output window"></p>
+
+<h2>Adding a libman.json file</h2>
+
+<p>To add a libman.json file without using the Add Client-Side Library dialog, right click the ASP.NET project and select
+Manage Client-Side Libraries.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/ManageClientSideLibrariesMenu.png" title="Manage Client-Side Libraries menu" alt="Manage Client-Side Libraries menu"></p>
+
+<p>This will create a libman.json file and open it in the text editor.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibManFileInTextEditor.png" title="libman.json file in text editor" alt="libman.json file in text editor"></p>
+
+<h2>Restoring Client-Side Libraries</h2>
+
+<p>To restore the client-side libraries you can right click the libman.json file in the Solution window and
+select Restore Client-Side Libraries.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/RestoreClientSideLibraries.png" title="Restore Client-Side Libraries menu" alt="Restore Client-Side Libraries menu"></p>
+
+<p>Information about the restore operation is available from the Library Manager Output window.</p>
+
+<p>Alternatively saving the libman.json file in the text editor will run a restore.</p>
+
+<p>Restore errors are displayed in the Errors window and in the libman.json file if it is open in the text editor.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibManRestoreError.png" title="LibMan restore error" alt="LibMan restore error"></p>
+
+<h2>Deleting Client-Side Libraries</h2>
+
+<p>To remove the client-side libraries you can right click the libman.json file in the Solution window and
+select Clean Client-Side Libraries.</p>
+
+<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/CleanClientSideLibrariesMenu.png" title="Clean Client-Side Libraries menu" alt="Clean Client-Side Libraries menu"></p>
+
+<p>This will delete the client-side libraries from the project.</p>
+
+<h2>Library Manager Addin Installation</h2>
+
+<p>The Library Manager addin is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
+
+<ul>
+<li>From the main menu, open the Extensions Manager dialog.</li>
+<li>Select the Gallery tab.</li>
+<li>Expand IDE extensions.</li>
+<li>Select the Library Manager addin</li>
+<li>Click the Refresh button if the addin is not visible.</li>
+<li>Click Install… to install the addin.</li>
+<li>Restart Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/LibraryManager">Library Manager for Visual Studio for Mac</a></li>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/core/client-side/libman/libman-vs">Use LibMan with ASP.NET Core in Visual Studio</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-07-13T12:00:00+01:00" pubdate data-updated="true">Jul 13<sup>th</sup>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2019/07/13/LibManSupportInVisualStudioMac8-1/" data-via="" data-counturl="http://lastexitcode.com/blog/2019/07/13/LibManSupportInVisualStudioMac8-1/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1/" title="Previous Post: NuGet Support in Visual Studio for Mac 8.1">&laquo; NuGet Support in Visual Studio for Mac 8.1</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
