@@ -1,15 +1,15 @@
 ---
 layout: page
-title: "MonoDevelop Paket Addin"
-date: 2015-06-09 20:00
+title: "MonoDevelop Library Manager"
+date: 2019-07-14 12:00
 comments: true
 sharing: true
 footer: true
 ---
 
 
-Paket Addin for MonoDevelop and Xamarin Studio.
+Library Manager (libMan) Addin for MonoDevelop and Xamarin Studio.
 
- * [Source Code on GitHub](https://github.com/mrward/monodevelop-paket-addin)
+ * [Source Code on GitHub](https://github.com/mrward/LibraryManager)
  * [Release Notes](Releases/)
  
