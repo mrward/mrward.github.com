@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 8.2 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes NuGet 5.1 support Support partial installs into multi-target framework projects Fixed no network error displayed in Add Packages dialog Fixed &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2019/07/28/NuGetSupportInVisualStudioMac8-2">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 8.2</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-07-28T12:00:00+01:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.1 support</li>
+<li> Support partial installs into multi-target framework projects</li>
+<li> Fixed no network error displayed in Add Packages dialog</li>
+<li> Fixed restoring too many projects when target framework changed</li>
+<li> Fixed adding non-sdk style project triggering NuGet restore multiple times</li>
+<li> Fixed restore menu incorrectly disabled</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.2</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.1 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.1-rtm">NuGet 5.1.0.6013</a> is now
+included with Visual Studio for Mac 8.2.</p>
+
+<h2>Support partial installs into multi-target framework projects</h2>
+
+<p>A NuGet package being installed into a multi-target framework project
+may not support all frameworks. When this happens the PackageReference
+will now be added with a condition so the NuGet package is not used
+for frameworks that are not supported.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;PropertyGroup&gt;
+</span><span class='line'>    &lt;TargetFrameworks&gt;net472;netstandard1.2&lt;/TargetFrameworks&gt;
+</span><span class='line'>  &lt;/PropertyGroup&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;ItemGroup Condition="'$(TargetFramework)' == 'net472'"&gt;
+</span><span class='line'>    &lt;PackageReference Include="EntityFramework" Version="6.2.0" /&gt;
+</span><span class='line'>  &lt;/ItemGroup&gt;
+</span><span class='line'>&lt;/Project&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed no network error displayed in Add Packages dialog</strong></p>
+
+<p>Networking errors were not being reported in the Add Packages dialog
+resulting in no information being available explaining why there were
+no search results.</p>
+
+<p>Visual Studio for Mac uses Xamarin.Mac&rsquo;s NSUrlSessionHandler
+for HTTP requests and the NSUrlSessionHandler reports errors
+using curly braces. For example:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[nuget.org] The Internet connection appears to be offline.
+</span><span class='line'>  Error Domain=NSURLErrorDomain Code=-1009 "The Internet connection appears to be offline." UserInfo={NSUnderlyingError=0x7fce42892a80 {Error Domain=kCFErrorDomainCFNetwork Code=-1009 "(null)" UserInfo={_kCFStreamErrorCodeKey=50, _kCFStreamErrorDomainKey=1}}, NSErrorFailingURLStringKey=https://api-v2v3search-1.nuget.org/query?q=&skip=0&take=26&prerelease=false&supportedFramework=Xamarin.iOS,Version=v1.0&semVerLevel=2.0.0, NSErrorFailingURLKey=https://api-v2v3search-1.nuget.org/query?q=&skip=0&take=26&prerelease=false&supportedFramework=Xamarin.iOS,Version=v1.0&semVerLevel=2.0.0, _kCFStreamErrorDomainKey=1, _kCFStreamErrorCodeKey=50, NSLocalizedDescription=The Internet connection appears to be offline.}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This text was then being passed to string.Format in the Add Packages
+dialog and was causing a FormatException. The error would then not be
+displayed in the Add Packages dialog. The text now has the curly braces
+escaped to prevent the FormatException.</p>
+
+<p><strong>Fixed restoring too many projects when target framework changed</strong></p>
+
+<p>When the target framework was changed in a SDK style project all SDK style
+projects in the solution were restored. Now only the project and
+projects that depend on it are restored.</p>
+
+<p><strong>Fixed adding non-sdk style project triggering NuGet restore multiple times</strong></p>
+
+<p>Adding a new non-sdk style project to a solution could cause a NuGet
+restore to run multiple times.</p>
+
+<p>The problem was that the SDK style projects, such as those that target
+Xamarin.Mac, may change their target framework on re-evaluation. This
+was causing Visual Studio for Mac
+to run a restore for all SDK style projects in the solution, multiple
+times. To avoid this the target framework changes during re-evaluation
+are ignored.</p>
+
+<p><strong>Fixed restore menu incorrectly disabled</strong></p>
+
+<p>In the Solution window on right clicking a solution, or the packages folder, the restore
+menu was incorrectly disabled when an SDK style project targeted .NET Framework
+or when the project had its RestoreProjectStyle set to PackageReference and
+had no PackageReferences.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-07-28T12:00:00+01:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2019/07/28/NuGetSupportInVisualStudioMac8-2/" data-via="" data-counturl="http://lastexitcode.com/blog/2019/07/28/NuGetSupportInVisualStudioMac8-2/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/07/13/LibManSupportInVisualStudioMac8-1/" title="Previous Post: LibMan support in Visual Studio for Mac">&laquo; LibMan support in Visual Studio for Mac</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
