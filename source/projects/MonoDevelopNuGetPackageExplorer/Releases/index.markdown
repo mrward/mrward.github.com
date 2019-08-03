@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Package Explorer Addin Releases"
-date: 2019-05-12 12:00
+date: 2019-08-03 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.3.3
+
+2019-08-03
+
+ * Fix .nupkg files being open in hex editor
 
 ## Version 0.3.2
 
