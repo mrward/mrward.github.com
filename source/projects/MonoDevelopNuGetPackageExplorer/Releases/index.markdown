@@ -1,11 +1,21 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Package Explorer Addin Releases"
-date: 2019-08-03 12:00
+date: 2019-08-25 14:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.4
+
+2019-08-25
+
+ * Display new license metadata. License expressions now displayed with links to the licenses.
+ * Updated to use NuGet 5.2
+ * Show package repository information
+ * Show package type information (e.g. DotNetCliTool)
+ * Show original package version instead of the normalized semantic version. Some packages use a commit hash as the package version which was not being displayed unless the .nuspec tab was selected.
 
 ## Version 0.3.3
 
