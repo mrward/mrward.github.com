@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-07-28T12:47:57+01:00</updated>
+  <updated>2019-10-06T13:50:40+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,289 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.3]]></title>
+    <link href="http://lastexitcode.com/blog/2019/10/06/NuGetSupportInVisualStudioMac8-3/"/>
+    <updated>2019-10-06T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2019/10/06/NuGetSupportInVisualStudioMac8-3</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.3 support</li>
+<li> Managing NuGet packages for the solution</li>
+<li> Show NuGet package updates for SDK style projects in the Solution window</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.3</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.3 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.3">NuGet 5.3.0.6192</a> is now
+included with Visual Studio for Mac 8.3.</p>
+
+<h2>Managing NuGet Packages for the solution</h2>
+
+<p>Support for managing NuGet packages for the solution was originally available in a separate
+<a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a>. This feature has now
+been integrated into Visual Studio for Mac, along with some user interface changes, and is now available by
+default.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesSolutionBrowseTab.png" title="Manage NuGet Packages - Solution - Browse tab" alt="Manage NuGet Packages - Solution - Browse tab"></p>
+
+<p>The NuGet extensions addin is still available and provides a
+NuGet Powershell Console but it no longer includes a Manage NuGet Packages dialog.</p>
+
+<p>The Manage NuGet Packages dialog contains four tabs:</p>
+
+<ul>
+<li>Browse
+
+<ul>
+<li>Used to search for and install NuGet packages. This is equivalent to the old Add NuGet Packages dialog.</li>
+</ul>
+</li>
+<li>Installed
+
+<ul>
+<li>Shows the installed NuGet packages. NuGet packages can be uninstalled from this tab.</li>
+</ul>
+</li>
+<li>Updates
+
+<ul>
+<li>Shows NuGet packages that have new versions available.</li>
+</ul>
+</li>
+<li>Consolidate
+
+<ul>
+<li>Shows NuGet packages that have multiple versions installed in the solution. This is only available when managing
+NuGet packages for the solution.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The Add Packages dialog has been removed and replaced with the Manage NuGet Packages dialog since everything that was supported with the Add Packages dialog is available the new dialog.</p>
+
+<p>To manage the NuGet packages for
+the solution the Manage NuGet Packages dialog can be opened in the following ways:</p>
+
+<ul>
+<li>Right click the solution in the Solution window and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>From the main menu select <strong>Project</strong> &ndash; <strong>Manage NuGet Packages&hellip;</strong></li>
+</ul>
+
+
+<p>The Manage NuGet Packages dialog title is different depending on whether the NuGet packages
+are being managed for the solution or for the project. When managing packages for the solution
+the dialog title will be <strong>Manage NuGet Packages – Solution</strong>.</p>
+
+<h3>Managing NuGet Packages for a single project</h3>
+
+<p>To manage NuGet packages for a single project the Manage NuGet Packages dialog can be opened
+in the following ways:</p>
+
+<ul>
+<li>Right click the project in the Solution window and select <strong>Manage NuGet Packages&hellip;</strong>
+
+<ul>
+<li>This was added to make Visual Studio for Mac consistent with Visual Studio on Windows</li>
+</ul>
+</li>
+<li>Double click the Packages folder in the Solution window</li>
+<li>Right click the Packages folder and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Double click the Dependencies folder in the Solution window.
+
+<ul>
+<li>In previous versions of Visual Studio for Mac this would not open the dialog</li>
+</ul>
+</li>
+<li>Right click the Depdendencies folder and select <strong>Manage NuGet Packages..</strong></li>
+<li>Double click the NuGet folder underneath the Dependencies folder</li>
+<li>Right click the NuGet folder, underneath the Dependencies folder, and select <strong>Manage NuGet Packages&hellip;</strong></li>
+</ul>
+
+
+<p>When managing NuGet packages for a single project the dialog title shows the project name
+<strong>Manage NuGet Packages – ProjectName</strong>.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesProject.png" title="Manage NuGet Packages for Project" alt="Manage NuGet Packages for Project"></p>
+
+<h3>Installing NuGet Packages</h3>
+
+<p>The Browse tab in the Manage NuGet Packages can be used to search for and install NuGet packages
+into one or more projects. This tab is equivalent to the old Add NuGet Packages dialog.</p>
+
+<p>The latest stable NuGet package version is now indicated by
+having <strong>(latest stable)</strong> appended on the right hand
+side of the dialog.</p>
+
+<p>To install a NuGet package into multiple projects:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Search for a NuGet package</li>
+<li>Click the <strong>Add Package</strong> button</li>
+<li>In the Select Projects dialog that is opened, select the projects that you want the NuGet package to be installed, and click OK</li>
+</ul>
+
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesSolutionSelectProjects.png" title="Manage NuGet Packages - Select Projects dialog" alt="Manage NuGet Packages - Select Projects dialog"></p>
+
+<h3>Uninstalling NuGet Packages</h3>
+
+<p>The Installed tab in the Manage NuGet Packages can be used to uninstall
+NuGet packages from one or more projects.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesInstalledTab.png" title="Manage NuGet Packages - Installed tab" alt="Manage NuGet Packages - Installed tab"></p>
+
+<p>To uninstall a NuGet package:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Select the Installed tab</li>
+<li>Select a NuGet package to uninstall
+
+<ul>
+<li>To uninstall multiple NuGet packages use the check boxes in the package list</li>
+</ul>
+</li>
+<li>Click the <strong>Uninstall Package</strong> button</li>
+<li>In the Select Projects dialog that is opened, select the projects where the NuGet package should be removed, and click OK.</li>
+</ul>
+
+
+<h3>Updating NuGet Packages</h3>
+
+<p>The Updates tab shows the updated NuGet packages available to be installed.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesUpdatesTab.png" title="Manage NuGet Packages - Updates tab" alt="Manage NuGet Packages - Updates tab"></p>
+
+<p>The Updates tab shows the <strong>Current Version</strong> of the NuGet package installed on the right hand side of the dialog. If
+multiple versions of the packages are installed across the solution, then this will
+display <strong>Multiple</strong> with an information icon where information about the
+projects and versions can be viewed in a tooltip.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/UpdatesTabMultipleVersions.png" title="Manage NuGet Packages - Updates tab - Multiple versions installed" alt="Manage NuGet Packages - Updates tab -  Multiple versions installed"></p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/UpdatesTabMultipleVersionsTooltip.png" title="Manage NuGet Packages - Updates tab - Multiple versions installed - tooltip" alt="Manage NuGet Packages - Updates tab -  Multiple versions installed - tooltip"></p>
+
+<p>To update a NuGet package in multiple projects:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Select the Updates tab</li>
+<li>Select a NuGet package to update
+
+<ul>
+<li>To update multiple NuGet packages use the check boxes in the packages list</li>
+</ul>
+</li>
+<li>Click the <strong>Update Package</strong> button</li>
+<li>In the Select Projects dialog that is opened, select the projects where the NuGet package should be updated, and click OK.</li>
+</ul>
+
+
+<h3>Consolidating NuGet Packages</h3>
+
+<p>If there are different versions of a NuGet package installed in the solution the
+Consolidate tab will show this and allow the packages to be consolidated to a particular version.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesConsolidateTab.png" title="Manage NuGet Packages - Consolidate tab" alt="Manage NuGet Packages - Consolidate tab"></p>
+
+<p>When a NuGet package is selected, the right hand side of the dialog shows
+all the projects in the solution. The project will be checked if it has the selected
+package installed. The package version used by the project is also shown.
+Projects that have a package to consolidate are shown first in the list.</p>
+
+<p>Note that the Consolidate tab is only displayed if NuGet packages are being
+managed for the solution.</p>
+
+<p>By default the Consolidate tab will select the latest version available from the current NuGet package source.
+This may be different from the latest version installed in the projects.</p>
+
+<p>To Consolidate a NuGet package:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Select the Consolidate tab</li>
+<li>Select the NuGet package you want to consolidate.
+
+<ul>
+<li>Use the check box next to the NuGet package if you want to consolidate multiple NuGet packages at the same time</li>
+</ul>
+</li>
+<li>Check or uncheck the projects in the projects list.
+
+<ul>
+<li>By default projects that contain the selected NuGet package will be checked</li>
+</ul>
+</li>
+<li>Click the <strong>Consolidate Package</strong> button.</li>
+</ul>
+
+
+<h2>Show NuGet package updates for SDK style projects in the Solution window</h2>
+
+<p>NuGet package updates are now shown in the Solution window for SDK style
+projects.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectPackageUpdates.png" title="SDK style project - package updates - solution window" alt="SDK style project - package updates - solution window"></p>
+
+<p>If an updated package is available this information will now be shown
+on the Dependencies folder, the NuGet folder, and the top level
+package in the Solution window.</p>
+
+<p>Previously NuGet package updates were only displayed for projects
+that used a packages.config file or for non-SDK style projects
+that used PackageReferences.</p>
+
+<p>Instead of showing the updated NuGet package version text, next to the installed version
+in the solution window, an update icon
+is displayed with the version information available in a tooltip. This prevents
+the version information taking up a lot of space to the right, which can
+happen for long version numbers.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectPackageUpdateVersionTooltip.png" title="SDK style project - package update version tooltip - solution window" alt="SDK style project - package update version tooltip - solution window"></p>
+
+<p>The Update menu, when right clicking a NuGet package, now shows the
+version for the update. Otherwise
+the Update menu is displayed.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectUpdateToMenuItem.png" title="SDK style project - update menu item - solution window" alt="SDK style project - update menu item - solution window"></p>
+
+<p>If there is an update and a NuGet warning only the warning icon
+will be displayed with the warning message available in the tooltip.
+The update information will only be available in the right click
+context menu for the NuGet package in this case.</p>
+
+<p>Package versions are now displayed in solution window for non-SDK style projects.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac8-3/NonSdkStyleProjectPackageUpdates.png" title="Non-SDK style project - package updates - solution window" alt="Non-SDK style project - package updates - solution window"></p>
+
+<p>SDK style projects always displayed the package version in the Solution
+window but non-SDK style projects did not. To make these consistent the NuGet
+package version is now shown in the Solution window for all project types.</p>
+
+<p>Previously for non-SDK style projects the package version was shown
+as a menu item when right clicking a NuGet package. This has been removed
+since the package version is now displayed next to the package id in the
+Solution window.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed text colour when row selected in Manage NuGet Packages dialog</strong></p>
+
+<p>When a package was checked in the Add NuGet Packages dialog any
+row that was selected would display black text instead of white text. This was hard
+to read with the blue background colour used for the selected row. The wrong text colour was being set when a package was
+checked. This has been fixed in the Manage NuGet Packages dialog.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.2]]></title>
@@ -3840,235 +4123,6 @@ Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
 project and no .NET Core SDK is installed. This would result in the
 content page xaml and associated C# file not being nested in the
 solution window.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Template Creator for Visual Studio for Mac]]></title>
-    <link href="http://lastexitcode.com/blog/2017/11/12/TemplateCreatorForVisualStudioMac/"/>
-    <updated>2017-11-12T14:30:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2017/11/12/TemplateCreatorForVisualStudioMac</id>
-    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension</a> provides a way to create a project template from an existing project
-or solution open in Visual Studio for Mac and have the project template available in the New
-Project dialog straight away.</p>
-
-<p>The Template Creator uses the <a href="https://github.com/dotnet/templating">.NET Core templating engine</a>
-to create the projects from the project templates.</p>
-
-<p>Let us take a look in more detail at what the Template Creator extension provides in Visual Studio for Mac.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li> Create a project template from an existing solution or project</li>
-<li> Create custom top level project template categories</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li>Visual Studio Mac 7.0 or later.</li>
-</ul>
-
-
-<h2>Creating a new Project Template</h2>
-
-<p>To create a new project template for a project opened in Visual Studio for Mac,
-right click the project and select Create Template.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/ProjectCreateTemplateMenu.png" title="Project - Create Template context menu" alt="Project - Create Template context menu"></p>
-
-<p>A Template Information dialog is then opened.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/TemplateInformationDialog.png" title="Template Information dialog" alt="Template Information dialog"></p>
-
-<p>The information in the dialog is used to populate the generated template.json file. Further
-details on what the template.json file holds is available in the <a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">reference for template.json</a>.</p>
-
-<ul>
-<li>Author
-
-<ul>
-<li>Author of the project template.</li>
-</ul>
-</li>
-<li>Display Name
-
-<ul>
-<li>This is the template name displayed in the New Project dialog.</li>
-</ul>
-</li>
-<li>Description
-
-<ul>
-<li>This is the description displayed in the New Project dialog.</li>
-</ul>
-</li>
-<li>Category
-
-<ul>
-<li>This is the category in the New Project dialog used by the template.</li>
-</ul>
-</li>
-<li>Short Name
-
-<ul>
-<li>This is the short name for the template that can be used from the .NET Core command line.</li>
-</ul>
-</li>
-<li>Default Project Name
-
-<ul>
-<li>This is the default project name that will be used with the .NET Core command line.</li>
-</ul>
-</li>
-<li>Identity
-
-<ul>
-<li>This is the unique id for the template. This should be unique across all custom
-project templates.</li>
-</ul>
-</li>
-<li>Group Identity
-
-<ul>
-<li>This is typically a substring of the template&rsquo;s Identity.</li>
-</ul>
-</li>
-</ul>
-
-
-<p>By default the project template will use the Other &ndash; .NET &ndash; General category in the
-New Project dialog. To change the category click the browse button next to the category text
-box to open the Template Categories dialog.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/TemplateCategoriesDialog.png" title="Template Categories dialog" alt="Template Categories dialog"></p>
-
-<p>Select the required category and click OK. The selected category will then be updated
-in the Template Information dialog.</p>
-
-<p>Click OK to generate the template.json file. The template.json file will be opened
-in the text editor. It will also be displayed in the Solution window in the
-.template.config folder.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/ProjectTemplateJsonFile.png" title="template.json file created for project" alt="template.json file created for project"></p>
-
-<p>The project template is now available in the New Project dialog.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/CustomProjectTemplateInNewProjectDialog.png" title="Custom project template in New Project dialog" alt="Custom template in New Project dialog"></p>
-
-<h2>Updating a Project Template</h2>
-
-<p>After the project template is created you can modify the original project and its
-template.json file as required.</p>
-
-<p>Changes made to the project are available in the New Project dialog immediately.</p>
-
-<p>Changes made to the template.json file are available immediately in the same
-instance of Visual Studio for Mac where the template.json file is being edited.</p>
-
-<h2>Multiple Projects in a Template</h2>
-
-<p>A project template may create more than one project. To create a project template
-for all projects in the solution right click the solution and select Create Template.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/SolutionCreateTemplateMenu.png" title="Solution - Create Template context menu" alt="Solution - Create Template context menu"></p>
-
-<p>A template.json file will be created in a .template.config directory inside the solution&rsquo;s
-directory.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/TwoProjectsTemplateJsonFile.png" title="template.json file created for soluton" alt="template.json file created for solution"></p>
-
-<p>Note that in order for the new projects created to use the name specified in the New Project
-dialog they should all have a common start to their name. The template.json file&rsquo;s <code>sourceName</code>
-will be the part that is replaced with the name of the project specified in the New Project dialog.</p>
-
-<h2>Configuring Registered Project Templates</h2>
-
-<p>The .NET Core templating engine supports project templates in NuGet packages or project templates
-that unpackaged in a directory. The Template Creator extension does
-not package the project templates into a NuGet package and instead stores a set of directories that
-are scanned by the .NET Core templating engine for templates. The set of directories that are
-registered can be viewed and updated in the Preferences dialog from the Templates &ndash; Custom Folders section.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomFolders.png" title="Preferences dialog - Templates - Custom Folders" alt="Preferences dialog - Templates - Custom Folders"></p>
-
-<p>The templating engine will scan the configured directories and look for all the template.json files
-which define the project templates. The project templates found are then made available to the
-Visual Studio for Mac&rsquo;s New Project dialog by the Template Creator extension.</p>
-
-<p>When the template.json file is created using the information in the Template Information dialog
-the Template Creator extenxion also registers the
-project&rsquo;s directory so it will be scanned by the templating engine.</p>
-
-<p>To remove a project
-template from the New Project dialog you can either delete the template.json file or
-remove the folder from the Custom Folders defined in the Preferences dialog.</p>
-
-<p>If you have an existing set of project templates that use template.json files and are not
-in a NuGet package then you can register a single parent directory in the Preferences dialog.</p>
-
-<h2>Custom Categories</h2>
-
-<p>Custom top level categories can be defined for your project templates by adding them in
-Preferences &ndash; Templates &ndash; Custom Categories.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/PreferencesCustomCategories.png" title="Preferences dialog - Templates - Custom Categories" alt="Preferences dialog - Templates - Custom Categories"></p>
-
-<p>The Add Top Level Category button will add a new top level category and two child category
-levels. The New Project dialog requires three category levels. The ids used should ensure that
-the full path to the template&rsquo;s category is unique. For example, with a custom category
-<code>custom/net/general</code> there should not be another top level <code>custom</code> category id, but the second
-and third level category ids can be re-used in another top level category, such as <code>top/net/general</code>.</p>
-
-<p>The Add Category button will add a single child category to the currently selected category
-whilst the Remove button will remove the selected category.</p>
-
-<p>Note that changes to the categories require Visual Studio for Mac to be restarted before they
-are visible in the New Project dialog.</p>
-
-<p>Also note that it is not currently possible to extend existing project template categories
-using the Template Creator extension.</p>
-
-<h2>Diagnosing Template Problems</h2>
-
-<p>If the template does not appear in the New Project dialog or fails to be created then
-you may be able to diagnose the problem by opening the Templating Log window. This is
-available from the View &ndash; Pads menu.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/MainMenuViewPadsTemplatingLog.png" title="Main menu - View - Pads - Templating Log" alt="Main menu - View - Templating Log"></p>
-
-<p>This window will show messages returned from the .NET Core templating engine and any errors
-reported by the Template Creator extension.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/TemplateCreatorForVisualStudioMac/TemplatingLogWindow.png" title="Templating Log window" alt="Templating Log window"></p>
-
-<h2>Installation</h2>
-
-<p>The Template Creator extension is available to download from <a href="https://github.com/mrward/monodevelop-template-creator-addin/releases/download/0.1/MonoDevelop.TemplateCreator_0.1.mpack">GitHub</a>.</p>
-
-<p>To install the extension open the Extensions Manager by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file and then click the Open button.</p>
-
-<p>The extension is also available in the Extensions Manager from the
-<a href="http://addins.monodevelop.com/Project/Index/305">Visual Studio Extension Repository (Beta channel)</a>.</p>
-
-<h2>Source Code</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-template-creator-addin">Template Creator extension for Visual Studio for Mac and MonoDevelop</a></li>
-</ul>
-
-
-<h2>Further Reading</h2>
-
-<ul>
-<li><a href="https://blogs.msdn.microsoft.com/dotnet/2017/04/02/how-to-create-your-own-templates-for-dotnet-new/">How to create your own templates for dotnet new</a></li>
-<li><a href="https://github.com/dotnet/templating/wiki/Reference-for-template.json">Reference for template.json</a></li>
-<li><a href="https://www.jimbobbennett.io/creating-visual-studio-project-and-solution-templates-part-3-vs-for-mac-extension/">Creating Visual Studio project and solution templates &ndash; Part 3, VS for Mac extension</a></li>
-<li><a href="https://github.com/ligershark/sidewafflev2">SideWaffle v2 for Visual Studio</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

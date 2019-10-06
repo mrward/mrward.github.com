@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 8.3 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes NuGet 5.3 support Managing NuGet packages for the solution Show NuGet package updates for SDK style projects in the Solution window More &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2019/10/06/NuGetSupportInVisualStudioMac8-3">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 8.3</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-10-06T12:00:00+01:00" pubdate data-updated="true">Oct 6<sup>th</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.3 support</li>
+<li> Managing NuGet packages for the solution</li>
+<li> Show NuGet package updates for SDK style projects in the Solution window</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.3</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.3 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.3">NuGet 5.3.0.6192</a> is now
+included with Visual Studio for Mac 8.3.</p>
+
+<h2>Managing NuGet Packages for the solution</h2>
+
+<p>Support for managing NuGet packages for the solution was originally available in a separate
+<a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a>. This feature has now
+been integrated into Visual Studio for Mac, along with some user interface changes, and is now available by
+default.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesSolutionBrowseTab.png" title="Manage NuGet Packages - Solution - Browse tab" alt="Manage NuGet Packages - Solution - Browse tab"></p>
+
+<p>The NuGet extensions addin is still available and provides a
+NuGet Powershell Console but it no longer includes a Manage NuGet Packages dialog.</p>
+
+<p>The Manage NuGet Packages dialog contains four tabs:</p>
+
+<ul>
+<li>Browse
+
+<ul>
+<li>Used to search for and install NuGet packages. This is equivalent to the old Add NuGet Packages dialog.</li>
+</ul>
+</li>
+<li>Installed
+
+<ul>
+<li>Shows the installed NuGet packages. NuGet packages can be uninstalled from this tab.</li>
+</ul>
+</li>
+<li>Updates
+
+<ul>
+<li>Shows NuGet packages that have new versions available.</li>
+</ul>
+</li>
+<li>Consolidate
+
+<ul>
+<li>Shows NuGet packages that have multiple versions installed in the solution. This is only available when managing
+NuGet packages for the solution.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The Add Packages dialog has been removed and replaced with the Manage NuGet Packages dialog since everything that was supported with the Add Packages dialog is available the new dialog.</p>
+
+<p>To manage the NuGet packages for
+the solution the Manage NuGet Packages dialog can be opened in the following ways:</p>
+
+<ul>
+<li>Right click the solution in the Solution window and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>From the main menu select <strong>Project</strong> &ndash; <strong>Manage NuGet Packages&hellip;</strong></li>
+</ul>
+
+
+<p>The Manage NuGet Packages dialog title is different depending on whether the NuGet packages
+are being managed for the solution or for the project. When managing packages for the solution
+the dialog title will be <strong>Manage NuGet Packages – Solution</strong>.</p>
+
+<h3>Managing NuGet Packages for a single project</h3>
+
+<p>To manage NuGet packages for a single project the Manage NuGet Packages dialog can be opened
+in the following ways:</p>
+
+<ul>
+<li>Right click the project in the Solution window and select <strong>Manage NuGet Packages&hellip;</strong>
+
+<ul>
+<li>This was added to make Visual Studio for Mac consistent with Visual Studio on Windows</li>
+</ul>
+</li>
+<li>Double click the Packages folder in the Solution window</li>
+<li>Right click the Packages folder and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Double click the Dependencies folder in the Solution window.
+
+<ul>
+<li>In previous versions of Visual Studio for Mac this would not open the dialog</li>
+</ul>
+</li>
+<li>Right click the Depdendencies folder and select <strong>Manage NuGet Packages..</strong></li>
+<li>Double click the NuGet folder underneath the Dependencies folder</li>
+<li>Right click the NuGet folder, underneath the Dependencies folder, and select <strong>Manage NuGet Packages&hellip;</strong></li>
+</ul>
+
+
+<p>When managing NuGet packages for a single project the dialog title shows the project name
+<strong>Manage NuGet Packages – ProjectName</strong>.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesProject.png" title="Manage NuGet Packages for Project" alt="Manage NuGet Packages for Project"></p>
+
+<h3>Installing NuGet Packages</h3>
+
+<p>The Browse tab in the Manage NuGet Packages can be used to search for and install NuGet packages
+into one or more projects. This tab is equivalent to the old Add NuGet Packages dialog.</p>
+
+<p>The latest stable NuGet package version is now indicated by
+having <strong>(latest stable)</strong> appended on the right hand
+side of the dialog.</p>
+
+<p>To install a NuGet package into multiple projects:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Search for a NuGet package</li>
+<li>Click the <strong>Add Package</strong> button</li>
+<li>In the Select Projects dialog that is opened, select the projects that you want the NuGet package to be installed, and click OK</li>
+</ul>
+
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesSolutionSelectProjects.png" title="Manage NuGet Packages - Select Projects dialog" alt="Manage NuGet Packages - Select Projects dialog"></p>
+
+<h3>Uninstalling NuGet Packages</h3>
+
+<p>The Installed tab in the Manage NuGet Packages can be used to uninstall
+NuGet packages from one or more projects.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesInstalledTab.png" title="Manage NuGet Packages - Installed tab" alt="Manage NuGet Packages - Installed tab"></p>
+
+<p>To uninstall a NuGet package:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Select the Installed tab</li>
+<li>Select a NuGet package to uninstall
+
+<ul>
+<li>To uninstall multiple NuGet packages use the check boxes in the package list</li>
+</ul>
+</li>
+<li>Click the <strong>Uninstall Package</strong> button</li>
+<li>In the Select Projects dialog that is opened, select the projects where the NuGet package should be removed, and click OK.</li>
+</ul>
+
+
+<h3>Updating NuGet Packages</h3>
+
+<p>The Updates tab shows the updated NuGet packages available to be installed.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesUpdatesTab.png" title="Manage NuGet Packages - Updates tab" alt="Manage NuGet Packages - Updates tab"></p>
+
+<p>The Updates tab shows the <strong>Current Version</strong> of the NuGet package installed on the right hand side of the dialog. If
+multiple versions of the packages are installed across the solution, then this will
+display <strong>Multiple</strong> with an information icon where information about the
+projects and versions can be viewed in a tooltip.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/UpdatesTabMultipleVersions.png" title="Manage NuGet Packages - Updates tab - Multiple versions installed" alt="Manage NuGet Packages - Updates tab -  Multiple versions installed"></p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/UpdatesTabMultipleVersionsTooltip.png" title="Manage NuGet Packages - Updates tab - Multiple versions installed - tooltip" alt="Manage NuGet Packages - Updates tab -  Multiple versions installed - tooltip"></p>
+
+<p>To update a NuGet package in multiple projects:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Select the Updates tab</li>
+<li>Select a NuGet package to update
+
+<ul>
+<li>To update multiple NuGet packages use the check boxes in the packages list</li>
+</ul>
+</li>
+<li>Click the <strong>Update Package</strong> button</li>
+<li>In the Select Projects dialog that is opened, select the projects where the NuGet package should be updated, and click OK.</li>
+</ul>
+
+
+<h3>Consolidating NuGet Packages</h3>
+
+<p>If there are different versions of a NuGet package installed in the solution the
+Consolidate tab will show this and allow the packages to be consolidated to a particular version.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesConsolidateTab.png" title="Manage NuGet Packages - Consolidate tab" alt="Manage NuGet Packages - Consolidate tab"></p>
+
+<p>When a NuGet package is selected, the right hand side of the dialog shows
+all the projects in the solution. The project will be checked if it has the selected
+package installed. The package version used by the project is also shown.
+Projects that have a package to consolidate are shown first in the list.</p>
+
+<p>Note that the Consolidate tab is only displayed if NuGet packages are being
+managed for the solution.</p>
+
+<p>By default the Consolidate tab will select the latest version available from the current NuGet package source.
+This may be different from the latest version installed in the projects.</p>
+
+<p>To Consolidate a NuGet package:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Select the Consolidate tab</li>
+<li>Select the NuGet package you want to consolidate.
+
+<ul>
+<li>Use the check box next to the NuGet package if you want to consolidate multiple NuGet packages at the same time</li>
+</ul>
+</li>
+<li>Check or uncheck the projects in the projects list.
+
+<ul>
+<li>By default projects that contain the selected NuGet package will be checked</li>
+</ul>
+</li>
+<li>Click the <strong>Consolidate Package</strong> button.</li>
+</ul>
+
+
+<h2>Show NuGet package updates for SDK style projects in the Solution window</h2>
+
+<p>NuGet package updates are now shown in the Solution window for SDK style
+projects.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectPackageUpdates.png" title="SDK style project - package updates - solution window" alt="SDK style project - package updates - solution window"></p>
+
+<p>If an updated package is available this information will now be shown
+on the Dependencies folder, the NuGet folder, and the top level
+package in the Solution window.</p>
+
+<p>Previously NuGet package updates were only displayed for projects
+that used a packages.config file or for non-SDK style projects
+that used PackageReferences.</p>
+
+<p>Instead of showing the updated NuGet package version text, next to the installed version
+in the solution window, an update icon
+is displayed with the version information available in a tooltip. This prevents
+the version information taking up a lot of space to the right, which can
+happen for long version numbers.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectPackageUpdateVersionTooltip.png" title="SDK style project - package update version tooltip - solution window" alt="SDK style project - package update version tooltip - solution window"></p>
+
+<p>The Update menu, when right clicking a NuGet package, now shows the
+version for the update. Otherwise
+the Update menu is displayed.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectUpdateToMenuItem.png" title="SDK style project - update menu item - solution window" alt="SDK style project - update menu item - solution window"></p>
+
+<p>If there is an update and a NuGet warning only the warning icon
+will be displayed with the warning message available in the tooltip.
+The update information will only be available in the right click
+context menu for the NuGet package in this case.</p>
+
+<p>Package versions are now displayed in solution window for non-SDK style projects.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/NonSdkStyleProjectPackageUpdates.png" title="Non-SDK style project - package updates - solution window" alt="Non-SDK style project - package updates - solution window"></p>
+
+<p>SDK style projects always displayed the package version in the Solution
+window but non-SDK style projects did not. To make these consistent the NuGet
+package version is now shown in the Solution window for all project types.</p>
+
+<p>Previously for non-SDK style projects the package version was shown
+as a menu item when right clicking a NuGet package. This has been removed
+since the package version is now displayed next to the package id in the
+Solution window.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed text colour when row selected in Manage NuGet Packages dialog</strong></p>
+
+<p>When a package was checked in the Add NuGet Packages dialog any
+row that was selected would display black text instead of white text. This was hard
+to read with the blue background colour used for the selected row. The wrong text colour was being set when a package was
+checked. This has been fixed in the Manage NuGet Packages dialog.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-10-06T12:00:00+01:00" pubdate data-updated="true">Oct 6<sup>th</sup>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2019/10/06/NuGetSupportInVisualStudioMac8-3/" data-via="" data-counturl="http://lastexitcode.com/blog/2019/10/06/NuGetSupportInVisualStudioMac8-3/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/07/28/NuGetSupportInVisualStudioMac8-2/" title="Previous Post: NuGet Support in Visual Studio for Mac 8.2">&laquo; NuGet Support in Visual Studio for Mac 8.2</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
