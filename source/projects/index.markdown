@@ -1,13 +1,15 @@
 ---
 layout: page
 title: "Projects"
-date: 2019-06-14 12:30
+date: 2019-11-30 12:30
 comments: true
 sharing: true
 footer: true
 ---
 
+ * [MonoDevelop Feature Switch Addin](MonoDevelopFeatureSwitchAddin/) 
  * [MonoDevelop File Nesting Addin](MonoDevelopFileNestingAddin/)
+ * [MonoDevelop File Service Events Addin](MonoDevelopFileServiceEventsAddin/) 
  * [MonoDevelop .NET Core Addin](MonoDevelopDnxAddin/)
  * [MonoDevelop Language Server Client Addin](MonoDevelopLanguageServerClientAddin/)
  * [MonoDevelop Library Manager Addin](MonoDevelopLibraryManagerAddin/)
@@ -18,6 +20,7 @@ footer: true
  * [MonoDevelop Open With Addin](MonoDevelopOpenWithAddin/)
  * [MonoDevelop Paket Addin](MonoDevelopPaketAddin/)
  * [MonoDevelop PowerShell Addin](MonoDevelopPowerShellAddin/)
+ * [MonoDevelop Project System Tools Addin](MonoDevelopProjectSystemToolsAddin/) 
  * [MonoDevelop Run Custom Tool Addin](MonoDevelopRunCustomToolAddin/)
  * [MonoDevelop Task Runner Explorer Addin](MonoDevelopTaskRunnerExplorerAddin/)
  * [MonoDevelop Template Creator Addin](MonoDevelopTemplateCreatorAddin/)
