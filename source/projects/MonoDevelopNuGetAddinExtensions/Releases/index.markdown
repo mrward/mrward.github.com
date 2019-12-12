@@ -1,11 +1,19 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2019-06-08 13:20
+date: 2019-12-12 11:20
 comments: true
 sharing: true
 footer: true
 ---
+
+
+## Version 0.20
+
+2019-08-14
+
+ * Support Visual Studio for Mac 8.3
+ * Remove Manage NuGet packages dialog (now included with Visual Studio for Mac 8.3).
 
 ## Version 0.19
 
