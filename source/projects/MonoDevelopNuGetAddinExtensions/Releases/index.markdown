@@ -1,18 +1,24 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2019-12-12 11:20
+date: 2019-12-15 17:20
 comments: true
 sharing: true
 footer: true
 ---
 
+## Version 0.21
+
+2019-12-15
+
+ * Support Visual Studio for Mac 8.3 RTM
+ * Fixed error resolving NuGet.Resolver 5.2.0.3
 
 ## Version 0.20
 
 2019-08-14
 
- * Support Visual Studio for Mac 8.3
+ * Support Visual Studio for Mac 8.3 preview
  * Remove Manage NuGet packages dialog (now included with Visual Studio for Mac 8.3).
 
 ## Version 0.19
