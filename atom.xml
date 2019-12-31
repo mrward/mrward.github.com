@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-10-06T13:50:40+01:00</updated>
+  <updated>2019-12-31T14:38:30+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,174 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Project System Tools for Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac/"/>
+    <updated>2019-12-31T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac</id>
+    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools extension</a> provides
+MSBuild design-time and build logging for Visual Studio for Mac.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingBinLogFile.png" title="Build Logging window and BinLog tree view" alt="Build Logging window and BinLog tree view"></p>
+
+<p>This is based on the <a href="https://github.com/dotnet/project-system-tools">Project System Tools available for Visual Studio on Windows</a> and also re-uses code from this extension.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Build Logging window
+
+<ul>
+<li>Shows a list of builds and design-time builds</li>
+</ul>
+</li>
+<li>View MSBuild log output for all builds and design-time builds</li>
+<li>View MSBuild binary logs for builds
+
+<ul>
+<li>Build tab shows a tree view of the build results from the binary log</li>
+<li>Target Summary tab shows target name, number of calls, timings and file location</li>
+<li>Task Summary tab shows task name, number of calls, timings and file location</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 8.1 or later.</li>
+</ul>
+
+
+<h2>Build Logging Window</h2>
+
+<p>To open the Build Logging Window</p>
+
+<ul>
+<li>Select View &ndash; Pads &ndash; Build Logging</li>
+</ul>
+
+
+<p><img src="http://lastexitcode.com/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingWindow.png" title="Build Logging window" alt="Build Logging window"></p>
+
+<p>Click the green arrow to enable logging for builds and design-time builds.</p>
+
+<p>To stop the logging click the red square.</p>
+
+<p>To filter the targets use the combo box to restrict the items shown to builds or design time builds, or use the search on the right hand side of the window.</p>
+
+<h2>MSBuild Log Output</h2>
+
+<p>To open the MSBuild log output</p>
+
+<ul>
+<li>Double click the row in the Build Logging window or</li>
+<li>Right click the row and select Open Log File</li>
+</ul>
+
+
+<p><img src="http://lastexitcode.com/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingOpenLogFileMenu.png" title="Open Log File context menu" alt="Open Log File context menu"></p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildLogFile.png" title="MSBuild Log File" alt="MSBuild Log File"></p>
+
+<p>The verbosity of the MSBuild log output is configured in Preferences &ndash; Projects &ndash; Build &ndash; Log verbosity.</p>
+
+<h2>MSBuild Binary Log</h2>
+
+<p>To open a binary log file</p>
+
+<ul>
+<li>Right click the row in the Build Logging window and select Open Binary Log File</li>
+</ul>
+
+
+<p>Note that binary logs are only available when the project or solution is built.
+Support for design-time build binary logs should be available in Visual Studio for Mac 8.5.</p>
+
+<p>Three tabs are provided by the Project System Tools extension when a binary log file is opened.</p>
+
+<ul>
+<li>Build
+
+<ul>
+<li>Tree view of the binary log targets and tasks</li>
+<li>Properties window shows more information about the selected task or target</li>
+</ul>
+</li>
+<li>Target Summary
+
+<ul>
+<li>Target name</li>
+<li>Source filename</li>
+<li>Number of calls</li>
+<li>Time taken</li>
+<li>Percentage of total time taken</li>
+</ul>
+</li>
+<li>Task Summary
+
+<ul>
+<li>Task name</li>
+<li>Source filename</li>
+<li>Number of calls</li>
+<li>Time taken</li>
+<li>Percentage of total time taken</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Build Tab</h2>
+
+<p><img src="http://lastexitcode.com/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildBinaryLogFileBuildTab.png" title="MSBuild Binary Log File - Build tab" alt="MSBuild Binary Log File - Build tab"></p>
+
+<p>The Build tab shows the run times of the targets and tasks, and whether they ran successfully.</p>
+
+<p>Skipped tasks and targets are shown in light grey text.</p>
+
+<p>Selecting a tree node in the Build tab will show more information about that node in the Properties window.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/ProjectSystemToolsForVisualStudioMac/BuildTabProperties.png" title="MSBuild Binary Log File - Build tab - Properties window" alt="MSBuild Binary Log File - Build tab - Properties window"></p>
+
+<h2>Target Summary Tab</h2>
+
+<p><img src="http://lastexitcode.com/images/blog/ProjectSystemToolsForVisualStudioMac/TargetSummaryTab.png" title="MSBuild Binary Log File - Target Summary tab" alt="MSBuild Binary Log File - Target Summary tab"></p>
+
+<p>Targets are shown in the order they were run and can be sorted by clicking the column headers.</p>
+
+<h2>Task Summary Tab</h2>
+
+<p><img src="http://lastexitcode.com/images/blog/ProjectSystemToolsForVisualStudioMac/TaskSummaryTab.png" title="MSBuild Binary Log File - Task Summary tab" alt="MSBuild Binary Log File - Task Summary tab"></p>
+
+<p>Tasks are shown in the order they were run and can be sorted by clicking the column headers.</p>
+
+<h2>Project System Tools Installation</h2>
+
+<p>The Project System Tools extension is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
+
+<ul>
+<li>From the main menu, open the Extensions Manager dialog.</li>
+<li>Select the Gallery tab.</li>
+<li>Expand IDE extensions.</li>
+<li>Select Project System Tools</li>
+<li>Click the Refresh button if the extension is not visible.</li>
+<li>Click Install… to install the extension.</li>
+<li>Restart Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools source code &ndash; Visual Studio for Mac</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.ProjectSystemTools">Project System Tools Marketplace &ndash; Visual Studio on Windows</a></li>
+<li><a href="https://github.com/dotnet/project-system-tools">Project System Tools source code &ndash; Visual Studio for Windows</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.3]]></title>
@@ -3943,186 +4111,6 @@ MSBuildSDKsPath property.</p>
 
 <p>Deleting a file link in a .NET Core project would add a remove item
 for the file instead of removing the link from the project.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.3]]></title>
-    <link href="http://lastexitcode.com/blog/2017/12/10/NuGetSupportInVisualStudioMac7-3/"/>
-    <updated>2017-12-10T11:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2017/12/10/NuGetSupportInVisualStudioMac7-3</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> Support installing System.ValueTuple NuGet Package from Quick Fixes</li>
-<li> NuGetizer 3000 &ndash; Update NuGet.Build.Packaging to version 0.2</li>
-<li> Support NuGet Restore MSBuild Properties
-
-<ul>
-<li>RestoreAdditionalProjectFallbackFolders</li>
-<li>RestoreAdditionalProjectSources</li>
-<li>RestoreFallbackFolders</li>
-<li>RestorePackagesPath</li>
-<li>RestoreSources</li>
-</ul>
-</li>
-<li> Fixed transitive dependencies not available when using project.json</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.3</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-december-4-2017---visual-studio-2017-version-73-730797">release notes</a>.</p>
-
-<h2>Quick Fix &ndash; Install System.ValueTuple NuGet Package</h2>
-
-<p><a href="https://blogs.msdn.microsoft.com/dotnet/2016/08/24/whats-new-in-csharp-7-0/">C# 7.0 introduced tuple types</a>
-that may require the System.ValueTuple NuGet package
-to be added to the project. Visual Studio for Mac
-now offers to install the System.ValueTuple NuGet package if the project requires this NuGet package.</p>
-
-<p>Creating a .NET Framework 4.6 project with the following code:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public (string, int) GetValues(string id)
-</span><span class='line'>{
-</span><span class='line'>  return ("Name", 25);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You will see error markers in the text editor. If you hover over
-one of these error markers you will see a
-<strong>Predefined type &lsquo;System.ValueTuple`2&rsquo; is not defined or imported</strong> message.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-3/ValueTupleTextEditorErrorTooltip.png" title="ValueTuple type not defined text editor error tooltip" alt="ValueTuple type not defined text editor error tooltip"></p>
-
-<p>If you right click the error marker there is now a new
-<strong>Install Package &lsquo;System.ValueTuple&rsquo;</strong> Quick Fix action available.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-3/TextEditorInstallSystemValueTuplePackageQuickFix.png" title="Text editor Install System.ValueTuple Package quick fix menu item" alt="Text editor Install System.ValueTuple Package quick fix menu item"></p>
-
-<p>From this menu you can install the latest System.ValueTuple NuGet package
-or open the Add Packages dialog to search for a specific version of the System.ValueTuple NuGet
-package.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac7-3/TextEditorInstallLatestSystemValueTupleQuickFix.png" title="Text editor install latest System.ValueTuple package quick fix menu item" alt="Text editor install latest System.ValueTuple package quick fix menu item"></p>
-
-<p>Note that if the project is targeting .NET Framework 4.7 or .NET Standard 2.0 then the
-System.ValueTuple NuGet package is not required.</p>
-
-<p>Also note that the official nuget.org package source needs to be available
-for this feature to work.</p>
-
-<h2>NuGetizer 3000 &ndash; Updated NuGet.Build.Packaging to version 0.2</h2>
-
-<p>The version of the NuGet.Build.Packaging NuGet package used by default for NuGetizer 3000 support
-has been updated from 0.1.276 to 0.2.0. This fixes a
-potential build error when building with Mono 5.6.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Using "ReportAssetsLogMessages" task from assembly "/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/../tools/net46/Microsoft.NET.Build.Tasks.dll".
-</span><span class='line'>Task "ReportAssetsLogMessages"
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: The "ReportAssetsLogMessages" task failed unexpectedly. [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: System.TypeLoadException: Could not resolve type with token 0100005b (from typeref, class/assembly NuGet.ProjectModel.IAssetsLogMessage, NuGet.ProjectModel, Version=4.3.0.5, Culture=neutral, PublicKeyToken=31bf3856ad364e35) [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.NET.Build.Tasks.TaskBase.Execute () [0x00000] in &lt;01420900fd004c128de2d2ee31bad624&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.Build.BackEnd.TaskExecutionHost.Microsoft.Build.BackEnd.ITaskExecutionHost.Execute () [0x00023] in &lt;765502eb2f884ce79731edeb4b0517fb&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.Build.BackEnd.TaskBuilder+d__26.MoveNext () [0x0022d] in &lt;765502eb2f884ce79731edeb4b0517fb&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The ReadLegacyDependencies target from NuGet.Build.Packaging.Tasks is called when PackOnBuild
-is set to true.</p>
-
-<p>The NuGet.Build.Packaging.Tasks assembly was loading an embedded NuGet.ProjectModel
-assembly that conflicts with the version that is used by Microsoft.NET.Build.Tasks.</p>
-
-<h2>Support RestoreAdditionalProjectFallbackFolders MSBuild Property</h2>
-
-<p>The RestoreAdditionalProjectFallbackFolders MSBuild property is
-read and appended to the list of fallback folders stored in the
-project.assets.json file. The .NET Core 2.0 SDK will set this
-MSBuild property to point to the NuGet package fallback folder
-that is installed with the SDK. This will be used
-to resolve NuGet packages first before downloading them to the
-~/.nuget/packages folder.</p>
-
-<h2>Support RestoreAdditionalProjectSources MSBuild Property</h2>
-
-<p>The RestoreAdditionalProjectSources MSBuild property can be used
-to add additional package sources to the existing list of sources
-used to resolve packages.</p>
-
-<h2>Support RestoreFallbackFolders MSBuild Property</h2>
-
-<p>The RestoreFallbackFolders MSBuild property can be used by project that uses
-PackageReferences to define a set of package fallback folders that
-will override any specified in the NuGet.Config file. It can also
-be used to clear any pre-defined fallback folders by specifying
-&lsquo;clear&rsquo; as its value. Note that this value does not affect any
-folders defined by RestoreAdditionalProjectFallbackFolders which
-will be appended even if RestoreFallbackFolders is set to &lsquo;clear&rsquo;.</p>
-
-<h2>Support RestorePackagesPath MSBuild Property</h2>
-
-<p>The RestorePackagesPath MSBuild property can be used to override the global packages
-folder location when a project uses a PackageReference.</p>
-
-<h2>Support RestoreSources MSBuild property</h2>
-
-<p>The RestoreSources MSBuild property can be used to override
-the sources defined by any NuGet.Config file. Any sources defined in the
-RestoreAdditionalProjectSources MSBuild property will still be appended to the
-list of sources if RestoreSources is defined.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Transitive dependencies not available when using project.json</strong></p>
-
-<p>With two projects A and B that both use project.json files, project B
-referencing project A, the NuGet package dependencies used by project
-A were not available to project B transitively. This was because the
-project reference information was not being used
-when a restore occurred. This caused the assemblies from the transitively
-referenced NuGet packages to not be added to the
-project.lock.json file for Project B.</p>
-
-<p><strong>Unable to debug a new Azure Functions project without re-opening project</strong></p>
-
-<p>After creating a new Azure Functions project it was possible to build the
-project but not to debug it or run it. On closing and re-opening the solution
-it would be possible to debug and run the Azure Functions project.</p>
-
-<p>When Visual Studio for Mac created a new Azure Functions project
-it initially determined that it could not run or debug the project.
-After the Azure Functions project has its PackageReferences restored
-it gains an AzureFunctions project capability. This capability is used to
-determine if the project can be run. This change in the capability
-was not handled by Visual Studio for Mac so it did not allow the
-project to be run until the project was closed and re-opened.</p>
-
-<p>Now, after the NuGet package restore is finished, the project is
-re-evaluated and a check is made to see if the project can now be run.</p>
-
-<p><strong>Fix generated NuGet files being imported twice</strong></p>
-
-<p>The generated ProjectName.nuget.g.targets and ProjectName.nuget.g.props
-that are created for .NET Core projects in the base intermediate
-directory were being imported twice when evaluating the project.
-Once by Microsoft.Common.props, provided with Mono, and once
-by Visual Studio for Mac.</p>
-
-<p>This duplicate import was resulting in a duplicate file being added
-to the project held in memory by Visual Studio for Mac when the
-Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
-project and no .NET Core SDK is installed. This would result in the
-content page xaml and associated C# file not being nested in the
-solution window.</p>
 ]]></content>
   </entry>
   

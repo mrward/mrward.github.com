@@ -9,7 +9,8 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes NuGet 5.3 support Managing NuGet packages for the solution Show NuGet package updates for SDK style projects in the Solution window More &hellip;">
+  <meta name="description" content="The Project System Tools extension provides
+MSBuild design-time and build logging for Visual Studio for Mac. This is based on the Project System &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +82,201 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac/">Project System Tools for Visual Studio for Mac</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-12-31T12:00:00+00:00" pubdate data-updated="true">Dec 31<sup>st</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The <a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools extension</a> provides
+MSBuild design-time and build logging for Visual Studio for Mac.</p>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingBinLogFile.png" title="Build Logging window and BinLog tree view" alt="Build Logging window and BinLog tree view"></p>
+
+<p>This is based on the <a href="https://github.com/dotnet/project-system-tools">Project System Tools available for Visual Studio on Windows</a> and also re-uses code from this extension.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Build Logging window
+
+<ul>
+<li>Shows a list of builds and design-time builds</li>
+</ul>
+</li>
+<li>View MSBuild log output for all builds and design-time builds</li>
+<li>View MSBuild binary logs for builds
+
+<ul>
+<li>Build tab shows a tree view of the build results from the binary log</li>
+<li>Target Summary tab shows target name, number of calls, timings and file location</li>
+<li>Task Summary tab shows task name, number of calls, timings and file location</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 8.1 or later.</li>
+</ul>
+
+
+<h2>Build Logging Window</h2>
+
+<p>To open the Build Logging Window</p>
+
+<ul>
+<li>Select View &ndash; Pads &ndash; Build Logging</li>
+</ul>
+
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingWindow.png" title="Build Logging window" alt="Build Logging window"></p>
+
+<p>Click the green arrow to enable logging for builds and design-time builds.</p>
+
+<p>To stop the logging click the red square.</p>
+
+<p>To filter the targets use the combo box to restrict the items shown to builds or design time builds, or use the search on the right hand side of the window.</p>
+
+<h2>MSBuild Log Output</h2>
+
+<p>To open the MSBuild log output</p>
+
+<ul>
+<li>Double click the row in the Build Logging window or</li>
+<li>Right click the row and select Open Log File</li>
+</ul>
+
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingOpenLogFileMenu.png" title="Open Log File context menu" alt="Open Log File context menu"></p>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildLogFile.png" title="MSBuild Log File" alt="MSBuild Log File"></p>
+
+<p>The verbosity of the MSBuild log output is configured in Preferences &ndash; Projects &ndash; Build &ndash; Log verbosity.</p>
+
+<h2>MSBuild Binary Log</h2>
+
+<p>To open a binary log file</p>
+
+<ul>
+<li>Right click the row in the Build Logging window and select Open Binary Log File</li>
+</ul>
+
+
+<p>Note that binary logs are only available when the project or solution is built.
+Support for design-time build binary logs should be available in Visual Studio for Mac 8.5.</p>
+
+<p>Three tabs are provided by the Project System Tools extension when a binary log file is opened.</p>
+
+<ul>
+<li>Build
+
+<ul>
+<li>Tree view of the binary log targets and tasks</li>
+<li>Properties window shows more information about the selected task or target</li>
+</ul>
+</li>
+<li>Target Summary
+
+<ul>
+<li>Target name</li>
+<li>Source filename</li>
+<li>Number of calls</li>
+<li>Time taken</li>
+<li>Percentage of total time taken</li>
+</ul>
+</li>
+<li>Task Summary
+
+<ul>
+<li>Task name</li>
+<li>Source filename</li>
+<li>Number of calls</li>
+<li>Time taken</li>
+<li>Percentage of total time taken</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Build Tab</h2>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildBinaryLogFileBuildTab.png" title="MSBuild Binary Log File - Build tab" alt="MSBuild Binary Log File - Build tab"></p>
+
+<p>The Build tab shows the run times of the targets and tasks, and whether they ran successfully.</p>
+
+<p>Skipped tasks and targets are shown in light grey text.</p>
+
+<p>Selecting a tree node in the Build tab will show more information about that node in the Properties window.</p>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildTabProperties.png" title="MSBuild Binary Log File - Build tab - Properties window" alt="MSBuild Binary Log File - Build tab - Properties window"></p>
+
+<h2>Target Summary Tab</h2>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TargetSummaryTab.png" title="MSBuild Binary Log File - Target Summary tab" alt="MSBuild Binary Log File - Target Summary tab"></p>
+
+<p>Targets are shown in the order they were run and can be sorted by clicking the column headers.</p>
+
+<h2>Task Summary Tab</h2>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TaskSummaryTab.png" title="MSBuild Binary Log File - Task Summary tab" alt="MSBuild Binary Log File - Task Summary tab"></p>
+
+<p>Tasks are shown in the order they were run and can be sorted by clicking the column headers.</p>
+
+<h2>Project System Tools Installation</h2>
+
+<p>The Project System Tools extension is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
+
+<ul>
+<li>From the main menu, open the Extensions Manager dialog.</li>
+<li>Select the Gallery tab.</li>
+<li>Expand IDE extensions.</li>
+<li>Select Project System Tools</li>
+<li>Click the Refresh button if the extension is not visible.</li>
+<li>Click Install… to install the extension.</li>
+<li>Restart Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools source code &ndash; Visual Studio for Mac</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.ProjectSystemTools">Project System Tools Marketplace &ndash; Visual Studio on Windows</a></li>
+<li><a href="https://github.com/dotnet/project-system-tools">Project System Tools source code &ndash; Visual Studio for Windows</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1584,252 +1780,6 @@ path. This is different behaviour to how Visual Studio on Windows works, which
 will always add a relative hint path for the reference.</p>
 
 <p>This was fixed in Visual Studio for Mac 7.7.3.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/10/28/ProxyTestingMacApplicationWithApache/">Proxy Testing a Mac Application with Apache</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-10-28T12:00:00+00:00" pubdate data-updated="true">Oct 28<sup>th</sup>, 2018</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Here we look at using <a href="http://httpd.apache.org/">Apache</a> as
-a proxy server in order to test that a Mac client application, such as Safari or Visual Studio for Mac, can make web
-requests through a proxy. Enabling Basic and NTLM proxy authentication with Apache will be covered, as well as using
-the Apache as a proxy without any authentication.</p>
-
-<p>Apache will run on a separate Windows machine. Using a separate machine
-allows us to check that the Mac client application is not bypassing the proxy and making direct
-web requests to any server. This check can be done by configuring the local firewall to block all direct
-connections out from the Mac machine but allow connections from the machine running Apache.</p>
-
-<ul>
-<li>Mac High Sierra 10.13</li>
-<li><a href="https://www.apachehaus.com/cgi-bin/download.plx">Apache 2.4.35 on Windows</a></li>
-</ul>
-
-
-<h2>Apache Proxy &ndash; No authentication</h2>
-
-<p>Unzip Apache and extract the files to c:\Apache24\ which is the default ServerRoot configured in the conf\httpd.conf
-file.</p>
-
-<pre><code>Define SRVROOT "/Apache24"
-</code></pre>
-
-<p>In the httpd.config file configure the port to be used by the Apache server if required.
-By default port 80 is used. Here we will be using port 8888.</p>
-
-<pre><code>Listen 8888
-ServerName localhost:8888
-</code></pre>
-
-<p><a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy.html">mod_proxy</a>,
-<a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy_connect.html">mod_proxy_connect</a> and
-<a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy_http.html">mod_proxy_http</a> should be loaded.
-Edit the http.conf file and ensure these modules are loaded.</p>
-
-<pre><code>LoadModule proxy_module modules/mod_proxy.so
-LoadModule proxy_connect_module modules/mod_proxy_connect.so
-LoadModule proxy_http_module modules/mod_proxy_http.so
-</code></pre>
-
-<p>Add a VirtualHost and Proxy section to the httpd.conf file.</p>
-
-<pre><code>&lt;VirtualHost *&gt;
-     ProxyRequests On
-
-    &lt;Proxy *&gt;
-        Require all granted
-    &lt;/Proxy&gt;
-&lt;/VirtualHost&gt;
-</code></pre>
-
-<p>To run Apache, open a command prompt, change into the Apache24\bin directory, then run httpd.exe</p>
-
-<pre><code>cd c:\Apache24\bin
-httpd.exe
-</code></pre>
-
-<p>On running Apache for the first time you will see a Windows Firewall dialog.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/FirewallAlertApache.png" title="Windows Firewall alert for Apache" alt="Windows Firewall alert for Apache"></p>
-
-<p>Allow Apache to access both the private and public networks.</p>
-
-<p>Configuring the Mac to use Apache as its proxy server can be done by opening System Preferences &ndash; Network.
-For the active network select the Advanced button and open the Proxies tab. Enter the machine IP address
-where Apache is running and its port into the Web Proxy (HTTP) and Secure Web Proxy (HTTPS) sections, and ensure both
-of these are checked.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/MacNetworkWebProxySettings.png" title="Mac web proxy settings" alt="Mac web proxy settings"></p>
-
-<p>Finally click OK and Apply to enable the proxy settings.</p>
-
-<p>Now http and https requests should be sent through Apache. A simple way to test this is
-to open Safari and view a web page. In the C:\Apache24\logs\access.log file you should see entries for the
-sites accessed.</p>
-
-<pre><code>192.168.1.100 - - [28/Oct/2018:12:18:47 +0000] "GET http://neverssl.com/ HTTP/1.1" 200 1183
-192.168.1.100 - - [28/Oct/2018:12:18:47 +0000] "GET http://neverssl.com/favicon.ico HTTP/1.1" 200 124
-192.168.1.100 - - [28/Oct/2018:12:18:41 +0000] "CONNECT www.nuget.org:443 HTTP/1.1" 200 -
-</code></pre>
-
-<h2>Apache Proxy &ndash; Basic authentication</h2>
-
-<p>To enable Basic authentication change the Proxy section in the httpd.conf file as shown below.</p>
-
-<pre><code>&lt;VirtualHost *&gt;
-     ProxyRequests On
-
-    &lt;Proxy *&gt;
-        AuthType Basic
-        AuthName "Authentication required"
-        AuthBasicProvider file
-        AuthUserFile proxy-password.file
-        Require valid-user
-    &lt;/Proxy&gt;
-&lt;/VirtualHost&gt;
-</code></pre>
-
-<p>Here we will be using <a href="https://httpd.apache.org/docs/2.4/programs/htpasswd.html">htpasswd.exe</a> to create a file to
-store the username and password required to authenticate against
-the proxy server. htpasswd.exe is in the Apache bin directory. Run the following to generate the proxy-password.file,
-replacing user with the username to be used with the proxy.</p>
-
-<pre><code>htpasswd.exe -c proxy-password.file user
-</code></pre>
-
-<p>Enter the password when prompted.</p>
-
-<p>Copy the proxy-password.file to the Apache server&rsquo;s root directory c:\Apache24</p>
-
-<p>To make it easier to see the basic auth header being sent you may want to enable
-<a href="https://httpd.apache.org/docs/2.4/mod/mod_log_forensic.html">forensic logging</a> in Apache.
-To do this add a LoadModule to the httpd.conf file.</p>
-
-<pre><code>LoadModule log_forensic_module modules/mod_log_forensic.so
-</code></pre>
-
-<p>Define the path to the forensic log file using an IfModule.</p>
-
-<pre><code>&lt;IfModule log_forensic_module&gt; 
-    ForensicLog "logs/forensic.log"
-&lt;/IfModule&gt; 
-</code></pre>
-
-<p>Run httpd.exe from the Apache24\bin directory.</p>
-
-<p>When connecting through the proxy
-for the first time the Mac will show a dialog asking for credentials.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/ProxyAuthenticationRequiredDialog.png" title="Mac proxy authentication required dialog" alt="Mac proxy authentication required dialog"></p>
-
-<p>Clicking the System Preferences button will show open a dialog where you can enter the credentials for the proxy.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/ProxyCredentialsDialog.png" title="Mac proxy authentcation required - credentials dialog" alt="Mac proxy authentication required - credentials dialog"></p>
-
-<p>Entering the credentials will result in the Mac&rsquo;s key chain being updated with the credentials associated with the proxy&rsquo;s address.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/ProxyCredentialsMacKeyChain.png" title="Proxy credentials stored in Mac key chain" alt="Proxy credentials stored in Mac key chain"></p>
-
-<p>If you open the Mac&rsquo;s Network settings you will see the Web Proxy and Secure Web Proxy settings now have a username and password
-associated with them.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/MacNetworkSettingsProxyUserNamePassword.png" title="Username and password associated with proxy in network settings" alt="Username and password associated with proxy in network settings"></p>
-
-<p>In the Apache access.log you should see the requests being made and a Proxy authentication 407 status code.</p>
-
-<pre><code>192.168.1.100 - - [28/Oct/2018:12:44:47 +0000] "CONNECT www.nuget.org:443 HTTP/1.1" 407 415
-192.168.1.100 - - [28/Oct/2018:12:44:53 +0000] "GET http://neverssl.com/ HTTP/1.1" 407 415
-</code></pre>
-
-<p>In the forensic.log file you should see the basic proxy authorization header being used by the Mac.</p>
-
-<pre><code>GET http%3a//neverssl.com/ HTTP/1.1|Host:neverssl.com|Connection:keep-alive|Proxy-Connection:keep-alive|Upgrade-Insecure-Requests:1|Proxy-Authorization:Basic MTox|Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Accept-Language:en-gb|DNT:1|Accept-Encoding:gzip, deflate
-CONNECT www.nuget.org%3a443 HTTP/1.1|Host:www.nuget.org%3a443|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Connection:keep-alive|Proxy-Authorization:Basic MTox|Proxy-Connection:keep-alive
-</code></pre>
-
-<h2>Apache Proxy &ndash; NTLM authentication</h2>
-
-<p>In order to enable NTLM authentication the <a href="https://github.com/TQsoft-GmbH/mod_authn_ntlm">NTLM authentication module</a> needs to be downloaded.
-Download <a href="https://www.apachehaus.com/cgi-bin/download.plx">Mod Auth NTLM for Apache 2.4.x x64 &ndash; mod_authn_ntml.zip</a>,
-extract the files and copy the mod_auth_ntlm.so file to the Apache24\modules directory.</p>
-
-<p>Add a LoadModule to the httpd.conf file for the mod_authn_ntlm.so file.</p>
-
-<pre><code>LoadModule auth_ntlm_module modules/mod_authn_ntlm.so
-</code></pre>
-
-<p>Change the VirtualHost Proxy section as shown below:</p>
-
-<pre><code>&lt;VirtualHost *&gt;
-    ProxyRequests On
-
-    &lt;Proxy *&gt;
-        AuthType SSPI
-        AuthName "Auth required"
-        NTLMAuth On
-        NTLMAuthoritative On
-
-        &lt;RequireAll&gt;
-            &lt;RequireAny&gt;
-                Require valid-user
-            &lt;/RequireAny&gt;
-
-            &lt;RequireNone&gt;
-                Require user "ANONYMOUS LOGON"
-                Require user "NT AUTHORITY\ANONYMOUS LOGON"
-            &lt;/RequireNone&gt;
-        &lt;/RequireAll&gt;
-    &lt;/Proxy&gt;
-&lt;/VirtualHost&gt;
-</code></pre>
-
-<p>The username and password used to authenticate against the proxy needs to match an account on the Windows machine.
-As with basic authentication, the Mac will prompt for credentials if they do not match
-what is stored in the key chain for the proxy.</p>
-
-<p>Run httpd.exe and then use Safari to open a web site to check web requests are being sent through the proxy.
-You should see the Windows account being used to authenticate in Apache&rsquo;s access.log.</p>
-
-<pre><code>192.168.1.100 - - [28/Oct/2018:13:09:19 +0000] "GET http://neverssl.com/ HTTP/1.1" 407 415
-192.168.1.100 - windows\\useraccount [28/Oct/2018:13:09:19 +0000] "GET http://neverssl.com/ HTTP/1.1" 304 -
-192.168.1.100 - - [28/Oct/2018:13:09:38 +0000] "CONNECT www.nuget.org:443 HTTP/1.1" 407 415
-192.168.1.100 - windows\\useraccount [28/Oct/2018:13:09:12 +0000] "CONNECT www.nuget.org:443 HTTP/1.1" 200 -
-</code></pre>
-
-<p>The forensic log should show that the NTLM header is being used by the Mac.</p>
-
-<pre><code>CONNECT www.nuget.org%3a443 HTTP/1.1|Host:www.nuget.org%3a443|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Connection:keep-alive|Proxy-Authorization:NTLM T...|Proxy-Connection:keep-alive
-GET http%3a//neverssl.com/ HTTP/1.1|Host:neverssl.com|Proxy-Connection:keep-alive|Proxy-Authorization:NTLM T...|If-Modified-Since:Thu, 14 Jun 2018 00%3a16%3a40 GMT|Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8|Accept-Language:en-gb|Accept-Encoding:gzip, deflate|Content-Length:0|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Connection:keep-alive|Upgrade-Insecure-Requests:1|DNT:1
-</code></pre>
 </div>
   
   

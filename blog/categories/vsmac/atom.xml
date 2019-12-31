@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-10-06T13:50:40+01:00</updated>
+  <updated>2019-12-31T14:38:30+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,174 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Project System Tools for Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac/"/>
+    <updated>2019-12-31T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac</id>
+    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools extension</a> provides
+MSBuild design-time and build logging for Visual Studio for Mac.</p>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingBinLogFile.png" title="&lsquo;Build Logging window and BinLog tree view&rsquo; &lsquo;Build Logging window and BinLog tree view&rsquo;" ></p>
+
+<p>This is based on the <a href="https://github.com/dotnet/project-system-tools">Project System Tools available for Visual Studio on Windows</a> and also re-uses code from this extension.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Build Logging window
+
+<ul>
+<li>Shows a list of builds and design-time builds</li>
+</ul>
+</li>
+<li>View MSBuild log output for all builds and design-time builds</li>
+<li>View MSBuild binary logs for builds
+
+<ul>
+<li>Build tab shows a tree view of the build results from the binary log</li>
+<li>Target Summary tab shows target name, number of calls, timings and file location</li>
+<li>Task Summary tab shows task name, number of calls, timings and file location</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 8.1 or later.</li>
+</ul>
+
+
+<h2>Build Logging Window</h2>
+
+<p>To open the Build Logging Window</p>
+
+<ul>
+<li>Select View &ndash; Pads &ndash; Build Logging</li>
+</ul>
+
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingWindow.png" title="&lsquo;Build Logging window&rsquo; &lsquo;Build Logging window&rsquo;" ></p>
+
+<p>Click the green arrow to enable logging for builds and design-time builds.</p>
+
+<p>To stop the logging click the red square.</p>
+
+<p>To filter the targets use the combo box to restrict the items shown to builds or design time builds, or use the search on the right hand side of the window.</p>
+
+<h2>MSBuild Log Output</h2>
+
+<p>To open the MSBuild log output</p>
+
+<ul>
+<li>Double click the row in the Build Logging window or</li>
+<li>Right click the row and select Open Log File</li>
+</ul>
+
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingOpenLogFileMenu.png" title="&lsquo;Open Log File context menu&rsquo; &lsquo;Open Log File context menu&rsquo;" ></p>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildLogFile.png" title="&lsquo;MSBuild Log File&rsquo; &lsquo;MSBuild Log File&rsquo;" ></p>
+
+<p>The verbosity of the MSBuild log output is configured in Preferences &ndash; Projects &ndash; Build &ndash; Log verbosity.</p>
+
+<h2>MSBuild Binary Log</h2>
+
+<p>To open a binary log file</p>
+
+<ul>
+<li>Right click the row in the Build Logging window and select Open Binary Log File</li>
+</ul>
+
+
+<p>Note that binary logs are only available when the project or solution is built.
+Support for design-time build binary logs should be available in Visual Studio for Mac 8.5.</p>
+
+<p>Three tabs are provided by the Project System Tools extension when a binary log file is opened.</p>
+
+<ul>
+<li>Build
+
+<ul>
+<li>Tree view of the binary log targets and tasks</li>
+<li>Properties window shows more information about the selected task or target</li>
+</ul>
+</li>
+<li>Target Summary
+
+<ul>
+<li>Target name</li>
+<li>Source filename</li>
+<li>Number of calls</li>
+<li>Time taken</li>
+<li>Percentage of total time taken</li>
+</ul>
+</li>
+<li>Task Summary
+
+<ul>
+<li>Task name</li>
+<li>Source filename</li>
+<li>Number of calls</li>
+<li>Time taken</li>
+<li>Percentage of total time taken</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Build Tab</h2>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildBinaryLogFileBuildTab.png" title="&lsquo;MSBuild Binary Log File &ndash; Build tab&rsquo; &lsquo;MSBuild Binary Log File &ndash; Build tab&rsquo;" ></p>
+
+<p>The Build tab shows the run times of the targets and tasks, and whether they ran successfully.</p>
+
+<p>Skipped tasks and targets are shown in light grey text.</p>
+
+<p>Selecting a tree node in the Build tab will show more information about that node in the Properties window.</p>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildTabProperties.png" title="&lsquo;MSBuild Binary Log File &ndash; Build tab &ndash; Properties window&rsquo; &lsquo;MSBuild Binary Log File &ndash; Build tab &ndash; Properties window&rsquo;" ></p>
+
+<h2>Target Summary Tab</h2>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TargetSummaryTab.png" title="&lsquo;MSBuild Binary Log File &ndash; Target Summary tab&rsquo; &lsquo;MSBuild Binary Log File &ndash; Target Summary tab&rsquo;" ></p>
+
+<p>Targets are shown in the order they were run and can be sorted by clicking the column headers.</p>
+
+<h2>Task Summary Tab</h2>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TaskSummaryTab.png" title="&lsquo;MSBuild Binary Log File &ndash; Task Summary tab&rsquo; &lsquo;MSBuild Binary Log File &ndash; Task Summary tab&rsquo;" ></p>
+
+<p>Tasks are shown in the order they were run and can be sorted by clicking the column headers.</p>
+
+<h2>Project System Tools Installation</h2>
+
+<p>The Project System Tools extension is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
+
+<ul>
+<li>From the main menu, open the Extensions Manager dialog.</li>
+<li>Select the Gallery tab.</li>
+<li>Expand IDE extensions.</li>
+<li>Select Project System Tools</li>
+<li>Click the Refresh button if the extension is not visible.</li>
+<li>Click Install… to install the extension.</li>
+<li>Restart Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools source code &ndash; Visual Studio for Mac</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.ProjectSystemTools">Project System Tools Marketplace &ndash; Visual Studio on Windows</a></li>
+<li><a href="https://github.com/dotnet/project-system-tools">Project System Tools source code &ndash; Visual Studio for Windows</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.3]]></title>
@@ -595,167 +763,6 @@ at ApiIntersect.MainClass.Main (System.String[] args) [0x0039f] in &lt;aac3e0d5b
 <p>An updated NuGet.Build.Packaging has not been published to nuget.org
 so only new projects created with Visual Studio for Mac will get the
 NuGet package containing the fix.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet PowerShell Core Console in Visual Studio for Mac 8.0]]></title>
-    <link href="http://lastexitcode.com/blog/2019/05/05/NuGetPowerShellCoreConsoleVisualStudioForMac8-0/"/>
-    <updated>2019-05-05T12:40:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2019/05/05/NuGetPowerShellCoreConsoleVisualStudioForMac8-0</id>
-    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a> now includes a PowerShell
-Core based NuGet Package Manager console for Visual Studio for Mac 8.0.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/NuGetPackageManagerConsoleWindow.png" title="&lsquo;NuGet Package Manager Console&rsquo; &lsquo;NuGet Package Manager Console window&rsquo;" ></p>
-
-<p>A <a href="https://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/">NuGet PowerShell console</a> has been available with
-the <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a> since
-Xamarin Studio 5.0. Previously it used <a href="https://github.com/Pash-Project/Pash">Pash</a>, a cross-platform, open source reimplementation
-of PowerShell. Pash is no longer being actively developer on after Microsoft released <a href="https://github.com/PowerShell/PowerShell">PowerShell Core</a>.
-The PowerShell support in Pash was incomplete, so whilst the NuGet commands, such as Install-Package, were supported, more
-complicated commands, such as those provided by <a href="https://docs.microsoft.com/en-us/ef/core/">Entity Framework Core</a>, were not supported.
-Moving to PowerShell Core provides full PowerShell support, and with a partial implementation of the Visual Studio EnvDTE API,
-<a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell">Entity Framework Core commands</a> are now supported.</p>
-
-<p>The NuGet extensions addin runs a .NET Core console
-application that hosts PowerShell Core. Communication between
-the addin running in Visual Studio for Mac and the console application is through the
-<a href="https://github.com/Microsoft/vs-streamjsonrpc">StreamJsonRpc</a> library.</p>
-
-<h2>New Features</h2>
-
-<p>The following lists the new features compared with the Pash based PowerShell console.</p>
-
-<ul>
-<li>PowerShell Core based NuGet Package Manager Console
-
-<ul>
-<li>Full PowerShell support</li>
-<li>Get-Help now supported</li>
-</ul>
-</li>
-<li>Support for Entity Framework Core NuGet commands</li>
-<li>Tab completion</li>
-<li>Support for stopping the executing command</li>
-<li>Opening the NuGet package source configuration page from the console</li>
-</ul>
-
-
-<h2>Limitations</h2>
-
-<ul>
-<li><strong>Visual Studio EnvDTE API implementation is incomplete</strong></li>
-</ul>
-
-
-<p> The Visual Studio EnvDTE API is partially implemented. Whilst Entity Framework Core is
- supported other PowerShell scripts included with NuGet packages may not work.</p>
-
-<ul>
-<li><p><strong>Password protected NuGet package sources not supported in the following PowerShell commands:</strong></p>
-
-<ul>
-<li>Find-Package</li>
-<li>Get-Package</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Note that the other NuGet PowerShell commands are supported.</p>
-
-<p>The NuGet extensions addin will not send usernames and passwords to the PowerShell Core
-host console application. .NET Core also does not support decrypting passwords stored in the
-NuGet.Config file.</p>
-
-<p>The Find-Package and Get-Package commands all run completely within PowerShell hosted in the .NET Core
-console application.</p>
-
-<p>The other commands work since they run partially within Visual for Mac where actions involving password protected
-NuGet package sources are supported.</p>
-
-<ul>
-<li><strong>Requires .NET Core 2.1 SDK to be installed</strong></li>
-</ul>
-
-
-<h2>Opening the NuGet Package Manager Console window</h2>
-
-<p>From the View menu, select Pads, then select NuGet Package Manager Console.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/ViewPadsNuGetPackageManagerConsoleMenu.png" title="&lsquo;View &ndash; Pages &ndash; NuGet Package Manager Console menu&rsquo; &lsquo;View &ndash; Pages &ndash; NuGet Package Manager Console menu&rsquo;" ></p>
-
-<h2> Entity Framework Core Support</h2>
-
-<p>The PowerShell commands provided by the
-<a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell">Microsoft.EntityFrameworkCore.Tools NuGet package</a>
-are supported in .NET Core projects.</p>
-
-<ul>
-<li>Add-Migration</li>
-<li>Drop-Database</li>
-<li>Get-DbContext</li>
-<li>Remove-Migration</li>
-<li>Scaffold-DbContext</li>
-<li>Script-Migration</li>
-<li>Update-Database</li>
-</ul>
-
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/EntityFrameworkCoreMigrationPowerShellCommands.png" title="&lsquo;Package Manager Console &ndash; Entity Framework Core Add-Migration and Update-Database commands&rsquo; &lsquo;Package Manager Console &ndash; Entity Framework Core Add-Migration and Update-Database commands&rsquo;" ></p>
-
-<p>Note that the Entity Framework Core commands are not currently supported in projects that target the .NET Framework. This
-is because the PowerShell commands attempt to directly run ef.exe that is included in the NuGet package instead of using the .NET Core ef.dll
-which is used with projects that target .NET Core.</p>
-
-<h2>Tab Completion</h2>
-
-<p>Pressing tab in the console window will try to auto-complete the command being typed in.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/TabCompletionNewtonsoftJson.png" title="&lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json&rsquo; &lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json&rsquo;" ></p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/TabCompletionPackageVersion.png" title="&lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json -Version&rsquo; &lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json -Version&rsquo;" ></p>
-
-<p>If there is only one match on pressing tab then the text will be inserted.</p>
-
-<p>If there are multiple possible matches then a window will be displayed allowing an
-item to be selected by pressing Tab, Enter or Return. Typing with this completion list
-window open will filter the items in the list.</p>
-
-<h2>Stopping the PowerShell command being run</h2>
-
-<p>When a PowerShell command is being run the Stop button is enabled. The Stop button is the last button on the top right of the NuGet
-Package Console window.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsoleStopButton.png" title="&lsquo;Package Manager Console stop button&rsquo; &lsquo;Package Manager Console stop button&rsquo;" ></p>
-
-<p>Clicking this button will attempt to stop the PowerShell command being run.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsolePipelineStopped.png" title="&lsquo;Package Manager Console pipeline stopped&rsquo; &lsquo;Package Manager Console pipeline stopped&rsquo;" ></p>
-
-<h2>Opening the NuGet Package Console configuration page</h2>
-
-<p>At the top of the NuGet Package Console window there is a cog icon after the list of package sources.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsoleCogIcon.png" title="&lsquo;Package Manager Console configure sources &ndash; cog icon&rsquo; &lsquo;Package Manager Console configure sources cog icon&rsquo;" ></p>
-
-<p>Clicking this cog icon will open the NuGet Package Sources configuration
-page which is also available from Preferences &ndash; NuGet &ndash; Sources.</p>
-
-<h2>Installation</h2>
-
-<p>The NuGet extensions addin is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
-
-<ul>
-<li>From the main menu, open the Extensions Manager dialog.</li>
-<li>Select the Gallery tab.</li>
-<li>Expand IDE extensions.</li>
-<li>Select NuGet Package Management Extensions 0.18 or later.</li>
-<li>Click the Refresh button if the addin is not visible.</li>
-<li>Click Install… to install the addin.</li>
-<li>Restart Visual Studio for Mac.</li>
-</ul>
-
 ]]></content>
   </entry>
   

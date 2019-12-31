@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Project System Tools for Visual Studio for Mac - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="The Project System Tools extension provides
+MSBuild design-time and build logging for Visual Studio for Mac. This is based on the Project System &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Project System Tools for Visual Studio for Mac</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-12-31T12:00:00+00:00" pubdate data-updated="true">Dec 31<sup>st</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>The <a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools extension</a> provides
+MSBuild design-time and build logging for Visual Studio for Mac.</p>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingBinLogFile.png" title="Build Logging window and BinLog tree view" alt="Build Logging window and BinLog tree view"></p>
+
+<p>This is based on the <a href="https://github.com/dotnet/project-system-tools">Project System Tools available for Visual Studio on Windows</a> and also re-uses code from this extension.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Build Logging window
+
+<ul>
+<li>Shows a list of builds and design-time builds</li>
+</ul>
+</li>
+<li>View MSBuild log output for all builds and design-time builds</li>
+<li>View MSBuild binary logs for builds
+
+<ul>
+<li>Build tab shows a tree view of the build results from the binary log</li>
+<li>Target Summary tab shows target name, number of calls, timings and file location</li>
+<li>Task Summary tab shows task name, number of calls, timings and file location</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 8.1 or later.</li>
+</ul>
+
+
+<h2>Build Logging Window</h2>
+
+<p>To open the Build Logging Window</p>
+
+<ul>
+<li>Select View &ndash; Pads &ndash; Build Logging</li>
+</ul>
+
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingWindow.png" title="Build Logging window" alt="Build Logging window"></p>
+
+<p>Click the green arrow to enable logging for builds and design-time builds.</p>
+
+<p>To stop the logging click the red square.</p>
+
+<p>To filter the targets use the combo box to restrict the items shown to builds or design time builds, or use the search on the right hand side of the window.</p>
+
+<h2>MSBuild Log Output</h2>
+
+<p>To open the MSBuild log output</p>
+
+<ul>
+<li>Double click the row in the Build Logging window or</li>
+<li>Right click the row and select Open Log File</li>
+</ul>
+
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingOpenLogFileMenu.png" title="Open Log File context menu" alt="Open Log File context menu"></p>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildLogFile.png" title="MSBuild Log File" alt="MSBuild Log File"></p>
+
+<p>The verbosity of the MSBuild log output is configured in Preferences &ndash; Projects &ndash; Build &ndash; Log verbosity.</p>
+
+<h2>MSBuild Binary Log</h2>
+
+<p>To open a binary log file</p>
+
+<ul>
+<li>Right click the row in the Build Logging window and select Open Binary Log File</li>
+</ul>
+
+
+<p>Note that binary logs are only available when the project or solution is built.
+Support for design-time build binary logs should be available in Visual Studio for Mac 8.5.</p>
+
+<p>Three tabs are provided by the Project System Tools extension when a binary log file is opened.</p>
+
+<ul>
+<li>Build
+
+<ul>
+<li>Tree view of the binary log targets and tasks</li>
+<li>Properties window shows more information about the selected task or target</li>
+</ul>
+</li>
+<li>Target Summary
+
+<ul>
+<li>Target name</li>
+<li>Source filename</li>
+<li>Number of calls</li>
+<li>Time taken</li>
+<li>Percentage of total time taken</li>
+</ul>
+</li>
+<li>Task Summary
+
+<ul>
+<li>Task name</li>
+<li>Source filename</li>
+<li>Number of calls</li>
+<li>Time taken</li>
+<li>Percentage of total time taken</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Build Tab</h2>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildBinaryLogFileBuildTab.png" title="MSBuild Binary Log File - Build tab" alt="MSBuild Binary Log File - Build tab"></p>
+
+<p>The Build tab shows the run times of the targets and tasks, and whether they ran successfully.</p>
+
+<p>Skipped tasks and targets are shown in light grey text.</p>
+
+<p>Selecting a tree node in the Build tab will show more information about that node in the Properties window.</p>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildTabProperties.png" title="MSBuild Binary Log File - Build tab - Properties window" alt="MSBuild Binary Log File - Build tab - Properties window"></p>
+
+<h2>Target Summary Tab</h2>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TargetSummaryTab.png" title="MSBuild Binary Log File - Target Summary tab" alt="MSBuild Binary Log File - Target Summary tab"></p>
+
+<p>Targets are shown in the order they were run and can be sorted by clicking the column headers.</p>
+
+<h2>Task Summary Tab</h2>
+
+<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TaskSummaryTab.png" title="MSBuild Binary Log File - Task Summary tab" alt="MSBuild Binary Log File - Task Summary tab"></p>
+
+<p>Tasks are shown in the order they were run and can be sorted by clicking the column headers.</p>
+
+<h2>Project System Tools Installation</h2>
+
+<p>The Project System Tools extension is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
+
+<ul>
+<li>From the main menu, open the Extensions Manager dialog.</li>
+<li>Select the Gallery tab.</li>
+<li>Expand IDE extensions.</li>
+<li>Select Project System Tools</li>
+<li>Click the Refresh button if the extension is not visible.</li>
+<li>Click Install… to install the extension.</li>
+<li>Restart Visual Studio for Mac.</li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools source code &ndash; Visual Studio for Mac</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.ProjectSystemTools">Project System Tools Marketplace &ndash; Visual Studio on Windows</a></li>
+<li><a href="https://github.com/dotnet/project-system-tools">Project System Tools source code &ndash; Visual Studio for Windows</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-12-31T12:00:00+00:00" pubdate data-updated="true">Dec 31<sup>st</sup>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac/" data-via="" data-counturl="http://lastexitcode.com/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/10/06/NuGetSupportInVisualStudioMac8-3/" title="Previous Post: NuGet Support in Visual Studio for Mac 8.3">&laquo; NuGet Support in Visual Studio for Mac 8.3</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
