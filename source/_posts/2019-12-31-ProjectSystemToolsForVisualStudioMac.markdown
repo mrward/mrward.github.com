@@ -6,7 +6,7 @@ comments: true
 categories: Xamarin MonoDevelop VSMac
 ---
 
-The [Project System Tools extension]((https://github.com/mrward/monodevelop-project-system-tools) provides 
+The [Project System Tools extension](https://github.com/mrward/monodevelop-project-system-tools) provides 
 MSBuild design-time and build logging for Visual Studio for Mac.
 
 {% img /images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingBinLogFile.png 'Build Logging window and BinLog tree view' 'Build Logging window and BinLog tree view' %}
@@ -39,7 +39,7 @@ Click the green arrow to enable logging for builds and design-time builds.
 
 To stop the logging click the red square.
 
-To filter the targets use the combo box to restrict the items shown to builds or design time builds, or use the search, on the right hand side of the window.
+To filter the targets use the combo box to restrict the items shown to builds or design time builds, or use the search on the right hand side of the window.
 
 ## MSBuild Log Output
 
@@ -58,7 +58,7 @@ The verbosity of the MSBuild log output is configured in Preferences - Projects 
 
 To open a binary log file
 
-  - Right click the row and Open Binary Log File
+  - Right click the row in the Build Logging window and select Open Binary Log File
 
 Note that binary logs are only available when the project or solution is built. 
 Support for design-time build binary logs should be available in Visual Studio for Mac 8.5.
@@ -85,7 +85,7 @@ Three tabs are provided by the Project System Tools extension when a binary log 
 
 {% img /images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildBinaryLogFileBuildTab.png 'MSBuild Binary Log File - Build tab' 'MSBuild Binary Log File - Build tab' %}
 
-The Build tab shows the run times of the targets and tasks, and whether they ran successfully or not.
+The Build tab shows the run times of the targets and tasks, and whether they ran successfully.
 
 Skipped tasks and targets are shown in light grey text.
 
@@ -95,15 +95,15 @@ Selecting a tree node in the Build tab will show more information about that nod
 
 ## Target Summary Tab
 
-Targets are shown in the order they were run and can be sorted by clicking the column headers.
-
 {% img /images/blog/ProjectSystemToolsForVisualStudioMac/TargetSummaryTab.png 'MSBuild Binary Log File - Target Summary tab' 'MSBuild Binary Log File - Target Summary tab' %}
+
+Targets are shown in the order they were run and can be sorted by clicking the column headers.
 
 ## Task Summary Tab
 
-Tasks are shown in the order they were run and can be sorted by clicking the column headers.
-
 {% img /images/blog/ProjectSystemToolsForVisualStudioMac/TaskSummaryTab.png 'MSBuild Binary Log File - Task Summary tab' 'MSBuild Binary Log File - Task Summary tab' %}
+
+Tasks are shown in the order they were run and can be sorted by clicking the column headers.
 
 ## Project System Tools Installation
 
