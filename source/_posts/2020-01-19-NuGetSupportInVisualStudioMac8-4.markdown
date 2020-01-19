@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "NuGet Support in Visual Studio for Mac 8.4"
-date: 2019-01-19 12:00
+date: 2020-01-19 12:00
 comments: true
 categories: NuGet Xamarin VSMac MonoDevelop
 ---
