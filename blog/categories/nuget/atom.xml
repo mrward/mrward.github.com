@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nuget | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/nuget/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-12-31T14:38:30+00:00</updated>
+  <updated>2020-01-19T13:20:56+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.4]]></title>
+    <link href="http://lastexitcode.com/blog/2020/01/19/NuGetSupportInVisualStudioMac8-4/"/>
+    <updated>2020-01-19T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2020/01/19/NuGetSupportInVisualStudioMac8-4</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Improved accessibility of the Manage NuGet Packages dialog and Add Package Source dialog</li>
+<li> Fixed updating multiple NuGet packages failing due to restricted version range of a common dependency</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.4</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>Accessibility Improvements &ndash; Manage NuGet Packages dialog</h2>
+
+<p><strong>Voice Over now recognises tabs</strong></p>
+
+<p>The Browse, Installed, Updates and Consolidates tabs are now recognised as tabs
+by Voice Over. Previously they were being treated as text labels and Voice Over
+would not announce that a tab could be selected via Control-Option-Space.</p>
+
+<p><strong>Voice Over now announces status messages</strong></p>
+
+<p>The status message that is displayed with the busy spinner image is now
+announced by Voice Over. When the status message is removed another
+message is announced by Voice Over to say the loading has completed
+or, if a search filter was entered, search was completed. If no
+packages are found when searching this message is also announced
+by Voice Over.</p>
+
+<p><strong>Improve Voice Over reading of Id label</strong></p>
+
+<p>The Id label has been changed to ID. Using ID allows Voice Over to announce it as I.D. instead of a single
+word. Note that some Voice Over voices, such as English UK, still
+announce the text incorrectly. Without changing the label text to be &ldquo;I.D.&rdquo;
+there does not seem to be a way of fixing this for all voices. System
+Preferences on the Mac can be used to change the pronounciation for
+certain words if required.</p>
+
+<p><strong>Voice Over now reads first column header in Consolidate tab</strong></p>
+
+<p>The check box to select a project to consolidate was in its own column that
+had no name. Using Voice Over it was not obvious what this check box was for. Now the check
+box and the project name are in the same column and Voice Over reads
+the column header name, the project name and the checkbox state which
+makes it easier to understand what the list is displaying.</p>
+
+<p><strong>Voice Over now reading associated labels for selected UI control</strong></p>
+
+<p>Labels were not associated with their corresponding UI controls which
+resulted in them not being read by Voice Over when corresponding UI control
+was selected.</p>
+
+<p>The package source combo box is now read by Voice Over as &lsquo;Package Sources&rsquo;.
+Previously there was no associated label information being read.</p>
+
+<p>Voice Over now reads the label for Search text field. The search text box now shows &lsquo;Search&rsquo; as
+placeholder text.</p>
+
+<p><strong>Voice Over now reading package list information</strong></p>
+
+<p>Voice Over now reads the package information in the list and the check box
+can be ticked or unticked by using Voice Over. Previously no information was
+read by Voice Over and the check box could not be accessed.</p>
+
+<p><strong>Keyboard can now be used to move across tabs</strong></p>
+
+<p>Previously it was not possible to tab across the Browse, Installed, Updates or Consolidate tabs.</p>
+
+<p>This change will be in Visual Studio for Mac 8.4.2.</p>
+
+<h3>Accessibility Improvements &ndash; Add Package Source Dialog</h3>
+
+<p>In Preferences &ndash; NuGet &ndash; Sources, the Add Package Source dialog
+would lose focus when the Browse button was used. A way to reproduce
+this is to tab to the Add button, press space, then tab to the
+Browse button in the Add Package Source dialog, press space, then
+press escape. The Add Package Source dialog then no longer has focus
+and tabbing does not work.</p>
+
+<p>This has been fixed by explicitly setting focus back to the parent dialog
+when a child dialog is closed.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed updating multiple NuGet packages failing due to restricted version range of a common dependency</strong></p>
+
+<p>Updating two NuGet package references that have a strict dependency
+on a single version of another NuGet package, not explicitly added
+to the project, would fail in the Manage NuGet Packages dialog. This
+was because the update was being done one NuGet package at a time.</p>
+
+<p>With an Android project that uses Xamarin.Forms this could happen when updating
+Xamarin.Essentials, an Xamarin.Android.Support.Core.Utils and Xamarin.Forms at the same time.
+The Xamarin.Android.Support NuGet packages
+depend on specific versions for their dependencies which can cause the update to fail
+depending on whether a NuGet package is updated on its own or in a group. The resulting failure
+would be similar to</p>
+
+<p><code>
+Version conflict detected for Xamarin.Android.Support.Collections. Install/reference Xamarin.Android.Support.Collections 28.0.0.3 directly to project to resolve this issue.
+ MyProject.Android -&gt; Xamarin.Android.Support.Core.Utils 28.0.0.3 -&gt; Xamarin.Android.Support.Compat 28.0.0.3 -&gt; Xamarin.Android.Support.Collections (= 28.0.0.3)
+ MyProject.Android -&gt; Xamarin.Essentials 1.2.0 -&gt; Xamarin.Android.Support.CustomTabs 28.0.0.1 -&gt; Xamarin.Android.Support.Collections (= 28.0.0.1).
+</code></p>
+
+<p>Updating NuGet packages in the Manage NuGet packages dialog is now done
+as a batch instead of individually. This allows NuGet to
+update both NuGet packages so they then use the new strict dependency.</p>
+
+<p>Note that updating all packages in the project from the Solution
+window does not have this problem since there the packages were already
+updated together in a batch.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.3]]></title>
@@ -630,47 +748,6 @@ page which is also available from Preferences &ndash; NuGet &ndash; Sources.</p>
 <li>Restart Visual Studio for Mac.</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.0]]></title>
-    <link href="http://lastexitcode.com/blog/2019/04/20/NuGetSupportInVisualStudioMac8-0/"/>
-    <updated>2019-04-20T12:40:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2019/04/20/NuGetSupportInVisualStudioMac8-0</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> Fixed build action not available after installing package into a PackageReference project</li>
-<li> Fixed NuGet extension api install events not raised for PackageReference projects</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.0</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed build action not available on installing package into a PackageReference project</strong></p>
-
-<p>After installing the Xamarin.GooglePlayServices.Basement NuGet package, into a project
-that used PackageReferences, the GoogleServicesJson build action, defined by this NuGet package,
-was not available in the list of build actions when you right clicked a file in the
-Solution window. The build action was available after the solution was closed and re-opened.</p>
-
-<p>Installing a NuGet package into a project that used PackageReferences
-would not re-evaluate the project&rsquo;s MSBuild information. This resulted in any custom
-<a href="https://docs.microsoft.com/en-us/visualstudio/msbuild/visual-studio-integration-msbuild?view=vs-2019#additional-build-actions">AvailableItemNames</a>
-not being available to be used as a build action
-in the Solution window. The build actions for a project were cached so these
-are now cleared to ensure the latest items are available
-after an re-evaluation.</p>
-
-<p><strong>Fixed NuGet extension api install events not raised for PackageReference projects</strong></p>
-
-<p>The NuGet extension API has a PackageReferenceAdded event and a
-PackageReferenceRemoved. These were being raised if a project had
-a packages.config file but not if the project used PackageReferences.</p>
 ]]></content>
   </entry>
   

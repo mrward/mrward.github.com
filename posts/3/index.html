@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes Support installing System.ValueTuple NuGet Package from Quick Fixes NuGetizer 3000 &ndash; Update NuGet.Build.Packaging to version 0.2 &hellip;">
+  <meta name="description" content="Changes VSTest Console Runner now included with Visual Studio for Mac Allows xUnit tests to be supported for non .NET Core projects Renamed ASP.NET &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,468 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/12/18/NetCoreSupportInVisualStudioMac7-3/">.NET Core Support in Visual Studio for Mac 7.3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-12-18T12:00:00+00:00" pubdate data-updated="true">Dec 18<sup>th</sup>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> <a href="https://github.com/Microsoft/vstest">VSTest</a> Console Runner now included with Visual Studio for Mac
+
+<ul>
+<li>Allows <a href="https://xunit.github.io">xUnit</a> tests to be supported for non .NET Core projects</li>
+</ul>
+</li>
+<li> Renamed ASP.NET Core Project Templates</li>
+<li> New ASP.NET Core F# Project Templates Added</li>
+<li> Support Backslash in Project Template Primary Output Path</li>
+<li> Support <a href="https://github.com/NuGet/Home/wiki/%5BSpec%5D-NuGet-settings-in-MSBuild">NuGet Restore MSBuild Properties</a>
+
+<ul>
+<li>RestoreAdditionalProjectFallbackFolders</li>
+<li>RestoreAdditionalProjectSources</li>
+<li>RestoreFallbackFolders</li>
+<li>RestorePackagesPath</li>
+<li>RestoreSources</li>
+</ul>
+</li>
+<li> Fixed transitive project references not supported</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.3</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-december-4-2017---visual-studio-2017-version-73-730797">release notes</a></p>
+
+<h2>VSTest Console Runner</h2>
+
+<p>Previous versions of Visual Studio for Mac would use <strong>dotnet vstest</strong>,
+included with the .NET Core SDK,
+to run unit tests for .NET Core projects. Now Visual Studio for Mac includes
+the <a href="https://github.com/Microsoft/vstest">VSTest</a> Console runner and uses that instead of using the .NET Core SDK.</p>
+
+<p>The standalone VSTest Console runner allows other project types, not just .NET Core projects, to
+be supported. Visual Studio for Mac can now run <a href="https://xunit.github.io">xUnit</a> tests
+for .NET Framework projects. Previously only NUnit was supported.</p>
+
+<p>Let us take a look at using xUnit in a .NET Framework project.</p>
+
+<p>First create a .NET Framework Library project by opening the New Project dialog and selecting
+Library from the Other &ndash; .NET &ndash; General category.</p>
+
+<p>Install the following NuGet packages into the project.</p>
+
+<ul>
+<li>xunit</li>
+<li>xunit.runner.visualstudio</li>
+</ul>
+
+
+<p>Edit MyClass.cs and add some xUnit tests, as shown below:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>using Xunit;
+</span><span class='line'>
+</span><span class='line'>namespace xUnitTests
+</span><span class='line'>{
+</span><span class='line'>  public class MyClass
+</span><span class='line'>  {
+</span><span class='line'>      [Fact]
+</span><span class='line'>      public void PassingTest()
+</span><span class='line'>      {
+</span><span class='line'>          Assert.True(true);
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      [Fact]
+</span><span class='line'>      public void FailingTest()
+</span><span class='line'>      {
+</span><span class='line'>          Assert.False(true);
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Building the project should then show the xUnit tests in the Unit Tests window.</p>
+
+<p><img src="/images/blog/NetCoreSupportInVisualStudioMac7-3/xUnitTestsInUnitTestsWindow.png" title="xUnit tests in Unit Tests window" alt="xUnit tests in Unit Tests window"></p>
+
+<p>Note that, due to a bug in Visual Studio for Mac, the tests may not appear in the
+Unit Tests window if the
+xunit.runner.visualstudio was not available in the local machine&rsquo;s NuGet
+package cache when it was added to the project. Closing and re-opening the
+solution should allow the tests to be discovered.</p>
+
+<p>The tests can then be run or debugged in the usual way.</p>
+
+<p>Currently MSTest is not yet supported in .NET Framework projects. The tests are discovered
+but they fail to run with an access denied error message:</p>
+
+<pre><code>An exception occurred while invoking executor 'executor://mstestadapter/v2': 
+Access to the path "/TestResults" is denied.
+</code></pre>
+
+<h2>Renamed ASP.NET Core Project Templates</h2>
+
+<p>The ASP.NET Core template names displayed in the New Project dialog
+have been changed to be more consistent with Visual Studio on Windows.</p>
+
+<ul>
+<li>&lsquo;ASP.NET Core Web App (Razor Pages)&rsquo; renamed to &lsquo;ASP.NET Core Web App&rsquo;</li>
+<li>&lsquo;ASP.NET Core Web App&rsquo; renamed to &lsquo;ASP.NET Core Web App (MVC)&rsquo;</li>
+</ul>
+
+
+<p>Visual Studio uses (Model-View-Controller) but the shorter
+MVC is used by Visual Studio for Mac.</p>
+
+<h2>New ASP.NET Core F# Project Templates Added</h2>
+
+<p>The following ASP.NET Core F# project templates are now available from the
+New Project dialog.</p>
+
+<ul>
+<li>ASP.NET Core Empty
+
+<ul>
+<li>.NET Core 1.x and 2.0</li>
+</ul>
+</li>
+<li>ASP.NET Core Web API
+
+<ul>
+<li>.NET Core 2.0 only</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Support Backslash in Project Template Primary Output Path</h2>
+
+<p>The template.json file used by the new templating engine uses a
+primaryOutputs property for projects and files. If the paths used
+contained backslashes then the project was not added to the
+solution.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"primaryOutputs": [
+</span><span class='line'>  { "path": "Library1\\Library1.csproj" },
+</span><span class='line'>  { "path": "Library2\\Library2.csproj" }
+</span><span class='line'>]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now the paths have the backslashes replaced with forward slashes if
+the current platform does not support backslash as a path
+separator.</p>
+
+<h2>Support RestoreAdditionalProjectFallbackFolders MSBuild Property</h2>
+
+<p>The RestoreAdditionalProjectFallbackFolders MSBuild property is
+read and appended to the list of fallback folders stored in the
+project.assets.json file. The .NET Core 2.0 SDK will set this
+MSBuild property to point to the NuGet package fallback folder
+that is installed with the SDK. This will be used
+to resolve NuGet packages first before downloading them to the
+~/.nuget/packages folder.</p>
+
+<h2>Support RestoreAdditionalProjectSources MSBuild Property</h2>
+
+<p>The RestoreAdditionalProjectSources MSBuild property can be used
+to add additional package sources to the existing list of sources
+used to resolve packages.</p>
+
+<h2>Support RestoreFallbackFolders MSBuild Property</h2>
+
+<p>The RestoreFallbackFolders MSBuild property can be used by project that uses
+PackageReferences to define a set of package fallback folders that
+will override any specified in the NuGet.Config file. It can also
+be used to clear any pre-defined fallback folders by specifying
+&lsquo;clear&rsquo; as its value. Note that this value does not affect any
+folders defined by RestoreAdditionalProjectFallbackFolders which
+will be appended even if RestoreFallbackFolders is set to &lsquo;clear&rsquo;.</p>
+
+<h2>Support RestorePackagesPath MSBuild Property</h2>
+
+<p>The RestorePackagesPath MSBuild property can be used to override the global packages
+folder location when a project uses a PackageReference.</p>
+
+<h2>Support RestoreSources MSBuild property</h2>
+
+<p>The RestoreSources MSBuild property can be used to override
+the sources defined by any NuGet.Config file. Any sources defined in the
+RestoreAdditionalProjectSources MSBuild property will still be appended to the
+list of sources if RestoreSources is defined.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed Transitive Project References not supported</strong></p>
+
+<p>With three .NET Core projects, LibC referencing LibB referencing LibA,
+the types defined by LibA were not available to LibC unless it was
+directly referencing LibA. In Visual Studio for Mac 7.3 the types
+defined by LibA are available to LibC without LibC directly
+referencing LibA.</p>
+
+<p><strong>Portable Class Library projects can now be referenced by .NET Core projects</strong></p>
+
+<p>Portable Class Library (PCL) projects could not be referenced by .NET Core
+projects or .NET Standard projects. The Edit References dialog would show
+&ldquo;Incompatible target framework&rdquo; for the PCL project when trying to add the
+reference.</p>
+
+<p>Visual Studio for Mac now has the same behaviour as Visual Studio on Windows where
+a .NET Standard project can reference any PCL project.</p>
+
+<p><strong>Fixed MSBuild Update item not removed from project</strong></p>
+
+<p>If a file was deleted from a project, or removed without deleting,
+and the file was the last file for a particular wildcard include, the
+Update item for the file was not being removed from the project.</p>
+
+<p><strong>Fixed MSBuild Remove item not added when Update item exists</strong></p>
+
+<p>With a project that contained a single .cs file, and that file had
+an Update item defined, when the file was removed from the project,
+without deleting it, a Remove item was not being added to the project for the file.</p>
+
+<p><strong>Fixed Remove item not being added when file excluded from project</strong></p>
+
+<p>When the last file was removed from the project, but not deleted, an
+MSBuild Remove item was not added to the project for the file.</p>
+
+<ol>
+<li>Create a .NET Standard 2.0 project.</li>
+<li>Right click Class1.cs and select Remove.</li>
+<li>Select Remove from Project in the dialog that opens.</li>
+<li>Close and re-open solution.</li>
+</ol>
+
+
+<p>The Class1.cs file was still shown in the Solution window when it should have been
+removed. The project file did not have a Compile remove item for Class1.cs when it should
+have been added:</p>
+
+<pre><code>&lt;Compile Remove="Class1.cs" /&gt;
+</code></pre>
+
+<p><strong>Deleting a XAML file left an MSBuild Remove item in project file</strong></p>
+
+<p>When a .xaml file in a project was deleted the associated
+Remove MSBuild item, if it was present, was not being removed from the
+project file.</p>
+
+<ol>
+<li> Create a new .NET Standard 2.0 project.</li>
+<li> Add Xamarin.Forms 2.3 NuGet package.</li>
+<li> Add a new Content Page with Xaml file using the New File dialog.</li>
+<li> In the Solution window select the .xaml file and delete it.</li>
+</ol>
+
+
+<p>All MSBuild items associated with the .xaml file should have been
+removed from the project file but instead a None item would remain.</p>
+
+<pre><code>&lt;None Remove="MyPage.xaml" /&gt;
+</code></pre>
+
+<p><strong>Fix MSBuild remove item not added when adding a XAML file</strong></p>
+
+<p>Adding a new .xaml file to a project was not adding a None Remove
+item for the .xaml file to remove it from the default wildcard include for all
+files.</p>
+
+<pre><code>&lt;None Remove="MyNewPage.xaml" /&gt;
+</code></pre>
+
+<p>On reloading the solution the Solution window would show two .xaml
+files &ndash; one EmbeddedResource item and one None item.</p>
+
+<p><strong>Fixed MSBuild condition evaluation when using Czech locale</strong></p>
+
+<p>With the primary operating system language set to Czech, creating a new .NET
+Core project would result in the project having a target framework of net461.</p>
+
+<p>The problem was that Single.TryParse was returing true for an empty string
+when the machine&rsquo;s culture was &lsquo;cs-CZ&rsquo;. This was causing the MSBuild condition
+evaluation to be treated as a boolean comparison incorrectly in some cases.
+The condition below would return false even though the property was
+not defined and both sides of the condition were empty strings:</p>
+
+<pre><code>&lt;PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == ''"&gt;
+</code></pre>
+
+<p>This was causing the TargetFrameworkIdentifier to not be set for
+.NET Core projects so the default of .NETFramework was being used.</p>
+
+<p><strong>Re-evaluate AppliesTo condition on capability change</strong></p>
+
+<p>Fixed the AppliesTo attribute not attaching a project extension to
+a project after a NuGet package restore enabled a project capability.
+The AppliesTo attribute allows a project extension to be associated
+to a project based on its capabilities.</p>
+
+<p>If the project extension uses an AppliesTo attribute which is
+initially false and then a new project capability is added, and the
+project is re-evaluated, the AppliesTo attribute is now
+re-evaluated. This will then cause the project extension to be
+attached to the project. If the project extension was attached to the
+project and the project capability is removed then the project
+extension will now be removed when the project is re-evaluated.</p>
+
+<p><strong>Fixed being unable to run a new Azure Functions project</strong></p>
+
+<p>Creating a new Azure Functions project would result in
+being unable to run the project until the solution was closed
+and re-opened again. After the NuGet packages are restored the
+project can be run but this information was not updated in Visual Studio
+for Mac.</p>
+
+<p>Now after a NuGet package restore, when re-evaluating the project,
+the solution startup item is updated if there is no startup item
+already defined.</p>
+
+<p>When the project capability is removed, due to a NuGet package
+being uninstalled, and the
+project can no longer be run the startup item will be updated if
+it was previously set to be this project.</p>
+
+<p><strong>Fix generated NuGet files being imported twice</strong></p>
+
+<p>The ProjectName.nuget.g.targets and ProjectName.nuget.g.props,
+that are generated for .NET Core projects in the base intermediate
+directory, were being imported twice.
+Once by Microsoft.Common.props, that is provided with Mono, and once
+again by Visual Studio for Mac.</p>
+
+<p>Importing these files twice was causing a duplicate file to be added to
+the project information held in memory by Visual Studio for Mac
+when Xamarin.Forms 2.4 was used and no .NET Core SDK was installed.
+This would result in the content page xaml and associated C# file not
+being nested in the solution window.</p>
+
+<p><strong>Fixed items added to project when a new content page with XAML was created</strong></p>
+
+<p>Adding a new Xamarin.Forms content page with XAML would add an
+update item for the .xaml.cs file, a remove item for the xaml file,
+and an include item for the xaml file.</p>
+
+<p>An example is Xamarin.Forms 2.4 which defines wildcard includes:</p>
+
+<pre><code>&lt;None Remove="**\*.xaml" /&gt;
+&lt;EmbeddedResource Include="**\*.xaml" SubType="Designer" Generator="MSBuild:UpdateDesignTimeXaml" /&gt;
+</code></pre>
+
+<p>Which would cause a new .xaml file added to the project and saved
+in the project file as well as a remove for the None item even though
+the .xaml file was already removed from the None items.</p>
+
+<pre><code>&lt;None Remove="MyView.xaml" /&gt;
+
+&lt;EmbeddedResource Include="MyView.xaml"&gt;
+  &lt;Generator&gt;MSBuild:UpdateDesignTimeXaml"&lt;/Generator&gt;
+&lt;/EmbeddedResource&gt;
+</code></pre>
+
+<p><strong>Fix DependentUpon property being saved in project</strong></p>
+
+<p>Xamarin.Forms 2.4 defines an update item similar to:</p>
+
+<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
+</code></pre>
+
+<p>When a project was saved a Compile item was added to the main project
+with the filename stored in the DependentUpon element. Now
+the evaluated DependentUpon value is treated as being the default
+value so it is not added to the project file.</p>
+
+<p><strong>Fix xaml.cs files not being nested</strong></p>
+
+<p>Xamarin.Forms 2.4 defines an update item similar to:</p>
+
+<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
+</code></pre>
+
+<p>The DependentUpon property was being evaluated as &lsquo;*.xaml.cs&rsquo;.
+This was causing .xaml.cs files to not be nested in the Solution window.</p>
+
+<p><strong>Fixed build error when Xamarin.Forms 2.4 used in a .NET Standard project</strong></p>
+
+<p>If a Xamarin.Forms .NET Standard project had a
+.xaml file and a .xaml.cs file then the xaml.g.cs file would not be
+generated when the project file contained no files. The
+default items defined by the Xamarin.Forms NuGet package were not
+being imported. This then caused a build error about the
+InitializeComponent method not being defined.</p>
+
+<p>Xamarin.Forms 2.4.0 uses default
+item imports which were not being included since they are conditionally
+imported and the MSBuildSDKsPath was not defined:</p>
+
+<pre><code>&lt;Import Project="$(MSBuildThisFileDirectory)Xamarin.Forms.DefaultItems.props" Condition="'$(MSBuildSDKsPath)'!=''" /&gt;
+</code></pre>
+
+<p>MSBuild on the command line defines the MSBuildSDKsPath globally in
+its MSBuild.dll.config file. The MSBuild engine host, used when
+building a project in Visual Studio for Mac, now also defines the
+MSBuildSDKsPath property.</p>
+
+<p><strong>Fixed remove item added when removing a linked file</strong></p>
+
+<p>Deleting a file link in a .NET Core project would add a remove item
+for the file instead of removing the link from the project.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1824,235 +2286,6 @@ modified. This prevented code completion from showing the correct information.</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/02/25/PowerShellSupportInXamarinStudio/">PowerShell Support in Xamarin Studio</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-02-25T18:00:00+00:00" pubdate data-updated="true">Feb 25<sup>th</sup>, 2017</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Xamarin Studio version 6.0 and later now have PowerShell editing and debugging support with a PowerShell addin. The PowerShell addin uses the <a href="https://github.com/PowerShell/PowerShellEditorServices">PowerShell Editor Services</a> which is also used by the <a href="https://github.com/PowerShell/vscode-powershell">PowerShell extension</a> for Visual Studio Code.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebuggingPowerShellScriptInXamarinStudio.png" title="Debugging a PowerShell script in Xamarin Studio" alt="Debugging a PowerShell script in Xamarin Studio"></p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Code completion</li>
-<li>Debugging support
-
-<ul>
-<li>Immediate window</li>
-<li>Locals window</li>
-<li>Watch window</li>
-</ul>
-</li>
-<li>Find references</li>
-<li>PowerShell file template</li>
-<li>Rename variable or method</li>
-<li>Show API documentation</li>
-<li>Syntax highlighting</li>
-</ul>
-
-
-<h2>Requirements</h2>
-
-<p>Xamarin Studio 6.x or MonoDevelop 6.x.</p>
-
-<p><a href="https://github.com/PowerShell/PowerShell">PowerShell 6</a> needs to be installed on Mac and on Linux.</p>
-
-<p>PowerShell 3 and higher are supported on Windows.</p>
-
-<h2>Code Completion</h2>
-
-<p>As you type in the text editor you will see code completion for PowerShell variables.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellVariableCodeCompletion.png" title="PowerShell variable code completion" alt="PowerShell variable code completion"></p>
-
-<p>Code completion for PowerShell commands.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandCodeCompletion.png" title="PowerShell command code completion" alt="PowerShell command code completion"></p>
-
-<p>An overview of PowerShell command parameters when you press the space key after entering a PowerShell command.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandTooltipCodeCompletion.png" title="PowerShell command parameters overview code completion" alt="PowerShell command parameters overview code completion"></p>
-
-<p>Code completion for PowerShell command parameters.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandParameterCodeCompletion.png" title="PowerShell command parameter code completion" alt="PowerShell command parameter code completion"></p>
-
-<p>Hovering the mouse over a PowerShell command will show a tooltip with information about that command.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellCommandTooltip.png" title="PowerShell command tooltip on hover" alt="PowerShell command tooltip on hover"></p>
-
-<h2>Syntax Errors</h2>
-
-<p>Syntax errors are highlighted in the text editor. Hovering the mouse over the highlighted error will show information about the error.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellSyntaxError.png" title="PowerShell syntax error highlighting" alt="PowerShell syntax error highlighting"></p>
-
-<h2>Find references</h2>
-
-<p>To find references of a variable or a method you can right click in the text editor and select Find References.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesContextMenu.png" title="PowerShell find references text editor context menu" alt="PowerShell find references text editor context menu"></p>
-
-<p>The references found are then displayed in the Search Results window.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellFindReferencesSearchResults.png" title="PowerShell find references text editor context menu" alt="PowerShell find references text editor context menu"></p>
-
-<h2>Rename</h2>
-
-<p>A variable or method can be renamed in the text editor by right clicking and selecting Rename.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellRenameContextMenu.png" title="PowerShell rename text editor context menu" alt="PowerShell rename text editor context menu"></p>
-
-<p>On typing the new name and the text will be replaced.</p>
-
-<h2>Show API Documentation</h2>
-
-<p>Right clicking on a PowerShell command and selecting Show API Documentation will open the online help for that PowerShell command, if it is available, in the web browser.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellAPIDocumentationContextMenu.png" title="API Documentation text editor context menu" alt="API Documentation text editor context menu"></p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellAPIOnlineDocumentation.png" title="PowerShell API documentation web page" alt="PowerShell API documentation web page"></p>
-
-<h2>Creating a new PowerShell Script</h2>
-
-<p>To create a new PowerShell script there is an empty PowerShell file template available from the New File dialog.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellFileTemplateInNewFileDialog.png" title="PowerShell script file template in New File dialog" alt="PowerShell script file template in New File dialog"></p>
-
-<p>After creating a new PowerShell file it must be saved before it can be run or debugged.</p>
-
-<h2>Debugging</h2>
-
-<p>To debug the currently active PowerShell file open in the text editor,
-set a breakpoint on a line by clicking in the left hand margin, then select Start Debugging from the Run menu.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/RunStartDebuggingMenu.png" title="Run - Start Debugging menu" alt="Run - Start Debugging menu"></p>
-
-<p>Alternatively you can click the Run button in the main toolbar.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugRunMainToolbarButton.png" title="Run button in the main toolbar" alt="Run button in the main toolbar"></p>
-
-<p>A solution does not need to be open in order for a PowerShell script to be run with the debugger. You can open just a PowerShell script into Xamarin Studio and then run the debugger.</p>
-
-<p>Once the debugger has started you can select Step Over, Step In, Step Out or Continue Debugging from the Run menu by clicking one of the main toolbar buttons.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/RunStepMenuItems.png" title="Run menu with Step menu items" alt="Run menu with Step menu items"></p>
-
-<p>Hovering the mouse over a variable will open a tooltip showing the variable value.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugTooltipOnHover.png" title="Debug tooltip on hover" alt="Debug tooltip on hover"></p>
-
-<h2>Breakpoints</h2>
-
-<p>Breakpoint conditions should use PowerShell syntax and not C# syntax. The Edit Breakpoint dialog says to use a C# boolean expression which is incorrect.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/EditBreakpointDialog.png" title="PowerShell breakpoint condition in Edit Breakpoint dialog" alt="PowerShell breakpoint condition in Edit Breakpoint dialog"></p>
-
-<p>Hit conditions are only partially supported. The PowerShell Editor Services debugger supports the &lsquo;When hit count is equal to&rsquo;. Due to this restriction the other hit count options may not work as expected.</p>
-
-<p>Printing a message and continuing is not currently supported.</p>
-
-<p>Breaking when the value of an expression changes is not currently supported.</p>
-
-<p>Function and exception breakpoints are not currently supported.</p>
-
-<h2>Locals Window</h2>
-
-<p>When debugging the Locals window will show the values of variables grouped by each PowerShell scope &ndash; Auto, Local, Script and Global.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/LocalsWindow.png" title="Locals Window" alt="Locals Window"></p>
-
-<h2>Watch Window</h2>
-
-<p>Variables and expressions can be entered in the Watch Window.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/WatchWindow.png" title="Watch window" alt="Watch window"></p>
-
-<p>Please note that entering a PowerShell command with missing parameters will cause the debugger to stop working. The PowerShell file will need to be closed and re-opened before the debugger will work again.</p>
-
-<h2>Immediate Window</h2>
-
-<p>Expressions and variables can be entered in the immediate window to get or set values.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/ImmediateWindow.png" title="Immediate window" alt="Immediate window"></p>
-
-<p>As with the Watch Window, entering a PowerShell command with missing parameters will cause the debugger to stop working.</p>
-
-<h1>Passing Arguments when Debugging</h1>
-
-<p>To pass arguments when debugging a PowerShell script you can select Debug PowerShell Script&hellip; from the Run menu.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugPowerShellScriptMenu.png" title="Run - Debug PowerShell Script menu" alt="Run - Debug PowerShell Script menu"></p>
-
-<p>This will open a Debug PowerShell Script dialog where arguments can be specified. These arguments will be passed to the PowerShell script being run with the debugger. The settings used in this dialog will be remembered for the active text editor whilst it is open in Xamarin Studio.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/DebugPowerShellScriptDialog.png" title="Debug PowerShell Script dialog" alt="Debug PowerShell Script dialog"></p>
-
-<h2>Launch Configuration Support</h2>
-
-<p>In Visual Studio Code a launch.json file can be used to store launch configurations. These are supported in by the PowerShell addin in Xamarin Studio. The PowerShell addin will look for a launch.json file in the directory where the PowerShell file exists or in a .vscode subdirectory.</p>
-
-<p>The launch configurations are shown under Active Configurations in the Run menu. Only PowerShell launch configurations which have a request type of &ldquo;launch&rdquo; are supported.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellLaunchConfigurations.png" title="PowerShell launch configurations in Run menu" alt="PowerShell launch configurations in Run menu"></p>
-
-<p>The currently selected launch configuration will be used when debugging or running the PowerShell script. By default no launch configuration will be selected.</p>
-
-<h2>Running without the Debugger</h2>
-
-<p>To run the PowerShell file with PowerShell directly, instead of using the debugger, select Start without Debugging from the Run menu.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/RunStartWithoutDebuggingMenu.png" title="Run - Start without Debugging menu" alt="Run - Start without Debugging menu"></p>
-
-<p>Output from the PowerShell script will be displayed in the Application Output window.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/PowerShellScriptApplicationOutput.png" title="PowerShell script Application Output window" alt="PowerShell script Application Output window"></p>
-
-<h2>Installation</h2>
-
-<p>The PowerShell addin is available from the <a href="http://addins.monodevelop.com/">MonoDevelop addin repository</a> on the beta channel. To install the addin open the Add-in Manager, search for the PowerShell addin, then click the Install button.</p>
-
-<p><img src="/images/blog/PowerShellSupportInXamarinStudio/AddinManagerDialogWithPowerShellAddin.png" title="PowerShell addin in Addin manager dialog" alt="PowerShell addin in Addin manager dialog"></p>
-
-<h2>Source Code</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-powershell-addin">PowerShell addin for Xamarin Studio and MonoDevelop</a></li>
-<li><a href="https://github.com/PowerShell/PowerShellEditorServices">PowerShell Editor Services</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -2072,7 +2305,7 @@ set a breakpoint on a line by clicking in the left hand margin, then select Star
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - Matt Ward -
+  Copyright &copy; 2020 - Matt Ward -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 

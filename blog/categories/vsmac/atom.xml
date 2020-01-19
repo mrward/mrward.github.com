@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2019-12-31T14:38:30+00:00</updated>
+  <updated>2020-01-19T13:20:56+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.4]]></title>
+    <link href="http://lastexitcode.com/blog/2020/01/19/NuGetSupportInVisualStudioMac8-4/"/>
+    <updated>2020-01-19T12:00:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2020/01/19/NuGetSupportInVisualStudioMac8-4</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Improved accessibility of the Manage NuGet Packages dialog and Add Package Source dialog</li>
+<li> Fixed updating multiple NuGet packages failing due to restricted version range of a common dependency</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.4</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>Accessibility Improvements &ndash; Manage NuGet Packages dialog</h2>
+
+<p><strong>Voice Over now recognises tabs</strong></p>
+
+<p>The Browse, Installed, Updates and Consolidates tabs are now recognised as tabs
+by Voice Over. Previously they were being treated as text labels and Voice Over
+would not announce that a tab could be selected via Control-Option-Space.</p>
+
+<p><strong>Voice Over now announces status messages</strong></p>
+
+<p>The status message that is displayed with the busy spinner image is now
+announced by Voice Over. When the status message is removed another
+message is announced by Voice Over to say the loading has completed
+or, if a search filter was entered, search was completed. If no
+packages are found when searching this message is also announced
+by Voice Over.</p>
+
+<p><strong>Improve Voice Over reading of Id label</strong></p>
+
+<p>The Id label has been changed to ID. Using ID allows Voice Over to announce it as I.D. instead of a single
+word. Note that some Voice Over voices, such as English UK, still
+announce the text incorrectly. Without changing the label text to be &ldquo;I.D.&rdquo;
+there does not seem to be a way of fixing this for all voices. System
+Preferences on the Mac can be used to change the pronounciation for
+certain words if required.</p>
+
+<p><strong>Voice Over now reads first column header in Consolidate tab</strong></p>
+
+<p>The check box to select a project to consolidate was in its own column that
+had no name. Using Voice Over it was not obvious what this check box was for. Now the check
+box and the project name are in the same column and Voice Over reads
+the column header name, the project name and the checkbox state which
+makes it easier to understand what the list is displaying.</p>
+
+<p><strong>Voice Over now reading associated labels for selected UI control</strong></p>
+
+<p>Labels were not associated with their corresponding UI controls which
+resulted in them not being read by Voice Over when corresponding UI control
+was selected.</p>
+
+<p>The package source combo box is now read by Voice Over as &lsquo;Package Sources&rsquo;.
+Previously there was no associated label information being read.</p>
+
+<p>Voice Over now reads the label for Search text field. The search text box now shows &lsquo;Search&rsquo; as
+placeholder text.</p>
+
+<p><strong>Voice Over now reading package list information</strong></p>
+
+<p>Voice Over now reads the package information in the list and the check box
+can be ticked or unticked by using Voice Over. Previously no information was
+read by Voice Over and the check box could not be accessed.</p>
+
+<p><strong>Keyboard can now be used to move across tabs</strong></p>
+
+<p>Previously it was not possible to tab across the Browse, Installed, Updates or Consolidate tabs.</p>
+
+<p>This change will be in Visual Studio for Mac 8.4.2.</p>
+
+<h3>Accessibility Improvements &ndash; Add Package Source Dialog</h3>
+
+<p>In Preferences &ndash; NuGet &ndash; Sources, the Add Package Source dialog
+would lose focus when the Browse button was used. A way to reproduce
+this is to tab to the Add button, press space, then tab to the
+Browse button in the Add Package Source dialog, press space, then
+press escape. The Add Package Source dialog then no longer has focus
+and tabbing does not work.</p>
+
+<p>This has been fixed by explicitly setting focus back to the parent dialog
+when a child dialog is closed.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed updating multiple NuGet packages failing due to restricted version range of a common dependency</strong></p>
+
+<p>Updating two NuGet package references that have a strict dependency
+on a single version of another NuGet package, not explicitly added
+to the project, would fail in the Manage NuGet Packages dialog. This
+was because the update was being done one NuGet package at a time.</p>
+
+<p>With an Android project that uses Xamarin.Forms this could happen when updating
+Xamarin.Essentials, an Xamarin.Android.Support.Core.Utils and Xamarin.Forms at the same time.
+The Xamarin.Android.Support NuGet packages
+depend on specific versions for their dependencies which can cause the update to fail
+depending on whether a NuGet package is updated on its own or in a group. The resulting failure
+would be similar to</p>
+
+<p><code>
+Version conflict detected for Xamarin.Android.Support.Collections. Install/reference Xamarin.Android.Support.Collections 28.0.0.3 directly to project to resolve this issue.
+ MyProject.Android -&gt; Xamarin.Android.Support.Core.Utils 28.0.0.3 -&gt; Xamarin.Android.Support.Compat 28.0.0.3 -&gt; Xamarin.Android.Support.Collections (= 28.0.0.3)
+ MyProject.Android -&gt; Xamarin.Essentials 1.2.0 -&gt; Xamarin.Android.Support.CustomTabs 28.0.0.1 -&gt; Xamarin.Android.Support.Collections (= 28.0.0.1).
+</code></p>
+
+<p>Updating NuGet packages in the Manage NuGet packages dialog is now done
+as a batch instead of individually. This allows NuGet to
+update both NuGet packages so they then use the new strict dependency.</p>
+
+<p>Note that updating all packages in the project from the Solution
+window does not have this problem since there the packages were already
+updated together in a batch.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Project System Tools for Visual Studio for Mac]]></title>
@@ -687,82 +805,6 @@ select Clean Client-Side Libraries.</p>
 <li><a href="https://docs.microsoft.com/en-us/aspnet/core/client-side/libman/libman-vs">Use LibMan with ASP.NET Core in Visual Studio</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.1]]></title>
-    <link href="http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1/"/>
-    <updated>2019-06-22T12:40:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet 5.0 support</li>
-<li> Fixed PackageReference metadata not added for development dependencies</li>
-<li> Fixed DotNetCliToolReferences not being restored</li>
-<li> Fixed Multiplatform Library build error with Android projects</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.1</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
-
-<h2>NuGet 5.0 support</h2>
-
-<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.0-rtm">NuGet 5.0.2.5988</a> is now
-included with Visual Studio for Mac 8.1.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed PackageReference metadata not added for development dependencies</strong></p>
-
-<p>Installing a NuGet package that is a development dependency, such as
-GitInfo, would not add the PrivateAssets nor the IncludeAssets
-metadata to the PackageReference. This is now supported and mirrors the
-behaviour of &lsquo;dotnet add package&rsquo; and Visual Studio on Windows.</p>
-
-<p><strong>Fixed DotNetCliToolReferences not being restored</strong></p>
-
-<p>DotNetCliToolReferences are available in the package dependency graph
-but are treated as separate projects in this graph. Since these did not map
-to an existing project in the solution they were not added to the full dependency
-graph which resulted in these tools not being restored.</p>
-
-<p>DotNetCliToolReferences are only restored when the entire solution is restored.
-Restoring a single project only restores the project itself not
-the dotnet cli tool project referenced by the project.</p>
-
-<p>MSBuild supports restoring DotNetCliToolReferences in any project type that
-uses PackageReferences so Visual Studio for Mac also supports this.</p>
-
-<p><strong>Fixed Multiplatform Library build error with Android projects</strong></p>
-
-<p>When generating a Portable Class Library (PCL) assembly from the intersection of project
-assemblies the ApiIntersect build task would throw an exception since
-it could not resolve the Mono.Android assembly. This problem has been
-fixed in a more recent NuGet.Build.Packaging where the failure to
-resolve has been converted to a warning.</p>
-
-<p>```
-System.Exception: Could not resolve Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065</p>
-
-<pre><code>at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name, Mono.Cecil.ReaderParameters parameters) [0x0001b] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name) [0x00000] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-at ICSharpCode.Decompiler.Ast.Transforms.IntroduceUsingDeclarations.Run (ICSharpCode.NRefactory.CSharp.AstNode compilationUnit) [0x00142] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
-at ICSharpCode.Decompiler.Ast.Transforms.TransformationPipeline.RunTransformationsUntil (ICSharpCode.NRefactory.CSharp.AstNode node, System.Predicate`1[T] abortCondition, ICSharpCode.Decompiler.DecompilerContext context) [0x0002c] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
-at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations (System.Predicate`1[T] transformAbortCondition) [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
-at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations () [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
-at ApiIntersect.MainClass.DumpTypes (System.Collections.Generic.List`1[T] types, System.String baseDir) [0x000a7] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-at ApiIntersect.MainClass.Process (System.Collections.Generic.List`1[T] intersections, System.Collections.Generic.List`1[T] exclusions, Mono.Cecil.ReaderParameters readerParameters, System.String outputPath) [0x00319] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-at ApiIntersect.MainClass.Main (System.String[] args) [0x0039f] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-</code></pre>
-
-<p>```</p>
-
-<p>An updated NuGet.Build.Packaging has not been published to nuget.org
-so only new projects created with Visual Studio for Mac will get the
-NuGet package containing the fix.</p>
 ]]></content>
   </entry>
   
