@@ -72,7 +72,7 @@ Previously it was not possible to tab across the Browse, Installed, Updates or C
 
 This change will be in Visual Studio for Mac 8.4.2.
 
-### Accessibility Improvements - Add Package Source Dialog
+## Accessibility Improvements - Add Package Source Dialog
 
 In Preferences - NuGet - Sources, the Add Package Source dialog
 would lose focus when the Browse button was used. A way to reproduce
