@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2020-01-19T13:20:56+00:00</updated>
+  <updated>2020-01-19T13:26:41+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -87,7 +87,7 @@ read by Voice Over and the check box could not be accessed.</p>
 
 <p>This change will be in Visual Studio for Mac 8.4.2.</p>
 
-<h3>Accessibility Improvements &ndash; Add Package Source Dialog</h3>
+<h2>Accessibility Improvements &ndash; Add Package Source Dialog</h2>
 
 <p>In Preferences &ndash; NuGet &ndash; Sources, the Add Package Source dialog
 would lose focus when the Browse button was used. A way to reproduce
