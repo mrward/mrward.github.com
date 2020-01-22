@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop Project System Tools Addin Releases"
-date: 2020-01-04 15:00
+date: 2020-01-22 18:30
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.4
+
+2020-01-22
+
+ * Support capturing binary logs for all design-time builds
+   * Requires Visual Studio for Mac 8.5
 
 ## Version 0.3
 
