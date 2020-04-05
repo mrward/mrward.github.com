@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2020-01-19T13:26:41+00:00</updated>
+  <updated>2020-04-05T13:29:11+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,63 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.5]]></title>
+    <link href="http://lastexitcode.com/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5/"/>
+    <updated>2020-04-05T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.4 support</li>
+<li> Support Plugin-based NuGet Credential Providers</li>
+<li> Fixed requests bypassing the native macOS HTTP handler</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.5</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.4 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.4">NuGet 5.4.0.6315</a> is now
+included with Visual Studio for Mac 8.5.</p>
+
+<h2>Support Plugin-based NuGet Credential Providers</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/reference/extensibility/nuget-cross-platform-plugins">NuGet credential provider plugins</a>
+are now supported by Visual Studio for Mac.</p>
+
+<p>Plugins are self-contained executables which provide
+credentials for NuGet package sources. One example is the
+<a href="https://github.com/microsoft/artifacts-credprovider">Azure Artifacts Credential Provider</a> which
+Visual Studio for Mac can now use whilst it does not have integrated support for
+accessing packages sources available from
+<a href="https://docs.microsoft.com/en-us/azure/devops/artifacts/get-started-nuget">Azure DevOps</a>.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed HTTP requests bypassing the native macOS HTTP handler</strong></p>
+
+<p>Restoring or installing a NuGet package into a project that uses
+PackageReferences was bypassing the native macOS HTTP handler.</p>
+
+<p>This was due
+to NuGet&rsquo;s CachingSourceProvider creating its own set of
+INuGetResourceProviders when it creates a set of new SourceRepository
+instances. This resulted in the default HttpSourceResourceProvider
+being used, instead of the custom one provided by Visual Studio for Mac.
+The default HttpSourceResourceProvider uses Mono&rsquo;s HttpClientHandler not
+the native HTTP Client handle NSUrlSessionHandler provided by
+Xamarin.Mac. This would happen
+when the Nuget package was was downloaded.</p>
+
+<p>NuGet 5.4 now supports defining custom INuGetResourceProvider factory that is used
+globally. This is now used by Visual Studio for Mac so all HTTP requests
+use the native macOS HTTP handler NSUrlSessionHandler.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.4]]></title>
@@ -3715,87 +3772,6 @@ for non .NET Core projects, was finding a PackageReference for NUnit, and then
 trying to load the tests for the .NET Core project and failing. To fix this the
 NUnit test provider now ignores .NET Core projects so the VS Test provider will
 load the tests for the project.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.4]]></title>
-    <link href="http://lastexitcode.com/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4/"/>
-    <updated>2018-03-10T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> Support NuGet RestoreProjectStyle MSBuild Property</li>
-<li> .NET Core xUnit tests not displayed if NuGet packages not cached</li>
-<li> No tests displayed when project uses a NUnit PackageReference</li>
-<li> NuGet MSBuild imports not removed when migrating to project.json</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
-
-<h2>Support RestoreProjectStyle MSBuild property</h2>
-
-<p>If a project sets the RestoreProjectStyle property to be
-PackageReference then the project will be restored as though it has
-PackageReferences even if it does not have any.</p>
-
-<pre><code>&lt;RestoreProjectStyle&gt;PackageReference&lt;/RestoreProjectStyle&gt;
-</code></pre>
-
-<p>This fixes runtime problems when a project references a .NET Standard
-project that has PackageReferences. Without the RestoreProjectStyle set
-the assemblies from the NuGet packages are not copied to the output
-directory and would have to be added to the main project.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>.NET Core xUnit tests not displayed if NuGet packages are not in local NuGet cache</strong></p>
-
-<p>If the NuGet packages that contain the VS Test adapters were not available in
-the local machine&rsquo;s NuGet package cache then
-the Unit Tests window would not show any tests after the NuGet
-packages were restored and the project was compiled.</p>
-
-<p>Visual Studio for Mac would not initially find any test adapter dlls
-and would not attempt to discover any tests for the project after the
-NuGet packages were downloaded into the NuGet package cache.</p>
-
-<p>Now after the NuGet package restore has completed the check for a
-VS Test adapter is now re-run.</p>
-
-<p><strong>No tests displayed when a project uses a NUnit PackageReference</strong></p>
-
-<p>The Unit Tests window would not show any unit tests when a non .NET
-Core project contained a NUnit PackageReference. Visual Studio for
-Mac was looking for a PackageReference that contained &lsquo;nunit.framework&rsquo;
-and was not finding the NUnit NuGet package reference.</p>
-
-<p><strong>NuGet MSBuild imports not removed when migrating to project.json</strong></p>
-
-<p>When a Portable Class Library project was migrated to use a project.json
-file the MSBuild imports added by NuGet were not removed. These imports
-are added by NuGet into the generated ProjectName.nuget.props and
-ProjectName.nuget.targets files on restoring a project.json file.
-Leaving the import in the project file would result in the import
-being used twice. When a PCL project that used Xamarin.Forms was
-migrated to project.json the project would fail to compile with the
-error:</p>
-
-<pre><code>Error XF001: Xamarin.Forms targets have been imported multiple times.
-Please check your project file and remove the duplicate import(s).
-</code></pre>
-
-<p>Now on migrating to project.json the MSBuild imports added by NuGet packages
-to the project are removed.</p>
-
-<p><strong>Fix unhandled exception when searching for packages</strong></p>
-
-<p>An unhandled exception was being logged if a package source returned
-an error or the package source url was invalid. This was because a
-task was not being observed when the package sources were being used.</p>
 ]]></content>
   </entry>
   

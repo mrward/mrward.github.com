@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nuget | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/nuget/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2020-01-19T13:26:41+00:00</updated>
+  <updated>2020-04-05T13:29:11+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,63 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.5]]></title>
+    <link href="http://lastexitcode.com/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5/"/>
+    <updated>2020-04-05T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.4 support</li>
+<li> Support Plugin-based NuGet Credential Providers</li>
+<li> Fixed requests bypassing the native macOS HTTP handler</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.5</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.4 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.4">NuGet 5.4.0.6315</a> is now
+included with Visual Studio for Mac 8.5.</p>
+
+<h2>Support Plugin-based NuGet Credential Providers</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/reference/extensibility/nuget-cross-platform-plugins">NuGet credential provider plugins</a>
+are now supported by Visual Studio for Mac.</p>
+
+<p>Plugins are self-contained executables which provide
+credentials for NuGet package sources. One example is the
+<a href="https://github.com/microsoft/artifacts-credprovider">Azure Artifacts Credential Provider</a> which
+Visual Studio for Mac can now use whilst it does not have integrated support for
+accessing packages sources available from
+<a href="https://docs.microsoft.com/en-us/azure/devops/artifacts/get-started-nuget">Azure DevOps</a>.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed HTTP requests bypassing the native macOS HTTP handler</strong></p>
+
+<p>Restoring or installing a NuGet package into a project that uses
+PackageReferences was bypassing the native macOS HTTP handler.</p>
+
+<p>This was due
+to NuGet&rsquo;s CachingSourceProvider creating its own set of
+INuGetResourceProviders when it creates a set of new SourceRepository
+instances. This resulted in the default HttpSourceResourceProvider
+being used, instead of the custom one provided by Visual Studio for Mac.
+The default HttpSourceResourceProvider uses Mono&rsquo;s HttpClientHandler not
+the native HTTP Client handle NSUrlSessionHandler provided by
+Xamarin.Mac. This would happen
+when the Nuget package was was downloaded.</p>
+
+<p>NuGet 5.4 now supports defining custom INuGetResourceProvider factory that is used
+globally. This is now used by Visual Studio for Mac so all HTTP requests
+use the native macOS HTTP handler NSUrlSessionHandler.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.4]]></title>
@@ -587,167 +644,6 @@ at ApiIntersect.MainClass.Main (System.String[] args) [0x0039f] in &lt;aac3e0d5b
 <p>An updated NuGet.Build.Packaging has not been published to nuget.org
 so only new projects created with Visual Studio for Mac will get the
 NuGet package containing the fix.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet PowerShell Core Console in Visual Studio for Mac 8.0]]></title>
-    <link href="http://lastexitcode.com/blog/2019/05/05/NuGetPowerShellCoreConsoleVisualStudioForMac8-0/"/>
-    <updated>2019-05-05T12:40:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2019/05/05/NuGetPowerShellCoreConsoleVisualStudioForMac8-0</id>
-    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a> now includes a PowerShell
-Core based NuGet Package Manager console for Visual Studio for Mac 8.0.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/NuGetPackageManagerConsoleWindow.png" title="&lsquo;NuGet Package Manager Console&rsquo; &lsquo;NuGet Package Manager Console window&rsquo;" ></p>
-
-<p>A <a href="https://lastexitcode.com/blog/2014/06/22/NuGetPowerShellConsoleForXamarinStudio/">NuGet PowerShell console</a> has been available with
-the <a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a> since
-Xamarin Studio 5.0. Previously it used <a href="https://github.com/Pash-Project/Pash">Pash</a>, a cross-platform, open source reimplementation
-of PowerShell. Pash is no longer being actively developer on after Microsoft released <a href="https://github.com/PowerShell/PowerShell">PowerShell Core</a>.
-The PowerShell support in Pash was incomplete, so whilst the NuGet commands, such as Install-Package, were supported, more
-complicated commands, such as those provided by <a href="https://docs.microsoft.com/en-us/ef/core/">Entity Framework Core</a>, were not supported.
-Moving to PowerShell Core provides full PowerShell support, and with a partial implementation of the Visual Studio EnvDTE API,
-<a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell">Entity Framework Core commands</a> are now supported.</p>
-
-<p>The NuGet extensions addin runs a .NET Core console
-application that hosts PowerShell Core. Communication between
-the addin running in Visual Studio for Mac and the console application is through the
-<a href="https://github.com/Microsoft/vs-streamjsonrpc">StreamJsonRpc</a> library.</p>
-
-<h2>New Features</h2>
-
-<p>The following lists the new features compared with the Pash based PowerShell console.</p>
-
-<ul>
-<li>PowerShell Core based NuGet Package Manager Console
-
-<ul>
-<li>Full PowerShell support</li>
-<li>Get-Help now supported</li>
-</ul>
-</li>
-<li>Support for Entity Framework Core NuGet commands</li>
-<li>Tab completion</li>
-<li>Support for stopping the executing command</li>
-<li>Opening the NuGet package source configuration page from the console</li>
-</ul>
-
-
-<h2>Limitations</h2>
-
-<ul>
-<li><strong>Visual Studio EnvDTE API implementation is incomplete</strong></li>
-</ul>
-
-
-<p> The Visual Studio EnvDTE API is partially implemented. Whilst Entity Framework Core is
- supported other PowerShell scripts included with NuGet packages may not work.</p>
-
-<ul>
-<li><p><strong>Password protected NuGet package sources not supported in the following PowerShell commands:</strong></p>
-
-<ul>
-<li>Find-Package</li>
-<li>Get-Package</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Note that the other NuGet PowerShell commands are supported.</p>
-
-<p>The NuGet extensions addin will not send usernames and passwords to the PowerShell Core
-host console application. .NET Core also does not support decrypting passwords stored in the
-NuGet.Config file.</p>
-
-<p>The Find-Package and Get-Package commands all run completely within PowerShell hosted in the .NET Core
-console application.</p>
-
-<p>The other commands work since they run partially within Visual for Mac where actions involving password protected
-NuGet package sources are supported.</p>
-
-<ul>
-<li><strong>Requires .NET Core 2.1 SDK to be installed</strong></li>
-</ul>
-
-
-<h2>Opening the NuGet Package Manager Console window</h2>
-
-<p>From the View menu, select Pads, then select NuGet Package Manager Console.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/ViewPadsNuGetPackageManagerConsoleMenu.png" title="&lsquo;View &ndash; Pages &ndash; NuGet Package Manager Console menu&rsquo; &lsquo;View &ndash; Pages &ndash; NuGet Package Manager Console menu&rsquo;" ></p>
-
-<h2> Entity Framework Core Support</h2>
-
-<p>The PowerShell commands provided by the
-<a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/powershell">Microsoft.EntityFrameworkCore.Tools NuGet package</a>
-are supported in .NET Core projects.</p>
-
-<ul>
-<li>Add-Migration</li>
-<li>Drop-Database</li>
-<li>Get-DbContext</li>
-<li>Remove-Migration</li>
-<li>Scaffold-DbContext</li>
-<li>Script-Migration</li>
-<li>Update-Database</li>
-</ul>
-
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/EntityFrameworkCoreMigrationPowerShellCommands.png" title="&lsquo;Package Manager Console &ndash; Entity Framework Core Add-Migration and Update-Database commands&rsquo; &lsquo;Package Manager Console &ndash; Entity Framework Core Add-Migration and Update-Database commands&rsquo;" ></p>
-
-<p>Note that the Entity Framework Core commands are not currently supported in projects that target the .NET Framework. This
-is because the PowerShell commands attempt to directly run ef.exe that is included in the NuGet package instead of using the .NET Core ef.dll
-which is used with projects that target .NET Core.</p>
-
-<h2>Tab Completion</h2>
-
-<p>Pressing tab in the console window will try to auto-complete the command being typed in.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/TabCompletionNewtonsoftJson.png" title="&lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json&rsquo; &lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json&rsquo;" ></p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/TabCompletionPackageVersion.png" title="&lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json -Version&rsquo; &lsquo;Tab completion &ndash; Install-Package Newtonsoft.Json -Version&rsquo;" ></p>
-
-<p>If there is only one match on pressing tab then the text will be inserted.</p>
-
-<p>If there are multiple possible matches then a window will be displayed allowing an
-item to be selected by pressing Tab, Enter or Return. Typing with this completion list
-window open will filter the items in the list.</p>
-
-<h2>Stopping the PowerShell command being run</h2>
-
-<p>When a PowerShell command is being run the Stop button is enabled. The Stop button is the last button on the top right of the NuGet
-Package Console window.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsoleStopButton.png" title="&lsquo;Package Manager Console stop button&rsquo; &lsquo;Package Manager Console stop button&rsquo;" ></p>
-
-<p>Clicking this button will attempt to stop the PowerShell command being run.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsolePipelineStopped.png" title="&lsquo;Package Manager Console pipeline stopped&rsquo; &lsquo;Package Manager Console pipeline stopped&rsquo;" ></p>
-
-<h2>Opening the NuGet Package Console configuration page</h2>
-
-<p>At the top of the NuGet Package Console window there is a cog icon after the list of package sources.</p>
-
-<p><img src="/images/blog/NuGetPowerShellCoreConsoleVisualStudioMac8-0/PackageManagerConsoleCogIcon.png" title="&lsquo;Package Manager Console configure sources &ndash; cog icon&rsquo; &lsquo;Package Manager Console configure sources cog icon&rsquo;" ></p>
-
-<p>Clicking this cog icon will open the NuGet Package Sources configuration
-page which is also available from Preferences &ndash; NuGet &ndash; Sources.</p>
-
-<h2>Installation</h2>
-
-<p>The NuGet extensions addin is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
-
-<ul>
-<li>From the main menu, open the Extensions Manager dialog.</li>
-<li>Select the Gallery tab.</li>
-<li>Expand IDE extensions.</li>
-<li>Select NuGet Package Management Extensions 0.18 or later.</li>
-<li>Click the Refresh button if the addin is not visible.</li>
-<li>Click Install… to install the addin.</li>
-<li>Restart Visual Studio for Mac.</li>
-</ul>
-
 ]]></content>
   </entry>
   

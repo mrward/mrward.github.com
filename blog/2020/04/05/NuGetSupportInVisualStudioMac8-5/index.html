@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 8.5 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes NuGet 5.4 support Support Plugin-based NuGet Credential Providers Fixed requests bypassing the native macOS HTTP handler More information on &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 8.5</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-04-05T12:00:00+01:00" pubdate data-updated="true">Apr 5<sup>th</sup>, 2020</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.4 support</li>
+<li> Support Plugin-based NuGet Credential Providers</li>
+<li> Fixed requests bypassing the native macOS HTTP handler</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.5</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.4 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.4">NuGet 5.4.0.6315</a> is now
+included with Visual Studio for Mac 8.5.</p>
+
+<h2>Support Plugin-based NuGet Credential Providers</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/reference/extensibility/nuget-cross-platform-plugins">NuGet credential provider plugins</a>
+are now supported by Visual Studio for Mac.</p>
+
+<p>Plugins are self-contained executables which provide
+credentials for NuGet package sources. One example is the
+<a href="https://github.com/microsoft/artifacts-credprovider">Azure Artifacts Credential Provider</a> which
+Visual Studio for Mac can now use whilst it does not have integrated support for
+accessing packages sources available from
+<a href="https://docs.microsoft.com/en-us/azure/devops/artifacts/get-started-nuget">Azure DevOps</a>.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed HTTP requests bypassing the native macOS HTTP handler</strong></p>
+
+<p>Restoring or installing a NuGet package into a project that uses
+PackageReferences was bypassing the native macOS HTTP handler.</p>
+
+<p>This was due
+to NuGet&rsquo;s CachingSourceProvider creating its own set of
+INuGetResourceProviders when it creates a set of new SourceRepository
+instances. This resulted in the default HttpSourceResourceProvider
+being used, instead of the custom one provided by Visual Studio for Mac.
+The default HttpSourceResourceProvider uses Mono&rsquo;s HttpClientHandler not
+the native HTTP Client handle NSUrlSessionHandler provided by
+Xamarin.Mac. This would happen
+when the Nuget package was was downloaded.</p>
+
+<p>NuGet 5.4 now supports defining custom INuGetResourceProvider factory that is used
+globally. This is now used by Visual Studio for Mac so all HTTP requests
+use the native macOS HTTP handler NSUrlSessionHandler.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-04-05T12:00:00+01:00" pubdate data-updated="true">Apr 5<sup>th</sup>, 2020</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5/" data-via="" data-counturl="http://lastexitcode.com/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2020/01/19/NuGetSupportInVisualStudioMac8-4/" title="Previous Post: NuGet Support in Visual Studio for Mac 8.4">&laquo; NuGet Support in Visual Studio for Mac 8.4</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

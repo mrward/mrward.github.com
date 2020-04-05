@@ -9,7 +9,9 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes NuGet 4.8 support Support PackageReferences without a Version Fixed NuGet sdk resolver not being found in Mono 5.16 Fixed null reference &hellip;">
+  <meta name="description" content="The Task Runner Explorer addin provides a
+Task Runner Explorer
+window, similar to the one in Visual Studio on Windows, which can be used to run tasks &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +83,263 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/01/04/TaskRunnerExplorerInVisualStudioMac/">Task Runner Explorer in Visual Studio for Mac</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-01-04T12:00:00+00:00" pubdate data-updated="true">Jan 4<sup>th</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The <a href="https://github.com/mrward/monodevelop-language-server-addin">Task Runner Explorer addin</a> provides a
+Task Runner Explorer
+window, similar to the one in Visual Studio on Windows, which can be used to run tasks with
+Cake, Gulp, Grunt, NPM and TypeScript.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerWindowGruntNpmTasks.png" title="Task Runner Explorer window" alt="Task Runner Explorer Window"></p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Task Runner Explorer Window
+
+<ul>
+<li>View tasks</li>
+<li>Run tasks</li>
+<li>View task output</li>
+<li>Run and cancel long running tasks, such as tcs watch</li>
+<li>Configure tasks to run when specific IDE events occur
+
+<ul>
+<li>Before Build</li>
+<li>After Build</li>
+<li>Clean</li>
+<li>Project Opened</li>
+<li>Solution Opened</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Task Runners
+
+<ul>
+<li>Cake</li>
+<li>Gulp</li>
+<li>Grunt</li>
+<li>NPM</li>
+<li>TypeScript</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Supports</h2>
+
+<ul>
+<li>Visual Studio Mac 7.5 or later.</li>
+</ul>
+
+
+<h2>Task Runner Explorer</h2>
+
+<p>To open the Task Runner Explorer window, from the View menu select Pads, then
+select Task Runner Explorer.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/ViewTaskRunnerExplorerMenu.png" title="View Task Runner Explorer menu" alt="View Task Runner Explorer menu"></p>
+
+<p>The Task Runner Explorer will look for files supported by a task runner in the
+solution directory and the project directory. It will also look at all files
+that have been added to a project or that have been added to a solution folder.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerTypeScriptNpmTasks.png" title="Task Runner Explorer TypeScript and NPM tasks" alt="Task Runner Explorer TypeScript and NPM tasks"></p>
+
+<p>The top left of the Task Runner Explorer shows a list of projects
+or the solution that have tasks available. This can be used to filter the tasks shown in the
+Task Runner Explorer window.</p>
+
+<p>Currently changes made to tasks will not be detected automatically. To refresh
+the task information you can click the Refresh button
+available at the top left of the Task Runner Explorer window.</p>
+
+<h3>Running a Task</h3>
+
+<p>To run a task you can double click it or right click and select Run.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerRunMenu.png" title="Task Runner Explorer Run menu" alt="Task Runner Explorer Run menu"></p>
+
+<p>Output from the task is shown on the right hand side of the Task Runner Explorer
+window.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerNpmUpdateRunning.png" title="NPM update running" alt="NPM update running"></p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/NpmUpdateRunCompleted.png" title="NPM update completed" alt="NPM update completed"></p>
+
+<p>A long running task, such as tcs watch, will run until the solution is closed,
+or the Stop button, available on the right hand side
+of the Task Runner Explorer window, is clicked.</p>
+
+<h3>Binding Tasks to IDE Events</h3>
+
+<p>Tasks can be configured to run when the following IDE events occur:</p>
+
+<ul>
+<li>After Build</li>
+<li>Before Build</li>
+<li>Clean</li>
+<li>Project or Solution Opened</li>
+</ul>
+
+
+<p>If the task runner file is in a project directory then the build and clean
+events are associated with the project. If the task runner file is in a solution directory
+then the build events are associated with the solution.</p>
+
+<p>To configure a task, right click it, select Bindings and then select the
+event.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMenu.png" title="Task Runner Explorer Bindings menu" alt="Task Runner Explorer Bindings menu"></p>
+
+<p>The binding will be displayed in the Bindings tab and will also be shown as
+checked when the context menu for the task is opened.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBeforeBuildBindingAdded.png" title="Task Runner Explorer Before Build binding added" alt="Task Runner Explorer Before Build binding added"></p>
+
+<p>To remove the binding you can right click the task, select Bindings and
+select the event again to uncheck it. Alternatively you can right click
+it in the Bindings tab and select Remove.</p>
+
+<p>The order in which the tasks are run for a particular IDE event can be changed
+by right clicking the binding in the Bindings tab and selecting Move Up or Move Down.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerExplorerBindingsMoveDownMenu.png" title="Task Runner Explorer binding Move Up and Down menus" alt="Task Runner Explorer binding Move Up and Down menus"></p>
+
+<p>The binding information is typically saved in a file in the same directory as the corresponding task
+runner file, however this depends on how the task runner is implemented.</p>
+
+<h3>Disabling Automatic Running of Tasks</h3>
+
+<p>In preferences there is a Task Runner Explorer section which shows
+a check box that can be used to enable or disable the automatic
+running of tasks on opening a project or solution, and when building or cleaning.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TaskRunnerPreferences.png" title="Preferences - Automatically run tasks option" alt="Preferences - Automatically run tasks option"></p>
+
+<h2>Cake Task Runner</h2>
+
+<p>The Cake task runner supports running tasks defined in a build.cake file.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/CakeTaskRunner.png" title="Cake Task Runner" alt="Cake Task Runner"></p>
+
+<p>This is based on the <a href="https://github.com/cake-build/cake-vs">Cake Task Runner for Visual Studio</a>.</p>
+
+<h2>Gulp Task Runner</h2>
+
+<p>The Gulp task runner supports running tasks defined in a gulpfile.js file.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/GulpTaskRunner.png" title="Gulp Task Runner" alt="Gulp Task Runner"></p>
+
+<p><a href="https://gulpjs.com">Gulp</a> needs to be installed separately.</p>
+
+<h2>Grunt Task Runner</h2>
+
+<p>The Grunt task runner supports running tasks defined in a Gruntfile.js file.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/GruntTaskRunner.png" title="Grunt Task Runner" alt="Grunt Task Runner"></p>
+
+<p><a href="https://gruntjs.com">Grunt</a> needs to be installed separately.</p>
+
+<h2>NPM Task Runner</h2>
+
+<p>The NPM task runner supports running tasks defined in a package.json file.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/NpmTaskRunner.png" title="NPM task runner" alt="NPM task runner"></p>
+
+<p>The NPM task runner is a port of <a href="https://madskristensen.net/">Mads Kristensen&rsquo;s</a>
+<a href="https://github.com/madskristensen/NpmTaskRunner">NPM Task Runner</a>.</p>
+
+<p>The NPM task runner supports running with the verbose NPM option defined. If a
+task is selected then a button will be displayed on the left hand side of the
+Task Runner Explorer window. If this is selected then npm will be passed the
+<code>-d</code> argument when it is run.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/NpmTaskRunnerVerboseButton.png" title="NPM task runner Verbose button" alt="NPM task runner Verbose button"></p>
+
+<p>NPM needs to be installed separately.</p>
+
+<h2>TypeScript Task Runner</h2>
+
+<p>The TypeScript task runner supports running tcs build and tcs watch if a tsconfig.json file
+is found.</p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TypeScriptTaskRunner.png" title="TypeScript task runner" alt="TypeScript task runner"></p>
+
+<p><img src="/images/blog/TaskRunnerExplorerInVisualStudioMac/TypeScriptWatchTaskOutput.png" title="TypeScript tcs watch output" alt="TypeScript tcs watch output"></p>
+
+<p>The TypeScript task runner will try to use tsc that is distributed with the Web Tools extension that
+is included in Visual Studio for Mac. If the Web Tools extension is not installed then the task
+runner will fall back to running tsc directly.</p>
+
+<h2>Installation</h2>
+
+<p>There are two addins to be installed:</p>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-task-runner-addin/releases/download/0.1/MonoDevelop.TaskRunner_0.1.mpack">Task Runner</a></li>
+<li><a href="https://github.com/mrward/monodevelop-task-runner-addin/releases/download/0.1/MonoDevelop.TaskRunnersBundle_0.1.mpack">Task Runners Bundle</a></li>
+</ul>
+
+
+<p>The Task Runner is the main addin. This will be used by other task runner addins and provides the
+main task runner API and services.</p>
+
+<p>The Task Runners Bundle addin contains the Cake, Gulp, Grunt, NPM and TypeScript task runners. These
+are currently included together as a single addin instead of being distributed separately.</p>
+
+<p>Download both of the above .mpack files. Install the Task Runner addin first since the Task Runners Bundle
+addin depends on it. To install an addin&rsquo;s .mpack file, open the Extensions Manager
+by selecting Extensions&hellip; from the main menu. Click the Install from file button. Select the .mpack file
+and then click the Open button. After installing both the addins restart Visual Studio for Mac.</p>
+
+<p>These addins are not currently available from the main Visual Studio for Mac extensions server.</p>
+
+<h2>Source Code</h2>
+
+<ul>
+<li><a href="https://github.com/mrward/monodevelop-language-server-addin">Task Runner Explorer for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/monodevelop-cake-task-runner">Cake Task Runner for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/monodevelop-grunt-task-runner">Grunt Task Runner for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/monodevelop-gulp-task-runner">Gulp Task Runner for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/NpmTaskRunner">NPM Task Runner for Visual Studio for Mac</a></li>
+<li><a href="https://github.com/mrward/monodevelop-typescript-task-runner">TypeScript Task Runner for Visual Studio for Mac</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2612,114 +2871,6 @@ for non .NET Core projects, was finding a PackageReference for NUnit, and then
 trying to load the tests for the .NET Core project and failing. To fix this the
 NUnit test provider now ignores .NET Core projects so the VS Test provider will
 load the tests for the project.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/03/10/NuGetSupportInVisualStudioMac7-4/">NuGet Support in Visual Studio for Mac 7.4</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-03-10T12:00:00+00:00" pubdate data-updated="true">Mar 10<sup>th</sup>, 2018</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Changes</h2>
-
-<ul>
-<li> Support NuGet RestoreProjectStyle MSBuild Property</li>
-<li> .NET Core xUnit tests not displayed if NuGet packages not cached</li>
-<li> No tests displayed when project uses a NUnit PackageReference</li>
-<li> NuGet MSBuild imports not removed when migrating to project.json</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
-
-<h2>Support RestoreProjectStyle MSBuild property</h2>
-
-<p>If a project sets the RestoreProjectStyle property to be
-PackageReference then the project will be restored as though it has
-PackageReferences even if it does not have any.</p>
-
-<pre><code>&lt;RestoreProjectStyle&gt;PackageReference&lt;/RestoreProjectStyle&gt;
-</code></pre>
-
-<p>This fixes runtime problems when a project references a .NET Standard
-project that has PackageReferences. Without the RestoreProjectStyle set
-the assemblies from the NuGet packages are not copied to the output
-directory and would have to be added to the main project.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>.NET Core xUnit tests not displayed if NuGet packages are not in local NuGet cache</strong></p>
-
-<p>If the NuGet packages that contain the VS Test adapters were not available in
-the local machine&rsquo;s NuGet package cache then
-the Unit Tests window would not show any tests after the NuGet
-packages were restored and the project was compiled.</p>
-
-<p>Visual Studio for Mac would not initially find any test adapter dlls
-and would not attempt to discover any tests for the project after the
-NuGet packages were downloaded into the NuGet package cache.</p>
-
-<p>Now after the NuGet package restore has completed the check for a
-VS Test adapter is now re-run.</p>
-
-<p><strong>No tests displayed when a project uses a NUnit PackageReference</strong></p>
-
-<p>The Unit Tests window would not show any unit tests when a non .NET
-Core project contained a NUnit PackageReference. Visual Studio for
-Mac was looking for a PackageReference that contained &lsquo;nunit.framework&rsquo;
-and was not finding the NUnit NuGet package reference.</p>
-
-<p><strong>NuGet MSBuild imports not removed when migrating to project.json</strong></p>
-
-<p>When a Portable Class Library project was migrated to use a project.json
-file the MSBuild imports added by NuGet were not removed. These imports
-are added by NuGet into the generated ProjectName.nuget.props and
-ProjectName.nuget.targets files on restoring a project.json file.
-Leaving the import in the project file would result in the import
-being used twice. When a PCL project that used Xamarin.Forms was
-migrated to project.json the project would fail to compile with the
-error:</p>
-
-<pre><code>Error XF001: Xamarin.Forms targets have been imported multiple times.
-Please check your project file and remove the duplicate import(s).
-</code></pre>
-
-<p>Now on migrating to project.json the MSBuild imports added by NuGet packages
-to the project are removed.</p>
-
-<p><strong>Fix unhandled exception when searching for packages</strong></p>
-
-<p>An unhandled exception was being logged if a package source returned
-an error or the package source url was invalid. This was because a
-task was not being observed when the package sources were being used.</p>
 </div>
   
   
