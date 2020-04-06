@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Package Explorer Addin Releases"
-date: 2019-08-25 14:00
+date: 2020-05-06 14:00
 comments: true
 sharing: true
 footer: true
 ---
+
+# Version 0.5
+
+2020-05-06
+
+ * Show all non-internal folders in the NuGet package not just known folders
 
 ## Version 0.4
 
