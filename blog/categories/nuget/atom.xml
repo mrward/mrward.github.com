@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nuget | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/nuget/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2020-04-05T13:29:11+01:00</updated>
+  <updated>2020-04-11T13:29:14+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,128 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Manage Global NuGet Folders for Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac/"/>
+    <updated>2020-04-11T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac</id>
+    <content type="html"><![CDATA[<p>NuGet supports configuring the location of the following
+<a href="https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders">global folders</a>:</p>
+
+<ul>
+<li>Global NuGet packages cache
+
+<ul>
+<li>~/.nuget/packages</li>
+</ul>
+</li>
+<li>HTTP cache
+
+<ul>
+<li>~/.local/share/NuGet/v3-cache</li>
+</ul>
+</li>
+<li>NuGet plugins ache
+
+<ul>
+<li>~/.local/share/NuGet/plugins-cache</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The above folder locations can be found by running the following command from Terminal.</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Here we will take a look at how these can be configured for use by Visual Studio for Mac 8.5
+when running on macOS Catalina.</p>
+
+<h2>Configuring Global Packages Folder Only</h2>
+
+<p>If only the global packages folder needs to be configured then the simplest way is to
+define the globalPackagesFolder folder in the ~/.config/NuGet/NuGet.Config file.</p>
+
+<p>```
+<configuration>
+  <config></p>
+
+<pre><code>&lt;add key="globalPackagesFolder" value="/Volumes/YourDrive/NuGet/.nuget/packages" /&gt;
+</code></pre>
+
+<p>  </config>
+  <packageSources></p>
+
+<pre><code>&lt;add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /&gt;
+</code></pre>
+
+<p>  </packageSources>
+</configuration>
+```</p>
+
+<p>Visual Studio for Mac will need to be restarted before it picks up any changes to the
+NuGet.Config file.</p>
+
+<h2>Configuring Global Folders with Environment Variables</h2>
+
+<p>Visual Studio for Mac will not use environment variables defined in the Bash profile ~/.bash_profile or
+the Zsh profile ~/.zprofile unless Visual Studio for Mac is run from the Terminal.</p>
+
+<pre><code>open -n "/Applications/Visual Studio.app"
+</code></pre>
+
+<p>When Visual Studio for Mac is run from the Dock, or from LaunchPad, it does not inherit
+these environment variables.</p>
+
+<p>Let us take a look at how we can define these NuGet environment
+variables so that Visual Studio for Mac will use them without having to launch it
+from the Terminal.</p>
+
+<p>Create the file ~/Library/LaunchAgents/environment.plist containing the following:</p>
+
+<p><code>
+&lt;?xml version=“1.0” encoding=“UTF-8”?&gt;
+&lt;!DOCTYPE plist PUBLIC “-//Apple//DTD PLIST 1.0//EN” “https://www.apple.com/DTDs/PropertyList-1.0.dtd”&gt;
+&lt;plist version=“1.0”&gt;
+&lt;dict&gt;
+&lt;key&gt;Label&lt;/key&gt;
+&lt;string&gt;my.startup&lt;/string&gt;
+&lt;key&gt;ProgramArguments&lt;/key&gt;
+&lt;array&gt;
+&lt;string&gt;sh&lt;/string&gt;
+&lt;string&gt;-c&lt;/string&gt;
+&lt;string&gt;launchctl setenv NUGET_PACKAGES /Volumes/YourDrive/NuGet/.nuget/packages
+launchctl setenv NUGET_HTTP_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/v3-cache
+launchctl setenv NUGET_PLUGINS_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/plugins-cache&lt;/string&gt;
+&lt;/array&gt;
+&lt;key&gt;RunAtLoad&lt;/key&gt;
+&lt;true/&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></p>
+
+<p>Replace the NuGet paths <code>/Volumes/YourDrive/NuGet/</code> defined above as required.</p>
+
+<p>Restart macOS to have this Launch Agent run.</p>
+
+<p>After restarting you can check the environment variables are being used by NuGet by
+using the command line:</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Now when Visual Studio for Mac is launched from the Dock, or from LaunchPad, it will use these
+custom NuGet folders.</p>
+
+<h2>More Information</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Launchd#launchctl">launchctl</a> setenv defines environment variables
+globally so they are available to all macOS
+applications launched with <a href="https://en.wikipedia.org/wiki/Launchd">launchd</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.5]]></title>
@@ -568,82 +690,6 @@ are ignored.</p>
 menu was incorrectly disabled when an SDK style project targeted .NET Framework
 or when the project had its RestoreProjectStyle set to PackageReference and
 had no PackageReferences.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.1]]></title>
-    <link href="http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1/"/>
-    <updated>2019-06-22T12:40:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2019/06/22/NuGetSupportInVisualStudioMac8-1</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet 5.0 support</li>
-<li> Fixed PackageReference metadata not added for development dependencies</li>
-<li> Fixed DotNetCliToolReferences not being restored</li>
-<li> Fixed Multiplatform Library build error with Android projects</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.1</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
-
-<h2>NuGet 5.0 support</h2>
-
-<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.0-rtm">NuGet 5.0.2.5988</a> is now
-included with Visual Studio for Mac 8.1.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed PackageReference metadata not added for development dependencies</strong></p>
-
-<p>Installing a NuGet package that is a development dependency, such as
-GitInfo, would not add the PrivateAssets nor the IncludeAssets
-metadata to the PackageReference. This is now supported and mirrors the
-behaviour of &lsquo;dotnet add package&rsquo; and Visual Studio on Windows.</p>
-
-<p><strong>Fixed DotNetCliToolReferences not being restored</strong></p>
-
-<p>DotNetCliToolReferences are available in the package dependency graph
-but are treated as separate projects in this graph. Since these did not map
-to an existing project in the solution they were not added to the full dependency
-graph which resulted in these tools not being restored.</p>
-
-<p>DotNetCliToolReferences are only restored when the entire solution is restored.
-Restoring a single project only restores the project itself not
-the dotnet cli tool project referenced by the project.</p>
-
-<p>MSBuild supports restoring DotNetCliToolReferences in any project type that
-uses PackageReferences so Visual Studio for Mac also supports this.</p>
-
-<p><strong>Fixed Multiplatform Library build error with Android projects</strong></p>
-
-<p>When generating a Portable Class Library (PCL) assembly from the intersection of project
-assemblies the ApiIntersect build task would throw an exception since
-it could not resolve the Mono.Android assembly. This problem has been
-fixed in a more recent NuGet.Build.Packaging where the failure to
-resolve has been converted to a warning.</p>
-
-<p>```
-System.Exception: Could not resolve Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065</p>
-
-<pre><code>at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name, Mono.Cecil.ReaderParameters parameters) [0x0001b] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-at ApiIntersect.FrameworkAssemblyResolver.Resolve (Mono.Cecil.AssemblyNameReference name) [0x00000] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-at ICSharpCode.Decompiler.Ast.Transforms.IntroduceUsingDeclarations.Run (ICSharpCode.NRefactory.CSharp.AstNode compilationUnit) [0x00142] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
-at ICSharpCode.Decompiler.Ast.Transforms.TransformationPipeline.RunTransformationsUntil (ICSharpCode.NRefactory.CSharp.AstNode node, System.Predicate`1[T] abortCondition, ICSharpCode.Decompiler.DecompilerContext context) [0x0002c] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
-at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations (System.Predicate`1[T] transformAbortCondition) [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
-at ICSharpCode.Decompiler.Ast.AstBuilder.RunTransformations () [0x00000] in &lt;37b5ad8a7a94479fbc5b574a8fc6281a&gt;:0
-at ApiIntersect.MainClass.DumpTypes (System.Collections.Generic.List`1[T] types, System.String baseDir) [0x000a7] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-at ApiIntersect.MainClass.Process (System.Collections.Generic.List`1[T] intersections, System.Collections.Generic.List`1[T] exclusions, Mono.Cecil.ReaderParameters readerParameters, System.String outputPath) [0x00319] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-at ApiIntersect.MainClass.Main (System.String[] args) [0x0039f] in &lt;aac3e0d5bcd4473a96e385115da49b96&gt;:0
-</code></pre>
-
-<p>```</p>
-
-<p>An updated NuGet.Build.Packaging has not been published to nuget.org
-so only new projects created with Visual Studio for Mac will get the
-NuGet package containing the fix.</p>
 ]]></content>
   </entry>
   

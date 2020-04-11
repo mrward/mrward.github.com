@@ -9,7 +9,8 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes NuGet 5.4 support Support Plugin-based NuGet Credential Providers Fixed requests bypassing the native macOS HTTP handler More information on &hellip;">
+  <meta name="description" content="NuGet supports configuring the location of the following
+global folders: Global NuGet packages cache ~/.nuget/packages HTTP cache ~/.local/share/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +82,173 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac/">Manage Global NuGet Folders for Visual Studio for Mac</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-04-11T12:00:00+01:00" pubdate data-updated="true">Apr 11<sup>th</sup>, 2020</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>NuGet supports configuring the location of the following
+<a href="https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders">global folders</a>:</p>
+
+<ul>
+<li>Global NuGet packages cache
+
+<ul>
+<li>~/.nuget/packages</li>
+</ul>
+</li>
+<li>HTTP cache
+
+<ul>
+<li>~/.local/share/NuGet/v3-cache</li>
+</ul>
+</li>
+<li>NuGet plugins ache
+
+<ul>
+<li>~/.local/share/NuGet/plugins-cache</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The above folder locations can be found by running the following command from Terminal.</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Here we will take a look at how these can be configured for use by Visual Studio for Mac 8.5
+when running on macOS Catalina.</p>
+
+<h2>Configuring Global Packages Folder Only</h2>
+
+<p>If only the global packages folder needs to be configured then the simplest way is to
+define the globalPackagesFolder folder in the ~/.config/NuGet/NuGet.Config file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;config&gt;
+</span><span class='line'>    &lt;add key="globalPackagesFolder" value="/Volumes/YourDrive/NuGet/.nuget/packages" /&gt;
+</span><span class='line'>  &lt;/config&gt;
+</span><span class='line'>  &lt;packageSources&gt;
+</span><span class='line'>    &lt;add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /&gt;
+</span><span class='line'>  &lt;/packageSources&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Visual Studio for Mac will need to be restarted before it picks up any changes to the
+NuGet.Config file.</p>
+
+<h2>Configuring Global Folders with Environment Variables</h2>
+
+<p>Visual Studio for Mac will not use environment variables defined in the Bash profile ~/.bash_profile or
+the Zsh profile ~/.zprofile unless Visual Studio for Mac is run from the Terminal.</p>
+
+<pre><code>open -n "/Applications/Visual Studio.app"
+</code></pre>
+
+<p>When Visual Studio for Mac is run from the Dock, or from LaunchPad, it does not inherit
+these environment variables.</p>
+
+<p>Let us take a look at how we can define these NuGet environment
+variables so that Visual Studio for Mac will use them without having to launch it
+from the Terminal.</p>
+
+<p>Create the file ~/Library/LaunchAgents/environment.plist containing the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version=“1.0” encoding=“UTF-8”?&gt;
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC “-//Apple//DTD PLIST 1.0//EN” “https://www.apple.com/DTDs/PropertyList-1.0.dtd”&gt;
+</span><span class='line'>&lt;plist version=“1.0”&gt;
+</span><span class='line'>&lt;dict&gt;
+</span><span class='line'>&lt;key&gt;Label&lt;/key&gt;
+</span><span class='line'>&lt;string&gt;my.startup&lt;/string&gt;
+</span><span class='line'>&lt;key&gt;ProgramArguments&lt;/key&gt;
+</span><span class='line'>&lt;array&gt;
+</span><span class='line'>&lt;string&gt;sh&lt;/string&gt;
+</span><span class='line'>&lt;string&gt;-c&lt;/string&gt;
+</span><span class='line'>&lt;string&gt;launchctl setenv NUGET_PACKAGES /Volumes/YourDrive/NuGet/.nuget/packages
+</span><span class='line'>launchctl setenv NUGET_HTTP_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/v3-cache
+</span><span class='line'>launchctl setenv NUGET_PLUGINS_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/plugins-cache&lt;/string&gt;
+</span><span class='line'>&lt;/array&gt;
+</span><span class='line'>&lt;key&gt;RunAtLoad&lt;/key&gt;
+</span><span class='line'>&lt;true/&gt;
+</span><span class='line'>&lt;/dict&gt;
+</span><span class='line'>&lt;/plist&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Replace the NuGet paths <code>/Volumes/YourDrive/NuGet/</code> defined above as required.</p>
+
+<p>Restart macOS to have this Launch Agent run.</p>
+
+<p>After restarting you can check the environment variables are being used by NuGet by
+using the command line:</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Now when Visual Studio for Mac is launched from the Dock, or from LaunchPad, it will use these
+custom NuGet folders.</p>
+
+<h2>More Information</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Launchd#launchctl">launchctl</a> setenv defines environment variables
+globally so they are available to all macOS
+applications launched with <a href="https://en.wikipedia.org/wiki/Launchd">launchd</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1460,129 +1628,6 @@ after an re-evaluation.</p>
 <p>The NuGet extension API has a PackageReferenceAdded event and a
 PackageReferenceRemoved. These were being raised if a project had
 a packages.config file but not if the project used PackageReferences.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/03/02/NuGetSupportInVisualStudioMac7-8/">NuGet Support in Visual Studio for Mac 7.8</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-03-02T12:40:00+00:00" pubdate data-updated="true">Mar 2<sup>nd</sup>, 2019</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Changes</h2>
-
-<ul>
-<li> NuGet package diagnostics displayed in Solution window</li>
-<li> Support restoring multi-target framework projects</li>
-<li> Display summary of NuGet restore errors in Package Console</li>
-<li> Fixed wrong version of Microsoft.AspNetCore.App being restored</li>
-<li> Fixed Paket restore not working with SDK style projects</li>
-<li> Fixed NuGet restore ignoring build targets</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.8</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-78">release notes</a>.</p>
-
-<h2>NuGet package diagnostics displayed in Solution window</h2>
-
-<p>NuGet package diagnostic warnings are now shown in the Solution window.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/NuGetPackageDiagnosticWarningInSolutionWindow.png" title="NuGet package diagnostic warnings in Solution Window" alt="NuGet package diagnostic warnings in Solution Window"></p>
-
-<p>The diagnostic warnings are shown underneath the NuGet package with
-a warning icon. Hovering over the warning icon will show a tooltip.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/NuGetPackageDiagnosticWarningTooltip.png" title="NuGet package diagnostic warning tooltip in Solution Window" alt="NuGet package diagnostic warning tooltip in Solution Window"></p>
-
-<h2>Support restoring multi-target framework projects</h2>
-
-<p>Projects that have multiple target frameworks now have all frameworks restored.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/MultiTargetProjectInSolutionWindow.png" title="Multi-target framework project restored in Solution window" alt="Multi-target framework project restored in Solution window"></p>
-
-<p>Previously only the first target framework would be restored.</p>
-
-<p>Conditional PackageReferences defined in the project file are also now
-respected when restoring the project. Previously the conditions on the
-PackageReferences would be ignored.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-8/ConditionalPackageReferences.png" title="Conditional PackageReferences restored in Solution window" alt="Conditional PackageReferences restored in Solution window"></p>
-
-<p>Visual Studio for Mac now uses the GenerateRestoreGraphFile MSBuild target to determine
-package dependencies. Previously this information was obtained from the project information
-held in memory. This fixes several NuGet restore bugs in Visual Studio for Mac.</p>
-
-<h2>Display summary of NuGet restore errors in Package Console</h2>
-
-<p>Creating an xUnit .NET Core test project named &lsquo;xunit&rsquo; fails to
-restore since there is a package reference cycle between the project
-and the xunit NuGet package. Whilst this reference cycle is reported it is
-hidden in the Package Console output and all you would see was a message
-indicating that the restore had failed. Now the error information is
-shown at the end of the
-Package Console as a summary of the failures to make it easier to
-see the problem.</p>
-
-<p>Now for the xunit project you will see the following
-at the end of the Package Console output:</p>
-
-<pre><code>Cycle detected.
-  xunit -&gt; xunit (&gt;= 2.3.1).
-Restore failed.
-</code></pre>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed wrong version of Microsoft.AspNetCore.App being restored</strong></p>
-
-<p>With an ASP.NET Core 2.1 project, that had included a PackageReference for
-Microsoft.AspNetCore.App version 2.1.5, Visual Studio for Mac would incorrectly restore
-Microsoft.AspNetCore.App version 2.1.1.</p>
-
-<p>Using the GenerateRestoreGraphFile MSBuild target to determine package reference
-information when restoring has fixed this problem.</p>
-
-<p><strong>Fixed Paket restore not working with SDK style projects</strong></p>
-
-<p>When Paket is used with an SDK style project it injects PackageReferences
-via the PaketRestore target from the Paket.Restore.targets file. Visual Studio for
-Mac was not using MSBuild to get the package reference information so
-PackageReferences defined by Paket were not being restored or made available.</p>
-
-<p><strong>Fixed NuGet restore ignoring build targets</strong></p>
-
-<p>OrchardCore would fail to restore when opened in Visual Studio for Mac. OrchardCore
-defines the PackageReference versions in a separate MSBuild .props file and has a custom
-MSBuild target to define these versions. This custom MSBuild target is now supported
-since Visual Studio for Mac uses the GenerateRestoreGraphFile MSBuild target to
-determine package references when restoring.</p>
 </div>
   
   

@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Manage Global NuGet Folders for Visual Studio for Mac - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="NuGet supports configuring the location of the following
+global folders: Global NuGet packages cache ~/.nuget/packages HTTP cache ~/.local/share/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Manage Global NuGet Folders for Visual Studio for Mac</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-04-11T12:00:00+01:00" pubdate data-updated="true">Apr 11<sup>th</sup>, 2020</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>NuGet supports configuring the location of the following
+<a href="https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders">global folders</a>:</p>
+
+<ul>
+<li>Global NuGet packages cache
+
+<ul>
+<li>~/.nuget/packages</li>
+</ul>
+</li>
+<li>HTTP cache
+
+<ul>
+<li>~/.local/share/NuGet/v3-cache</li>
+</ul>
+</li>
+<li>NuGet plugins ache
+
+<ul>
+<li>~/.local/share/NuGet/plugins-cache</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The above folder locations can be found by running the following command from Terminal.</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Here we will take a look at how these can be configured for use by Visual Studio for Mac 8.5
+when running on macOS Catalina.</p>
+
+<h2>Configuring Global Packages Folder Only</h2>
+
+<p>If only the global packages folder needs to be configured then the simplest way is to
+define the globalPackagesFolder folder in the ~/.config/NuGet/NuGet.Config file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;config&gt;
+</span><span class='line'>    &lt;add key="globalPackagesFolder" value="/Volumes/YourDrive/NuGet/.nuget/packages" /&gt;
+</span><span class='line'>  &lt;/config&gt;
+</span><span class='line'>  &lt;packageSources&gt;
+</span><span class='line'>    &lt;add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /&gt;
+</span><span class='line'>  &lt;/packageSources&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Visual Studio for Mac will need to be restarted before it picks up any changes to the
+NuGet.Config file.</p>
+
+<h2>Configuring Global Folders with Environment Variables</h2>
+
+<p>Visual Studio for Mac will not use environment variables defined in the Bash profile ~/.bash_profile or
+the Zsh profile ~/.zprofile unless Visual Studio for Mac is run from the Terminal.</p>
+
+<pre><code>open -n "/Applications/Visual Studio.app"
+</code></pre>
+
+<p>When Visual Studio for Mac is run from the Dock, or from LaunchPad, it does not inherit
+these environment variables.</p>
+
+<p>Let us take a look at how we can define these NuGet environment
+variables so that Visual Studio for Mac will use them without having to launch it
+from the Terminal.</p>
+
+<p>Create the file ~/Library/LaunchAgents/environment.plist containing the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version=“1.0” encoding=“UTF-8”?&gt;
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC “-//Apple//DTD PLIST 1.0//EN” “https://www.apple.com/DTDs/PropertyList-1.0.dtd”&gt;
+</span><span class='line'>&lt;plist version=“1.0”&gt;
+</span><span class='line'>&lt;dict&gt;
+</span><span class='line'>&lt;key&gt;Label&lt;/key&gt;
+</span><span class='line'>&lt;string&gt;my.startup&lt;/string&gt;
+</span><span class='line'>&lt;key&gt;ProgramArguments&lt;/key&gt;
+</span><span class='line'>&lt;array&gt;
+</span><span class='line'>&lt;string&gt;sh&lt;/string&gt;
+</span><span class='line'>&lt;string&gt;-c&lt;/string&gt;
+</span><span class='line'>&lt;string&gt;launchctl setenv NUGET_PACKAGES /Volumes/YourDrive/NuGet/.nuget/packages
+</span><span class='line'>launchctl setenv NUGET_HTTP_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/v3-cache
+</span><span class='line'>launchctl setenv NUGET_PLUGINS_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/plugins-cache&lt;/string&gt;
+</span><span class='line'>&lt;/array&gt;
+</span><span class='line'>&lt;key&gt;RunAtLoad&lt;/key&gt;
+</span><span class='line'>&lt;true/&gt;
+</span><span class='line'>&lt;/dict&gt;
+</span><span class='line'>&lt;/plist&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Replace the NuGet paths <code>/Volumes/YourDrive/NuGet/</code> defined above as required.</p>
+
+<p>Restart macOS to have this Launch Agent run.</p>
+
+<p>After restarting you can check the environment variables are being used by NuGet by
+using the command line:</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Now when Visual Studio for Mac is launched from the Dock, or from LaunchPad, it will use these
+custom NuGet folders.</p>
+
+<h2>More Information</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Launchd#launchctl">launchctl</a> setenv defines environment variables
+globally so they are available to all macOS
+applications launched with <a href="https://en.wikipedia.org/wiki/Launchd">launchd</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-04-11T12:00:00+01:00" pubdate data-updated="true">Apr 11<sup>th</sup>, 2020</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac/" data-via="" data-counturl="http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5/" title="Previous Post: NuGet Support in Visual Studio for Mac 8.5">&laquo; NuGet Support in Visual Studio for Mac 8.5</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

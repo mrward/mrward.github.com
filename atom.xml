@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2020-04-05T13:29:11+01:00</updated>
+  <updated>2020-04-11T13:29:14+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,146 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Manage Global NuGet Folders for Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac/"/>
+    <updated>2020-04-11T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac</id>
+    <content type="html"><![CDATA[<p>NuGet supports configuring the location of the following
+<a href="https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders">global folders</a>:</p>
+
+<ul>
+<li>Global NuGet packages cache
+
+<ul>
+<li>~/.nuget/packages</li>
+</ul>
+</li>
+<li>HTTP cache
+
+<ul>
+<li>~/.local/share/NuGet/v3-cache</li>
+</ul>
+</li>
+<li>NuGet plugins ache
+
+<ul>
+<li>~/.local/share/NuGet/plugins-cache</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The above folder locations can be found by running the following command from Terminal.</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Here we will take a look at how these can be configured for use by Visual Studio for Mac 8.5
+when running on macOS Catalina.</p>
+
+<h2>Configuring Global Packages Folder Only</h2>
+
+<p>If only the global packages folder needs to be configured then the simplest way is to
+define the globalPackagesFolder folder in the ~/.config/NuGet/NuGet.Config file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;config&gt;
+</span><span class='line'>    &lt;add key="globalPackagesFolder" value="/Volumes/YourDrive/NuGet/.nuget/packages" /&gt;
+</span><span class='line'>  &lt;/config&gt;
+</span><span class='line'>  &lt;packageSources&gt;
+</span><span class='line'>    &lt;add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /&gt;
+</span><span class='line'>  &lt;/packageSources&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Visual Studio for Mac will need to be restarted before it picks up any changes to the
+NuGet.Config file.</p>
+
+<h2>Configuring Global Folders with Environment Variables</h2>
+
+<p>Visual Studio for Mac will not use environment variables defined in the Bash profile ~/.bash_profile or
+the Zsh profile ~/.zprofile unless Visual Studio for Mac is run from the Terminal.</p>
+
+<pre><code>open -n "/Applications/Visual Studio.app"
+</code></pre>
+
+<p>When Visual Studio for Mac is run from the Dock, or from LaunchPad, it does not inherit
+these environment variables.</p>
+
+<p>Let us take a look at how we can define these NuGet environment
+variables so that Visual Studio for Mac will use them without having to launch it
+from the Terminal.</p>
+
+<p>Create the file ~/Library/LaunchAgents/environment.plist containing the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version=“1.0” encoding=“UTF-8”?&gt;
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC “-//Apple//DTD PLIST 1.0//EN” “https://www.apple.com/DTDs/PropertyList-1.0.dtd”&gt;
+</span><span class='line'>&lt;plist version=“1.0”&gt;
+</span><span class='line'>&lt;dict&gt;
+</span><span class='line'>&lt;key&gt;Label&lt;/key&gt;
+</span><span class='line'>&lt;string&gt;my.startup&lt;/string&gt;
+</span><span class='line'>&lt;key&gt;ProgramArguments&lt;/key&gt;
+</span><span class='line'>&lt;array&gt;
+</span><span class='line'>&lt;string&gt;sh&lt;/string&gt;
+</span><span class='line'>&lt;string&gt;-c&lt;/string&gt;
+</span><span class='line'>&lt;string&gt;launchctl setenv NUGET_PACKAGES /Volumes/YourDrive/NuGet/.nuget/packages
+</span><span class='line'>launchctl setenv NUGET_HTTP_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/v3-cache
+</span><span class='line'>launchctl setenv NUGET_PLUGINS_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/plugins-cache&lt;/string&gt;
+</span><span class='line'>&lt;/array&gt;
+</span><span class='line'>&lt;key&gt;RunAtLoad&lt;/key&gt;
+</span><span class='line'>&lt;true/&gt;
+</span><span class='line'>&lt;/dict&gt;
+</span><span class='line'>&lt;/plist&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Replace the NuGet paths <code>/Volumes/YourDrive/NuGet/</code> defined above as required.</p>
+
+<p>Restart macOS to have this Launch Agent run.</p>
+
+<p>After restarting you can check the environment variables are being used by NuGet by
+using the command line:</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Now when Visual Studio for Mac is launched from the Dock, or from LaunchPad, it will use these
+custom NuGet folders.</p>
+
+<h2>More Information</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Launchd#launchctl">launchctl</a> setenv defines environment variables
+globally so they are available to all macOS
+applications launched with <a href="https://en.wikipedia.org/wiki/Launchd">launchd</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.5]]></title>
@@ -3621,157 +3761,6 @@ whilst writing this blog post is available on
 <a href="https://github.com/mrward/monodevelop-language-server-addin">Language Server Client extension source code</a>
 on GitHub, however these are not standalone and are compiled with the
 Language Server Client extension.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[.NET Core Support in Visual Studio for Mac 7.4]]></title>
-    <link href="http://lastexitcode.com/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4/"/>
-    <updated>2018-03-11T11:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2018/03/11/NetCoreSupportInVisualStudioMac7-4</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> Solution window detects file system changes outside Visual Studio for Mac</li>
-<li> Projects with unknown target frameworks can now be loaded
-
-<ul>
-<li><a href="https://oren.codes/2017/08/29/use-all-tfms-with-sdk-style-projects-in-visual-studio-for-mac/">MSBuild SDK Extras</a> is now supported without requiring an extra extension to be installed</li>
-<li>Tizen.NET projects are now supported</li>
-</ul>
-</li>
-<li> Fixed xUnit test messages not being displayed</li>
-<li> ASP.NET Core minified files are no longer formatted</li>
-<li> Support target framework defined in another MSBuild property</li>
-<li> Show SDK information before dependencies are restored</li>
-<li> Fixed failure to add new file when the default project namespace contains only numbers</li>
-<li> Fixed remove item not added for .xaml.cs file</li>
-<li> Fixed incorrect project updates when moving a file</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.4</a> can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#15.6">release notes</a>.</p>
-
-<h2>Solution window detects file system changes</h2>
-
-<p>Files created in the project directory, or a subdirectory,
-outside Visual Studio for Mac are now added to the project and
-appear in the Solution window automatically.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/NetCoreSupportInVisualStudioMac7-4/DotNetCoreProjectFileWatcher.gif" title="File added and removed from command line - Solution window updated" alt="File added and removed from command line - Solution window updated"></p>
-
-<p>Deleting project files and directories will remove the files from
-the Solution window. The Solution window will also update after
-a file or a directory is renamed outside Visual Studio for Mac.</p>
-
-<h2>Allow unknown target framework projects to be loaded</h2>
-
-<p>The target framework of an SDK style project is no longer restricted.
-Previously Visual Studio for Mac would fail to load an SDK style
-project unless its target framework was .NET Standard, .NET Core App
-or .NET Framework.</p>
-
-<p>This allows Tizen projects to be loaded without the error message
-&ldquo;Project does not support framework &lsquo;Tizen,Version=v4.0&rsquo;&rdquo; being
-displayed. Tizen projects have a Tizen.NET package reference which
-imports an MSBuild .props file that defines the Tizen target framework.</p>
-
-<p>The <a href="https://github.com/onovotny/MSBuildSdkExtras">MSBuild.Sdk.Extras</a> NuGet
-package is now supported so SDK style projects can use target frameworks
-that this NuGet package
-supports, such as Xamarin.iOS and MonoAndroid.</p>
-
-<p>On building a project with an unknown target framework, that is
-not defined by any used NuGet package references, a build error
-that indicates the framework is not supported will occur:</p>
-
-<pre><code>The TargetFramework value 'test1.0' was not recognized.
-</code></pre>
-
-<p>NuGet restore will also fail for an unknown target framework with
-a message indicating the framework is invalid.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fix xUnit test messages not displayed</strong></p>
-
-<p>xUnit tests support an ITestOutputHelper interface which can be
-passed to the constructor of the test. This has a WriteLine method
-which can be used to output messages whilst running the test. When
-this was used the text displayed in Visual Studio for Mac&rsquo;s Test Results
-window was:</p>
-
-<pre><code>Microsoft.VisualStudio.TestPlatform.ObjectModel.TestResultMessage
-</code></pre>
-
-<p>Now the text from the message is shown in the Tests Results window.</p>
-
-<p><strong>Support target framework defined in another MSBuild property</strong></p>
-
-<p>An SDK style project that defined the <TargetFrameworks> element to
-be another MSBuild property would fail to restore.</p>
-
-<p>In the example below the property TheFramework is defined in the
-Frameworks.props file.</p>
-
-<pre><code>&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
-  &lt;Import Project="Frameworks.props" /&gt;
-  &lt;PropertyGroup&gt;
-    &lt;TargetFrameworks&gt;$(TheFramework)&lt;/TargetFrameworks&gt;
-  &lt;/PropertyGroup&gt;
-&lt;/Project&gt;
-</code></pre>
-
-<p>The unevaluated MSBuild property value was used and would result in the
-NuGet package restore failing.</p>
-
-<p>Now the evaluated property value is used when restoring dependencies.</p>
-
-<p><strong>ASP.NET Core minified files and map files are no longer formatted</strong></p>
-
-<p>On creating a new ASP.NET Core project the minified files were being
-re-formatted and were no longer minified. Now the .min.css, .min.js and
-.map files are excluded from being re-formatted when a new ASP.NET Core
-project is created.</p>
-
-<p><strong>Fixed failure to add a new file when the default project namespace contains only numbers</strong></p>
-
-<p>If a project has a default namespace of &lsquo;1&rsquo; then adding a new C#
-file from a template would throw a null reference
-exception. The problem was that the sanitized namespace for the project&rsquo;s
-default namespace was null.</p>
-
-<p><strong>Show SDK information before dependencies are restored</strong></p>
-
-<p>When a new .NET Core project is created the Dependencies &ndash; SDK folder
-would show no items until the NuGet package restore completed. Now
-the SDK dependency is shown whilst the dependencies are being restored.</p>
-
-<p><strong>Fixed remove item not added for .xaml.cs file</strong></p>
-
-<p>When a new content page with xaml file was
-added and then removed, but not deleted,
-a remove item was not added for the .xaml.cs file.</p>
-
-<p><strong>Fixed incorrect project updates when moving a file</strong></p>
-
-<p>Moving a Resource file from one folder to another would not update
-the project file correctly. Either the project file would not be
-modified or the file would be removed.</p>
-
-<p>One problem was that on moving a clone is taken of the original item
-and the associated MSBuild item was copied but was still referring
-back to the original location. Another problem was that an incorrect
-match was being made when looking for remove items resulting in the
-wrong files being removed from the project.</p>
-
-<p><strong>Fixed being unable to use NUnit in a .NET Core test project</strong></p>
-
-<p>The problem was that the NUnit test provider, which supports running NUnit tests
-for non .NET Core projects, was finding a PackageReference for NUnit, and then
-trying to load the tests for the .NET Core project and failing. To fix this the
-NUnit test provider now ignores .NET Core projects so the VS Test provider will
-load the tests for the project.</p>
 ]]></content>
   </entry>
   

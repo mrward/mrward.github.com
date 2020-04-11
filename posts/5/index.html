@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="A new version of the TypeScript addin for Xamarin Studio and MonoDevelop has been released. The addin is available from MonoDevelop&rsquo;s Add-in &hellip;">
+  <meta name="description" content="Xamarin Studio 5.10 was released last week as part of the Xamarin 4 release and it includes changes to the NuGet support. Changes Support NuGet 2.8.7 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,150 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/11/22/NuGetSupportInXamarinStudio5-10/">NuGet Support in Xamarin Studio 5.10</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-11-22T12:00:00+00:00" pubdate data-updated="true">Nov 22<sup>nd</sup>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Xamarin Studio 5.10 was released last week as part of the <a href="https://blog.xamarin.com/introducing-xamarin-4/">Xamarin 4 release</a> and it includes changes to the NuGet support.</p>
+
+<h2>Changes</h2>
+
+<ul>
+<li> Support NuGet 2.8.7.</li>
+<li> Open readme.txt when a NuGet package is installed.</li>
+<li> Support packages.config file named after the project.</li>
+<li> Local Copy settings are preserved for references when updating packages.</li>
+<li> Do not show Checking for package updates message in status bar.</li>
+<li> Do not show warning in the status bar if a NuGet package has PowerShell scripts.</li>
+<li> Prevent the solution being closed when NuGet packages are being added.</li>
+<li> Removing a NuGet package does not update the Solution window when multiple solutions are open.</li>
+<li> Prevent packages.config file being marked as deleted by Git after updating a pre-release NuGet package.</li>
+<li> Prevent retargeting a NuGet package marking packages.config as deleted by Git.</li>
+<li> Allow Microsoft.ApplicationInsights NuGet package to be installed.</li>
+<li> Support NuGet packages targeting watchOS.</li>
+<li> Package license acceptance (Xamarin Studio 5.10.3)</li>
+</ul>
+
+
+<p>More information on all the changes in Xamarin Studio 5.10 can be found in the <a href="http://developer.xamarin.com/releases/studio/xamarin.studio_5.10/xamarin.studio_5.10/">release notes</a>.</p>
+
+<h2>NuGet 2.8.7 support</h2>
+
+<p>Xamarin Studio now supports NuGet 2.8.7. NuGet 2.8.7 adds support for the Universal App Platform (UAP) target framework to support Windows 10 Application Development.</p>
+
+<h2>Open readme.txt when a NuGet package is installed</h2>
+
+<p>A NuGet package can contain a <a href="https://docs.nuget.org/create/creating-and-publishing-a-package#user-content-automatically-displaying-a-readmetxt-file-during-package-installation">readme.txt file</a> which Xamarin Studio will now open and display in the text editor when the NuGet package is installed or updated.</p>
+
+<h2>Preserve Local Copy on Updating Packages</h2>
+
+<p>The Local Copy setting on an assembly reference will now be preserved when updating a NuGet package or retargeting a NuGet package.</p>
+
+<p>By default Local Copy is set to true for assembly references when installing a NuGet package. If you set Local Copy to false for one or more of these references then this setting will now be preserved when updating or retargeting the NuGet package.</p>
+
+<h2>Packages.config file named after project</h2>
+
+<p>NuGet supports multiple projects in the same directory each using their own packages.config file. To allow multiple projects in the same directory to each use their own NuGet packages you can name the packages.config file after each project. In the examples below the project filename is on the left and the corresponding packages.config filename is on the right.</p>
+
+<ul>
+<li>Foo.csproj => packages.Foo.config</li>
+<li>Bar.csproj => packages.Bar.config</li>
+<li>Foo Bar.csproj => packages.Foo_Bar.config</li>
+</ul>
+
+
+<p>Xamarin Studio now checks for the packages.ProjectName.config file first and will use it if it exists, otherwise it will fall back to the default behaviour and use the packages.config file.</p>
+
+<p>Note that a new project without any NuGet packages will use a packages.config file by default. The basic procedure to enable a project specific packages.config file when creating a new project is:</p>
+
+<ol>
+<li>Create new project called Foo.</li>
+<li>Add a NuGet package to the Foo project.</li>
+<li>Rename the packages.config file to packages.Foo.config</li>
+<li>Reload the solution in Xamarin Studio.</li>
+</ol>
+
+
+<p>Also note that if you remove all the NuGet packages from a project the packages.ProjectName.config file will be deleted and on adding a new NuGet package the default packages.config file will be used.</p>
+
+<h2>Do not show Checking for package updates message in status bar</h2>
+
+<p>Previously when Xamarin Studio was checking for NuGet package updates a message would appear in the status bar. This status bar message has now been removed since checking for NuGet package updates is a background task and does not prevent Xamarin Studio from being used.</p>
+
+<h2>Do not show warning in the status bar if a NuGet package has PowerShell scripts</h2>
+
+<p>Previously if a NuGet package was installed and it contained PowerShell scripts then a warning was shown in the status bar. Now this message is only shown in the Package Console window.</p>
+
+<h2>Prevent the solution being closed when NuGet packages are being added</h2>
+
+<p>A check is now made when Xamarin Studio is closed to see if NuGet packages are still being installed. If this is the case then a dialog will be displayed indicating that it is not currently possible to close Xamarin Studio allowing the NuGet package to finish installing.</p>
+
+<h2>Support NuGet packages targeting watchOS</h2>
+
+<p>A new Xamarin.WatchOS target framework is now supported which allows NuGet packages to contain assemblies for watchOS.</p>
+
+<h2>Package license acceptance</h2>
+
+<p>Xamarin Studio 5.10.3 now includes a license acceptance dialog that will be displayed if a NuGet package requires a license to be accepted before it is installed. If the license is declined then the NuGet package will not be installed.</p>
+
+<p><img src="/images/blog/NuGetSupportInXamarinStudio5-10/PackageLicenseAcceptanceDialog.png" title="Package license acceptance dialog" alt="Package license acceptance dialog"></p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Removing a NuGet package does not update the Solution window when multiple solutions are open</strong></p>
+
+<p>With two or more solutions opened at the same time the Packages folder would not be updated for all solutions when a NuGet package was removed. This was because Xamarin Studio was not refreshing the Packages folder for all solutions currently open.</p>
+
+<p><strong>Prevent packages.config file being marked as deleted by Git after updating pre-release NuGet package.</strong></p>
+
+<p>If there was only one pre-release NuGet package installed into a project and then a later version of the NuGet package was installed from the Add Packages dialog then the packages.config file was then being shown as deleted by Git instead of modified.</p>
+
+<p>The packages.config file is deleted by NuGet after the old NuGet package is uninstalled if there are no NuGet packages referenced. A special case to handle this was added in Xamarin Studio 5.3 but that only handled updating a NuGet package from the Solution window. Now updating a pre-release from the Add Packages dialog is also handled.</p>
+
+<p><strong>Retargeting a NuGet package marks packages.config as deleted by Git</strong></p>
+
+<p>This is similar to the previous bug. Retargeting a NuGet package will uninstall and then install the NuGet package. If there is only one NuGet package in the project then the packages.config file is deleted and was causing Git to mark the file as deleted instead of updated.</p>
+
+<p><strong>Unable to install Microsoft.ApplicationInsights NuGet package</strong></p>
+
+<p>Xamarin Studio 5.9.2 added support for NuGet 2.8.5 but it was not possible to install the <a href="https://www.nuget.org/packages/Microsoft.ApplicationInsights/">Microsoft.ApplicationInsights NuGet package</a> into a project. It was possible to install it using Visual Studio with NuGet 2.8.3 or higher installed. The error reported by Xamarin Studio was:</p>
+
+<pre><code>Adding Microsoft.ApplicationInsights...
+The 'Microsoft.ApplicationInsights' package requires NuGet client version '2.8.50313' or above, but the current NuGet version is '2.8.5.0'.
+</code></pre>
+
+<p>Xamarin Studio 5.10 now allows the Microsoft.ApplicationInsights NuGet package to be installed into a project.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1188,150 +1332,6 @@ would update package dependencies correctly.</p>
 
 
 <p>Now you should have full support for Portable Class Libraries in Xamarin Studio.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/26/XamarinComponentsAndNuGet/">Xamarin Components and NuGet</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-10-26T12:00:00+00:00" pubdate data-updated="true">Oct 26<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/">Xamarin Studio 5.5</a> and <a href="http://developer.xamarin.com/releases/vs/xamarin.vs_3/xamarin.vs_3.7/">Xamarin for Visual Studio 3.7</a> have support for <a href="https://components.xamarin.com/">Xamarin Components</a> with NuGet package dependencies. So you can now have Xamarin Studio or Visual Studio add NuGet packages to a project when a Component is installed from <a href="https://components.xamarin.com/">Xamarin&rsquo;s Component Store</a>.</p>
-
-<p>The <a href="http://lastexitcode.com/blog/2014/10/19/NuGetSupportInXamarinStudio5-5/">NuGet Support in Xamarin Studio 5.5 post</a> looked at installing a Component with a NuGet package dependency into a project but did not cover how to create one of these Components. So let us take a look at how to modify an existing Component so it has NuGet package dependencies.</p>
-
-<h2>Adding a NuGet Package Dependency to a Component</h2>
-
-<p>In this section we will look at modifying a Component so when it is installed it adds NuGet packages to the project as well as referencing the assemblies that are included in the Component.</p>
-
-<p>First download the latest version of the <a href="https://components.xamarin.com/submit/xpkg">xamarin-component command line application</a> which has been updated to support Component&rsquo;s with NuGet packages dependencies.</p>
-
-<p>The downloaded xpkg file is a zip file containing xamarin-component.exe. So rename the file to have a .zip file extension and then extract the executable.</p>
-
-<p>Now let us see how to add a single NuGet package dependency to the Component. If you are using a component.yaml file to generate your Component you can add the NuGet package dependency by adding the following to your component.yaml:</p>
-
-<pre><code>packages:
-  "": Newtonsoft.Json, Version=5.0.8
-</code></pre>
-
-<p>With the above defined in your component.yaml file you can run the xamarin-component.exe <strong>package</strong> command to generate your Component&rsquo;s .xam file.</p>
-
-<p>Windows:</p>
-
-<pre><code>xamarin-component.exe package path\to\directory-with-component-yaml
-</code></pre>
-
-<p>Mac:</p>
-
-<pre><code>mono xamarin-component.exe package path/to/directory-with-component-yaml
-</code></pre>
-
-<p>If you then look inside your generated Component file (.xam), which you can do by renaming its file extension to .zip, you will see the package defined in the component/Manifest.xml file:</p>
-
-<pre><code>&lt;packages&gt;
-  &lt;package id="Newtonsoft.Json" version="5.0.8" /&gt;
-&lt;/packages&gt;
-</code></pre>
-
-<p>If you are using the xamarin-component.exe <strong>create-manually</strong> command line you can add the same NuGet package dependency by adding the following command line argument:</p>
-
-<pre><code>--package="":"Newtonsoft.Json, Version=5.0.8"
-</code></pre>
-
-<p>This packaged Component will install the Newtonsoft.Json NuGet package into any Android, iOS or Windows Phone project. If you need to install a particular NuGet package for a particular project type you can specify the target project type for the NuGet package dependency. Shown below is a more complicated example from a component.yaml file where NUnit and Newtonsoft.Json are configured so they will only be installed into Android projects, whilst log4net is only installed into iOS projects, and finally Ninject will be installed into all project types.</p>
-
-<pre><code>packages:
-  android:
-    - NUnit, Version=2.6.2
-    - Newtonsoft.Json, Version=5.0.8
-  mobile: Ninject, Version=3.2.0
-  ios: log4net, Version=2.0.0
-  ios-unified: log4net, Version=2.0.0
-</code></pre>
-
-<p>Note that <strong>mobile</strong> used here is equivalent to the empty double quoted string &ldquo;&rdquo; which was used in the previous example with the single NuGet package.</p>
-
-<p>If you then generate the Component again using the xamarin-component.exe package command you will see the Component&rsquo;s manifest file now contains the following:</p>
-
-<pre><code>  &lt;packages&gt;
-    &lt;package id="NUnit" version="2.6.2" framework="android" /&gt;
-    &lt;package id="Newtonsoft.Json" version="5.0.8" framework="android" /&gt;
-    &lt;package id="log4net" version="2.0.0" framework="ios" /&gt;
-    &lt;package id="log4net" version="2.0.0" framework="ios-unified" /&gt;
-    &lt;package id="Ninject" version="3.2.0" framework="mobile" /&gt;
-  &lt;/packages&gt;
-</code></pre>
-
-<p>If you are using the xamarin-component.exe create-manually command line you can add the same NuGet package dependencies to your Component by adding the following command line arguments:</p>
-
-<pre><code>--package="android":"NUnit, Version=2.6.2"
---package="android":"Newtonsoft.Json, Version=5.0.8"
---package="mobile":"Ninject, Version=3.2.0"
---package="ios":"log4net, Version=2.0.0"
---package="ios-unified":"log4net, Version=2.0.0"
-</code></pre>
-
-<p>With the NuGet package dependencies defined as shown in the previous examples when you install the Component into a project the NuGet package will be installed and a reference will be added to the assemblies in the <strong>lib</strong> directory of the Component. If you want to only add the NuGet package to the project and not the assemblies in the lib directory then you can create a Shell Component which we will look at in the following section.</p>
-
-<h2>Creating a Shell Component</h2>
-
-<p>A Shell Component is special type Component that is basically a wrapper around one or more NuGet packages. It will only install the NuGet package into the project and not add references to any assemblies in the Component&rsquo;s <strong>lib</strong> directory.</p>
-
-<p>To configure a component to be a Shell Component you can add the following to your component.yaml file:</p>
-
-<pre><code>is_shell: true
-</code></pre>
-
-<p>When you generate your Component&rsquo;s .xam file you will see that the Component&rsquo;s Manifest.xml file now contains the <strong>is-shell</strong> attribute in the component element:</p>
-
-<pre><code>&lt;component format="1" id="mycomponent" is-shell="true"&gt;
-</code></pre>
-
-<p>If you are using the xamarin-component.exe create-manually command line argument you can do the same thing by passing the following argument:</p>
-
-<pre><code>--is-shell
-</code></pre>
-
-<p>Backwards compatibility is something to consider if you decide to create a Shell Component. If you need a Shell Component to work with older versions of Xamarin Studio and Xamarin for Visual Studio that do not support Component&rsquo;s with NuGet package dependencies then you should also include the assemblies in the lib directory of the Component. The <a href="https://components.xamarin.com/view/xamandroidsupportv13-18">Android Support Library v13 Component</a> is one example that has a NuGet package dependency and also includes an assembly in its lib/android directory. When installing the Android Support Library v13 Component into an older version of Xamarin Studio the NuGet package will not be installed and instead the assembly will be referenced from the Component&rsquo;s lib/android directory. If the Android Support Library v13 Component is installed with Xamarin Studio 5.5 or above then the NuGet package will be installed but the assembly from the lib/android directory will not be referenced.</p>
-
-<h2>NuGet Package Sources</h2>
-
-<p>The NuGet package dependencies that a Component has must be available from the <a href="https://nuget.org">official NuGet Gallery</a> before your Component is submitted to the Component Store.</p>
-
-<p>If you are testing a NuGet package that is not currently available from the <a href="https://nuget.org">official NuGet Gallery</a> then you can copy it into the <a href="http://lastexitcode.com/projects/NuGet/FileLocations/">local machine&rsquo;s NuGet cache directory</a>. Xamarin Studio and Xamarin for Visual Studio should find the NuGet package in the local NuGet cache instead of trying to download it from the NuGet Gallery.</p>
-
-<h2>Creating a Component</h2>
-
-<p>There are some example Component&rsquo;s that have NuGet package dependencies available on my <a href="https://github.com/mrward/xamarin-test-components">GitHub page</a>. The <a href="https://github.com/mrward/xamarin-test-components/tree/master/AwesomeComponent">Awesome Component example</a> is a Shell Component that uses a rakefile and the xamarin-component create-manually command line to generate the Component. The <a href="https://github.com/mrward/xamarin-test-components/tree/master/MyComponent">My Component example</a> is another Shell Component that uses a component.yaml file that defines NuGet package dependencies.</p>
-
-<p>For more detailed information on how to create a Component please see the <a href="http://developer.xamarin.com/guides/cross-platform/advanced/submitting_components/">Submitting Components</a> page.</p>
 </div>
   
   

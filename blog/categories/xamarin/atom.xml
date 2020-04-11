@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2020-04-05T13:29:11+01:00</updated>
+  <updated>2020-04-11T13:29:14+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,128 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Manage Global NuGet Folders for Visual Studio for Mac]]></title>
+    <link href="http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac/"/>
+    <updated>2020-04-11T12:00:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac</id>
+    <content type="html"><![CDATA[<p>NuGet supports configuring the location of the following
+<a href="https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders">global folders</a>:</p>
+
+<ul>
+<li>Global NuGet packages cache
+
+<ul>
+<li>~/.nuget/packages</li>
+</ul>
+</li>
+<li>HTTP cache
+
+<ul>
+<li>~/.local/share/NuGet/v3-cache</li>
+</ul>
+</li>
+<li>NuGet plugins ache
+
+<ul>
+<li>~/.local/share/NuGet/plugins-cache</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The above folder locations can be found by running the following command from Terminal.</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Here we will take a look at how these can be configured for use by Visual Studio for Mac 8.5
+when running on macOS Catalina.</p>
+
+<h2>Configuring Global Packages Folder Only</h2>
+
+<p>If only the global packages folder needs to be configured then the simplest way is to
+define the globalPackagesFolder folder in the ~/.config/NuGet/NuGet.Config file.</p>
+
+<p>```
+<configuration>
+  <config></p>
+
+<pre><code>&lt;add key="globalPackagesFolder" value="/Volumes/YourDrive/NuGet/.nuget/packages" /&gt;
+</code></pre>
+
+<p>  </config>
+  <packageSources></p>
+
+<pre><code>&lt;add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /&gt;
+</code></pre>
+
+<p>  </packageSources>
+</configuration>
+```</p>
+
+<p>Visual Studio for Mac will need to be restarted before it picks up any changes to the
+NuGet.Config file.</p>
+
+<h2>Configuring Global Folders with Environment Variables</h2>
+
+<p>Visual Studio for Mac will not use environment variables defined in the Bash profile ~/.bash_profile or
+the Zsh profile ~/.zprofile unless Visual Studio for Mac is run from the Terminal.</p>
+
+<pre><code>open -n "/Applications/Visual Studio.app"
+</code></pre>
+
+<p>When Visual Studio for Mac is run from the Dock, or from LaunchPad, it does not inherit
+these environment variables.</p>
+
+<p>Let us take a look at how we can define these NuGet environment
+variables so that Visual Studio for Mac will use them without having to launch it
+from the Terminal.</p>
+
+<p>Create the file ~/Library/LaunchAgents/environment.plist containing the following:</p>
+
+<p><code>
+&lt;?xml version=“1.0” encoding=“UTF-8”?&gt;
+&lt;!DOCTYPE plist PUBLIC “-//Apple//DTD PLIST 1.0//EN” “https://www.apple.com/DTDs/PropertyList-1.0.dtd”&gt;
+&lt;plist version=“1.0”&gt;
+&lt;dict&gt;
+&lt;key&gt;Label&lt;/key&gt;
+&lt;string&gt;my.startup&lt;/string&gt;
+&lt;key&gt;ProgramArguments&lt;/key&gt;
+&lt;array&gt;
+&lt;string&gt;sh&lt;/string&gt;
+&lt;string&gt;-c&lt;/string&gt;
+&lt;string&gt;launchctl setenv NUGET_PACKAGES /Volumes/YourDrive/NuGet/.nuget/packages
+launchctl setenv NUGET_HTTP_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/v3-cache
+launchctl setenv NUGET_PLUGINS_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/plugins-cache&lt;/string&gt;
+&lt;/array&gt;
+&lt;key&gt;RunAtLoad&lt;/key&gt;
+&lt;true/&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></p>
+
+<p>Replace the NuGet paths <code>/Volumes/YourDrive/NuGet/</code> defined above as required.</p>
+
+<p>Restart macOS to have this Launch Agent run.</p>
+
+<p>After restarting you can check the environment variables are being used by NuGet by
+using the command line:</p>
+
+<pre><code>nuget locals all -list
+</code></pre>
+
+<p>Now when Visual Studio for Mac is launched from the Dock, or from LaunchPad, it will use these
+custom NuGet folders.</p>
+
+<h2>More Information</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/Launchd#launchctl">launchctl</a> setenv defines environment variables
+globally so they are available to all macOS
+applications launched with <a href="https://en.wikipedia.org/wiki/Launchd">launchd</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.5]]></title>
@@ -636,106 +758,6 @@ Solution window.</p>
 row that was selected would display black text instead of white text. This was hard
 to read with the blue background colour used for the selected row. The wrong text colour was being set when a package was
 checked. This has been fixed in the Manage NuGet Packages dialog.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.2]]></title>
-    <link href="http://lastexitcode.com/blog/2019/07/28/NuGetSupportInVisualStudioMac8-2/"/>
-    <updated>2019-07-28T12:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2019/07/28/NuGetSupportInVisualStudioMac8-2</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet 5.1 support</li>
-<li> Support partial installs into multi-target framework projects</li>
-<li> Fixed no network error displayed in Add Packages dialog</li>
-<li> Fixed restoring too many projects when target framework changed</li>
-<li> Fixed adding non-sdk style project triggering NuGet restore multiple times</li>
-<li> Fixed restore menu incorrectly disabled</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.2</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
-
-<h2>NuGet 5.1 support</h2>
-
-<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.1-rtm">NuGet 5.1.0.6013</a> is now
-included with Visual Studio for Mac 8.2.</p>
-
-<h2>Support partial installs into multi-target framework projects</h2>
-
-<p>A NuGet package being installed into a multi-target framework project
-may not support all frameworks. When this happens the PackageReference
-will now be added with a condition so the NuGet package is not used
-for frameworks that are not supported.</p>
-
-<p>```
-<Project Sdk="Microsoft.NET.Sdk"></p>
-
-<p>  <PropertyGroup></p>
-
-<pre><code>&lt;TargetFrameworks&gt;net472;netstandard1.2&lt;/TargetFrameworks&gt;
-</code></pre>
-
-<p>  </PropertyGroup></p>
-
-<p>  <ItemGroup Condition="'$(TargetFramework)' == 'net472'"></p>
-
-<pre><code>&lt;PackageReference Include="EntityFramework" Version="6.2.0" /&gt;
-</code></pre>
-
-<p>  </ItemGroup>
-</Project>
-```</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed no network error displayed in Add Packages dialog</strong></p>
-
-<p>Networking errors were not being reported in the Add Packages dialog
-resulting in no information being available explaining why there were
-no search results.</p>
-
-<p>Visual Studio for Mac uses Xamarin.Mac&rsquo;s NSUrlSessionHandler
-for HTTP requests and the NSUrlSessionHandler reports errors
-using curly braces. For example:</p>
-
-<p><code>
-[nuget.org] The Internet connection appears to be offline.
-  Error Domain=NSURLErrorDomain Code=-1009 "The Internet connection appears to be offline." UserInfo={NSUnderlyingError=0x7fce42892a80 {Error Domain=kCFErrorDomainCFNetwork Code=-1009 "(null)" UserInfo={_kCFStreamErrorCodeKey=50, _kCFStreamErrorDomainKey=1}}, NSErrorFailingURLStringKey=https://api-v2v3search-1.nuget.org/query?q=&amp;skip=0&amp;take=26&amp;prerelease=false&amp;supportedFramework=Xamarin.iOS,Version=v1.0&amp;semVerLevel=2.0.0, NSErrorFailingURLKey=https://api-v2v3search-1.nuget.org/query?q=&amp;skip=0&amp;take=26&amp;prerelease=false&amp;supportedFramework=Xamarin.iOS,Version=v1.0&amp;semVerLevel=2.0.0, _kCFStreamErrorDomainKey=1, _kCFStreamErrorCodeKey=50, NSLocalizedDescription=The Internet connection appears to be offline.}
-</code></p>
-
-<p>This text was then being passed to string.Format in the Add Packages
-dialog and was causing a FormatException. The error would then not be
-displayed in the Add Packages dialog. The text now has the curly braces
-escaped to prevent the FormatException.</p>
-
-<p><strong>Fixed restoring too many projects when target framework changed</strong></p>
-
-<p>When the target framework was changed in a SDK style project all SDK style
-projects in the solution were restored. Now only the project and
-projects that depend on it are restored.</p>
-
-<p><strong>Fixed adding non-sdk style project triggering NuGet restore multiple times</strong></p>
-
-<p>Adding a new non-sdk style project to a solution could cause a NuGet
-restore to run multiple times.</p>
-
-<p>The problem was that the SDK style projects, such as those that target
-Xamarin.Mac, may change their target framework on re-evaluation. This
-was causing Visual Studio for Mac
-to run a restore for all SDK style projects in the solution, multiple
-times. To avoid this the target framework changes during re-evaluation
-are ignored.</p>
-
-<p><strong>Fixed restore menu incorrectly disabled</strong></p>
-
-<p>In the Solution window on right clicking a solution, or the packages folder, the restore
-menu was incorrectly disabled when an SDK style project targeted .NET Framework
-or when the project had its RestoreProjectStyle set to PackageReference and
-had no PackageReferences.</p>
 ]]></content>
   </entry>
   
