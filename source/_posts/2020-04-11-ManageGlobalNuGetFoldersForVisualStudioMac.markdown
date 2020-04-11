@@ -44,12 +44,12 @@ NuGet.Config file.
 
 ## Configuring Global Folders with Environment Variables
 
-Visual Studio for Mac will not use environment variables defined by in the Bash profile ~/.bash_profile or
-the Zsh profile ~/.zprofile unless Visual Studio for Mac is run from the Terminal.app.
+Visual Studio for Mac will not use environment variables defined in the Bash profile ~/.bash_profile or
+the Zsh profile ~/.zprofile unless Visual Studio for Mac is run from the Terminal.
 
     open -n "/Applications/Visual Studio.app"
 
-When Visual Studio for Mac is run from the macOS Dock, or from LaunchPad, it does not inherit
+When Visual Studio for Mac is run from the Dock, or from LaunchPad, it does not inherit
 these environment variables.
 
 Let us take a look at how we can define these NuGet environment
