@@ -9,6 +9,12 @@ footer: true
 
 NuGet directory and file locations across Linux, Mac and Windows operating systems.
 
+See also [Managing the Global Packages and Cache Folders](https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders)
+
+To display the various NuGet cache locations you can run the following command
+
+    nuget locals all -list
+
 ## NuGet Cache
 
 Stores downloaded NuGet packages (.nupkg).
