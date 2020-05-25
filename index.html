@@ -9,8 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="NuGet supports configuring the location of the following
-global folders: Global NuGet packages cache ~/.nuget/packages HTTP cache ~/.local/share/ &hellip;">
+  <meta name="description" content="Changes NuGet 5.6 support Fixed escape key not closing Manage NuGet Packages dialog More information on all the new features and changes in Visual &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +81,65 @@ global folders: Global NuGet packages cache ~/.nuget/packages HTTP cache ~/.loca
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2020/05/25/NuGetSupportInVisualStudioMac8-6/">NuGet Support in Visual Studio for Mac 8.6</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-05-25T10:00:00+01:00" pubdate data-updated="true">May 25<sup>th</sup>, 2020</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.6 support</li>
+<li> Fixed escape key not closing Manage NuGet Packages dialog</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.6</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.6 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.6">NuGet 5.6.0.6591</a> is now
+included with Visual Studio for Mac 8.6.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed escape key not closing Manage NuGet Packages dialog</strong></p>
+
+<p>When the search text box had focus pressing the escape key would
+not close the Manage NuGet Packages dialog as it did in previous
+versions. A change to fix accessibility of the search text box
+broke the original behaviour of the dialog.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1560,74 +1618,6 @@ page which is also available from Preferences &ndash; NuGet &ndash; Sources.</p>
 <li>Restart Visual Studio for Mac.</li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/04/20/NuGetSupportInVisualStudioMac8-0/">NuGet Support in Visual Studio for Mac 8.0</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-04-20T12:40:00+01:00" pubdate data-updated="true">Apr 20<sup>th</sup>, 2019</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Changes</h2>
-
-<ul>
-<li> Fixed build action not available after installing package into a PackageReference project</li>
-<li> Fixed NuGet extension api install events not raised for PackageReference projects</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.0</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed build action not available on installing package into a PackageReference project</strong></p>
-
-<p>After installing the Xamarin.GooglePlayServices.Basement NuGet package, into a project
-that used PackageReferences, the GoogleServicesJson build action, defined by this NuGet package,
-was not available in the list of build actions when you right clicked a file in the
-Solution window. The build action was available after the solution was closed and re-opened.</p>
-
-<p>Installing a NuGet package into a project that used PackageReferences
-would not re-evaluate the project&rsquo;s MSBuild information. This resulted in any custom
-<a href="https://docs.microsoft.com/en-us/visualstudio/msbuild/visual-studio-integration-msbuild?view=vs-2019#additional-build-actions">AvailableItemNames</a>
-not being available to be used as a build action
-in the Solution window. The build actions for a project were cached so these
-are now cleared to ensure the latest items are available
-after an re-evaluation.</p>
-
-<p><strong>Fixed NuGet extension api install events not raised for PackageReference projects</strong></p>
-
-<p>The NuGet extension API has a PackageReferenceAdded event and a
-PackageReferenceRemoved. These were being raised if a project had
-a packages.config file but not if the project used PackageReferences.</p>
 </div>
   
   
