@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2020-05-25 10:20
+date: 2020-08-08 11:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.24
+
+2020-08-08
+
+ * Support Visual Studio for Mac 8.7 RTM
+ * Fixed Dependencies folder not updating for SDK style projects
 
 ## Version 0.23
 
