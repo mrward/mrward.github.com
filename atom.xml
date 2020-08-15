@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2020-05-25T11:11:34+01:00</updated>
+  <updated>2020-08-15T14:29:35+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.7]]></title>
+    <link href="http://lastexitcode.com/blog/2020/08/15/NuGetSupportInVisualStudioMac8-7/"/>
+    <updated>2020-08-15T12:40:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2020/08/15/NuGetSupportInVisualStudioMac8-7</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.7 support</li>
+<li> .NET Core 3.1.401 support
+
+<ul>
+<li>Supported in Visual Studio for Mac 8.7.1</li>
+</ul>
+</li>
+<li> .NET 5 preview 6 and 7 support</li>
+<li> Fixed tests not discovered by VS Test adapter for imported NuGet packages</li>
+<li> Fixed dependent projects not being restored after project reference added</li>
+<li> Fixed SDK resolution errors with vstool</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.7</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.7 support</h2>
+
+<p><a href="https://github.com/NuGet/docs.microsoft.com-nuget/blob/db494772479ae44c2c00d10c9b01b0136bcee892/docs/release-notes/NuGet-5.7.md">NuGet 5.7.0.6702</a> is now
+included with Visual Studio for Mac 8.7.</p>
+
+<h2>.NET Core 3.1.401 support</h2>
+
+<p>The NuGet packages shown in the Solution window in the Dependencies folder
+would not show child dependencies when .NET Core 3.1.401 SDK
+was installed.</p>
+
+<p>The ResolvePackageDependenciesDesignTime MSBuild target&rsquo;s behaviour changed
+in .NET Core 3.1.401 to no longer return the full set
+of NuGet dependencies and now returns only the top level depdnencies.</p>
+
+<p>The logic that was originally in this design time MSBuild target has been
+added to Visual Studio for Mac so the full tree structure of the NuGet
+package dependencies can be displayed in the Solution window.</p>
+
+<p>Note that .NET Core 3.1.401 is supported in Visual Studio for Mac 8.7.1</p>
+
+<h2>.NET 5 preview 6 and 7 support</h2>
+
+<p>Restoring an ASP.Core project targeting .NET 5 would fail with an error
+when the ResolvePackageAssets task was run.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/usr/local/share/dotnet/sdk/5.0.100-preview.6.20304.10/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets(5,5):
+</span><span class='line'>Error MSB4018: The "ResolvePackageAssets" task failed unexpectedly.
+</span><span class='line'>System.MissingFieldException: Field not found: string NuGet.ProjectModel.LockFileItem.AliasesProperty Due to: Could not find field in class
+</span><span class='line'>  at Microsoft.NET.Build.Tasks.ResolvePackageAssets+CacheWriter.WriteItems[T] (NuGet.ProjectModel.LockFileTarget target, System.Func`2[T,TResult] getAssets, System.Func`2[T,TResult] filter, System.Action`2[T1,T2] writeMetadata) [0x0008e] in &lt;9d95d6a4081d41288f54edb04b336893&gt;:0 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>NuGet 5.7 introduced a new AliasesProperty to the LockFileItem class. MSBuild in Mono 6.12 uses NuGet 5.6 build tasks which
+do not support this new property causing the NuGet restore to fail.</p>
+
+<p>Visual Studio for Mac now includes version 5.7 of the NuGet.Build.Tasks assembly and associated
+MSBuild targets. These files are copied to Visual Studio for Mac&rsquo;s MSBuild host
+when it is created and replace these files originally copied from Mono&rsquo;s MSBuild.</p>
+
+<p>Note that .NET 5 preview 8 is not supported by Visual Studio for Mac 8.7 but is supported in by
+Visual Studio for Mac 8.8.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed tests not discovered by VS Test adapter for imported NuGet packages</strong></p>
+
+<p>Test adapter NuGet PackageReferences defined in a Directory.Build.props
+file were not considered by Visual Studio for Mac.
+This resulted in the Unit Tests window not showing any unit tests.
+Only when the test adapter PackageReferences were in the main project file
+would tests be discovered.</p>
+
+<p><strong>Fixed dependent projects not being restored after project reference added</strong></p>
+
+<p>For a new Blazor Web Assembly project (with ASP.NET Core hosted)
+adding a new Razor library project, and having the Client project
+reference the library project, would result in build warnings
+incorrectly displayed for the
+Server project due to conflicts between the NuGet packages used by
+the Client because of the new Razor library project reference.</p>
+
+<pre><code>MSB3277: Found conflicts between different versions of "Microsoft.AspNetCore.Components" 
+</code></pre>
+
+<p>Running a restore for the solution would fix this build warning.</p>
+
+<p>With two SDK style projects referencing each other as follows:</p>
+
+<p>ProjectB &ndash;> ProjectA</p>
+
+<p>If a new SDK project was added, and ProjectA referenced it, the
+restore would only occur for ProjectA not ProjectB. This would mean
+the Lib project was not available to ProjectB until a restore was
+run for ProjectB or for the solution. Depending on the NuGet packages used
+this could result in build warnings.</p>
+
+<p>To fix this all the projects, that reference the project which is modified
+due to the new project reference, are now restored.</p>
+
+<p><strong>Fixed SDK resolution errors with vstool</strong></p>
+
+<p>vstool is an application that is included with Visual Studio for Mac and provides
+a way to run some IDE features from the command line. When one of these features
+used a project that required an SDK provided by NuGet it would fail to resolve and download that SDK.</p>
+
+<p>For example, running the following would fail to resolve SDKs provided by NuGet packages.</p>
+
+<pre><code>vstool gettext-update --sort -f:Main.sln
+</code></pre>
+
+<p>An error would be reported:</p>
+
+<pre><code>ERROR: Unable to find SDK 'Xamarin.Mac.Sdk'
+</code></pre>
+
+<p>The NuGet SDK resolver would fail to find the NuGet.Credentials.dll
+causing vstool to fail.</p>
+
+<pre><code>FileNotFoundException Could not load file or assembly 'NuGet.Credentials, Version=5.6.0.5.
+</code></pre>
+
+<p>To fix this the NuGet.Credentials.dll is pre-loaded by Visual Studio for Mac so it is
+available in the AppDomain when vstool is run.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.6]]></title>
@@ -3027,176 +3162,6 @@ Parameter name: source
   at MonoDevelop.Projects.Project.OnFileCreatedExternally
 in src/core/MonoDevelop.Core/MonoDevelop.Projects/Project.cs:4041
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 7.5]]></title>
-    <link href="http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5/"/>
-    <updated>2018-05-19T15:30:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2018/05/19/NuGetSupportInVisualStudioMac7-5</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> Support installing NuGet packages with item templates</li>
-<li> Fixed generated NuGet package files not available for code completion</li>
-<li> Fixed incorrect Android target framework used when the project has Package References</li>
-<li> Fixed build errors after creating a new Android project with NuGet packages</li>
-<li> Missing package dependencies in Solution window</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.5</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#-visual-studio-2017-for-mac-version-75-release-notes">release notes</a>.</p>
-
-<h2>Support installing NuGet packages with item templates</h2>
-
-<p>Initial support for creating new files from item templates that use
-the .NET Core templating engine has been added. This is currently used
-by the Azure Functions support in Visual Studio for Mac when a new Azure
-Function is added to the project. Currently the New File dialog does not
-have support for showing these templates but there is an API that can
-be used by extensions to create files from these templates.</p>
-
-<p>The item templates can define post actions that indicate that a NuGet
-package is needed. These post actions are read and the NuGet
-package will be installed into the project by Visual Studio for Mac.</p>
-
-<pre><code>"postActions": [
-  {
-    "Description": "Adding Reference to Microsoft.Azure.WebJobs.Extensions.DocumentDB Nuget package",
-    "ActionId": "B17581D1-C5C9-4489-8F0A-004BE667B814",
-    "ContinueOnError": "true",
-    "ManualInstructions": [],
-    "args": {
-      "referenceType": "package",
-      "reference": "Microsoft.Azure.WebJobs.Extensions.DocumentDB",
-      "version": "1.2.0",
-      "projectFileExtensions": ".csproj"
-    }
-  }
-</code></pre>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Generated NuGet package files not available for code completion</strong></p>
-
-<p>On installing a NuGet package such as Refit, which extends the
-CoreCompileDependsOn to generate a C# file, the generated file would
-not be available for code completion until the solution was closed
-and re-opened again.</p>
-
-<p>Below is a section of the refit.targets file used by the Refit NuGet package.</p>
-
-<pre><code>&lt;PropertyGroup&gt;
-  &lt;CoreCompileDependsOn&gt;
-    $(CoreCompileDependsOn);
-    GenerateRefitStubs;
-  &lt;/CoreCompileDependsOn&gt;
-&lt;/PropertyGroup&gt;
-
-&lt;Target Name="GenerateRefitStubs" BeforeTargets="CoreCompile"&gt;
-
-  &lt;Error Condition="'$(MSBuildRuntimeType)' == 'Core' and '$(RefitMinCoreVersionRequired)' &gt; '$(RefitNetCoreAppVersion)' "
-       Text="Refit requires at least the .NET Core SDK v2.0 to run with 'dotnet build'"
-       ContinueOnError="false"
-       /&gt;
-
-  &lt;GenerateStubsTask SourceFiles="@(Compile)" BaseDirectory="$(MSBuildProjectDirectory)"   OutputFile="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
-
-  &lt;Message Text="Processed Refit Stubs" /&gt;      
-
-  &lt;ItemGroup Condition="Exists('$(IntermediateOutputPath)\RefitStubs.g.cs')"&gt;
-    &lt;Compile Include="$(IntermediateOutputPath)\RefitStubs.g.cs" /&gt;
-  &lt;/ItemGroup&gt;    
-&lt;/Target&gt;
-</code></pre>
-
-<p>The CoreCompileDependsOn property is re-defined so the GenerateRefitsStubs MSBuild
-target will be run. This creates a new RefitStubs.g.cs file which is included in the
-project by the Compile MSBuild item.</p>
-
-<p>The problem was that the result of running the
-targets that are defined by the CoreCompileDependsOn property are cached by Visual
-Studio for Mac.
-When Refit is installed the cached result was still being returned so the
-generated C# file was not available for code completion. To fix this the
-project is now re-evaluated before getting the CoreCompileDependsOn property
-if an MSBuild import has been added or removed. Note that projects that use
-Package References were unaffected. Only projects that use a packages.config
-file were affected.</p>
-
-<p><strong>Incorrect Android target framework used when the project has Package References</strong></p>
-
-<p>Configuring an Android project so it uses the latest Android framework
-could result in the wrong target framework being used when building if the
-project used Package References. This would result in a build error
-similar to:</p>
-
-<pre><code>Error: Your project is not referencing the "MonoAndroid,Version=v7.1" framework. 
-Add a reference to "MonoAndroid,Version=v7.1" in the "frameworks" section of your 
-project.json, and then re-run NuGet restore
-</code></pre>
-
-<p>The problem was that the wrong target framework was being used in the
-project.assets.json. Running a NuGet restore was
-a workaround for the problem.</p>
-
-<p>Now when the target framework version in project options is changed, and
-the project uses Package References, a NuGet restore is run after the
-project file is saved. This ensures the Package References work with
-the new target framework. This also re-generates the project.assets.json file
-so the build will use the correct references.</p>
-
-<p>Another problem here was that configuring the Android to use the latest
-target framework would not result in the target framework being changed
-in the project model stored in memory.
-This could also result in the project.assets.json file being out of
-sync with the Android project&rsquo;s target framework.</p>
-
-<p><strong>Build errors after creating a new Android project with NuGet packages</strong></p>
-
-<p>Creating a new Android project that installed NuGet packages as it was created
-would sometimes result in build errors that could be fixed by closing and
-re-opening the solution. An example build error is shown below.</p>
-
-<pre><code>Resources/values/styles.xml : error APT0000: 1: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.DarkActionBar'.
-Resources/values/styles.xml : error APT0000: 2: error: Error: No resource found that matches the given   name: attr 'colorAccent'.
-Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimary'.
-Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'colorPrimaryDark'.
-Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowActionBar'.
-Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'windowActionModeOverlay'.
-Resources/values/styles.xml : error APT0000: 1: error: Error: No resource found that matches the given name: attr 'windowNoTitle'.
-Resources/values/styles.xml : error APT0000: 3: error: Error retrieving parent for item: No resource found that matches the given name 'Theme.AppCompat.Light.Dialog'.
-Resources/values/styles.xml : error APT0000: 3: error: Error: No resource found that matches the given name: attr 'colorAccent'.
-</code></pre>
-
-<p>The build errors varied but in each case the error was caused by a
-missing reference to an assembly from one of the Android Support NuGet packages installed
-when the project was created. The project file created would have
-the correct reference information but Visual Studio for Mac was
-building an old version of the project.</p>
-
-<p>If the project was modified in memory when a build is requested this
-results in the unsaved project xml being given to the remote MSBuild
-host. In some cases this project xml was not being cleared and would
-result in an out of date project xml being used when building. This
-could occur if the MSBuild host did not have any projects
-loaded at the time when an attempt was made to unload the project from
-the host. Now the unsaved project xml is removed in all cases when the
-project is unloaded from the MSBuild host.</p>
-
-<p><strong>Missing package dependencies in Solution window</strong></p>
-
-<p>After creating a new ASP.NET Core project sometimes the package dependencies
-shown in the Solution window under the SDK folder and the NuGet folder
-could not be expanded to view the child dependencies.</p>
-
-<p>The problem was that if the call to get the package dependencies
-using MSBuild was cancelled this would result an empty list of depenencies
-being cached. Since no package dependencies were returned the Solution window
-would fallback to showing the package dependencies that were listed in the
-project and a default top level SDK package dependency.</p>
 ]]></content>
   </entry>
   

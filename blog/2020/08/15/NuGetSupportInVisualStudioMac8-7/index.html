@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NuGet Support in Visual Studio for Mac 8.7 - Matt Ward</title>
+  <meta name="author" content="Matt Ward">
+
+  
+  <meta name="description" content="Changes NuGet 5.7 support .NET Core 3.1.401 support Supported in Visual Studio for Mac 8.7.1 .NET 5 preview 6 and 7 support Fixed tests not &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lastexitcode.com/blog/2020/08/15/NuGetSupportInVisualStudioMac8-7">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matt Ward" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34592677-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Matt Ward</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="lastexitcode.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects/">Projects</a></li>
+  <li><a href="/blog/archives/">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">NuGet Support in Visual Studio for Mac 8.7</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-08-15T12:40:00+01:00" pubdate data-updated="true">Aug 15<sup>th</sup>, 2020</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.7 support</li>
+<li> .NET Core 3.1.401 support
+
+<ul>
+<li>Supported in Visual Studio for Mac 8.7.1</li>
+</ul>
+</li>
+<li> .NET 5 preview 6 and 7 support</li>
+<li> Fixed tests not discovered by VS Test adapter for imported NuGet packages</li>
+<li> Fixed dependent projects not being restored after project reference added</li>
+<li> Fixed SDK resolution errors with vstool</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.7</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.7 support</h2>
+
+<p><a href="https://github.com/NuGet/docs.microsoft.com-nuget/blob/db494772479ae44c2c00d10c9b01b0136bcee892/docs/release-notes/NuGet-5.7.md">NuGet 5.7.0.6702</a> is now
+included with Visual Studio for Mac 8.7.</p>
+
+<h2>.NET Core 3.1.401 support</h2>
+
+<p>The NuGet packages shown in the Solution window in the Dependencies folder
+would not show child dependencies when .NET Core 3.1.401 SDK
+was installed.</p>
+
+<p>The ResolvePackageDependenciesDesignTime MSBuild target&rsquo;s behaviour changed
+in .NET Core 3.1.401 to no longer return the full set
+of NuGet dependencies and now returns only the top level depdnencies.</p>
+
+<p>The logic that was originally in this design time MSBuild target has been
+added to Visual Studio for Mac so the full tree structure of the NuGet
+package dependencies can be displayed in the Solution window.</p>
+
+<p>Note that .NET Core 3.1.401 is supported in Visual Studio for Mac 8.7.1</p>
+
+<h2>.NET 5 preview 6 and 7 support</h2>
+
+<p>Restoring an ASP.Core project targeting .NET 5 would fail with an error
+when the ResolvePackageAssets task was run.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/usr/local/share/dotnet/sdk/5.0.100-preview.6.20304.10/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets(5,5):
+</span><span class='line'>Error MSB4018: The "ResolvePackageAssets" task failed unexpectedly.
+</span><span class='line'>System.MissingFieldException: Field not found: string NuGet.ProjectModel.LockFileItem.AliasesProperty Due to: Could not find field in class
+</span><span class='line'>  at Microsoft.NET.Build.Tasks.ResolvePackageAssets+CacheWriter.WriteItems[T] (NuGet.ProjectModel.LockFileTarget target, System.Func`2[T,TResult] getAssets, System.Func`2[T,TResult] filter, System.Action`2[T1,T2] writeMetadata) [0x0008e] in &lt;9d95d6a4081d41288f54edb04b336893&gt;:0 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>NuGet 5.7 introduced a new AliasesProperty to the LockFileItem class. MSBuild in Mono 6.12 uses NuGet 5.6 build tasks which
+do not support this new property causing the NuGet restore to fail.</p>
+
+<p>Visual Studio for Mac now includes version 5.7 of the NuGet.Build.Tasks assembly and associated
+MSBuild targets. These files are copied to Visual Studio for Mac&rsquo;s MSBuild host
+when it is created and replace these files originally copied from Mono&rsquo;s MSBuild.</p>
+
+<p>Note that .NET 5 preview 8 is not supported by Visual Studio for Mac 8.7 but is supported in by
+Visual Studio for Mac 8.8.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed tests not discovered by VS Test adapter for imported NuGet packages</strong></p>
+
+<p>Test adapter NuGet PackageReferences defined in a Directory.Build.props
+file were not considered by Visual Studio for Mac.
+This resulted in the Unit Tests window not showing any unit tests.
+Only when the test adapter PackageReferences were in the main project file
+would tests be discovered.</p>
+
+<p><strong>Fixed dependent projects not being restored after project reference added</strong></p>
+
+<p>For a new Blazor Web Assembly project (with ASP.NET Core hosted)
+adding a new Razor library project, and having the Client project
+reference the library project, would result in build warnings
+incorrectly displayed for the
+Server project due to conflicts between the NuGet packages used by
+the Client because of the new Razor library project reference.</p>
+
+<pre><code>MSB3277: Found conflicts between different versions of "Microsoft.AspNetCore.Components" 
+</code></pre>
+
+<p>Running a restore for the solution would fix this build warning.</p>
+
+<p>With two SDK style projects referencing each other as follows:</p>
+
+<p>ProjectB &ndash;> ProjectA</p>
+
+<p>If a new SDK project was added, and ProjectA referenced it, the
+restore would only occur for ProjectA not ProjectB. This would mean
+the Lib project was not available to ProjectB until a restore was
+run for ProjectB or for the solution. Depending on the NuGet packages used
+this could result in build warnings.</p>
+
+<p>To fix this all the projects, that reference the project which is modified
+due to the new project reference, are now restored.</p>
+
+<p><strong>Fixed SDK resolution errors with vstool</strong></p>
+
+<p>vstool is an application that is included with Visual Studio for Mac and provides
+a way to run some IDE features from the command line. When one of these features
+used a project that required an SDK provided by NuGet it would fail to resolve and download that SDK.</p>
+
+<p>For example, running the following would fail to resolve SDKs provided by NuGet packages.</p>
+
+<pre><code>vstool gettext-update --sort -f:Main.sln
+</code></pre>
+
+<p>An error would be reported:</p>
+
+<pre><code>ERROR: Unable to find SDK 'Xamarin.Mac.Sdk'
+</code></pre>
+
+<p>The NuGet SDK resolver would fail to find the NuGet.Credentials.dll
+causing vstool to fail.</p>
+
+<pre><code>FileNotFoundException Could not load file or assembly 'NuGet.Credentials, Version=5.6.0.5.
+</code></pre>
+
+<p>To fix this the NuGet.Credentials.dll is pre-loaded by Visual Studio for Mac so it is
+available in the AppDomain when vstool is run.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Matt Ward</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2020-08-15T12:40:00+01:00" pubdate data-updated="true">Aug 15<sup>th</sup>, 2020</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/monodevelop/'>monodevelop</a>, <a class='category' href='/blog/categories/nuget/'>nuget</a>, <a class='category' href='/blog/categories/vsmac/'>vsmac</a>, <a class='category' href='/blog/categories/xamarin/'>xamarin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://lastexitcode.com/blog/2020/08/15/NuGetSupportInVisualStudioMac8-7/" data-via="" data-counturl="http://lastexitcode.com/blog/2020/08/15/NuGetSupportInVisualStudioMac8-7/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2020/05/25/NuGetSupportInVisualStudioMac8-6/" title="Previous Post: NuGet Support in Visual Studio for Mac 8.6">&laquo; NuGet Support in Visual Studio for Mac 8.6</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - Matt Ward -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

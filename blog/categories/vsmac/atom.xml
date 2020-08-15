@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2020-05-25T11:11:34+01:00</updated>
+  <updated>2020-08-15T14:29:35+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,138 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.7]]></title>
+    <link href="http://lastexitcode.com/blog/2020/08/15/NuGetSupportInVisualStudioMac8-7/"/>
+    <updated>2020-08-15T12:40:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2020/08/15/NuGetSupportInVisualStudioMac8-7</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.7 support</li>
+<li> .NET Core 3.1.401 support
+
+<ul>
+<li>Supported in Visual Studio for Mac 8.7.1</li>
+</ul>
+</li>
+<li> .NET 5 preview 6 and 7 support</li>
+<li> Fixed tests not discovered by VS Test adapter for imported NuGet packages</li>
+<li> Fixed dependent projects not being restored after project reference added</li>
+<li> Fixed SDK resolution errors with vstool</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.7</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.7 support</h2>
+
+<p><a href="https://github.com/NuGet/docs.microsoft.com-nuget/blob/db494772479ae44c2c00d10c9b01b0136bcee892/docs/release-notes/NuGet-5.7.md">NuGet 5.7.0.6702</a> is now
+included with Visual Studio for Mac 8.7.</p>
+
+<h2>.NET Core 3.1.401 support</h2>
+
+<p>The NuGet packages shown in the Solution window in the Dependencies folder
+would not show child dependencies when .NET Core 3.1.401 SDK
+was installed.</p>
+
+<p>The ResolvePackageDependenciesDesignTime MSBuild target&rsquo;s behaviour changed
+in .NET Core 3.1.401 to no longer return the full set
+of NuGet dependencies and now returns only the top level depdnencies.</p>
+
+<p>The logic that was originally in this design time MSBuild target has been
+added to Visual Studio for Mac so the full tree structure of the NuGet
+package dependencies can be displayed in the Solution window.</p>
+
+<p>Note that .NET Core 3.1.401 is supported in Visual Studio for Mac 8.7.1</p>
+
+<h2>.NET 5 preview 6 and 7 support</h2>
+
+<p>Restoring an ASP.Core project targeting .NET 5 would fail with an error
+when the ResolvePackageAssets task was run.</p>
+
+<p><code>
+/usr/local/share/dotnet/sdk/5.0.100-preview.6.20304.10/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets(5,5):
+Error MSB4018: The "ResolvePackageAssets" task failed unexpectedly.
+System.MissingFieldException: Field not found: string NuGet.ProjectModel.LockFileItem.AliasesProperty Due to: Could not find field in class
+  at Microsoft.NET.Build.Tasks.ResolvePackageAssets+CacheWriter.WriteItems[T] (NuGet.ProjectModel.LockFileTarget target, System.Func`2[T,TResult] getAssets, System.Func`2[T,TResult] filter, System.Action`2[T1,T2] writeMetadata) [0x0008e] in &lt;9d95d6a4081d41288f54edb04b336893&gt;:0
+</code></p>
+
+<p>NuGet 5.7 introduced a new AliasesProperty to the LockFileItem class. MSBuild in Mono 6.12 uses NuGet 5.6 build tasks which
+do not support this new property causing the NuGet restore to fail.</p>
+
+<p>Visual Studio for Mac now includes version 5.7 of the NuGet.Build.Tasks assembly and associated
+MSBuild targets. These files are copied to Visual Studio for Mac&rsquo;s MSBuild host
+when it is created and replace these files originally copied from Mono&rsquo;s MSBuild.</p>
+
+<p>Note that .NET 5 preview 8 is not supported by Visual Studio for Mac 8.7 but is supported in by
+Visual Studio for Mac 8.8.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed tests not discovered by VS Test adapter for imported NuGet packages</strong></p>
+
+<p>Test adapter NuGet PackageReferences defined in a Directory.Build.props
+file were not considered by Visual Studio for Mac.
+This resulted in the Unit Tests window not showing any unit tests.
+Only when the test adapter PackageReferences were in the main project file
+would tests be discovered.</p>
+
+<p><strong>Fixed dependent projects not being restored after project reference added</strong></p>
+
+<p>For a new Blazor Web Assembly project (with ASP.NET Core hosted)
+adding a new Razor library project, and having the Client project
+reference the library project, would result in build warnings
+incorrectly displayed for the
+Server project due to conflicts between the NuGet packages used by
+the Client because of the new Razor library project reference.</p>
+
+<pre><code>MSB3277: Found conflicts between different versions of "Microsoft.AspNetCore.Components" 
+</code></pre>
+
+<p>Running a restore for the solution would fix this build warning.</p>
+
+<p>With two SDK style projects referencing each other as follows:</p>
+
+<p>ProjectB &ndash;> ProjectA</p>
+
+<p>If a new SDK project was added, and ProjectA referenced it, the
+restore would only occur for ProjectA not ProjectB. This would mean
+the Lib project was not available to ProjectB until a restore was
+run for ProjectB or for the solution. Depending on the NuGet packages used
+this could result in build warnings.</p>
+
+<p>To fix this all the projects, that reference the project which is modified
+due to the new project reference, are now restored.</p>
+
+<p><strong>Fixed SDK resolution errors with vstool</strong></p>
+
+<p>vstool is an application that is included with Visual Studio for Mac and provides
+a way to run some IDE features from the command line. When one of these features
+used a project that required an SDK provided by NuGet it would fail to resolve and download that SDK.</p>
+
+<p>For example, running the following would fail to resolve SDKs provided by NuGet packages.</p>
+
+<pre><code>vstool gettext-update --sort -f:Main.sln
+</code></pre>
+
+<p>An error would be reported:</p>
+
+<pre><code>ERROR: Unable to find SDK 'Xamarin.Mac.Sdk'
+</code></pre>
+
+<p>The NuGet SDK resolver would fail to find the NuGet.Credentials.dll
+causing vstool to fail.</p>
+
+<pre><code>FileNotFoundException Could not load file or assembly 'NuGet.Credentials, Version=5.6.0.5.
+</code></pre>
+
+<p>To fix this the NuGet.Credentials.dll is pre-loaded by Visual Studio for Mac so it is
+available in the AppDomain when vstool is run.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.6]]></title>
@@ -339,174 +471,6 @@ update both NuGet packages so they then use the new strict dependency.</p>
 <p>Note that updating all packages in the project from the Solution
 window does not have this problem since there the packages were already
 updated together in a batch.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Project System Tools for Visual Studio for Mac]]></title>
-    <link href="http://lastexitcode.com/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac/"/>
-    <updated>2019-12-31T12:00:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac</id>
-    <content type="html"><![CDATA[<p>The <a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools extension</a> provides
-MSBuild design-time and build logging for Visual Studio for Mac.</p>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingBinLogFile.png" title="&lsquo;Build Logging window and BinLog tree view&rsquo; &lsquo;Build Logging window and BinLog tree view&rsquo;" ></p>
-
-<p>This is based on the <a href="https://github.com/dotnet/project-system-tools">Project System Tools available for Visual Studio on Windows</a> and also re-uses code from this extension.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Build Logging window
-
-<ul>
-<li>Shows a list of builds and design-time builds</li>
-</ul>
-</li>
-<li>View MSBuild log output for all builds and design-time builds</li>
-<li>View MSBuild binary logs for builds
-
-<ul>
-<li>Build tab shows a tree view of the build results from the binary log</li>
-<li>Target Summary tab shows target name, number of calls, timings and file location</li>
-<li>Task Summary tab shows task name, number of calls, timings and file location</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li>Visual Studio Mac 8.1 or later.</li>
-</ul>
-
-
-<h2>Build Logging Window</h2>
-
-<p>To open the Build Logging Window</p>
-
-<ul>
-<li>Select View &ndash; Pads &ndash; Build Logging</li>
-</ul>
-
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingWindow.png" title="&lsquo;Build Logging window&rsquo; &lsquo;Build Logging window&rsquo;" ></p>
-
-<p>Click the green arrow to enable logging for builds and design-time builds.</p>
-
-<p>To stop the logging click the red square.</p>
-
-<p>To filter the targets use the combo box to restrict the items shown to builds or design time builds, or use the search on the right hand side of the window.</p>
-
-<h2>MSBuild Log Output</h2>
-
-<p>To open the MSBuild log output</p>
-
-<ul>
-<li>Double click the row in the Build Logging window or</li>
-<li>Right click the row and select Open Log File</li>
-</ul>
-
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingOpenLogFileMenu.png" title="&lsquo;Open Log File context menu&rsquo; &lsquo;Open Log File context menu&rsquo;" ></p>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildLogFile.png" title="&lsquo;MSBuild Log File&rsquo; &lsquo;MSBuild Log File&rsquo;" ></p>
-
-<p>The verbosity of the MSBuild log output is configured in Preferences &ndash; Projects &ndash; Build &ndash; Log verbosity.</p>
-
-<h2>MSBuild Binary Log</h2>
-
-<p>To open a binary log file</p>
-
-<ul>
-<li>Right click the row in the Build Logging window and select Open Binary Log File</li>
-</ul>
-
-
-<p>Note that binary logs are only available when the project or solution is built.
-Support for design-time build binary logs should be available in Visual Studio for Mac 8.5.</p>
-
-<p>Three tabs are provided by the Project System Tools extension when a binary log file is opened.</p>
-
-<ul>
-<li>Build
-
-<ul>
-<li>Tree view of the binary log targets and tasks</li>
-<li>Properties window shows more information about the selected task or target</li>
-</ul>
-</li>
-<li>Target Summary
-
-<ul>
-<li>Target name</li>
-<li>Source filename</li>
-<li>Number of calls</li>
-<li>Time taken</li>
-<li>Percentage of total time taken</li>
-</ul>
-</li>
-<li>Task Summary
-
-<ul>
-<li>Task name</li>
-<li>Source filename</li>
-<li>Number of calls</li>
-<li>Time taken</li>
-<li>Percentage of total time taken</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Build Tab</h2>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildBinaryLogFileBuildTab.png" title="&lsquo;MSBuild Binary Log File &ndash; Build tab&rsquo; &lsquo;MSBuild Binary Log File &ndash; Build tab&rsquo;" ></p>
-
-<p>The Build tab shows the run times of the targets and tasks, and whether they ran successfully.</p>
-
-<p>Skipped tasks and targets are shown in light grey text.</p>
-
-<p>Selecting a tree node in the Build tab will show more information about that node in the Properties window.</p>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildTabProperties.png" title="&lsquo;MSBuild Binary Log File &ndash; Build tab &ndash; Properties window&rsquo; &lsquo;MSBuild Binary Log File &ndash; Build tab &ndash; Properties window&rsquo;" ></p>
-
-<h2>Target Summary Tab</h2>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TargetSummaryTab.png" title="&lsquo;MSBuild Binary Log File &ndash; Target Summary tab&rsquo; &lsquo;MSBuild Binary Log File &ndash; Target Summary tab&rsquo;" ></p>
-
-<p>Targets are shown in the order they were run and can be sorted by clicking the column headers.</p>
-
-<h2>Task Summary Tab</h2>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TaskSummaryTab.png" title="&lsquo;MSBuild Binary Log File &ndash; Task Summary tab&rsquo; &lsquo;MSBuild Binary Log File &ndash; Task Summary tab&rsquo;" ></p>
-
-<p>Tasks are shown in the order they were run and can be sorted by clicking the column headers.</p>
-
-<h2>Project System Tools Installation</h2>
-
-<p>The Project System Tools extension is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
-
-<ul>
-<li>From the main menu, open the Extensions Manager dialog.</li>
-<li>Select the Gallery tab.</li>
-<li>Expand IDE extensions.</li>
-<li>Select Project System Tools</li>
-<li>Click the Refresh button if the extension is not visible.</li>
-<li>Click Install… to install the extension.</li>
-<li>Restart Visual Studio for Mac.</li>
-</ul>
-
-
-<h2>Links</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools source code &ndash; Visual Studio for Mac</a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.ProjectSystemTools">Project System Tools Marketplace &ndash; Visual Studio on Windows</a></li>
-<li><a href="https://github.com/dotnet/project-system-tools">Project System Tools source code &ndash; Visual Studio for Windows</a></li>
-</ul>
-
 ]]></content>
   </entry>
   
