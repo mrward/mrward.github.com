@@ -9,9 +9,9 @@ categories: NuGet Xamarin VSMac MonoDevelop
 ## Changes
 
    * NuGet 5.7 support
-   * .NET Core 3.1.401 SDK support
+   * .NET Core 3.1.401 support
      * Supported in Visual Studio for Mac 8.7.1
-   * .NET Core 5 preview 6 and 7 support
+   * .NET 5 preview 6 and 7 support
    * Fixed tests not discovered by VS Test adapter for imported NuGet packages
    * Fixed dependent projects not being restored after project reference added
    * Fixed SDK resolution errors with vstool
@@ -24,7 +24,7 @@ can be found in the [release notes](https://docs.microsoft.com/en-us/visualstudi
 [NuGet 5.7.0.6702](https://github.com/NuGet/docs.microsoft.com-nuget/blob/db494772479ae44c2c00d10c9b01b0136bcee892/docs/release-notes/NuGet-5.7.md) is now
 included with Visual Studio for Mac 8.7.
 
-## .NET Core 3.1.401 SDK support
+## .NET Core 3.1.401 support
 
 The NuGet packages shown in the Solution window in the Dependencies folder
 would not show child dependencies when .NET Core 3.1.401 SDK
@@ -40,7 +40,7 @@ package dependencies can be displayed in the Solution window.
 
 Note that .NET Core 3.1.401 is supported in Visual Studio for Mac 8.7.1
 
-## .NET Core 5 preview 6 and 7 support
+## .NET 5 preview 6 and 7 support
 
 Restoring an ASP.Core project targeting .NET 5 would fail with an error
 when the ResolvePackageAssets task was run.
@@ -59,7 +59,7 @@ Visual Studio for Mac now includes version 5.7 of the NuGet.Build.Tasks assembly
 MSBuild targets. These files are copied to Visual Studio for Mac's MSBuild host
 when it is created and replace these files originally copied from Mono's MSBuild.
 
-Note that .NET Core 5 preview 8 is not supported by Visual Studio for Mac 8.7 but is supported in by
+Note that .NET 5 preview 8 is not supported by Visual Studio for Mac 8.7 but is supported in by
 Visual Studio for Mac 8.8.
 
 ## Bug Fixes
