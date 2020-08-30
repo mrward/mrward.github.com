@@ -1,12 +1,13 @@
 ---
 layout: page
 title: "Projects"
-date: 2019-11-20 12:30
+date: 2020-08-30 11:50
 comments: true
 sharing: true
 footer: true
 ---
 
+ * [MonoDevelop C# Interactive Switch Addin](MonoDevelopCSharpInteractiveAddin/)
  * [MonoDevelop Feature Switch Addin](MonoDevelopFeatureSwitchAddin/) 
  * [MonoDevelop File Nesting Addin](MonoDevelopFileNestingAddin/)
  * [MonoDevelop File Service Events Addin](MonoDevelopFileServiceEventsAddin/) 
