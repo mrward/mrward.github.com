@@ -7,7 +7,7 @@ sharing: true
 footer: true
 ---
 
- * [MonoDevelop C# Interactive Switch Addin](MonoDevelopCSharpInteractiveAddin/)
+ * [MonoDevelop C# Interactive Addin](MonoDevelopCSharpInteractiveAddin/)
  * [MonoDevelop Feature Switch Addin](MonoDevelopFeatureSwitchAddin/) 
  * [MonoDevelop File Nesting Addin](MonoDevelopFileNestingAddin/)
  * [MonoDevelop File Service Events Addin](MonoDevelopFileServiceEventsAddin/) 
