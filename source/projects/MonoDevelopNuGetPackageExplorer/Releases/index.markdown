@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Package Explorer Addin Releases"
-date: 2020-05-06 14:00
+date: 2020-11-22 09:00
 comments: true
 sharing: true
 footer: true
 ---
+
+# Version 0.6
+
+2020-11-22
+
+ * Fix Open Package menu not enabled on Solution window in Visual Studio for Mac 8.8
 
 # Version 0.5
 
