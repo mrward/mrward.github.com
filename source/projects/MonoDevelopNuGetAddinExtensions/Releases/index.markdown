@@ -1,11 +1,19 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2020-11-22 11:00
+date: 2020-11-29 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.26
+
+2020-11-29
+
+ * PowerShell remote console host now requires .NET Core 3.1 runtime
+ * Detect missing runtime required for console host
+ * Improve restart remote console host logic
 
 ## Version 0.25
 
