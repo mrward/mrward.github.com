@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Projects"
-date: 2020-08-30 11:50
+date: 2021-03-07 15:00
 comments: true
 sharing: true
 footer: true
@@ -10,7 +10,8 @@ footer: true
  * [MonoDevelop C# Interactive Addin](MonoDevelopCSharpInteractiveAddin/)
  * [MonoDevelop Feature Switch Addin](MonoDevelopFeatureSwitchAddin/) 
  * [MonoDevelop File Nesting Addin](MonoDevelopFileNestingAddin/)
- * [MonoDevelop File Service Events Addin](MonoDevelopFileServiceEventsAddin/) 
+ * [MonoDevelop File Service Events Addin](MonoDevelopFileServiceEventsAddin/)
+ * [MonoDevelop File Watcher Filters Addin](MonoDevelopFileWatcherFilterAddin/)
  * [MonoDevelop .NET Core Addin](MonoDevelopDnxAddin/)
  * [MonoDevelop Language Server Client Addin](MonoDevelopLanguageServerClientAddin/)
  * [MonoDevelop Library Manager Addin](MonoDevelopLibraryManagerAddin/)
