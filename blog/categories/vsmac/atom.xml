@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2020-11-21T15:14:35+00:00</updated>
+  <updated>2021-03-13T16:40:50+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.9]]></title>
+    <link href="http://lastexitcode.com/blog/2021/03/13/NuGetSupportInVisualStudio8-9/"/>
+    <updated>2021-03-13T16:20:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2021/03/13/NuGetSupportInVisualStudio8-9</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Fixed implicit NuGet packages being updated</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.9</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<p><strong>Fixed implicit NuGet packages being updated</strong></p>
+
+<p>Updating all NuGet packages, from the Solution window, in a .NET Core
+2.1 project would fail with an error.</p>
+
+<p><code>
+Package Microsoft.NETCore.App 2.2.8 is not compatible with netcoreapp2.1 (.NETCoreApp,Version=v2.1). Package Microsoft NETCore.App 2.2.8 supports: netcoreapp2.2 (.NETCoreApp,Version=v2.2)
+</code></p>
+
+<p>The problem was that implicitly defined (or auto-referenced) NuGet
+package references were being updated when they should be ignored since
+they cannot be updated. Now Visual Studio for Mac does not attempt to
+update implicitly defined NuGet package references.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.8]]></title>
@@ -332,63 +363,6 @@ custom NuGet folders.</p>
 <p><a href="https://en.wikipedia.org/wiki/Launchd#launchctl">launchctl</a> setenv defines environment variables
 globally so they are available to all macOS
 applications launched with <a href="https://en.wikipedia.org/wiki/Launchd">launchd</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.5]]></title>
-    <link href="http://lastexitcode.com/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5/"/>
-    <updated>2020-04-05T12:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2020/04/05/NuGetSupportInVisualStudioMac8-5</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet 5.4 support</li>
-<li> Support Plugin-based NuGet Credential Providers</li>
-<li> Fixed requests bypassing the native macOS HTTP handler</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.5</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
-
-<h2>NuGet 5.4 support</h2>
-
-<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.4">NuGet 5.4.0.6315</a> is now
-included with Visual Studio for Mac 8.5.</p>
-
-<h2>Support Plugin-based NuGet Credential Providers</h2>
-
-<p><a href="https://docs.microsoft.com/en-us/nuget/reference/extensibility/nuget-cross-platform-plugins">NuGet credential provider plugins</a>
-are now supported by Visual Studio for Mac.</p>
-
-<p>Plugins are self-contained executables which provide
-credentials for NuGet package sources. One example is the
-<a href="https://github.com/microsoft/artifacts-credprovider">Azure Artifacts Credential Provider</a> which
-Visual Studio for Mac can now use whilst it does not have integrated support for
-accessing packages sources available from
-<a href="https://docs.microsoft.com/en-us/azure/devops/artifacts/get-started-nuget">Azure DevOps</a>.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed HTTP requests bypassing the native macOS HTTP handler</strong></p>
-
-<p>Restoring or installing a NuGet package into a project that uses
-PackageReferences was bypassing the native macOS HTTP handler.</p>
-
-<p>This was due
-to NuGet&rsquo;s CachingSourceProvider creating its own set of
-INuGetResourceProviders when it creates a set of new SourceRepository
-instances. This resulted in the default HttpSourceResourceProvider
-being used, instead of the custom one provided by Visual Studio for Mac.
-The default HttpSourceResourceProvider uses Mono&rsquo;s HttpClientHandler not
-the native HTTP Client handle NSUrlSessionHandler provided by
-Xamarin.Mac. This would happen
-when the Nuget package was was downloaded.</p>
-
-<p>NuGet 5.4 now supports defining custom INuGetResourceProvider factory that is used
-globally. This is now used by Visual Studio for Mac so all HTTP requests
-use the native macOS HTTP handler NSUrlSessionHandler.</p>
 ]]></content>
   </entry>
   

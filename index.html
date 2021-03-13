@@ -9,7 +9,8 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Features Azure DevOps NuGet package source authentication with signed in account NuGet 5.8 support More information on all the new features and &hellip;">
+  <meta name="description" content="Changes Fixed implicit NuGet packages being updated More information on all the new features and changes in Visual Studio for Mac 8.9
+can be found in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +82,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2021/03/13/NuGetSupportInVisualStudio8-9/">NuGet Support in Visual Studio for Mac 8.9</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2021-03-13T16:20:00+00:00" pubdate data-updated="true">Mar 13<sup>th</sup>, 2021</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> Fixed implicit NuGet packages being updated</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.9</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<p><strong>Fixed implicit NuGet packages being updated</strong></p>
+
+<p>Updating all NuGet packages, from the Solution window, in a .NET Core
+2.1 project would fail with an error.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Package Microsoft.NETCore.App 2.2.8 is not compatible with netcoreapp2.1 (.NETCoreApp,Version=v2.1). Package Microsoft NETCore.App 2.2.8 supports: netcoreapp2.2 (.NETCoreApp,Version=v2.2)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The problem was that implicitly defined (or auto-referenced) NuGet
+package references were being updated when they should be ignored since
+they cannot be updated. Now Visual Studio for Mac does not attempt to
+update implicitly defined NuGet package references.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1400,159 +1459,6 @@ had no PackageReferences.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/07/13/LibManSupportInVisualStudioMac8-1/">LibMan support in Visual Studio for Mac</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-07-13T12:00:00+01:00" pubdate data-updated="true">Jul 13<sup>th</sup>, 2019</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The <a href="https://github.com/mrward/LibraryManager">Library Manager addin</a> provides
-Microsoft Library Manager (LibMan) support for Visual Studio for Mac. LibMan provides a way to install
-third-party client-side JavaScript libraries for ASP.NET Core and ASP.NET projects.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Add Client-Side Library dialog</li>
-<li>Restore client-side libraries</li>
-<li>Deleting client-side libraries</li>
-<li>Automatic client-side library restore on saving libman.json file</li>
-</ul>
-
-
-<p>Full text editor support is not currently available. The following text editor quick actions are not supported:</p>
-
-<ul>
-<li>Uninstall a client-side library</li>
-<li>Check for client-side library updates</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li>Visual Studio Mac 8.1 or later.</li>
-<li>ASP.NET Core and ASP.NET projects</li>
-</ul>
-
-
-<h2>Add Client-Side Library Dialog</h2>
-
-<p>To open the Add Client-Side Library dialog, right click the project, or a folder, and select Add &ndash; Client-Side Library.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryMenuItem.png" title="Add - Client-Side Library menu" alt="Add - Client-Side Library menu"></p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialog.png" title="Add Client-Side Library dialog" alt="Add Client-Side Library dialog"></p>
-
-<p>The library provider can be selected from the Provider list.</p>
-
-<p>Typing in the Library text field will search the library provider and show a list of matching libraries.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialogCompletion.png" title="Add Client-Side Library dialog completion list" alt="Add Client-Side Library dialog completion list"></p>
-
-<p>Pressing tab or return will insert the selected library from the completion list into the Library text field.</p>
-
-<p>You can then choose to include all the client-side library files or a selection of those files.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/AddClientSideLibraryDialogSelectFiles.png" title="Add Client-Side Library dialog select files" alt="Add Client-Side Library dialog select files"></p>
-
-<p>The Target Location indicates where the client-side library files will be installed.</p>
-
-<p>Clicking the Install button will create a libman.json file and install the client-side library into your project.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibManJQueryInstalledInProject.png" title="jQuery installed into project" alt="jQuery installed into project"></p>
-
-<p>More detailed information about the client-side library installation is available by clicking the status bar or by selecting
-View &ndash; Pads &ndash; Library Manager Output.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibraryManagerOutputWindow.png" title="Library Manager Output window" alt="Library Manager Output window"></p>
-
-<h2>Adding a libman.json file</h2>
-
-<p>To add a libman.json file without using the Add Client-Side Library dialog, right click the ASP.NET project and select
-Manage Client-Side Libraries.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/ManageClientSideLibrariesMenu.png" title="Manage Client-Side Libraries menu" alt="Manage Client-Side Libraries menu"></p>
-
-<p>This will create a libman.json file and open it in the text editor.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibManFileInTextEditor.png" title="libman.json file in text editor" alt="libman.json file in text editor"></p>
-
-<h2>Restoring Client-Side Libraries</h2>
-
-<p>To restore the client-side libraries you can right click the libman.json file in the Solution window and
-select Restore Client-Side Libraries.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/RestoreClientSideLibraries.png" title="Restore Client-Side Libraries menu" alt="Restore Client-Side Libraries menu"></p>
-
-<p>Information about the restore operation is available from the Library Manager Output window.</p>
-
-<p>Alternatively saving the libman.json file in the text editor will run a restore.</p>
-
-<p>Restore errors are displayed in the Errors window and in the libman.json file if it is open in the text editor.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/LibManRestoreError.png" title="LibMan restore error" alt="LibMan restore error"></p>
-
-<h2>Deleting Client-Side Libraries</h2>
-
-<p>To remove the client-side libraries you can right click the libman.json file in the Solution window and
-select Clean Client-Side Libraries.</p>
-
-<p><img src="/images/blog/LibManSupportInVisualStudioMac8-1/CleanClientSideLibrariesMenu.png" title="Clean Client-Side Libraries menu" alt="Clean Client-Side Libraries menu"></p>
-
-<p>This will delete the client-side libraries from the project.</p>
-
-<h2>Library Manager Addin Installation</h2>
-
-<p>The Library Manager addin is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
-
-<ul>
-<li>From the main menu, open the Extensions Manager dialog.</li>
-<li>Select the Gallery tab.</li>
-<li>Expand IDE extensions.</li>
-<li>Select the Library Manager addin</li>
-<li>Click the Refresh button if the addin is not visible.</li>
-<li>Click Install… to install the addin.</li>
-<li>Restart Visual Studio for Mac.</li>
-</ul>
-
-
-<h2>Links</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/LibraryManager">Library Manager for Visual Studio for Mac</a></li>
-<li><a href="https://docs.microsoft.com/en-us/aspnet/core/client-side/libman/libman-vs">Use LibMan with ASP.NET Core in Visual Studio</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1570,7 +1476,7 @@ select Clean Client-Side Libraries.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2020 - Matt Ward -
+  Copyright &copy; 2021 - Matt Ward -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 
