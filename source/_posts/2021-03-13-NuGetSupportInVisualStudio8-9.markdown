@@ -15,8 +15,6 @@ can be found in the [release notes](https://docs.microsoft.com/en-us/visualstudi
 
 **Fixed implicit NuGet packages being updated**
 
-[NuGet] Do not update implicit NuGet packages
-
 Updating all NuGet packages, from the Solution window, in a .NET Core
 2.1 project would fail with an error.
 
