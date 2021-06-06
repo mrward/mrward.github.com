@@ -1,11 +1,20 @@
 ---
 layout: page
 title: "MonoDevelop Project System Tools Addin Releases"
-date: 2020-01-22 18:30
+date: 2021-06-06 11:30
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.5
+
+2021-06-06
+
+ * Support Visual Studio for Mac 8.10
+ * Support MSBuild 16.10 binlogs
+ * Fix Open Binary Log File being disabled for builds
+ * Fix Build binlog tree viewer showing exceptions and no targets
 
 ## Version 0.4
 
