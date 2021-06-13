@@ -4,7 +4,7 @@
   <title><![CDATA[Category: monodevelop | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/monodevelop/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2021-03-13T16:40:50+00:00</updated>
+  <updated>2021-06-13T12:14:10+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,105 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.10]]></title>
+    <link href="http://lastexitcode.com/blog/2021/06/13/NuGetSupportInVisualStudioMac8-10/"/>
+    <updated>2021-06-13T11:30:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2021/06/13/NuGetSupportInVisualStudioMac8-10</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> Manage NuGet Packages dialog now uses native macOS UI</li>
+<li> NuGet 5.9 support</li>
+<li> Support disabling NuGet restore in NuGet.Config</li>
+<li> Fixed automatic restore may still run if disabled in preferences</li>
+<li> Fixed $(SolutionDir) not defined when restoring large solutio</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.10</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>Manage NuGet Packages dialog now uses native macOS UI</h2>
+
+<p>The Manage NuGet Packages dialog is now displayed using Xamarin.Mac.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-10/ManageNuGetPackagesDialog.png" title="&lsquo;Manage NuGet packages dialog&rsquo; &lsquo;Manage NuGet packages dialog&rsquo;" ></p>
+
+<p>Previously the dialog was displayed using GTK#.</p>
+
+<p>The following UI changes were also made:</p>
+
+<ul>
+<li>Tabs are now used for each page
+
+<ul>
+<li>Previously a link was used to select a page</li>
+</ul>
+</li>
+<li>Search has moved to the same line as the window title</li>
+<li>NuGet package sources have moved to the bottom
+of the dialog</li>
+<li><code>Show pre-release packages</code> check box has been renamed to <code>Include prereleases</code></li>
+<li>Hyperlinks that were used to view the license and project pages
+have been replaced with buttons</li>
+<li>Close button has been removed</li>
+</ul>
+
+
+<h2>NuGet 5.9 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.9">NuGet 5.9.0.7134</a> is now
+included with Visual Studio for Mac 8.10.</p>
+
+<h2>Support disabling NuGet restore in NuGet.Config</h2>
+
+<p>A NuGet.Config file can disable package restore via a enabled setting, as shown below.</p>
+
+<pre><code>&lt;configuration&gt;
+  &lt;packageRestore&gt;
+    &lt;add key="enabled" value="false" /&gt;
+  &lt;/packageRestore&gt;
+&lt;/configuration&gt;
+</code></pre>
+
+<p>This is now supported in Visual Studio for Mac and will disable automatic package
+restore overriding the setting in Preferences.</p>
+
+<p><strong>Fixed automatic restore may still run if disabled in preferences</strong></p>
+
+<p>Certain actions in SDK style projects, such as saving a project file in the
+editor, and adding a reference to another project, would run a package restore even
+if automatic restore was disabled in preferences.</p>
+
+<p>Now, if automatic restore is disabled in preferences, no automatic restore
+will be run. Restores can still be run from the main menu and the
+Solution window.</p>
+
+<p><strong>Fixed $(SolutionDir) not defined when restoring large solution</strong></p>
+
+<p>When a solution contains more than 10 projects then MSBuild is used
+directly to restore the projects. If a project was using the SolutionDir
+property to import an MSBuild file then this would fail since SolutionDir
+is not defined because no solution was being passed to MSBuild.</p>
+
+<p>One way to reproduce this was to have an SDK style project that does not
+define a TargetFramework itself but conditionally imports a project,
+using a path that includes the $(SolutionDir) property, that defines
+the TargetFramework. The NuGet restore would fail with an error about an
+invalid framework identifier.</p>
+
+<pre><code>error MSB4018: The “WriteRestoreGraphTask” task failed unexpectedly.
+error MSB4018: NuGet.Frameworks.FrameworkException: Invalid
+    framework identifier ‘’.
+</code></pre>
+
+<p>To fix this Visual Studio for Mac now runs the GenerateRestoreGraphFile
+target specifying the solution, not just the projects. This allows
+MSBuild to define the $(SolutionDir) property.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.9]]></title>
@@ -241,128 +340,6 @@ included with Visual Studio for Mac 8.6.</p>
 not close the Manage NuGet Packages dialog as it did in previous
 versions. A change to fix accessibility of the search text box
 broke the original behaviour of the dialog.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Manage Global NuGet Folders for Visual Studio for Mac]]></title>
-    <link href="http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac/"/>
-    <updated>2020-04-11T12:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2020/04/11/ManageGlobalNuGetFoldersForVisualStudioMac</id>
-    <content type="html"><![CDATA[<p>NuGet supports configuring the location of the following
-<a href="https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders">global folders</a>:</p>
-
-<ul>
-<li>Global NuGet packages cache
-
-<ul>
-<li>~/.nuget/packages</li>
-</ul>
-</li>
-<li>HTTP cache
-
-<ul>
-<li>~/.local/share/NuGet/v3-cache</li>
-</ul>
-</li>
-<li>NuGet plugins ache
-
-<ul>
-<li>~/.local/share/NuGet/plugins-cache</li>
-</ul>
-</li>
-</ul>
-
-
-<p>The above folder locations can be found by running the following command from Terminal.</p>
-
-<pre><code>nuget locals all -list
-</code></pre>
-
-<p>Here we will take a look at how these can be configured for use by Visual Studio for Mac 8.5
-when running on macOS Catalina.</p>
-
-<h2>Configuring Global Packages Folder Only</h2>
-
-<p>If only the global packages folder needs to be configured then the simplest way is to
-define the globalPackagesFolder folder in the ~/.config/NuGet/NuGet.Config file.</p>
-
-<p>```
-<configuration>
-  <config></p>
-
-<pre><code>&lt;add key="globalPackagesFolder" value="/Volumes/YourDrive/NuGet/.nuget/packages" /&gt;
-</code></pre>
-
-<p>  </config>
-  <packageSources></p>
-
-<pre><code>&lt;add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /&gt;
-</code></pre>
-
-<p>  </packageSources>
-</configuration>
-```</p>
-
-<p>Visual Studio for Mac will need to be restarted before it picks up any changes to the
-NuGet.Config file.</p>
-
-<h2>Configuring Global Folders with Environment Variables</h2>
-
-<p>Visual Studio for Mac will not use environment variables defined in the Bash profile ~/.bash_profile or
-the Zsh profile ~/.zprofile unless Visual Studio for Mac is run from the Terminal.</p>
-
-<pre><code>open -n "/Applications/Visual Studio.app"
-</code></pre>
-
-<p>When Visual Studio for Mac is run from the Dock, or from LaunchPad, it does not inherit
-these environment variables.</p>
-
-<p>Let us take a look at how we can define these NuGet environment
-variables so that Visual Studio for Mac will use them without having to launch it
-from the Terminal.</p>
-
-<p>Create the file ~/Library/LaunchAgents/environment.plist containing the following:</p>
-
-<p><code>
-&lt;?xml version=“1.0” encoding=“UTF-8”?&gt;
-&lt;!DOCTYPE plist PUBLIC “-//Apple//DTD PLIST 1.0//EN” “https://www.apple.com/DTDs/PropertyList-1.0.dtd”&gt;
-&lt;plist version=“1.0”&gt;
-&lt;dict&gt;
-&lt;key&gt;Label&lt;/key&gt;
-&lt;string&gt;my.startup&lt;/string&gt;
-&lt;key&gt;ProgramArguments&lt;/key&gt;
-&lt;array&gt;
-&lt;string&gt;sh&lt;/string&gt;
-&lt;string&gt;-c&lt;/string&gt;
-&lt;string&gt;launchctl setenv NUGET_PACKAGES /Volumes/YourDrive/NuGet/.nuget/packages
-launchctl setenv NUGET_HTTP_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/v3-cache
-launchctl setenv NUGET_PLUGINS_CACHE_PATH /Volumes/YourDrive/NuGet/.nuget/plugins-cache&lt;/string&gt;
-&lt;/array&gt;
-&lt;key&gt;RunAtLoad&lt;/key&gt;
-&lt;true/&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</code></p>
-
-<p>Replace the NuGet paths <code>/Volumes/YourDrive/NuGet/</code> defined above as required.</p>
-
-<p>Restart macOS to have this Launch Agent run.</p>
-
-<p>After restarting you can check the environment variables are being used by NuGet by
-using the command line:</p>
-
-<pre><code>nuget locals all -list
-</code></pre>
-
-<p>Now when Visual Studio for Mac is launched from the Dock, or from LaunchPad, it will use these
-custom NuGet folders.</p>
-
-<h2>More Information</h2>
-
-<p><a href="https://en.wikipedia.org/wiki/Launchd#launchctl">launchctl</a> setenv defines environment variables
-globally so they are available to all macOS
-applications launched with <a href="https://en.wikipedia.org/wiki/Launchd">launchd</a>.</p>
 ]]></content>
   </entry>
   
