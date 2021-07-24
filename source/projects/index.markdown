@@ -13,6 +13,7 @@ footer: true
  * [MonoDevelop File Service Events Addin](MonoDevelopFileServiceEventsAddin/)
  * [MonoDevelop File Watcher Filters Addin](MonoDevelopFileWatcherFilterAddin/)
  * [MonoDevelop .NET Core Addin](MonoDevelopDnxAddin/)
+ * [MonoDevelop .NET Core Extensions Addin](MonoDevelopDotNetCoreExtensionsAddin/)
  * [MonoDevelop Language Server Client Addin](MonoDevelopLanguageServerClientAddin/)
  * [MonoDevelop Library Manager Addin](MonoDevelopLibraryManagerAddin/)
  * [MonoDevelop Log Monitor Addin](MonoDevelopLanguageServerClientAddin/)
