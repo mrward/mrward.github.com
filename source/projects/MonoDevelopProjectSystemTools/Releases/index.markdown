@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop Project System Tools Addin Releases"
-date: 2021-06-06 11:30
+date: 2021-08-03 20:30
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.6
+
+2021-08-03
+
+ * Support Visual Studio for Mac 17.0
 
 ## Version 0.5
 
