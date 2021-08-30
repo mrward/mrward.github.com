@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop File Service Events Addin Releases"
-date: 2021-08-08 11:00
+date: 2021-08-30 11:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.4
+
+2021-08-30
+
+ * Support Visual Studio for Mac 17.0
+   * Pad toolbar API changes in Visual Studio for Mac 17.0.0.3004
 
 ## Version 0.3
 
