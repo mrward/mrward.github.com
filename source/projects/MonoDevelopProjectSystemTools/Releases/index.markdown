@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop Project System Tools Addin Releases"
-date: 2021-08-27 20:30
+date: 2021-10-14 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.8
+
+2021-10-14
+
+ * Support Visual Studio for Mac 17.0
+   * MSBuildProjectService API changes in Visual Studio for Mac 17.0.0.3803
 
 ## Version 0.7
 
