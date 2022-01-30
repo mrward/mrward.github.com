@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop Feature Switch Addin Releases"
-date: 2021-07-18 12:00
+date: 2022-01-30 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.4
+
+2022-01-30
+
+ * Support Visual Studio for Mac 17.0 preview 5
 
 ## Version 0.3
 
