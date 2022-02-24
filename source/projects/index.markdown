@@ -31,3 +31,4 @@ footer: true
  * [NuGet](NuGet/)
  * [Pash](http://pash-project.github.io/)
  * [SharpDevelop](http://www.icsharpcode.net/OpenSource/SD/)
+ * [Visual Studio for Mac .NET Selector Addin](VSMacDotNetSelectorAddin/)
