@@ -1,11 +1,19 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2021-04-25 12:00
+date: 2022-04-10 16:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.28
+
+2022-04-10
+
+ * Support Visual Studio for Mac 17.0 preview 8
+ * Ensure dotnet CLI is available on PATH for powershell console host
+ * Fix error adding migration with EF Core 6
 
 ## Version 0.27
 
