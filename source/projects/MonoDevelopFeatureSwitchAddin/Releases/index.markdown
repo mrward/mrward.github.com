@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop Feature Switch Addin Releases"
-date: 2022-02-22 12:00
+date: 2022-05-02 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.6
+
+2022-05-02
+
+ * Fix feature switches missing in preferences
 
 ## Version 0.5
 
