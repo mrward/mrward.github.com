@@ -1,11 +1,19 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2022-04-10 16:00
+date: 2022-05-21 16:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.29
+
+2022-05-21
+
+ * PowerShell now hosted in process
+ * Update to PowerShell 7.2.3
+ * Mono PCL exe removed
 
 ## Version 0.28
 
