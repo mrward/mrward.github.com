@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Package Explorer Addin Releases"
-date: 2022-02-22 07:00
+date: 2022-05-28 17:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.9
+
+2022-05-28
+
+ * Support VS Mac 17.3 preview 1
+ * Fix File - Open NuGet Package dialog opening IDE with no layout
 
 ## Version 0.8
 
