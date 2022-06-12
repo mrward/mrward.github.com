@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop Project System Tools Addin Releases"
-date: 2022-02-22 12:00
+date: 2022-06-12 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.10
+
+2022-06-12
+
+ * Support VS Mac 17.3 preview 2
 
 ## Version 0.9
 
