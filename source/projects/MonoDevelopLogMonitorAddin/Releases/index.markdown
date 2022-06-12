@@ -1,11 +1,19 @@
 ---
 layout: page
 title: "MonoDevelop Log Monitor Addin Releases"
-date: 2022-02-22 20:00
+date: 2022-06-12 13:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.6
+
+2022-06-12
+
+ * Support VS Mac 17.3 preview 2
+ * Log monitor registered earlier with pre-startup handler
+ * Use log file path provided by LoggingService instead of resolving the Ide.log symlink
 
 ## Version 0.5
 
