@@ -4,7 +4,7 @@
   <title><![CDATA[Matt Ward]]></title>
   <link href="http://lastexitcode.com/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2021-06-13T12:14:10+01:00</updated>
+  <updated>2022-06-19T12:06:45+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 17.0]]></title>
+    <link href="http://lastexitcode.com/blog/2022/06/19/NuGetSupportInVisualStudio17-0/"/>
+    <updated>2022-06-19T12:20:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2022/06/19/NuGetSupportInVisualStudio17-0</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 6.0 support</li>
+<li> NuGet.Config file location changed</li>
+<li> NuGet package source passwords now stored in the Keychain</li>
+<li> Improved clear text password handling for NuGet package sources</li>
+<li> Support NuGet restore with .NET MSBuild and MSBuild on mono</li>
+<li> NuGetizer support removed</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 17.0</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releases/2022/mac-release-notes">release notes</a>.</p>
+
+<h2>NuGet 6.0 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-6.0">NuGet 6.0.0.262</a> is now
+included with Visual Studio for Mac 17.0.</p>
+
+<h2>NuGet.Config file location changed</h2>
+
+<p>Visual Studio for Mac 17.0 now runs on .NET 6 instead of Mono. This means the
+NuGet.Config file location has changed.</p>
+
+<p>Old NuGet.Config file location used by Visual Studio for Mac 8.10 and mono:</p>
+
+<pre><code>~/.config/NuGet/NuGet.Config
+</code></pre>
+
+<p>New NuGet.Config file location used by Visual Studio for Mac 17.0 and the dotnet command line interface:</p>
+
+<pre><code>~/.nuget/NuGet/NuGet.Config
+</code></pre>
+
+<h2>NuGet package source passwords now stored in the Keychain</h2>
+
+<p>The dotnet command line interface does not support encrypting NuGet package source
+passwords.</p>
+
+<p>This is because the
+<a href="https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.protecteddata?view=dotnet-plat-ext-6.0">ProtectedData</a> class
+used by NuGet to encrypt and decrypt the package source passwords
+is not available for .NET. The ProtectedData class is available for mono and .NET Framework v4.</p>
+
+<p>One workaround is to
+<a href="https://docs.microsoft.com/en-us/nuget/reference/nuget-config-file#packagesourcecredentials">store the passwords in clear text</a>
+in the NuGet.Config file.</p>
+
+<p>This can be done via <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-nuget-add-source">dotnet nuget add source</a>.</p>
+
+<pre><code>dotnet nuget add source https://someServer/myTeam -n myTeam -u myUsername -p myPassword --store-password-in-clear-text
+</code></pre>
+
+<p>Or by editing the ~/.nuget/NuGet/NuGet.Config file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;packageSources&gt;
+</span><span class='line'>    &lt;add key="myTeam" value="https://someServer/myTeam" /&gt;
+</span><span class='line'>  &lt;/packageSources&gt;
+</span><span class='line'>  &lt;packageSourceCredentials&gt;
+</span><span class='line'>    &lt;myTeam&gt;
+</span><span class='line'>        &lt;add key="Username" value="myUsername" /&gt;
+</span><span class='line'>        &lt;add key="ClearTextPassword" value="myPassword" /&gt;
+</span><span class='line'>      &lt;/myTeam&gt;
+</span><span class='line'>  &lt;/packageSourceCredentials&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that Visual Studio for Mac 17.0 runs on .NET 6 it is also affected by
+NuGet not being able to store encrypted passwords in the NuGet.Config file.</p>
+
+<p>If a NuGet package source with a password is created in Visual Studio
+for Mac 17.0 the password will be stored in the Keychain rather than using
+a clear text password.</p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac17-0/AddNuGetPackageSourceCredential.png" title="Add NuGet package source with password in preferences" alt="Add NuGet package source with password in preferences"></p>
+
+<p><img src="http://lastexitcode.com/images/blog/NuGetSupportInVisualStudioMac17-0/KeychainNuGetPackageSourcePassword.png" title="Package source password saved in Keychain" alt="Package source password saved in Keychain"></p>
+
+<h2>Improved clear text password handling for NuGet package sources</h2>
+
+<p>In Visual Studio for Mac 8.10 when the package sources where
+saved in Preferences &ndash; NuGet &ndash; Sources any clear text passwords
+were encrypted in the saved NuGet.Config file.</p>
+
+<p>In Visual Studio for Mac 17.0 package sources that use clear text
+passwords will not have their passwords encrypted in the NuGet.Config file.</p>
+
+<h2>Support NuGet restore with .NET MSBuild and MSBuild on mono</h2>
+
+<p>In order to support classic Xamarin projects, and projects that require mono,
+Visual Studio for Mac 17.0 supports MSBuild on Mono and dotnet msbuild.</p>
+
+<p>If any project in a solution has mono as a target
+runtime then the solution is restored with MSBuild on mono. If all
+projects target the dotnet runtime then dotnet&rsquo;s MSBuild will be
+used. This prevents the restore failing for classic Android and iOS
+projects since dotnet&rsquo;s MSBuild cannot resolve the Xamarin MSBuild targets
+files, causing errors similar to the following:</p>
+
+<pre><code>error MSB4019: The imported project "/usr/local/share/dotnet/sdk/6.0.101/Xamarin/Android/Xamarin.Android.CSharp.targets" was not found.
+Confirm that the expression in the Import declaration
+</code></pre>
+
+<p>If the solution is configured to build with MSBuild on Mono then
+large solutions are restored with MSBuild on Mono.</p>
+
+<h2>NuGetizer support removed</h2>
+
+<p>Integrated support for <a href="https://github.com/NuGet/NuGet.Build.Packaging">NuGetizer</a> has been
+removed from Visual Studio for Mac 17.0. This is because the NuGetizer project is no
+longer being maintained.</p>
+
+<p><a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-pack">dotnet pack</a> can be used as
+an alternative.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.10]]></title>
@@ -2313,111 +2448,6 @@ You should see the Windows account being used to authenticate in Apache&rsquo;s 
 <pre><code>CONNECT www.nuget.org%3a443 HTTP/1.1|Host:www.nuget.org%3a443|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Connection:keep-alive|Proxy-Authorization:NTLM T...|Proxy-Connection:keep-alive
 GET http%3a//neverssl.com/ HTTP/1.1|Host:neverssl.com|Proxy-Connection:keep-alive|Proxy-Authorization:NTLM T...|If-Modified-Since:Thu, 14 Jun 2018 00%3a16%3a40 GMT|Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8|Accept-Language:en-gb|Accept-Encoding:gzip, deflate|Content-Length:0|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Connection:keep-alive|Upgrade-Insecure-Requests:1|DNT:1
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Proxy Testing a Mac Application with Fiddler]]></title>
-    <link href="http://lastexitcode.com/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler/"/>
-    <updated>2018-10-21T12:38:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler</id>
-    <content type="html"><![CDATA[<p>Here we look at using <a href="https://www.telerik.com/fiddler">Fiddler</a> as
-a proxy server in order to test a Mac client application, such as Safari or Visual Studio for Mac, can make web
-requests through the proxy. Enabling Basic proxy authentication with Fiddler will be covered, as well as using
-the Fiddler as a proxy without any authentication.</p>
-
-<p>Fiddler will run on a separate Windows machine. Using a separate machine
-allows us to check that the Mac client application is not bypassing the proxy and making direct
-web requests to any server. This check can be done by configuring the local firewall to block all direct
-connections out from the Mac machine but allow connections from the machine running Fiddler.</p>
-
-<ul>
-<li>Mac High Sierra 10.13</li>
-<li>Fiddler 5.0 on Windows</li>
-</ul>
-
-
-<h2>Fiddler Proxy &ndash; No authentication</h2>
-
-<p>To enable the Mac to use Fiddler as its proxy first configure Fiddler to allow remote connections.
-This can be done by open the Tools menu, selecting Options, opening the Connections tab, and
-checking <a href="http://docs.telerik.com/fiddler/Configure-Fiddler/Tasks/MonitorRemoteMachine">Allow remote computers to connect</a>.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerRemoteConnections.png" title="Fiddler allow remote connections" alt="Fiddler allow remote connections"></p>
-
-<p>Configuring the Mac to use Fiddler as its proxy server can be done by opening System Preferences &ndash; Network.
-For the active network select the Advanced button and open the Proxies tab. Enter the Fiddler&rsquo;s machine IP address and
-port into the Web Proxy (HTTP) and Secure Web Proxy (HTTPS) sections, and ensure both
-of these are checked.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkWebProxySettings.png" title="Mac web proxy settings" alt="Mac web proxy settings"></p>
-
-<p>Finally click OK and Apply to enable the proxy settings.</p>
-
-<p>Now http and https requests should be sent through Fiddler. A simple way to test this is
-to open Safari and open a web page.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerNuGetHttpsRequest.png" title="Fiddler https request recorded" alt="Fiddler https request recorded"></p>
-
-<h2>Fiddler Proxy &ndash; Basic authentication</h2>
-
-<p>To enable Basic proxy authentication in Fiddler open the Rules menu and ensure that
-Require Proxy Authentication is checked.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthEnabled.png" title="Fiddler require proxy authentication option" alt="Fiddler require proxy authentication option"></p>
-
-<p>This will result in Fiddler requiring Basic authentication with a username &lsquo;1&rsquo; and a
-password &lsquo;1&rsquo;.</p>
-
-<p>Unfortunately it seems that the native Mac networking API does not work with Fiddler
-for https requests but will work for non-secure http requests. Opening a web page in Safari will cause the Mac to prompt for
-the proxy credentials.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyAuthenticationRequiredDialog.png" title="Mac proxy authentication required dialog" alt="Mac proxy authentication required dialog"></p>
-
-<p>Clicking the System Preferences button will show open a dialog where you can enter the credentials for the proxy.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsDialog.png" title="Mac proxy authentcation required - credentials dialog" alt="Mac proxy authentication required - credentials dialog"></p>
-
-<p>Entering the credentials will result in the Mac&rsquo;s key chain being updated with the credentials associated with the proxy&rsquo;s address.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsMacKeyChain.png" title="Proxy credentials stored in Mac key chain" alt="Proxy credentials stored in Mac key chain"></p>
-
-<p>If you open the Mac&rsquo;s Network settings you will see the Web Proxy and Secure Web Proxy settings now have a username and password
-associated with them.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkSettingsProxyUserNamePassword.png" title="Username and password associated with proxy in network settings" alt="Username and password associated with proxy in network settings"></p>
-
-<p>Safari will display an error page when accessing a web page over https when the Mac is configured to use Fiddler&rsquo;s basic authentation proxy.</p>
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/SafariProxyServerError.png" title="Safari 310 proxy error" alt="Safari 310 proxy error"></p>
-
-<p>It seems that for a https request the Mac sends the request with two keep alive headers:</p>
-
-<ul>
-<li>Connection: keep-alive</li>
-<li>Proxy-Connection: keep-alive</li>
-</ul>
-
-
-<p>Fiddler responds with a 407 proxy authentication required response and a close
-header.</p>
-
-<ul>
-<li>Connection: close</li>
-</ul>
-
-
-<p><img src="http://lastexitcode.com/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthHttpsRequestDenied.png" title="Fiddler https request denied" alt="Fiddler https request denied"></p>
-
-<p>Since the keep-alive is not being honoured by Fiddler the web request sent from the Mac fails and an kCFErrorDomainCFNetwork 310
-error occurs. This maps to the kCFErrorHTTPSProxyConnectionFailure status code.</p>
-
-<p>Other applications that do not use the native Mac networking API, such as the Google Chrome web browser,
-will work with Fiddler and will prompt for credentials.</p>
-
-<p>Unfortunately you currently cannot use Fiddler with basic proxy authentication enabled to test
-a Mac application making https requests. As an alternative you can use another proxy server, such as Apache.</p>
 ]]></content>
   </entry>
   

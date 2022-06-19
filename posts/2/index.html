@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes NuGet 5.1 support Support partial installs into multi-target framework projects Fixed no network error displayed in Add Packages dialog Fixed &hellip;">
+  <meta name="description" content="Changes NuGet 5.3 support Managing NuGet packages for the solution Show NuGet package updates for SDK style projects in the Solution window More &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,316 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/10/06/NuGetSupportInVisualStudioMac8-3/">NuGet Support in Visual Studio for Mac 8.3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-10-06T12:00:00+01:00" pubdate data-updated="true">Oct 6<sup>th</sup>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 5.3 support</li>
+<li> Managing NuGet packages for the solution</li>
+<li> Show NuGet package updates for SDK style projects in the Solution window</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.3</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
+
+<h2>NuGet 5.3 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.3">NuGet 5.3.0.6192</a> is now
+included with Visual Studio for Mac 8.3.</p>
+
+<h2>Managing NuGet Packages for the solution</h2>
+
+<p>Support for managing NuGet packages for the solution was originally available in a separate
+<a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a>. This feature has now
+been integrated into Visual Studio for Mac, along with some user interface changes, and is now available by
+default.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesSolutionBrowseTab.png" title="Manage NuGet Packages - Solution - Browse tab" alt="Manage NuGet Packages - Solution - Browse tab"></p>
+
+<p>The NuGet extensions addin is still available and provides a
+NuGet Powershell Console but it no longer includes a Manage NuGet Packages dialog.</p>
+
+<p>The Manage NuGet Packages dialog contains four tabs:</p>
+
+<ul>
+<li>Browse
+
+<ul>
+<li>Used to search for and install NuGet packages. This is equivalent to the old Add NuGet Packages dialog.</li>
+</ul>
+</li>
+<li>Installed
+
+<ul>
+<li>Shows the installed NuGet packages. NuGet packages can be uninstalled from this tab.</li>
+</ul>
+</li>
+<li>Updates
+
+<ul>
+<li>Shows NuGet packages that have new versions available.</li>
+</ul>
+</li>
+<li>Consolidate
+
+<ul>
+<li>Shows NuGet packages that have multiple versions installed in the solution. This is only available when managing
+NuGet packages for the solution.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The Add Packages dialog has been removed and replaced with the Manage NuGet Packages dialog since everything that was supported with the Add Packages dialog is available the new dialog.</p>
+
+<p>To manage the NuGet packages for
+the solution the Manage NuGet Packages dialog can be opened in the following ways:</p>
+
+<ul>
+<li>Right click the solution in the Solution window and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>From the main menu select <strong>Project</strong> &ndash; <strong>Manage NuGet Packages&hellip;</strong></li>
+</ul>
+
+
+<p>The Manage NuGet Packages dialog title is different depending on whether the NuGet packages
+are being managed for the solution or for the project. When managing packages for the solution
+the dialog title will be <strong>Manage NuGet Packages – Solution</strong>.</p>
+
+<h3>Managing NuGet Packages for a single project</h3>
+
+<p>To manage NuGet packages for a single project the Manage NuGet Packages dialog can be opened
+in the following ways:</p>
+
+<ul>
+<li>Right click the project in the Solution window and select <strong>Manage NuGet Packages&hellip;</strong>
+
+<ul>
+<li>This was added to make Visual Studio for Mac consistent with Visual Studio on Windows</li>
+</ul>
+</li>
+<li>Double click the Packages folder in the Solution window</li>
+<li>Right click the Packages folder and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Double click the Dependencies folder in the Solution window.
+
+<ul>
+<li>In previous versions of Visual Studio for Mac this would not open the dialog</li>
+</ul>
+</li>
+<li>Right click the Depdendencies folder and select <strong>Manage NuGet Packages..</strong></li>
+<li>Double click the NuGet folder underneath the Dependencies folder</li>
+<li>Right click the NuGet folder, underneath the Dependencies folder, and select <strong>Manage NuGet Packages&hellip;</strong></li>
+</ul>
+
+
+<p>When managing NuGet packages for a single project the dialog title shows the project name
+<strong>Manage NuGet Packages – ProjectName</strong>.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesProject.png" title="Manage NuGet Packages for Project" alt="Manage NuGet Packages for Project"></p>
+
+<h3>Installing NuGet Packages</h3>
+
+<p>The Browse tab in the Manage NuGet Packages can be used to search for and install NuGet packages
+into one or more projects. This tab is equivalent to the old Add NuGet Packages dialog.</p>
+
+<p>The latest stable NuGet package version is now indicated by
+having <strong>(latest stable)</strong> appended on the right hand
+side of the dialog.</p>
+
+<p>To install a NuGet package into multiple projects:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Search for a NuGet package</li>
+<li>Click the <strong>Add Package</strong> button</li>
+<li>In the Select Projects dialog that is opened, select the projects that you want the NuGet package to be installed, and click OK</li>
+</ul>
+
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesSolutionSelectProjects.png" title="Manage NuGet Packages - Select Projects dialog" alt="Manage NuGet Packages - Select Projects dialog"></p>
+
+<h3>Uninstalling NuGet Packages</h3>
+
+<p>The Installed tab in the Manage NuGet Packages can be used to uninstall
+NuGet packages from one or more projects.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesInstalledTab.png" title="Manage NuGet Packages - Installed tab" alt="Manage NuGet Packages - Installed tab"></p>
+
+<p>To uninstall a NuGet package:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Select the Installed tab</li>
+<li>Select a NuGet package to uninstall
+
+<ul>
+<li>To uninstall multiple NuGet packages use the check boxes in the package list</li>
+</ul>
+</li>
+<li>Click the <strong>Uninstall Package</strong> button</li>
+<li>In the Select Projects dialog that is opened, select the projects where the NuGet package should be removed, and click OK.</li>
+</ul>
+
+
+<h3>Updating NuGet Packages</h3>
+
+<p>The Updates tab shows the updated NuGet packages available to be installed.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesUpdatesTab.png" title="Manage NuGet Packages - Updates tab" alt="Manage NuGet Packages - Updates tab"></p>
+
+<p>The Updates tab shows the <strong>Current Version</strong> of the NuGet package installed on the right hand side of the dialog. If
+multiple versions of the packages are installed across the solution, then this will
+display <strong>Multiple</strong> with an information icon where information about the
+projects and versions can be viewed in a tooltip.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/UpdatesTabMultipleVersions.png" title="Manage NuGet Packages - Updates tab - Multiple versions installed" alt="Manage NuGet Packages - Updates tab -  Multiple versions installed"></p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/UpdatesTabMultipleVersionsTooltip.png" title="Manage NuGet Packages - Updates tab - Multiple versions installed - tooltip" alt="Manage NuGet Packages - Updates tab -  Multiple versions installed - tooltip"></p>
+
+<p>To update a NuGet package in multiple projects:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Select the Updates tab</li>
+<li>Select a NuGet package to update
+
+<ul>
+<li>To update multiple NuGet packages use the check boxes in the packages list</li>
+</ul>
+</li>
+<li>Click the <strong>Update Package</strong> button</li>
+<li>In the Select Projects dialog that is opened, select the projects where the NuGet package should be updated, and click OK.</li>
+</ul>
+
+
+<h3>Consolidating NuGet Packages</h3>
+
+<p>If there are different versions of a NuGet package installed in the solution the
+Consolidate tab will show this and allow the packages to be consolidated to a particular version.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesConsolidateTab.png" title="Manage NuGet Packages - Consolidate tab" alt="Manage NuGet Packages - Consolidate tab"></p>
+
+<p>When a NuGet package is selected, the right hand side of the dialog shows
+all the projects in the solution. The project will be checked if it has the selected
+package installed. The package version used by the project is also shown.
+Projects that have a package to consolidate are shown first in the list.</p>
+
+<p>Note that the Consolidate tab is only displayed if NuGet packages are being
+managed for the solution.</p>
+
+<p>By default the Consolidate tab will select the latest version available from the current NuGet package source.
+This may be different from the latest version installed in the projects.</p>
+
+<p>To Consolidate a NuGet package:</p>
+
+<ul>
+<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
+<li>Select the Consolidate tab</li>
+<li>Select the NuGet package you want to consolidate.
+
+<ul>
+<li>Use the check box next to the NuGet package if you want to consolidate multiple NuGet packages at the same time</li>
+</ul>
+</li>
+<li>Check or uncheck the projects in the projects list.
+
+<ul>
+<li>By default projects that contain the selected NuGet package will be checked</li>
+</ul>
+</li>
+<li>Click the <strong>Consolidate Package</strong> button.</li>
+</ul>
+
+
+<h2>Show NuGet package updates for SDK style projects in the Solution window</h2>
+
+<p>NuGet package updates are now shown in the Solution window for SDK style
+projects.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectPackageUpdates.png" title="SDK style project - package updates - solution window" alt="SDK style project - package updates - solution window"></p>
+
+<p>If an updated package is available this information will now be shown
+on the Dependencies folder, the NuGet folder, and the top level
+package in the Solution window.</p>
+
+<p>Previously NuGet package updates were only displayed for projects
+that used a packages.config file or for non-SDK style projects
+that used PackageReferences.</p>
+
+<p>Instead of showing the updated NuGet package version text, next to the installed version
+in the solution window, an update icon
+is displayed with the version information available in a tooltip. This prevents
+the version information taking up a lot of space to the right, which can
+happen for long version numbers.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectPackageUpdateVersionTooltip.png" title="SDK style project - package update version tooltip - solution window" alt="SDK style project - package update version tooltip - solution window"></p>
+
+<p>The Update menu, when right clicking a NuGet package, now shows the
+version for the update. Otherwise
+the Update menu is displayed.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectUpdateToMenuItem.png" title="SDK style project - update menu item - solution window" alt="SDK style project - update menu item - solution window"></p>
+
+<p>If there is an update and a NuGet warning only the warning icon
+will be displayed with the warning message available in the tooltip.
+The update information will only be available in the right click
+context menu for the NuGet package in this case.</p>
+
+<p>Package versions are now displayed in solution window for non-SDK style projects.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/NonSdkStyleProjectPackageUpdates.png" title="Non-SDK style project - package updates - solution window" alt="Non-SDK style project - package updates - solution window"></p>
+
+<p>SDK style projects always displayed the package version in the Solution
+window but non-SDK style projects did not. To make these consistent the NuGet
+package version is now shown in the Solution window for all project types.</p>
+
+<p>Previously for non-SDK style projects the package version was shown
+as a menu item when right clicking a NuGet package. This has been removed
+since the package version is now displayed next to the package id in the
+Solution window.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed text colour when row selected in Manage NuGet Packages dialog</strong></p>
+
+<p>When a package was checked in the Add NuGet Packages dialog any
+row that was selected would display black text instead of white text. This was hard
+to read with the blue background colour used for the selected row. The wrong text colour was being set when a package was
+checked. This has been fixed in the Manage NuGet Packages dialog.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1527,138 +1837,6 @@ GET http%3a//neverssl.com/ HTTP/1.1|Host:neverssl.com|Proxy-Connection:keep-aliv
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2018/10/21/ProxyTestingMacApplicationWithFiddler/">Proxy Testing a Mac Application with Fiddler</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2018-10-21T12:38:00+01:00" pubdate data-updated="true">Oct 21<sup>st</sup>, 2018</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Here we look at using <a href="https://www.telerik.com/fiddler">Fiddler</a> as
-a proxy server in order to test a Mac client application, such as Safari or Visual Studio for Mac, can make web
-requests through the proxy. Enabling Basic proxy authentication with Fiddler will be covered, as well as using
-the Fiddler as a proxy without any authentication.</p>
-
-<p>Fiddler will run on a separate Windows machine. Using a separate machine
-allows us to check that the Mac client application is not bypassing the proxy and making direct
-web requests to any server. This check can be done by configuring the local firewall to block all direct
-connections out from the Mac machine but allow connections from the machine running Fiddler.</p>
-
-<ul>
-<li>Mac High Sierra 10.13</li>
-<li>Fiddler 5.0 on Windows</li>
-</ul>
-
-
-<h2>Fiddler Proxy &ndash; No authentication</h2>
-
-<p>To enable the Mac to use Fiddler as its proxy first configure Fiddler to allow remote connections.
-This can be done by open the Tools menu, selecting Options, opening the Connections tab, and
-checking <a href="http://docs.telerik.com/fiddler/Configure-Fiddler/Tasks/MonitorRemoteMachine">Allow remote computers to connect</a>.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerRemoteConnections.png" title="Fiddler allow remote connections" alt="Fiddler allow remote connections"></p>
-
-<p>Configuring the Mac to use Fiddler as its proxy server can be done by opening System Preferences &ndash; Network.
-For the active network select the Advanced button and open the Proxies tab. Enter the Fiddler&rsquo;s machine IP address and
-port into the Web Proxy (HTTP) and Secure Web Proxy (HTTPS) sections, and ensure both
-of these are checked.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkWebProxySettings.png" title="Mac web proxy settings" alt="Mac web proxy settings"></p>
-
-<p>Finally click OK and Apply to enable the proxy settings.</p>
-
-<p>Now http and https requests should be sent through Fiddler. A simple way to test this is
-to open Safari and open a web page.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerNuGetHttpsRequest.png" title="Fiddler https request recorded" alt="Fiddler https request recorded"></p>
-
-<h2>Fiddler Proxy &ndash; Basic authentication</h2>
-
-<p>To enable Basic proxy authentication in Fiddler open the Rules menu and ensure that
-Require Proxy Authentication is checked.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthEnabled.png" title="Fiddler require proxy authentication option" alt="Fiddler require proxy authentication option"></p>
-
-<p>This will result in Fiddler requiring Basic authentication with a username &lsquo;1&rsquo; and a
-password &lsquo;1&rsquo;.</p>
-
-<p>Unfortunately it seems that the native Mac networking API does not work with Fiddler
-for https requests but will work for non-secure http requests. Opening a web page in Safari will cause the Mac to prompt for
-the proxy credentials.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyAuthenticationRequiredDialog.png" title="Mac proxy authentication required dialog" alt="Mac proxy authentication required dialog"></p>
-
-<p>Clicking the System Preferences button will show open a dialog where you can enter the credentials for the proxy.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsDialog.png" title="Mac proxy authentcation required - credentials dialog" alt="Mac proxy authentication required - credentials dialog"></p>
-
-<p>Entering the credentials will result in the Mac&rsquo;s key chain being updated with the credentials associated with the proxy&rsquo;s address.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/ProxyCredentialsMacKeyChain.png" title="Proxy credentials stored in Mac key chain" alt="Proxy credentials stored in Mac key chain"></p>
-
-<p>If you open the Mac&rsquo;s Network settings you will see the Web Proxy and Secure Web Proxy settings now have a username and password
-associated with them.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/MacNetworkSettingsProxyUserNamePassword.png" title="Username and password associated with proxy in network settings" alt="Username and password associated with proxy in network settings"></p>
-
-<p>Safari will display an error page when accessing a web page over https when the Mac is configured to use Fiddler&rsquo;s basic authentation proxy.</p>
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/SafariProxyServerError.png" title="Safari 310 proxy error" alt="Safari 310 proxy error"></p>
-
-<p>It seems that for a https request the Mac sends the request with two keep alive headers:</p>
-
-<ul>
-<li>Connection: keep-alive</li>
-<li>Proxy-Connection: keep-alive</li>
-</ul>
-
-
-<p>Fiddler responds with a 407 proxy authentication required response and a close
-header.</p>
-
-<ul>
-<li>Connection: close</li>
-</ul>
-
-
-<p><img src="/images/blog/ProxyTestingMacApplicationWithFiddler/FiddlerProxyAuthHttpsRequestDenied.png" title="Fiddler https request denied" alt="Fiddler https request denied"></p>
-
-<p>Since the keep-alive is not being honoured by Fiddler the web request sent from the Mac fails and an kCFErrorDomainCFNetwork 310
-error occurs. This maps to the kCFErrorHTTPSProxyConnectionFailure status code.</p>
-
-<p>Other applications that do not use the native Mac networking API, such as the Google Chrome web browser,
-will work with Fiddler and will prompt for credentials.</p>
-
-<p>Unfortunately you currently cannot use Fiddler with basic proxy authentication enabled to test
-a Mac application making https requests. As an alternative you can use another proxy server, such as Apache.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1678,7 +1856,7 @@ a Mac application making https requests. As an alternative you can use another p
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2021 - Matt Ward -
+  Copyright &copy; 2022 - Matt Ward -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 

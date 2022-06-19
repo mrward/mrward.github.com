@@ -4,7 +4,7 @@
   <title><![CDATA[Category: xamarin | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/xamarin/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2021-06-13T12:14:10+01:00</updated>
+  <updated>2022-06-19T12:06:45+01:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,137 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 17.0]]></title>
+    <link href="http://lastexitcode.com/blog/2022/06/19/NuGetSupportInVisualStudio17-0/"/>
+    <updated>2022-06-19T12:20:00+01:00</updated>
+    <id>http://lastexitcode.com/blog/2022/06/19/NuGetSupportInVisualStudio17-0</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 6.0 support</li>
+<li> NuGet.Config file location changed</li>
+<li> NuGet package source passwords now stored in the Keychain</li>
+<li> Improved clear text password handling for NuGet package sources</li>
+<li> Support NuGet restore with .NET MSBuild and MSBuild on mono</li>
+<li> NuGetizer support removed</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 17.0</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releases/2022/mac-release-notes">release notes</a>.</p>
+
+<h2>NuGet 6.0 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-6.0">NuGet 6.0.0.262</a> is now
+included with Visual Studio for Mac 17.0.</p>
+
+<h2>NuGet.Config file location changed</h2>
+
+<p>Visual Studio for Mac 17.0 now runs on .NET 6 instead of Mono. This means the
+NuGet.Config file location has changed.</p>
+
+<p>Old NuGet.Config file location used by Visual Studio for Mac 8.10 and mono:</p>
+
+<pre><code>~/.config/NuGet/NuGet.Config
+</code></pre>
+
+<p>New NuGet.Config file location used by Visual Studio for Mac 17.0 and the dotnet command line interface:</p>
+
+<pre><code>~/.nuget/NuGet/NuGet.Config
+</code></pre>
+
+<h2>NuGet package source passwords now stored in the Keychain</h2>
+
+<p>The dotnet command line interface does not support encrypting NuGet package source
+passwords.</p>
+
+<p>This is because the
+<a href="https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.protecteddata?view=dotnet-plat-ext-6.0">ProtectedData</a> class
+used by NuGet to encrypt and decrypt the package source passwords
+is not available for .NET. The ProtectedData class is available for mono and .NET Framework v4.</p>
+
+<p>One workaround is to
+<a href="https://docs.microsoft.com/en-us/nuget/reference/nuget-config-file#packagesourcecredentials">store the passwords in clear text</a>
+in the NuGet.Config file.</p>
+
+<p>This can be done via <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-nuget-add-source">dotnet nuget add source</a>.</p>
+
+<pre><code>dotnet nuget add source https://someServer/myTeam -n myTeam -u myUsername -p myPassword --store-password-in-clear-text
+</code></pre>
+
+<p>Or by editing the ~/.nuget/NuGet/NuGet.Config file.</p>
+
+<p>```
+<configuration>
+  <packageSources></p>
+
+<pre><code>&lt;add key="myTeam" value="https://someServer/myTeam" /&gt;
+</code></pre>
+
+<p>  </packageSources>
+  <packageSourceCredentials></p>
+
+<pre><code>&lt;myTeam&gt;
+    &lt;add key="Username" value="myUsername" /&gt;
+    &lt;add key="ClearTextPassword" value="myPassword" /&gt;
+  &lt;/myTeam&gt;
+</code></pre>
+
+<p>  </packageSourceCredentials>
+</configuration>
+```</p>
+
+<p>Now that Visual Studio for Mac 17.0 runs on .NET 6 it is also affected by
+NuGet not being able to store encrypted passwords in the NuGet.Config file.</p>
+
+<p>If a NuGet package source with a password is created in Visual Studio
+for Mac 17.0 the password will be stored in the Keychain rather than using
+a clear text password.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac17-0/AddNuGetPackageSourceCredential.png" title="&lsquo;Add NuGet package source with password in preferences&rsquo; &lsquo;Add NuGet package source with password in preferences&rsquo;" ></p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac17-0/KeychainNuGetPackageSourcePassword.png" title="&lsquo;Package source password saved in Keychain&rsquo; &lsquo;Package source password saved in Keychain&rsquo;" ></p>
+
+<h2>Improved clear text password handling for NuGet package sources</h2>
+
+<p>In Visual Studio for Mac 8.10 when the package sources where
+saved in Preferences &ndash; NuGet &ndash; Sources any clear text passwords
+were encrypted in the saved NuGet.Config file.</p>
+
+<p>In Visual Studio for Mac 17.0 package sources that use clear text
+passwords will not have their passwords encrypted in the NuGet.Config file.</p>
+
+<h2>Support NuGet restore with .NET MSBuild and MSBuild on mono</h2>
+
+<p>In order to support classic Xamarin projects, and projects that require mono,
+Visual Studio for Mac 17.0 supports MSBuild on Mono and dotnet msbuild.</p>
+
+<p>If any project in a solution has mono as a target
+runtime then the solution is restored with MSBuild on mono. If all
+projects target the dotnet runtime then dotnet&rsquo;s MSBuild will be
+used. This prevents the restore failing for classic Android and iOS
+projects since dotnet&rsquo;s MSBuild cannot resolve the Xamarin MSBuild targets
+files, causing errors similar to the following:</p>
+
+<pre><code>error MSB4019: The imported project "/usr/local/share/dotnet/sdk/6.0.101/Xamarin/Android/Xamarin.Android.CSharp.targets" was not found.
+Confirm that the expression in the Import declaration
+</code></pre>
+
+<p>If the solution is configured to build with MSBuild on Mono then
+large solutions are restored with MSBuild on Mono.</p>
+
+<h2>NuGetizer support removed</h2>
+
+<p>Integrated support for <a href="https://github.com/NuGet/NuGet.Build.Packaging">NuGetizer</a> has been
+removed from Visual Studio for Mac 17.0. This is because the NuGetizer project is no
+longer being maintained.</p>
+
+<p><a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-pack">dotnet pack</a> can be used as
+an alternative.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.10]]></title>
@@ -308,38 +439,6 @@ causing vstool to fail.</p>
 
 <p>To fix this the NuGet.Credentials.dll is pre-loaded by Visual Studio for Mac so it is
 available in the AppDomain when vstool is run.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.6]]></title>
-    <link href="http://lastexitcode.com/blog/2020/05/25/NuGetSupportInVisualStudioMac8-6/"/>
-    <updated>2020-05-25T10:00:00+01:00</updated>
-    <id>http://lastexitcode.com/blog/2020/05/25/NuGetSupportInVisualStudioMac8-6</id>
-    <content type="html"><![CDATA[<h2>Changes</h2>
-
-<ul>
-<li> NuGet 5.6 support</li>
-<li> Fixed escape key not closing Manage NuGet Packages dialog</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.6</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
-
-<h2>NuGet 5.6 support</h2>
-
-<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.6">NuGet 5.6.0.6591</a> is now
-included with Visual Studio for Mac 8.6.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed escape key not closing Manage NuGet Packages dialog</strong></p>
-
-<p>When the search text box had focus pressing the escape key would
-not close the Manage NuGet Packages dialog as it did in previous
-versions. A change to fix accessibility of the search text box
-broke the original behaviour of the dialog.</p>
 ]]></content>
   </entry>
   

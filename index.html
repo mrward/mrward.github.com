@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes Manage NuGet Packages dialog now uses native macOS UI NuGet 5.9 support Support disabling NuGet restore in NuGet.Config Fixed automatic &hellip;">
+  <meta name="description" content="Changes NuGet 6.0 support NuGet.Config file location changed NuGet package source passwords now stored in the Keychain Improved clear text password &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,168 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2022/06/19/NuGetSupportInVisualStudio17-0/">NuGet Support in Visual Studio for Mac 17.0</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2022-06-19T12:20:00+01:00" pubdate data-updated="true">Jun 19<sup>th</sup>, 2022</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 6.0 support</li>
+<li> NuGet.Config file location changed</li>
+<li> NuGet package source passwords now stored in the Keychain</li>
+<li> Improved clear text password handling for NuGet package sources</li>
+<li> Support NuGet restore with .NET MSBuild and MSBuild on mono</li>
+<li> NuGetizer support removed</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 17.0</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releases/2022/mac-release-notes">release notes</a>.</p>
+
+<h2>NuGet 6.0 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-6.0">NuGet 6.0.0.262</a> is now
+included with Visual Studio for Mac 17.0.</p>
+
+<h2>NuGet.Config file location changed</h2>
+
+<p>Visual Studio for Mac 17.0 now runs on .NET 6 instead of Mono. This means the
+NuGet.Config file location has changed.</p>
+
+<p>Old NuGet.Config file location used by Visual Studio for Mac 8.10 and mono:</p>
+
+<pre><code>~/.config/NuGet/NuGet.Config
+</code></pre>
+
+<p>New NuGet.Config file location used by Visual Studio for Mac 17.0 and the dotnet command line interface:</p>
+
+<pre><code>~/.nuget/NuGet/NuGet.Config
+</code></pre>
+
+<h2>NuGet package source passwords now stored in the Keychain</h2>
+
+<p>The dotnet command line interface does not support encrypting NuGet package source
+passwords.</p>
+
+<p>This is because the
+<a href="https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.protecteddata?view=dotnet-plat-ext-6.0">ProtectedData</a> class
+used by NuGet to encrypt and decrypt the package source passwords
+is not available for .NET. The ProtectedData class is available for mono and .NET Framework v4.</p>
+
+<p>One workaround is to
+<a href="https://docs.microsoft.com/en-us/nuget/reference/nuget-config-file#packagesourcecredentials">store the passwords in clear text</a>
+in the NuGet.Config file.</p>
+
+<p>This can be done via <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-nuget-add-source">dotnet nuget add source</a>.</p>
+
+<pre><code>dotnet nuget add source https://someServer/myTeam -n myTeam -u myUsername -p myPassword --store-password-in-clear-text
+</code></pre>
+
+<p>Or by editing the ~/.nuget/NuGet/NuGet.Config file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;configuration&gt;
+</span><span class='line'>  &lt;packageSources&gt;
+</span><span class='line'>    &lt;add key="myTeam" value="https://someServer/myTeam" /&gt;
+</span><span class='line'>  &lt;/packageSources&gt;
+</span><span class='line'>  &lt;packageSourceCredentials&gt;
+</span><span class='line'>    &lt;myTeam&gt;
+</span><span class='line'>        &lt;add key="Username" value="myUsername" /&gt;
+</span><span class='line'>        &lt;add key="ClearTextPassword" value="myPassword" /&gt;
+</span><span class='line'>      &lt;/myTeam&gt;
+</span><span class='line'>  &lt;/packageSourceCredentials&gt;
+</span><span class='line'>&lt;/configuration&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that Visual Studio for Mac 17.0 runs on .NET 6 it is also affected by
+NuGet not being able to store encrypted passwords in the NuGet.Config file.</p>
+
+<p>If a NuGet package source with a password is created in Visual Studio
+for Mac 17.0 the password will be stored in the Keychain rather than using
+a clear text password.</p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac17-0/AddNuGetPackageSourceCredential.png" title="Add NuGet package source with password in preferences" alt="Add NuGet package source with password in preferences"></p>
+
+<p><img src="/images/blog/NuGetSupportInVisualStudioMac17-0/KeychainNuGetPackageSourcePassword.png" title="Package source password saved in Keychain" alt="Package source password saved in Keychain"></p>
+
+<h2>Improved clear text password handling for NuGet package sources</h2>
+
+<p>In Visual Studio for Mac 8.10 when the package sources where
+saved in Preferences &ndash; NuGet &ndash; Sources any clear text passwords
+were encrypted in the saved NuGet.Config file.</p>
+
+<p>In Visual Studio for Mac 17.0 package sources that use clear text
+passwords will not have their passwords encrypted in the NuGet.Config file.</p>
+
+<h2>Support NuGet restore with .NET MSBuild and MSBuild on mono</h2>
+
+<p>In order to support classic Xamarin projects, and projects that require mono,
+Visual Studio for Mac 17.0 supports MSBuild on Mono and dotnet msbuild.</p>
+
+<p>If any project in a solution has mono as a target
+runtime then the solution is restored with MSBuild on mono. If all
+projects target the dotnet runtime then dotnet&rsquo;s MSBuild will be
+used. This prevents the restore failing for classic Android and iOS
+projects since dotnet&rsquo;s MSBuild cannot resolve the Xamarin MSBuild targets
+files, causing errors similar to the following:</p>
+
+<pre><code>error MSB4019: The imported project "/usr/local/share/dotnet/sdk/6.0.101/Xamarin/Android/Xamarin.Android.CSharp.targets" was not found.
+Confirm that the expression in the Import declaration
+</code></pre>
+
+<p>If the solution is configured to build with MSBuild on Mono then
+large solutions are restored with MSBuild on Mono.</p>
+
+<h2>NuGetizer support removed</h2>
+
+<p>Integrated support for <a href="https://github.com/NuGet/NuGet.Build.Packaging">NuGetizer</a> has been
+removed from Visual Studio for Mac 17.0. This is because the NuGetizer project is no
+longer being maintained.</p>
+
+<p><a href="https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-pack">dotnet pack</a> can be used as
+an alternative.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1143,316 +1305,6 @@ Support for design-time build binary logs should be available in Visual Studio f
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/10/06/NuGetSupportInVisualStudioMac8-3/">NuGet Support in Visual Studio for Mac 8.3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-10-06T12:00:00+01:00" pubdate data-updated="true">Oct 6<sup>th</sup>, 2019</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Changes</h2>
-
-<ul>
-<li> NuGet 5.3 support</li>
-<li> Managing NuGet packages for the solution</li>
-<li> Show NuGet package updates for SDK style projects in the Solution window</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.3</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
-
-<h2>NuGet 5.3 support</h2>
-
-<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.3">NuGet 5.3.0.6192</a> is now
-included with Visual Studio for Mac 8.3.</p>
-
-<h2>Managing NuGet Packages for the solution</h2>
-
-<p>Support for managing NuGet packages for the solution was originally available in a separate
-<a href="https://github.com/mrward/monodevelop-nuget-extensions">NuGet extensions addin</a>. This feature has now
-been integrated into Visual Studio for Mac, along with some user interface changes, and is now available by
-default.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesSolutionBrowseTab.png" title="Manage NuGet Packages - Solution - Browse tab" alt="Manage NuGet Packages - Solution - Browse tab"></p>
-
-<p>The NuGet extensions addin is still available and provides a
-NuGet Powershell Console but it no longer includes a Manage NuGet Packages dialog.</p>
-
-<p>The Manage NuGet Packages dialog contains four tabs:</p>
-
-<ul>
-<li>Browse
-
-<ul>
-<li>Used to search for and install NuGet packages. This is equivalent to the old Add NuGet Packages dialog.</li>
-</ul>
-</li>
-<li>Installed
-
-<ul>
-<li>Shows the installed NuGet packages. NuGet packages can be uninstalled from this tab.</li>
-</ul>
-</li>
-<li>Updates
-
-<ul>
-<li>Shows NuGet packages that have new versions available.</li>
-</ul>
-</li>
-<li>Consolidate
-
-<ul>
-<li>Shows NuGet packages that have multiple versions installed in the solution. This is only available when managing
-NuGet packages for the solution.</li>
-</ul>
-</li>
-</ul>
-
-
-<p>The Add Packages dialog has been removed and replaced with the Manage NuGet Packages dialog since everything that was supported with the Add Packages dialog is available the new dialog.</p>
-
-<p>To manage the NuGet packages for
-the solution the Manage NuGet Packages dialog can be opened in the following ways:</p>
-
-<ul>
-<li>Right click the solution in the Solution window and select <strong>Manage NuGet Packages&hellip;</strong></li>
-<li>From the main menu select <strong>Project</strong> &ndash; <strong>Manage NuGet Packages&hellip;</strong></li>
-</ul>
-
-
-<p>The Manage NuGet Packages dialog title is different depending on whether the NuGet packages
-are being managed for the solution or for the project. When managing packages for the solution
-the dialog title will be <strong>Manage NuGet Packages – Solution</strong>.</p>
-
-<h3>Managing NuGet Packages for a single project</h3>
-
-<p>To manage NuGet packages for a single project the Manage NuGet Packages dialog can be opened
-in the following ways:</p>
-
-<ul>
-<li>Right click the project in the Solution window and select <strong>Manage NuGet Packages&hellip;</strong>
-
-<ul>
-<li>This was added to make Visual Studio for Mac consistent with Visual Studio on Windows</li>
-</ul>
-</li>
-<li>Double click the Packages folder in the Solution window</li>
-<li>Right click the Packages folder and select <strong>Manage NuGet Packages&hellip;</strong></li>
-<li>Double click the Dependencies folder in the Solution window.
-
-<ul>
-<li>In previous versions of Visual Studio for Mac this would not open the dialog</li>
-</ul>
-</li>
-<li>Right click the Depdendencies folder and select <strong>Manage NuGet Packages..</strong></li>
-<li>Double click the NuGet folder underneath the Dependencies folder</li>
-<li>Right click the NuGet folder, underneath the Dependencies folder, and select <strong>Manage NuGet Packages&hellip;</strong></li>
-</ul>
-
-
-<p>When managing NuGet packages for a single project the dialog title shows the project name
-<strong>Manage NuGet Packages – ProjectName</strong>.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesProject.png" title="Manage NuGet Packages for Project" alt="Manage NuGet Packages for Project"></p>
-
-<h3>Installing NuGet Packages</h3>
-
-<p>The Browse tab in the Manage NuGet Packages can be used to search for and install NuGet packages
-into one or more projects. This tab is equivalent to the old Add NuGet Packages dialog.</p>
-
-<p>The latest stable NuGet package version is now indicated by
-having <strong>(latest stable)</strong> appended on the right hand
-side of the dialog.</p>
-
-<p>To install a NuGet package into multiple projects:</p>
-
-<ul>
-<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
-<li>Search for a NuGet package</li>
-<li>Click the <strong>Add Package</strong> button</li>
-<li>In the Select Projects dialog that is opened, select the projects that you want the NuGet package to be installed, and click OK</li>
-</ul>
-
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesSolutionSelectProjects.png" title="Manage NuGet Packages - Select Projects dialog" alt="Manage NuGet Packages - Select Projects dialog"></p>
-
-<h3>Uninstalling NuGet Packages</h3>
-
-<p>The Installed tab in the Manage NuGet Packages can be used to uninstall
-NuGet packages from one or more projects.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesInstalledTab.png" title="Manage NuGet Packages - Installed tab" alt="Manage NuGet Packages - Installed tab"></p>
-
-<p>To uninstall a NuGet package:</p>
-
-<ul>
-<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
-<li>Select the Installed tab</li>
-<li>Select a NuGet package to uninstall
-
-<ul>
-<li>To uninstall multiple NuGet packages use the check boxes in the package list</li>
-</ul>
-</li>
-<li>Click the <strong>Uninstall Package</strong> button</li>
-<li>In the Select Projects dialog that is opened, select the projects where the NuGet package should be removed, and click OK.</li>
-</ul>
-
-
-<h3>Updating NuGet Packages</h3>
-
-<p>The Updates tab shows the updated NuGet packages available to be installed.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesUpdatesTab.png" title="Manage NuGet Packages - Updates tab" alt="Manage NuGet Packages - Updates tab"></p>
-
-<p>The Updates tab shows the <strong>Current Version</strong> of the NuGet package installed on the right hand side of the dialog. If
-multiple versions of the packages are installed across the solution, then this will
-display <strong>Multiple</strong> with an information icon where information about the
-projects and versions can be viewed in a tooltip.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/UpdatesTabMultipleVersions.png" title="Manage NuGet Packages - Updates tab - Multiple versions installed" alt="Manage NuGet Packages - Updates tab -  Multiple versions installed"></p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/UpdatesTabMultipleVersionsTooltip.png" title="Manage NuGet Packages - Updates tab - Multiple versions installed - tooltip" alt="Manage NuGet Packages - Updates tab -  Multiple versions installed - tooltip"></p>
-
-<p>To update a NuGet package in multiple projects:</p>
-
-<ul>
-<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
-<li>Select the Updates tab</li>
-<li>Select a NuGet package to update
-
-<ul>
-<li>To update multiple NuGet packages use the check boxes in the packages list</li>
-</ul>
-</li>
-<li>Click the <strong>Update Package</strong> button</li>
-<li>In the Select Projects dialog that is opened, select the projects where the NuGet package should be updated, and click OK.</li>
-</ul>
-
-
-<h3>Consolidating NuGet Packages</h3>
-
-<p>If there are different versions of a NuGet package installed in the solution the
-Consolidate tab will show this and allow the packages to be consolidated to a particular version.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/ManageNuGetPackagesConsolidateTab.png" title="Manage NuGet Packages - Consolidate tab" alt="Manage NuGet Packages - Consolidate tab"></p>
-
-<p>When a NuGet package is selected, the right hand side of the dialog shows
-all the projects in the solution. The project will be checked if it has the selected
-package installed. The package version used by the project is also shown.
-Projects that have a package to consolidate are shown first in the list.</p>
-
-<p>Note that the Consolidate tab is only displayed if NuGet packages are being
-managed for the solution.</p>
-
-<p>By default the Consolidate tab will select the latest version available from the current NuGet package source.
-This may be different from the latest version installed in the projects.</p>
-
-<p>To Consolidate a NuGet package:</p>
-
-<ul>
-<li>Right click the solution and select <strong>Manage NuGet Packages&hellip;</strong></li>
-<li>Select the Consolidate tab</li>
-<li>Select the NuGet package you want to consolidate.
-
-<ul>
-<li>Use the check box next to the NuGet package if you want to consolidate multiple NuGet packages at the same time</li>
-</ul>
-</li>
-<li>Check or uncheck the projects in the projects list.
-
-<ul>
-<li>By default projects that contain the selected NuGet package will be checked</li>
-</ul>
-</li>
-<li>Click the <strong>Consolidate Package</strong> button.</li>
-</ul>
-
-
-<h2>Show NuGet package updates for SDK style projects in the Solution window</h2>
-
-<p>NuGet package updates are now shown in the Solution window for SDK style
-projects.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectPackageUpdates.png" title="SDK style project - package updates - solution window" alt="SDK style project - package updates - solution window"></p>
-
-<p>If an updated package is available this information will now be shown
-on the Dependencies folder, the NuGet folder, and the top level
-package in the Solution window.</p>
-
-<p>Previously NuGet package updates were only displayed for projects
-that used a packages.config file or for non-SDK style projects
-that used PackageReferences.</p>
-
-<p>Instead of showing the updated NuGet package version text, next to the installed version
-in the solution window, an update icon
-is displayed with the version information available in a tooltip. This prevents
-the version information taking up a lot of space to the right, which can
-happen for long version numbers.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectPackageUpdateVersionTooltip.png" title="SDK style project - package update version tooltip - solution window" alt="SDK style project - package update version tooltip - solution window"></p>
-
-<p>The Update menu, when right clicking a NuGet package, now shows the
-version for the update. Otherwise
-the Update menu is displayed.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/SdkStyleProjectUpdateToMenuItem.png" title="SDK style project - update menu item - solution window" alt="SDK style project - update menu item - solution window"></p>
-
-<p>If there is an update and a NuGet warning only the warning icon
-will be displayed with the warning message available in the tooltip.
-The update information will only be available in the right click
-context menu for the NuGet package in this case.</p>
-
-<p>Package versions are now displayed in solution window for non-SDK style projects.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-3/NonSdkStyleProjectPackageUpdates.png" title="Non-SDK style project - package updates - solution window" alt="Non-SDK style project - package updates - solution window"></p>
-
-<p>SDK style projects always displayed the package version in the Solution
-window but non-SDK style projects did not. To make these consistent the NuGet
-package version is now shown in the Solution window for all project types.</p>
-
-<p>Previously for non-SDK style projects the package version was shown
-as a menu item when right clicking a NuGet package. This has been removed
-since the package version is now displayed next to the package id in the
-Solution window.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed text colour when row selected in Manage NuGet Packages dialog</strong></p>
-
-<p>When a package was checked in the Add NuGet Packages dialog any
-row that was selected would display black text instead of white text. This was hard
-to read with the blue background colour used for the selected row. The wrong text colour was being set when a package was
-checked. This has been fixed in the Manage NuGet Packages dialog.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1470,7 +1322,7 @@ checked. This has been fixed in the Manage NuGet Packages dialog.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2021 - Matt Ward -
+  Copyright &copy; 2022 - Matt Ward -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 
