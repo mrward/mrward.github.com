@@ -1,11 +1,18 @@
 ---
 layout: page
 title: "MonoDevelop .NET Core Extensions Addin Releases"
-date: 2022-06-12 15:00
+date: 2022-07-03 15:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.4
+
+2022-07-03
+
+ * Support Visual Studio for Mac 17.3 preview 3
+
 ## Version 0.3
 
 2022-06-12
