@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Package Explorer Addin Releases"
-date: 2022-06-12 15:00
+date: 2022-07-03 17:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.11
+
+2022-07-03
+
+ * Support Visual Studio for Mac 17.3 preview 3
 
 ## Version 0.10
 
