@@ -1,15 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date: 2022-07-03 16:00
+date:  2022-08-07 12:50
 comments: true
 sharing: true
 footer: true
 ---
 
-## Version 0.3
+## Version 0.32
 
-2022-07-03
+ * Support Visual Studio for Mac 17.4 preview 1
+
+## Version 0.31
 
  * Support Visual Studio for Mac 17.3 preview 3
  * The Solution window now displays a NuGet.Config files node which
