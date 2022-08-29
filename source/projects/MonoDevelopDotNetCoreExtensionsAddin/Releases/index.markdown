@@ -1,11 +1,20 @@
 ---
 layout: page
 title: "MonoDevelop .NET Core Extensions Addin Releases"
-date: 2022-07-03 15:00
+date: 2022-08-29 15:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.5
+
+2022-08-29
+
+ * Allow active .NET runtime to be set for a solution from the Project - Active .NET menu
+ * Allow global default .NET runtime to be set from the Project - Default .NET menu
+ * Custom .NET runtimes can be specified in Preferences - Build and Debug - .NET Runtimes
+ * Supports Visual Studio for Mac 17.4
 
 ## Version 0.4
 
