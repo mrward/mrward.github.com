@@ -82,7 +82,7 @@ The Mapsui.Mac.sln from https://github.com/Mapsui/Mapsui would fail to
 restore with following error when Build with
 MSBuild on Mono was disabled in Solution Properties:
 
-    error MSB4019: The imported project "/usr/local/share/dotnet/sdk/6.0.300/Xamarin/iOS/Xamarin.iOS.CSharp.targets"
+    error MSB4019: The imported project "/usr/local/share/dotnet/sdk/6.0.300/Xamarin/iOS/Xamarin.iOS.CSharp.targets" was not found.
 
 The Mapsui.Mac.sln contains .NET 6.0 maui and some classic Xamarin
 projects. It is not possible to restore these all projects with either
