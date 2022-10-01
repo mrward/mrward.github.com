@@ -9,8 +9,8 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Here we look at using Fiddler as
-a proxy server in order to test a Mac client application, such as Safari or Visual Studio for Mac, can make web &hellip;">
+  <meta name="description" content="Here we look at using Apache as
+a proxy server in order to test that a Mac client application, such as Safari or Visual Studio for Mac, can make web &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,252 @@ a proxy server in order to test a Mac client application, such as Safari or Visu
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/10/28/ProxyTestingMacApplicationWithApache/">Proxy Testing a Mac Application with Apache</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-10-28T12:00:00+00:00" pubdate data-updated="true">Oct 28<sup>th</sup>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here we look at using <a href="http://httpd.apache.org/">Apache</a> as
+a proxy server in order to test that a Mac client application, such as Safari or Visual Studio for Mac, can make web
+requests through a proxy. Enabling Basic and NTLM proxy authentication with Apache will be covered, as well as using
+the Apache as a proxy without any authentication.</p>
+
+<p>Apache will run on a separate Windows machine. Using a separate machine
+allows us to check that the Mac client application is not bypassing the proxy and making direct
+web requests to any server. This check can be done by configuring the local firewall to block all direct
+connections out from the Mac machine but allow connections from the machine running Apache.</p>
+
+<ul>
+<li>Mac High Sierra 10.13</li>
+<li><a href="https://www.apachehaus.com/cgi-bin/download.plx">Apache 2.4.35 on Windows</a></li>
+</ul>
+
+
+<h2>Apache Proxy &ndash; No authentication</h2>
+
+<p>Unzip Apache and extract the files to c:\Apache24\ which is the default ServerRoot configured in the conf\httpd.conf
+file.</p>
+
+<pre><code>Define SRVROOT "/Apache24"
+</code></pre>
+
+<p>In the httpd.config file configure the port to be used by the Apache server if required.
+By default port 80 is used. Here we will be using port 8888.</p>
+
+<pre><code>Listen 8888
+ServerName localhost:8888
+</code></pre>
+
+<p><a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy.html">mod_proxy</a>,
+<a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy_connect.html">mod_proxy_connect</a> and
+<a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy_http.html">mod_proxy_http</a> should be loaded.
+Edit the http.conf file and ensure these modules are loaded.</p>
+
+<pre><code>LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_connect_module modules/mod_proxy_connect.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+</code></pre>
+
+<p>Add a VirtualHost and Proxy section to the httpd.conf file.</p>
+
+<pre><code>&lt;VirtualHost *&gt;
+     ProxyRequests On
+
+    &lt;Proxy *&gt;
+        Require all granted
+    &lt;/Proxy&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+
+<p>To run Apache, open a command prompt, change into the Apache24\bin directory, then run httpd.exe</p>
+
+<pre><code>cd c:\Apache24\bin
+httpd.exe
+</code></pre>
+
+<p>On running Apache for the first time you will see a Windows Firewall dialog.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/FirewallAlertApache.png" title="Windows Firewall alert for Apache" alt="Windows Firewall alert for Apache"></p>
+
+<p>Allow Apache to access both the private and public networks.</p>
+
+<p>Configuring the Mac to use Apache as its proxy server can be done by opening System Preferences &ndash; Network.
+For the active network select the Advanced button and open the Proxies tab. Enter the machine IP address
+where Apache is running and its port into the Web Proxy (HTTP) and Secure Web Proxy (HTTPS) sections, and ensure both
+of these are checked.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/MacNetworkWebProxySettings.png" title="Mac web proxy settings" alt="Mac web proxy settings"></p>
+
+<p>Finally click OK and Apply to enable the proxy settings.</p>
+
+<p>Now http and https requests should be sent through Apache. A simple way to test this is
+to open Safari and view a web page. In the C:\Apache24\logs\access.log file you should see entries for the
+sites accessed.</p>
+
+<pre><code>192.168.1.100 - - [28/Oct/2018:12:18:47 +0000] "GET http://neverssl.com/ HTTP/1.1" 200 1183
+192.168.1.100 - - [28/Oct/2018:12:18:47 +0000] "GET http://neverssl.com/favicon.ico HTTP/1.1" 200 124
+192.168.1.100 - - [28/Oct/2018:12:18:41 +0000] "CONNECT www.nuget.org:443 HTTP/1.1" 200 -
+</code></pre>
+
+<h2>Apache Proxy &ndash; Basic authentication</h2>
+
+<p>To enable Basic authentication change the Proxy section in the httpd.conf file as shown below.</p>
+
+<pre><code>&lt;VirtualHost *&gt;
+     ProxyRequests On
+
+    &lt;Proxy *&gt;
+        AuthType Basic
+        AuthName "Authentication required"
+        AuthBasicProvider file
+        AuthUserFile proxy-password.file
+        Require valid-user
+    &lt;/Proxy&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+
+<p>Here we will be using <a href="https://httpd.apache.org/docs/2.4/programs/htpasswd.html">htpasswd.exe</a> to create a file to
+store the username and password required to authenticate against
+the proxy server. htpasswd.exe is in the Apache bin directory. Run the following to generate the proxy-password.file,
+replacing user with the username to be used with the proxy.</p>
+
+<pre><code>htpasswd.exe -c proxy-password.file user
+</code></pre>
+
+<p>Enter the password when prompted.</p>
+
+<p>Copy the proxy-password.file to the Apache server&rsquo;s root directory c:\Apache24</p>
+
+<p>To make it easier to see the basic auth header being sent you may want to enable
+<a href="https://httpd.apache.org/docs/2.4/mod/mod_log_forensic.html">forensic logging</a> in Apache.
+To do this add a LoadModule to the httpd.conf file.</p>
+
+<pre><code>LoadModule log_forensic_module modules/mod_log_forensic.so
+</code></pre>
+
+<p>Define the path to the forensic log file using an IfModule.</p>
+
+<pre><code>&lt;IfModule log_forensic_module&gt; 
+    ForensicLog "logs/forensic.log"
+&lt;/IfModule&gt; 
+</code></pre>
+
+<p>Run httpd.exe from the Apache24\bin directory.</p>
+
+<p>When connecting through the proxy
+for the first time the Mac will show a dialog asking for credentials.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/ProxyAuthenticationRequiredDialog.png" title="Mac proxy authentication required dialog" alt="Mac proxy authentication required dialog"></p>
+
+<p>Clicking the System Preferences button will show open a dialog where you can enter the credentials for the proxy.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/ProxyCredentialsDialog.png" title="Mac proxy authentcation required - credentials dialog" alt="Mac proxy authentication required - credentials dialog"></p>
+
+<p>Entering the credentials will result in the Mac&rsquo;s key chain being updated with the credentials associated with the proxy&rsquo;s address.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/ProxyCredentialsMacKeyChain.png" title="Proxy credentials stored in Mac key chain" alt="Proxy credentials stored in Mac key chain"></p>
+
+<p>If you open the Mac&rsquo;s Network settings you will see the Web Proxy and Secure Web Proxy settings now have a username and password
+associated with them.</p>
+
+<p><img src="/images/blog/ProxyTestingMacApplicationWithApache/MacNetworkSettingsProxyUserNamePassword.png" title="Username and password associated with proxy in network settings" alt="Username and password associated with proxy in network settings"></p>
+
+<p>In the Apache access.log you should see the requests being made and a Proxy authentication 407 status code.</p>
+
+<pre><code>192.168.1.100 - - [28/Oct/2018:12:44:47 +0000] "CONNECT www.nuget.org:443 HTTP/1.1" 407 415
+192.168.1.100 - - [28/Oct/2018:12:44:53 +0000] "GET http://neverssl.com/ HTTP/1.1" 407 415
+</code></pre>
+
+<p>In the forensic.log file you should see the basic proxy authorization header being used by the Mac.</p>
+
+<pre><code>GET http%3a//neverssl.com/ HTTP/1.1|Host:neverssl.com|Connection:keep-alive|Proxy-Connection:keep-alive|Upgrade-Insecure-Requests:1|Proxy-Authorization:Basic MTox|Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Accept-Language:en-gb|DNT:1|Accept-Encoding:gzip, deflate
+CONNECT www.nuget.org%3a443 HTTP/1.1|Host:www.nuget.org%3a443|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Connection:keep-alive|Proxy-Authorization:Basic MTox|Proxy-Connection:keep-alive
+</code></pre>
+
+<h2>Apache Proxy &ndash; NTLM authentication</h2>
+
+<p>In order to enable NTLM authentication the <a href="https://github.com/TQsoft-GmbH/mod_authn_ntlm">NTLM authentication module</a> needs to be downloaded.
+Download <a href="https://www.apachehaus.com/cgi-bin/download.plx">Mod Auth NTLM for Apache 2.4.x x64 &ndash; mod_authn_ntml.zip</a>,
+extract the files and copy the mod_auth_ntlm.so file to the Apache24\modules directory.</p>
+
+<p>Add a LoadModule to the httpd.conf file for the mod_authn_ntlm.so file.</p>
+
+<pre><code>LoadModule auth_ntlm_module modules/mod_authn_ntlm.so
+</code></pre>
+
+<p>Change the VirtualHost Proxy section as shown below:</p>
+
+<pre><code>&lt;VirtualHost *&gt;
+    ProxyRequests On
+
+    &lt;Proxy *&gt;
+        AuthType SSPI
+        AuthName "Auth required"
+        NTLMAuth On
+        NTLMAuthoritative On
+
+        &lt;RequireAll&gt;
+            &lt;RequireAny&gt;
+                Require valid-user
+            &lt;/RequireAny&gt;
+
+            &lt;RequireNone&gt;
+                Require user "ANONYMOUS LOGON"
+                Require user "NT AUTHORITY\ANONYMOUS LOGON"
+            &lt;/RequireNone&gt;
+        &lt;/RequireAll&gt;
+    &lt;/Proxy&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+
+<p>The username and password used to authenticate against the proxy needs to match an account on the Windows machine.
+As with basic authentication, the Mac will prompt for credentials if they do not match
+what is stored in the key chain for the proxy.</p>
+
+<p>Run httpd.exe and then use Safari to open a web site to check web requests are being sent through the proxy.
+You should see the Windows account being used to authenticate in Apache&rsquo;s access.log.</p>
+
+<pre><code>192.168.1.100 - - [28/Oct/2018:13:09:19 +0000] "GET http://neverssl.com/ HTTP/1.1" 407 415
+192.168.1.100 - windows\\useraccount [28/Oct/2018:13:09:19 +0000] "GET http://neverssl.com/ HTTP/1.1" 304 -
+192.168.1.100 - - [28/Oct/2018:13:09:38 +0000] "CONNECT www.nuget.org:443 HTTP/1.1" 407 415
+192.168.1.100 - windows\\useraccount [28/Oct/2018:13:09:12 +0000] "CONNECT www.nuget.org:443 HTTP/1.1" 200 -
+</code></pre>
+
+<p>The forensic log should show that the NTLM header is being used by the Mac.</p>
+
+<pre><code>CONNECT www.nuget.org%3a443 HTTP/1.1|Host:www.nuget.org%3a443|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Connection:keep-alive|Proxy-Authorization:NTLM T...|Proxy-Connection:keep-alive
+GET http%3a//neverssl.com/ HTTP/1.1|Host:neverssl.com|Proxy-Connection:keep-alive|Proxy-Authorization:NTLM T...|If-Modified-Since:Thu, 14 Jun 2018 00%3a16%3a40 GMT|Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8|Accept-Language:en-gb|Accept-Encoding:gzip, deflate|Content-Length:0|User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Safari/605.1.15|Connection:keep-alive|Upgrade-Insecure-Requests:1|DNT:1
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2767,213 +3013,6 @@ MSBuildSDKsPath property.</p>
 
 <p>Deleting a file link in a .NET Core project would add a remove item
 for the file instead of removing the link from the project.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/12/10/NuGetSupportInVisualStudioMac7-3/">NuGet Support in Visual Studio for Mac 7.3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-12-10T11:00:00+00:00" pubdate data-updated="true">Dec 10<sup>th</sup>, 2017</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Changes</h2>
-
-<ul>
-<li> Support installing System.ValueTuple NuGet Package from Quick Fixes</li>
-<li> NuGetizer 3000 &ndash; Update NuGet.Build.Packaging to version 0.2</li>
-<li> Support NuGet Restore MSBuild Properties
-
-<ul>
-<li>RestoreAdditionalProjectFallbackFolders</li>
-<li>RestoreAdditionalProjectSources</li>
-<li>RestoreFallbackFolders</li>
-<li>RestorePackagesPath</li>
-<li>RestoreSources</li>
-</ul>
-</li>
-<li> Fixed transitive dependencies not available when using project.json</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.3</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-december-4-2017---visual-studio-2017-version-73-730797">release notes</a>.</p>
-
-<h2>Quick Fix &ndash; Install System.ValueTuple NuGet Package</h2>
-
-<p><a href="https://blogs.msdn.microsoft.com/dotnet/2016/08/24/whats-new-in-csharp-7-0/">C# 7.0 introduced tuple types</a>
-that may require the System.ValueTuple NuGet package
-to be added to the project. Visual Studio for Mac
-now offers to install the System.ValueTuple NuGet package if the project requires this NuGet package.</p>
-
-<p>Creating a .NET Framework 4.6 project with the following code:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public (string, int) GetValues(string id)
-</span><span class='line'>{
-</span><span class='line'>  return ("Name", 25);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You will see error markers in the text editor. If you hover over
-one of these error markers you will see a
-<strong>Predefined type &lsquo;System.ValueTuple`2&rsquo; is not defined or imported</strong> message.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-3/ValueTupleTextEditorErrorTooltip.png" title="ValueTuple type not defined text editor error tooltip" alt="ValueTuple type not defined text editor error tooltip"></p>
-
-<p>If you right click the error marker there is now a new
-<strong>Install Package &lsquo;System.ValueTuple&rsquo;</strong> Quick Fix action available.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-3/TextEditorInstallSystemValueTuplePackageQuickFix.png" title="Text editor Install System.ValueTuple Package quick fix menu item" alt="Text editor Install System.ValueTuple Package quick fix menu item"></p>
-
-<p>From this menu you can install the latest System.ValueTuple NuGet package
-or open the Add Packages dialog to search for a specific version of the System.ValueTuple NuGet
-package.</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac7-3/TextEditorInstallLatestSystemValueTupleQuickFix.png" title="Text editor install latest System.ValueTuple package quick fix menu item" alt="Text editor install latest System.ValueTuple package quick fix menu item"></p>
-
-<p>Note that if the project is targeting .NET Framework 4.7 or .NET Standard 2.0 then the
-System.ValueTuple NuGet package is not required.</p>
-
-<p>Also note that the official nuget.org package source needs to be available
-for this feature to work.</p>
-
-<h2>NuGetizer 3000 &ndash; Updated NuGet.Build.Packaging to version 0.2</h2>
-
-<p>The version of the NuGet.Build.Packaging NuGet package used by default for NuGetizer 3000 support
-has been updated from 0.1.276 to 0.2.0. This fixes a
-potential build error when building with Mono 5.6.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Using "ReportAssetsLogMessages" task from assembly "/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/../tools/net46/Microsoft.NET.Build.Tasks.dll".
-</span><span class='line'>Task "ReportAssetsLogMessages"
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: The "ReportAssetsLogMessages" task failed unexpectedly. [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: System.TypeLoadException: Could not resolve type with token 0100005b (from typeref, class/assembly NuGet.ProjectModel.IAssetsLogMessage, NuGet.ProjectModel, Version=4.3.0.5, Culture=neutral, PublicKeyToken=31bf3856ad364e35) [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.NET.Build.Tasks.TaskBase.Execute () [0x00000] in &lt;01420900fd004c128de2d2ee31bad624&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.Build.BackEnd.TaskExecutionHost.Microsoft.Build.BackEnd.ITaskExecutionHost.Execute () [0x00023] in &lt;765502eb2f884ce79731edeb4b0517fb&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]
-</span><span class='line'>/usr/local/share/dotnet/sdk/2.0.0/Sdks/Microsoft.NET.Sdk/build/Microsoft.PackageDependencyResolution.targets(323,5): error MSB4018: at Microsoft.Build.BackEnd.TaskBuilder+d__26.MoveNext () [0x0022d] in &lt;765502eb2f884ce79731edeb4b0517fb&gt;:0 [RefactoringEssentials/RefactoringEssentials.2017/RefactoringEssentials.csproj]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The ReadLegacyDependencies target from NuGet.Build.Packaging.Tasks is called when PackOnBuild
-is set to true.</p>
-
-<p>The NuGet.Build.Packaging.Tasks assembly was loading an embedded NuGet.ProjectModel
-assembly that conflicts with the version that is used by Microsoft.NET.Build.Tasks.</p>
-
-<h2>Support RestoreAdditionalProjectFallbackFolders MSBuild Property</h2>
-
-<p>The RestoreAdditionalProjectFallbackFolders MSBuild property is
-read and appended to the list of fallback folders stored in the
-project.assets.json file. The .NET Core 2.0 SDK will set this
-MSBuild property to point to the NuGet package fallback folder
-that is installed with the SDK. This will be used
-to resolve NuGet packages first before downloading them to the
-~/.nuget/packages folder.</p>
-
-<h2>Support RestoreAdditionalProjectSources MSBuild Property</h2>
-
-<p>The RestoreAdditionalProjectSources MSBuild property can be used
-to add additional package sources to the existing list of sources
-used to resolve packages.</p>
-
-<h2>Support RestoreFallbackFolders MSBuild Property</h2>
-
-<p>The RestoreFallbackFolders MSBuild property can be used by project that uses
-PackageReferences to define a set of package fallback folders that
-will override any specified in the NuGet.Config file. It can also
-be used to clear any pre-defined fallback folders by specifying
-&lsquo;clear&rsquo; as its value. Note that this value does not affect any
-folders defined by RestoreAdditionalProjectFallbackFolders which
-will be appended even if RestoreFallbackFolders is set to &lsquo;clear&rsquo;.</p>
-
-<h2>Support RestorePackagesPath MSBuild Property</h2>
-
-<p>The RestorePackagesPath MSBuild property can be used to override the global packages
-folder location when a project uses a PackageReference.</p>
-
-<h2>Support RestoreSources MSBuild property</h2>
-
-<p>The RestoreSources MSBuild property can be used to override
-the sources defined by any NuGet.Config file. Any sources defined in the
-RestoreAdditionalProjectSources MSBuild property will still be appended to the
-list of sources if RestoreSources is defined.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Transitive dependencies not available when using project.json</strong></p>
-
-<p>With two projects A and B that both use project.json files, project B
-referencing project A, the NuGet package dependencies used by project
-A were not available to project B transitively. This was because the
-project reference information was not being used
-when a restore occurred. This caused the assemblies from the transitively
-referenced NuGet packages to not be added to the
-project.lock.json file for Project B.</p>
-
-<p><strong>Unable to debug a new Azure Functions project without re-opening project</strong></p>
-
-<p>After creating a new Azure Functions project it was possible to build the
-project but not to debug it or run it. On closing and re-opening the solution
-it would be possible to debug and run the Azure Functions project.</p>
-
-<p>When Visual Studio for Mac created a new Azure Functions project
-it initially determined that it could not run or debug the project.
-After the Azure Functions project has its PackageReferences restored
-it gains an AzureFunctions project capability. This capability is used to
-determine if the project can be run. This change in the capability
-was not handled by Visual Studio for Mac so it did not allow the
-project to be run until the project was closed and re-opened.</p>
-
-<p>Now, after the NuGet package restore is finished, the project is
-re-evaluated and a check is made to see if the project can now be run.</p>
-
-<p><strong>Fix generated NuGet files being imported twice</strong></p>
-
-<p>The generated ProjectName.nuget.g.targets and ProjectName.nuget.g.props
-that are created for .NET Core projects in the base intermediate
-directory were being imported twice when evaluating the project.
-Once by Microsoft.Common.props, provided with Mono, and once
-by Visual Studio for Mac.</p>
-
-<p>This duplicate import was resulting in a duplicate file being added
-to the project held in memory by Visual Studio for Mac when the
-Xamarin.Forms 2.4 NuGet package was used in a .NET Standard
-project and no .NET Core SDK is installed. This would result in the
-content page xaml and associated C# file not being nested in the
-solution window.</p>
 </div>
   
   

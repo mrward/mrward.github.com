@@ -9,7 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Changes NuGet 6.0 support NuGet.Config file location changed NuGet package source passwords now stored in the Keychain Improved clear text password &hellip;">
+  <meta name="description" content="Changes NuGet 6.2.1 support Improved NuGet restore support for a solution containing classic and SDK style projects Fixed unable to find &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,149 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2022/09/01/NuGetSupportInVisualStudioMac17-3/">NuGet Support in Visual Studio for Mac 17.3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2022-09-01T14:20:00+01:00" pubdate data-updated="true">Sep 1<sup>st</sup>, 2022</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 6.2.1 support</li>
+<li> Improved NuGet restore support for a solution containing classic and SDK style projects
+
+<ul>
+<li>Fixed unable to find WorkloadAutoImportPropsLocator SDK restore error with classic and SDK style projects</li>
+<li>Fixed invalid framework identifer restore error with classic and SDK style projects</li>
+<li>Fixed error restoring Mapsui.Mac.sln</li>
+</ul>
+</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 17.3</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releases/2022/mac-release-notes">release notes</a>.</p>
+
+<h2>NuGet 6.2.1 support</h2>
+
+<p><a href="https://learn.microsoft.com/en-us/nuget/release-notes/nuget-6.2">NuGet 6.2.1.2</a> is now
+included with Visual Studio for Mac 17.3.</p>
+
+<h2>Improved NuGet restore support for a solution containing classic and SDK style projects</h2>
+
+<p>NuGet restore has been improved for a solution contains a mix of classic
+(non SDK style projects) and SDK style projects. Problems can occur
+in this case because classic projects require MSBuild on Mono, whilst SDK style
+projects typically require .NET MSBuild.</p>
+
+<p>The following sections contain information about the individual problems that have
+been fixed in Visual Studio for Mac 17.3</p>
+
+<p><strong>Fixed unable to find WorkloadAutoImportPropsLocator SDK restore error with classic and SDK style projects</strong></p>
+
+<p>If a solution contained a .NET 6 project, and a .NET 4.7.2 SDK style
+project, and Building with MSBuild on Mono was unchecked in
+Solution Properties &ndash; Build &ndash; General, the restore
+would fail with an error when only .NET 6.0.300 SDK was installed:</p>
+
+<pre><code>Unable to find SDK 'Microsoft.NET.SDK.WorkloadAutoImportPropsLocator'
+</code></pre>
+
+<p>To fix this Visual Studio for Mac now does not load referenced
+projects when getting restore information for a specific project
+using its MSBuild host. When all projects were loaded by the
+MSBuild host, the project load would fail since the MSBuildSDKsPath
+was not defined because .NET SDK was being used since none
+supported using MSBuild on Mono.</p>
+
+<p><strong>Fixed invalid framework identifer restore error with classic and SDK style projects</strong></p>
+
+<p>If a solution contained a non-SDK style project then MSBuild on mono was
+always used to restore if the solution contained more than 10
+projects. This prevented some solutions from being
+restored if they contained mix of .NET 6.0 projects and
+classic non-SDK style projects, and had a global.json that pinned the .NET SDK
+to 6.0.300. The restore would fail when MSBuild on mono was used with an
+error about an invalid framework identifier.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MonoBundle/MSBuild/Current/bin/NuGet.targets(162,5):
+</span><span class='line'>error MSB4018: The "WriteRestoreGraphTask" task failed unexpectedly.
+</span><span class='line'>error MSB4018: NuGet.Frameworks.FrameworkException: Invalid framework identifier ''.
+</span><span class='line'>error MSB4018:   at NuGet.Frameworks.NuGetFramework.GetShortFolderName (NuGet.Frameworks.IFrameworkNameProvider mappings)
+</span><span class='line'>error MSB4018:   at NuGet.Frameworks.NuGetFramework.GetShortFolderName ()
+</span><span class='line'>error MSB4018:   at NuGet.ProjectModel.PackageSpecWriter.WriteMetadataTargetFrameworks (NuGet.RuntimeModel.IObjectWriter writer, NuGet.ProjectModel.ProjectRestoreMetadata msbuildMetadata)
+</span><span class='line'>error MSB4018:   at NuGet.ProjectModel.PackageSpecWriter.SetMSBuildMetadata (NuGet.RuntimeModel.IObjectWriter writer, NuGet.ProjectModel.PackageSpec packageSpec)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>MSBuild on mono does not support .NET 6.0.300 sdk and, because of the
+global.json file, Visual Studio for Mac did not downgrade to an older supported
+.NET SDK which then caused the restore to fail since it cannot resolve the target framework.</p>
+
+<p>To avoid this problem the restore now checks the Build with MSBuild
+on Mono setting, in Solution Properties &ndash; Build &ndash; General, and if unchecked
+the restore will succeed.</p>
+
+<p><strong>Fixed error restoring Mapsui.Mac.sln</strong></p>
+
+<p>The Mapsui.Mac.sln from <a href="https://github.com/Mapsui/Mapsui">https://github.com/Mapsui/Mapsui</a> would fail to
+restore with following error when Build with
+MSBuild on Mono was disabled in Solution Properties:</p>
+
+<pre><code>error MSB4019: The imported project "/usr/local/share/dotnet/sdk/6.0.300/Xamarin/iOS/Xamarin.iOS.CSharp.targets" was not found.
+</code></pre>
+
+<p>The Mapsui.Mac.sln contains .NET 6.0 maui and some classic Xamarin
+projects. It is not possible to restore these all projects with either
+MSBuild on Mono or .NET&rsquo;s MSBuild. The solution also contains more than
+10 projects which results in Visual Studio for Mac running MSBuild directly out of process
+instead of using its MSBuild host. Since neither MSBuild on mono, nor .NET&rsquo;s MSBuild can
+restore the solution, this would fail.</p>
+
+<p>To fix this Visual Studio for Mac no longer runs MSBuild
+directly out of process to run the restore when a solution contains a mix of project types that
+require different MSBuild&rsquo;s. Instead Visual Studio for Mac runs the
+restore with its MSBuild hosts, which support both MSBuild on Mono and
+.NET&rsquo;s MSBuild. Each project then has the GenerateRestoreGraphFile MSBuild
+target run separately using the correct MSBuild. This requires
+the Build with MSBuild on Mono option to be unchecked, and allows
+the Mapsui.Mac.sln to be restored.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1103,201 +1246,6 @@ update both NuGet packages so they then use the new strict dependency.</p>
 <p>Note that updating all packages in the project from the Solution
 window does not have this problem since there the packages were already
 updated together in a batch.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/12/31/ProjectSystemToolsForVisualStudioMac/">Project System Tools for Visual Studio for Mac</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2019-12-31T12:00:00+00:00" pubdate data-updated="true">Dec 31<sup>st</sup>, 2019</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The <a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools extension</a> provides
-MSBuild design-time and build logging for Visual Studio for Mac.</p>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingBinLogFile.png" title="Build Logging window and BinLog tree view" alt="Build Logging window and BinLog tree view"></p>
-
-<p>This is based on the <a href="https://github.com/dotnet/project-system-tools">Project System Tools available for Visual Studio on Windows</a> and also re-uses code from this extension.</p>
-
-<h2>Features</h2>
-
-<ul>
-<li>Build Logging window
-
-<ul>
-<li>Shows a list of builds and design-time builds</li>
-</ul>
-</li>
-<li>View MSBuild log output for all builds and design-time builds</li>
-<li>View MSBuild binary logs for builds
-
-<ul>
-<li>Build tab shows a tree view of the build results from the binary log</li>
-<li>Target Summary tab shows target name, number of calls, timings and file location</li>
-<li>Task Summary tab shows task name, number of calls, timings and file location</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Supports</h2>
-
-<ul>
-<li>Visual Studio Mac 8.1 or later.</li>
-</ul>
-
-
-<h2>Build Logging Window</h2>
-
-<p>To open the Build Logging Window</p>
-
-<ul>
-<li>Select View &ndash; Pads &ndash; Build Logging</li>
-</ul>
-
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingWindow.png" title="Build Logging window" alt="Build Logging window"></p>
-
-<p>Click the green arrow to enable logging for builds and design-time builds.</p>
-
-<p>To stop the logging click the red square.</p>
-
-<p>To filter the targets use the combo box to restrict the items shown to builds or design time builds, or use the search on the right hand side of the window.</p>
-
-<h2>MSBuild Log Output</h2>
-
-<p>To open the MSBuild log output</p>
-
-<ul>
-<li>Double click the row in the Build Logging window or</li>
-<li>Right click the row and select Open Log File</li>
-</ul>
-
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildLoggingOpenLogFileMenu.png" title="Open Log File context menu" alt="Open Log File context menu"></p>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildLogFile.png" title="MSBuild Log File" alt="MSBuild Log File"></p>
-
-<p>The verbosity of the MSBuild log output is configured in Preferences &ndash; Projects &ndash; Build &ndash; Log verbosity.</p>
-
-<h2>MSBuild Binary Log</h2>
-
-<p>To open a binary log file</p>
-
-<ul>
-<li>Right click the row in the Build Logging window and select Open Binary Log File</li>
-</ul>
-
-
-<p>Note that binary logs are only available when the project or solution is built.
-Support for design-time build binary logs should be available in Visual Studio for Mac 8.5.</p>
-
-<p>Three tabs are provided by the Project System Tools extension when a binary log file is opened.</p>
-
-<ul>
-<li>Build
-
-<ul>
-<li>Tree view of the binary log targets and tasks</li>
-<li>Properties window shows more information about the selected task or target</li>
-</ul>
-</li>
-<li>Target Summary
-
-<ul>
-<li>Target name</li>
-<li>Source filename</li>
-<li>Number of calls</li>
-<li>Time taken</li>
-<li>Percentage of total time taken</li>
-</ul>
-</li>
-<li>Task Summary
-
-<ul>
-<li>Task name</li>
-<li>Source filename</li>
-<li>Number of calls</li>
-<li>Time taken</li>
-<li>Percentage of total time taken</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Build Tab</h2>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/MSBuildBinaryLogFileBuildTab.png" title="MSBuild Binary Log File - Build tab" alt="MSBuild Binary Log File - Build tab"></p>
-
-<p>The Build tab shows the run times of the targets and tasks, and whether they ran successfully.</p>
-
-<p>Skipped tasks and targets are shown in light grey text.</p>
-
-<p>Selecting a tree node in the Build tab will show more information about that node in the Properties window.</p>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/BuildTabProperties.png" title="MSBuild Binary Log File - Build tab - Properties window" alt="MSBuild Binary Log File - Build tab - Properties window"></p>
-
-<h2>Target Summary Tab</h2>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TargetSummaryTab.png" title="MSBuild Binary Log File - Target Summary tab" alt="MSBuild Binary Log File - Target Summary tab"></p>
-
-<p>Targets are shown in the order they were run and can be sorted by clicking the column headers.</p>
-
-<h2>Task Summary Tab</h2>
-
-<p><img src="/images/blog/ProjectSystemToolsForVisualStudioMac/TaskSummaryTab.png" title="MSBuild Binary Log File - Task Summary tab" alt="MSBuild Binary Log File - Task Summary tab"></p>
-
-<p>Tasks are shown in the order they were run and can be sorted by clicking the column headers.</p>
-
-<h2>Project System Tools Installation</h2>
-
-<p>The Project System Tools extension is available from the Visual Studio for Mac extensions repository. To install the addin:</p>
-
-<ul>
-<li>From the main menu, open the Extensions Manager dialog.</li>
-<li>Select the Gallery tab.</li>
-<li>Expand IDE extensions.</li>
-<li>Select Project System Tools</li>
-<li>Click the Refresh button if the extension is not visible.</li>
-<li>Click Install… to install the extension.</li>
-<li>Restart Visual Studio for Mac.</li>
-</ul>
-
-
-<h2>Links</h2>
-
-<ul>
-<li><a href="https://github.com/mrward/monodevelop-project-system-tools">Project System Tools source code &ndash; Visual Studio for Mac</a></li>
-<li><a href="https://marketplace.visualstudio.com/items?itemName=VisualStudioProductTeam.ProjectSystemTools">Project System Tools Marketplace &ndash; Visual Studio on Windows</a></li>
-<li><a href="https://github.com/dotnet/project-system-tools">Project System Tools source code &ndash; Visual Studio for Windows</a></li>
-</ul>
-
 </div>
   
   
