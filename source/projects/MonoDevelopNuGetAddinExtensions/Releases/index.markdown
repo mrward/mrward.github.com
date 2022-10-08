@@ -1,15 +1,25 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date:  2022-08-07 12:50
+date:  2022-10-08 12:50
 comments: true
 sharing: true
 footer: true
 ---
 
+## Version 0.33
+
+ * Fix xml files not having syntax highlighting in the main text editor
+ * Fix type load exception causing the NuGet Package Console to not load resulting in a purple window
+
 ## Version 0.32
 
  * Support Visual Studio for Mac 17.4 preview 1
+
+## Version 0.31.1
+
+ * Release for Visual Studio for Mac 17.3
+ * Fix type load exception causing the NuGet Package Console to not load resulting in a purple window
 
 ## Version 0.31
 
