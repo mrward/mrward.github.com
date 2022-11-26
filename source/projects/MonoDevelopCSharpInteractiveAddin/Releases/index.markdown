@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop C# Interactive Releases"
-date: 2022-08-07 12:50
+date: 2022-11-26 14:50
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.5
+
+2022-11-26
+
+ * Support Visual Studio for Mac 17.5
 
 ## Version 0.4
 
