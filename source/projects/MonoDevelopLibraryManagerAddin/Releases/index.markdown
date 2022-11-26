@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop Library Manager Releases"
-date: 2020-12-21 12:00
+date: 2022-11-26 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.3
+
+2022-11-26
+
+ * Support Visual Studio for Mac 17.5
 
 ## Version 0.2
 
