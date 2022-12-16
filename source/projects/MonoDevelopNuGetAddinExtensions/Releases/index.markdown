@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop NuGet Addin Extensions Releases"
-date:  2022-10-08 12:50
+date:  2022-12-16 11:50
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.34
+
+ * Support Visual Studio for Mac 17.5 preview 2
+ * Fix Entity Framework Update-Database failing to run
+ * Update to PowerShell 7.3.0
 
 ## Version 0.33
 
