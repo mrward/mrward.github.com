@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vsmac | Matt Ward]]></title>
   <link href="http://lastexitcode.com/blog/categories/vsmac/atom.xml" rel="self"/>
   <link href="http://lastexitcode.com/"/>
-  <updated>2022-10-01T16:11:08+01:00</updated>
+  <updated>2022-12-20T12:23:59+00:00</updated>
   <id>http://lastexitcode.com/</id>
   <author>
     <name><![CDATA[Matt Ward]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 17.4]]></title>
+    <link href="http://lastexitcode.com/blog/2022/12/20/NuGetSupportInVisualStudioMac17-4/"/>
+    <updated>2022-12-20T12:20:00+00:00</updated>
+    <id>http://lastexitcode.com/blog/2022/12/20/NuGetSupportInVisualStudioMac17-4</id>
+    <content type="html"><![CDATA[<h2>Changes</h2>
+
+<ul>
+<li> NuGet 6.3.1 support</li>
+<li> Fixed multiple NuGet.Config load error dialogs</li>
+<li> Fixed wrong NuGet.Config file path when failing to save file</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://visualstudio.microsoft.com/vs/mac/">Visual Studio for Mac 17.4</a>
+can be found in the <a href="https://learn.microsoft.com/visualstudio/releases/2022/mac-release-notes">release notes</a>.</p>
+
+<h2>NuGet 6.3.1 support</h2>
+
+<p><a href="https://learn.microsoft.com/en-us/nuget/release-notes/nuget-6.3">NuGet 6.3.1.1</a> is now
+included with Visual Studio for Mac 17.4.</p>
+
+<p><strong>Fixed multiple NuGet.Config load error dialogs</strong></p>
+
+<p>On opening or creating a new solution, and the global NuGet.Config file was invalid,
+two error dialogs would be displayed indicating
+a problem with the NuGet.Config file.</p>
+
+<p>Now the error dialog is only displayed once
+when opening a solution.</p>
+
+<p><strong>Fixed wrong NuGet.Config file path when failing to save file</strong></p>
+
+<p>When there is an error saving the NuGet.Config the error message
+shows the path to the file. However this was using SpecialFolder.ApplicationData
+instead of the correct path <code>~/.nuget/NuGet/NuGet.config</code>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 17.3]]></title>
@@ -381,42 +420,6 @@ Package Microsoft.NETCore.App 2.2.8 is not compatible with netcoreapp2.1 (.NETCo
 package references were being updated when they should be ignored since
 they cannot be updated. Now Visual Studio for Mac does not attempt to
 update implicitly defined NuGet package references.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[NuGet Support in Visual Studio for Mac 8.8]]></title>
-    <link href="http://lastexitcode.com/blog/2020/11/21/NuGetSupportInVisualStudioMac8-8/"/>
-    <updated>2020-11-21T14:20:00+00:00</updated>
-    <id>http://lastexitcode.com/blog/2020/11/21/NuGetSupportInVisualStudioMac8-8</id>
-    <content type="html"><![CDATA[<h2>Features</h2>
-
-<ul>
-<li> Azure DevOps NuGet package source authentication with signed in account</li>
-<li> NuGet 5.8 support</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 8.8</a>
-can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2019-mac-relnotes">release notes</a>.</p>
-
-<h2>Azure DevOps NuGet package source authentication with signed in account</h2>
-
-<p>Visual Studio for Mac now has integrated support for accessing
-<a href="https://docs.microsoft.com/en-us/azure/devops/artifacts/nuget/consume?view=azure-devops">Azure DevOps NuGet package sources</a>
-using the <a href="https://docs.microsoft.com/en-us/visualstudio/mac/signing-in?view=vsmac-2019">account signed into the IDE</a>
-without requiring a personal access token (PAT).</p>
-
-<p><img src="/images/blog/NuGetSupportInVisualStudioMac8-8/AzureDevOps-NuGetPackageSource.gif" title="&lsquo;Azure DevOps NuGet package source prompting for sign in in Visual Studio for Mac&rsquo; &lsquo;Azure DevOps NuGet package source prompting for sign in in Visual Studio for Mac&rsquo;" ></p>
-
-<p>If you are not signed in then the
-account sign in dialog will be opened when an Azure DevOps NuGet package source
-is accessed that requires authentication.</p>
-
-<h2>NuGet 5.8 support</h2>
-
-<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-5.8">NuGet 5.8.0.6860</a> is now
-included with Visual Studio for Mac 8.8.</p>
 ]]></content>
   </entry>
   

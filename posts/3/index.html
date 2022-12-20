@@ -9,8 +9,7 @@
   <meta name="author" content="Matt Ward">
 
   
-  <meta name="description" content="Here we look at using Apache as
-a proxy server in order to test that a Mac client application, such as Safari or Visual Studio for Mac, can make web &hellip;">
+  <meta name="description" content="Changes NuGet 4.8 support Support PackageReferences without a Version Fixed NuGet sdk resolver not being found in Mono 5.16 Fixed null reference &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +81,176 @@ a proxy server in order to test that a Mac client application, such as Safari or
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/12/19/NuGetSupportInVisualStudioMac7-7/">NuGet Support in Visual Studio for Mac 7.7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-12-19T14:40:00+00:00" pubdate data-updated="true">Dec 19<sup>th</sup>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Changes</h2>
+
+<ul>
+<li> NuGet 4.8 support</li>
+<li> Support PackageReferences without a Version</li>
+<li> Fixed NuGet sdk resolver not being found in Mono 5.16</li>
+<li> Fixed null reference exception in package compatiblity check</li>
+<li> Fixed Update menu enabled when project has no PackageReferences</li>
+<li> Fixed updating a NuGet package changing a reference&rsquo;s ItemGroup</li>
+<li> Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path</li>
+</ul>
+
+
+<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.7</a>
+can be found in the <a href="https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-mac-relnotes#whats-new-in-77">release notes</a>.</p>
+
+<h2>NuGet 4.8 support</h2>
+
+<p><a href="https://docs.microsoft.com/en-us/nuget/release-notes/nuget-4.8-rtm">NuGet 4.8.0.5385</a> is now
+included with Visual Studio for Mac 7.7.2.</p>
+
+<h2>Support PackageReferences without a Version</h2>
+
+<p>Visual Studio for Mac did not support projects that used PackageReferences without
+specifying a version.</p>
+
+<pre><code>&lt;ItemGroup&gt;
+    &lt;PackageReference Include="Newtonsoft.Json" /&gt;
+&lt;/ItemGroup&gt;
+</code></pre>
+
+<p>The version may be defined elsewhere in another MSBuild file, such as the Directory.props file,
+or by the .NET Core SDK, as with the
+Microsoft.AspNetCore.App PackageReference in ASP.NET Core projects. By default a
+PackageReference without a version will restore the lowest available version for
+the NuGet package.</p>
+
+<p>However in Visual Studio for Mac there were several problems with PackageReferences that
+did not specify a version.</p>
+
+<p>Opening a project with a PackageReference without a Version
+would result in an ArgumentNullException being logged and the
+Add Packages dialog could not be opened.</p>
+
+<p>If the PackageReference, in a non-SDK project, had no Version
+then it was not displayed in the Packages folder and a null reference
+exception was logged. The Solution window would try to find
+the package to check if it was installed which is not possible
+with a missing version and NuGet&rsquo;s VersionFolderPathResolver
+would throw a null reference exception.</p>
+
+<p>If a PackageReference had no Version then a null reference exception
+was logged when checking for updates. A null version is now handled.</p>
+
+<p>Right clicking the package in the Packages folder would log a
+null reference exception if a non-SDK style project was used and it
+had a PackageReference without a version. This is now handled and the
+menu label will show &ldquo;Version None&rdquo;.</p>
+
+<h2>Bug Fixes</h2>
+
+<p><strong>Fixed NuGet sdk resolver not being found in Mono 5.16</strong></p>
+
+<p>More recent versions of MSBuild, such as MSBuild 16.0.40 which is included
+with Mono 5.16.0.173, allow the sdk resolver to use a manifest.xml file to
+define the assembly where the resolver can be found:</p>
+
+<pre><code>&lt;SdkResolver&gt;
+  &lt;Path&gt;..\..\Microsoft.Build.NuGetSdkResolver.dll&lt;/Path&gt;
+&lt;/SdkResolver&gt;
+</code></pre>
+
+<p>This manifest file not supported and resulted in the NuGet sdk resolver not
+being loaded. Any projects that use an MSBuild sdk from a NuGet
+package no longer worked and would result in an &lsquo;Invalid configuration
+mapping&rsquo; error shown in the Solution window. The sdk resolution in
+Visual Studio for Mac has now
+been updated based on the latest MSBuild source code.</p>
+
+<p><strong>Fixed null reference exception in compatiblity check</strong></p>
+
+<p>Changing the target framework of a project that uses a packages.config
+file will result in a package compatiblity check being run.
+If the project had both a PackageReference and a packages.config file
+the package compatiblity check would fail with a null
+reference exception. Visual Studio for Mac was treating the project as
+though it was using a packages.config file, when it should have been
+treated as a PackageReference project. This resulted in a null
+reference exception being thrown when checking for package compatiblity.</p>
+
+<p><strong>Fixed Update menu enabled when project has no PackageReferences</strong></p>
+
+<p>The Update menu was enabled if the project used PackageReferences but
+had none in the project. Without any PackageReferences in the
+project there is no packages to update. The check to determine if the Update
+menu should be enabled has been changed to make sure the project has
+PackageReferences in the project file, not just imported
+PackageReferences. The Update
+NuGet Packages menu, which is used to update packages for the solution,
+has also been changed to have the same behaviour.</p>
+
+<p><strong>Fixed updating a NuGet package changing a reference&rsquo;s ItemGroup</strong></p>
+
+<p>On updating a NuGet package the Reference item will now be modified in
+place in the project file.</p>
+
+<p>On updating a NuGet package in a project that used a packages.config
+the old NuGet package is uninstalled and the new one is installed.
+This removes the old references and adds new references. If the
+references are in an ItemGroup with a condition then the new
+reference may be added into a different ItemGroup if there are other
+ItemGroups with references. To prevent this from happening the
+changes to made to references are cached and not applied to the
+project until all the NuGet actions have all been run. This allows
+a NuGet package update which would remove a reference and then
+add a new reference to be
+converted into an update of the original Reference in the project,
+changing just its HintPath, so its
+location in the project file is not changed.</p>
+
+<p>This was fixed in Visual Studio for Mac 7.7.3.</p>
+
+<p><strong>Fixed updating a NuGet package changing a fully qualified reference hint path to a relative path</strong></p>
+
+<p>Updating a NuGet package, where the project, which uses a packages.config file,
+had been modified so the
+original reference had a fully qualified hint path, would result in
+a relative path used for the hint path when the reference was updated.</p>
+
+<p>Now if the original hint path was full path then if the hint
+path for the reference is changed it is saved using a full
+path. This is different behaviour to how Visual Studio on Windows works, which
+will always add a relative hint path for the reference.</p>
+
+<p>This was fixed in Visual Studio for Mac 7.7.3.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -2551,468 +2720,6 @@ to the project are removed.</p>
 <p>An unhandled exception was being logged if a package source returned
 an error or the package source url was invalid. This was because a
 task was not being observed when the package sources were being used.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/12/18/NetCoreSupportInVisualStudioMac7-3/">.NET Core Support in Visual Studio for Mac 7.3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-12-18T12:00:00+00:00" pubdate data-updated="true">Dec 18<sup>th</sup>, 2017</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Changes</h2>
-
-<ul>
-<li> <a href="https://github.com/Microsoft/vstest">VSTest</a> Console Runner now included with Visual Studio for Mac
-
-<ul>
-<li>Allows <a href="https://xunit.github.io">xUnit</a> tests to be supported for non .NET Core projects</li>
-</ul>
-</li>
-<li> Renamed ASP.NET Core Project Templates</li>
-<li> New ASP.NET Core F# Project Templates Added</li>
-<li> Support Backslash in Project Template Primary Output Path</li>
-<li> Support <a href="https://github.com/NuGet/Home/wiki/%5BSpec%5D-NuGet-settings-in-MSBuild">NuGet Restore MSBuild Properties</a>
-
-<ul>
-<li>RestoreAdditionalProjectFallbackFolders</li>
-<li>RestoreAdditionalProjectSources</li>
-<li>RestoreFallbackFolders</li>
-<li>RestorePackagesPath</li>
-<li>RestoreSources</li>
-</ul>
-</li>
-<li> Fixed transitive project references not supported</li>
-</ul>
-
-
-<p>More information on all the new features and changes in <a href="https://www.visualstudio.com/vs/visual-studio-mac/">Visual Studio for Mac 7.3</a> can be found in the <a href="https://www.visualstudio.com/en-us/news/releasenotes/vs2017-mac-relnotes#release-date-december-4-2017---visual-studio-2017-version-73-730797">release notes</a></p>
-
-<h2>VSTest Console Runner</h2>
-
-<p>Previous versions of Visual Studio for Mac would use <strong>dotnet vstest</strong>,
-included with the .NET Core SDK,
-to run unit tests for .NET Core projects. Now Visual Studio for Mac includes
-the <a href="https://github.com/Microsoft/vstest">VSTest</a> Console runner and uses that instead of using the .NET Core SDK.</p>
-
-<p>The standalone VSTest Console runner allows other project types, not just .NET Core projects, to
-be supported. Visual Studio for Mac can now run <a href="https://xunit.github.io">xUnit</a> tests
-for .NET Framework projects. Previously only NUnit was supported.</p>
-
-<p>Let us take a look at using xUnit in a .NET Framework project.</p>
-
-<p>First create a .NET Framework Library project by opening the New Project dialog and selecting
-Library from the Other &ndash; .NET &ndash; General category.</p>
-
-<p>Install the following NuGet packages into the project.</p>
-
-<ul>
-<li>xunit</li>
-<li>xunit.runner.visualstudio</li>
-</ul>
-
-
-<p>Edit MyClass.cs and add some xUnit tests, as shown below:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>
-</span><span class='line'>using Xunit;
-</span><span class='line'>
-</span><span class='line'>namespace xUnitTests
-</span><span class='line'>{
-</span><span class='line'>  public class MyClass
-</span><span class='line'>  {
-</span><span class='line'>      [Fact]
-</span><span class='line'>      public void PassingTest()
-</span><span class='line'>      {
-</span><span class='line'>          Assert.True(true);
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      [Fact]
-</span><span class='line'>      public void FailingTest()
-</span><span class='line'>      {
-</span><span class='line'>          Assert.False(true);
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Building the project should then show the xUnit tests in the Unit Tests window.</p>
-
-<p><img src="/images/blog/NetCoreSupportInVisualStudioMac7-3/xUnitTestsInUnitTestsWindow.png" title="xUnit tests in Unit Tests window" alt="xUnit tests in Unit Tests window"></p>
-
-<p>Note that, due to a bug in Visual Studio for Mac, the tests may not appear in the
-Unit Tests window if the
-xunit.runner.visualstudio was not available in the local machine&rsquo;s NuGet
-package cache when it was added to the project. Closing and re-opening the
-solution should allow the tests to be discovered.</p>
-
-<p>The tests can then be run or debugged in the usual way.</p>
-
-<p>Currently MSTest is not yet supported in .NET Framework projects. The tests are discovered
-but they fail to run with an access denied error message:</p>
-
-<pre><code>An exception occurred while invoking executor 'executor://mstestadapter/v2': 
-Access to the path "/TestResults" is denied.
-</code></pre>
-
-<h2>Renamed ASP.NET Core Project Templates</h2>
-
-<p>The ASP.NET Core template names displayed in the New Project dialog
-have been changed to be more consistent with Visual Studio on Windows.</p>
-
-<ul>
-<li>&lsquo;ASP.NET Core Web App (Razor Pages)&rsquo; renamed to &lsquo;ASP.NET Core Web App&rsquo;</li>
-<li>&lsquo;ASP.NET Core Web App&rsquo; renamed to &lsquo;ASP.NET Core Web App (MVC)&rsquo;</li>
-</ul>
-
-
-<p>Visual Studio uses (Model-View-Controller) but the shorter
-MVC is used by Visual Studio for Mac.</p>
-
-<h2>New ASP.NET Core F# Project Templates Added</h2>
-
-<p>The following ASP.NET Core F# project templates are now available from the
-New Project dialog.</p>
-
-<ul>
-<li>ASP.NET Core Empty
-
-<ul>
-<li>.NET Core 1.x and 2.0</li>
-</ul>
-</li>
-<li>ASP.NET Core Web API
-
-<ul>
-<li>.NET Core 2.0 only</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Support Backslash in Project Template Primary Output Path</h2>
-
-<p>The template.json file used by the new templating engine uses a
-primaryOutputs property for projects and files. If the paths used
-contained backslashes then the project was not added to the
-solution.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"primaryOutputs": [
-</span><span class='line'>  { "path": "Library1\\Library1.csproj" },
-</span><span class='line'>  { "path": "Library2\\Library2.csproj" }
-</span><span class='line'>]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now the paths have the backslashes replaced with forward slashes if
-the current platform does not support backslash as a path
-separator.</p>
-
-<h2>Support RestoreAdditionalProjectFallbackFolders MSBuild Property</h2>
-
-<p>The RestoreAdditionalProjectFallbackFolders MSBuild property is
-read and appended to the list of fallback folders stored in the
-project.assets.json file. The .NET Core 2.0 SDK will set this
-MSBuild property to point to the NuGet package fallback folder
-that is installed with the SDK. This will be used
-to resolve NuGet packages first before downloading them to the
-~/.nuget/packages folder.</p>
-
-<h2>Support RestoreAdditionalProjectSources MSBuild Property</h2>
-
-<p>The RestoreAdditionalProjectSources MSBuild property can be used
-to add additional package sources to the existing list of sources
-used to resolve packages.</p>
-
-<h2>Support RestoreFallbackFolders MSBuild Property</h2>
-
-<p>The RestoreFallbackFolders MSBuild property can be used by project that uses
-PackageReferences to define a set of package fallback folders that
-will override any specified in the NuGet.Config file. It can also
-be used to clear any pre-defined fallback folders by specifying
-&lsquo;clear&rsquo; as its value. Note that this value does not affect any
-folders defined by RestoreAdditionalProjectFallbackFolders which
-will be appended even if RestoreFallbackFolders is set to &lsquo;clear&rsquo;.</p>
-
-<h2>Support RestorePackagesPath MSBuild Property</h2>
-
-<p>The RestorePackagesPath MSBuild property can be used to override the global packages
-folder location when a project uses a PackageReference.</p>
-
-<h2>Support RestoreSources MSBuild property</h2>
-
-<p>The RestoreSources MSBuild property can be used to override
-the sources defined by any NuGet.Config file. Any sources defined in the
-RestoreAdditionalProjectSources MSBuild property will still be appended to the
-list of sources if RestoreSources is defined.</p>
-
-<h2>Bug Fixes</h2>
-
-<p><strong>Fixed Transitive Project References not supported</strong></p>
-
-<p>With three .NET Core projects, LibC referencing LibB referencing LibA,
-the types defined by LibA were not available to LibC unless it was
-directly referencing LibA. In Visual Studio for Mac 7.3 the types
-defined by LibA are available to LibC without LibC directly
-referencing LibA.</p>
-
-<p><strong>Portable Class Library projects can now be referenced by .NET Core projects</strong></p>
-
-<p>Portable Class Library (PCL) projects could not be referenced by .NET Core
-projects or .NET Standard projects. The Edit References dialog would show
-&ldquo;Incompatible target framework&rdquo; for the PCL project when trying to add the
-reference.</p>
-
-<p>Visual Studio for Mac now has the same behaviour as Visual Studio on Windows where
-a .NET Standard project can reference any PCL project.</p>
-
-<p><strong>Fixed MSBuild Update item not removed from project</strong></p>
-
-<p>If a file was deleted from a project, or removed without deleting,
-and the file was the last file for a particular wildcard include, the
-Update item for the file was not being removed from the project.</p>
-
-<p><strong>Fixed MSBuild Remove item not added when Update item exists</strong></p>
-
-<p>With a project that contained a single .cs file, and that file had
-an Update item defined, when the file was removed from the project,
-without deleting it, a Remove item was not being added to the project for the file.</p>
-
-<p><strong>Fixed Remove item not being added when file excluded from project</strong></p>
-
-<p>When the last file was removed from the project, but not deleted, an
-MSBuild Remove item was not added to the project for the file.</p>
-
-<ol>
-<li>Create a .NET Standard 2.0 project.</li>
-<li>Right click Class1.cs and select Remove.</li>
-<li>Select Remove from Project in the dialog that opens.</li>
-<li>Close and re-open solution.</li>
-</ol>
-
-
-<p>The Class1.cs file was still shown in the Solution window when it should have been
-removed. The project file did not have a Compile remove item for Class1.cs when it should
-have been added:</p>
-
-<pre><code>&lt;Compile Remove="Class1.cs" /&gt;
-</code></pre>
-
-<p><strong>Deleting a XAML file left an MSBuild Remove item in project file</strong></p>
-
-<p>When a .xaml file in a project was deleted the associated
-Remove MSBuild item, if it was present, was not being removed from the
-project file.</p>
-
-<ol>
-<li> Create a new .NET Standard 2.0 project.</li>
-<li> Add Xamarin.Forms 2.3 NuGet package.</li>
-<li> Add a new Content Page with Xaml file using the New File dialog.</li>
-<li> In the Solution window select the .xaml file and delete it.</li>
-</ol>
-
-
-<p>All MSBuild items associated with the .xaml file should have been
-removed from the project file but instead a None item would remain.</p>
-
-<pre><code>&lt;None Remove="MyPage.xaml" /&gt;
-</code></pre>
-
-<p><strong>Fix MSBuild remove item not added when adding a XAML file</strong></p>
-
-<p>Adding a new .xaml file to a project was not adding a None Remove
-item for the .xaml file to remove it from the default wildcard include for all
-files.</p>
-
-<pre><code>&lt;None Remove="MyNewPage.xaml" /&gt;
-</code></pre>
-
-<p>On reloading the solution the Solution window would show two .xaml
-files &ndash; one EmbeddedResource item and one None item.</p>
-
-<p><strong>Fixed MSBuild condition evaluation when using Czech locale</strong></p>
-
-<p>With the primary operating system language set to Czech, creating a new .NET
-Core project would result in the project having a target framework of net461.</p>
-
-<p>The problem was that Single.TryParse was returing true for an empty string
-when the machine&rsquo;s culture was &lsquo;cs-CZ&rsquo;. This was causing the MSBuild condition
-evaluation to be treated as a boolean comparison incorrectly in some cases.
-The condition below would return false even though the property was
-not defined and both sides of the condition were empty strings:</p>
-
-<pre><code>&lt;PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == ''"&gt;
-</code></pre>
-
-<p>This was causing the TargetFrameworkIdentifier to not be set for
-.NET Core projects so the default of .NETFramework was being used.</p>
-
-<p><strong>Re-evaluate AppliesTo condition on capability change</strong></p>
-
-<p>Fixed the AppliesTo attribute not attaching a project extension to
-a project after a NuGet package restore enabled a project capability.
-The AppliesTo attribute allows a project extension to be associated
-to a project based on its capabilities.</p>
-
-<p>If the project extension uses an AppliesTo attribute which is
-initially false and then a new project capability is added, and the
-project is re-evaluated, the AppliesTo attribute is now
-re-evaluated. This will then cause the project extension to be
-attached to the project. If the project extension was attached to the
-project and the project capability is removed then the project
-extension will now be removed when the project is re-evaluated.</p>
-
-<p><strong>Fixed being unable to run a new Azure Functions project</strong></p>
-
-<p>Creating a new Azure Functions project would result in
-being unable to run the project until the solution was closed
-and re-opened again. After the NuGet packages are restored the
-project can be run but this information was not updated in Visual Studio
-for Mac.</p>
-
-<p>Now after a NuGet package restore, when re-evaluating the project,
-the solution startup item is updated if there is no startup item
-already defined.</p>
-
-<p>When the project capability is removed, due to a NuGet package
-being uninstalled, and the
-project can no longer be run the startup item will be updated if
-it was previously set to be this project.</p>
-
-<p><strong>Fix generated NuGet files being imported twice</strong></p>
-
-<p>The ProjectName.nuget.g.targets and ProjectName.nuget.g.props,
-that are generated for .NET Core projects in the base intermediate
-directory, were being imported twice.
-Once by Microsoft.Common.props, that is provided with Mono, and once
-again by Visual Studio for Mac.</p>
-
-<p>Importing these files twice was causing a duplicate file to be added to
-the project information held in memory by Visual Studio for Mac
-when Xamarin.Forms 2.4 was used and no .NET Core SDK was installed.
-This would result in the content page xaml and associated C# file not
-being nested in the solution window.</p>
-
-<p><strong>Fixed items added to project when a new content page with XAML was created</strong></p>
-
-<p>Adding a new Xamarin.Forms content page with XAML would add an
-update item for the .xaml.cs file, a remove item for the xaml file,
-and an include item for the xaml file.</p>
-
-<p>An example is Xamarin.Forms 2.4 which defines wildcard includes:</p>
-
-<pre><code>&lt;None Remove="**\*.xaml" /&gt;
-&lt;EmbeddedResource Include="**\*.xaml" SubType="Designer" Generator="MSBuild:UpdateDesignTimeXaml" /&gt;
-</code></pre>
-
-<p>Which would cause a new .xaml file added to the project and saved
-in the project file as well as a remove for the None item even though
-the .xaml file was already removed from the None items.</p>
-
-<pre><code>&lt;None Remove="MyView.xaml" /&gt;
-
-&lt;EmbeddedResource Include="MyView.xaml"&gt;
-  &lt;Generator&gt;MSBuild:UpdateDesignTimeXaml"&lt;/Generator&gt;
-&lt;/EmbeddedResource&gt;
-</code></pre>
-
-<p><strong>Fix DependentUpon property being saved in project</strong></p>
-
-<p>Xamarin.Forms 2.4 defines an update item similar to:</p>
-
-<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
-</code></pre>
-
-<p>When a project was saved a Compile item was added to the main project
-with the filename stored in the DependentUpon element. Now
-the evaluated DependentUpon value is treated as being the default
-value so it is not added to the project file.</p>
-
-<p><strong>Fix xaml.cs files not being nested</strong></p>
-
-<p>Xamarin.Forms 2.4 defines an update item similar to:</p>
-
-<pre><code>&lt;Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" /&gt;
-</code></pre>
-
-<p>The DependentUpon property was being evaluated as &lsquo;*.xaml.cs&rsquo;.
-This was causing .xaml.cs files to not be nested in the Solution window.</p>
-
-<p><strong>Fixed build error when Xamarin.Forms 2.4 used in a .NET Standard project</strong></p>
-
-<p>If a Xamarin.Forms .NET Standard project had a
-.xaml file and a .xaml.cs file then the xaml.g.cs file would not be
-generated when the project file contained no files. The
-default items defined by the Xamarin.Forms NuGet package were not
-being imported. This then caused a build error about the
-InitializeComponent method not being defined.</p>
-
-<p>Xamarin.Forms 2.4.0 uses default
-item imports which were not being included since they are conditionally
-imported and the MSBuildSDKsPath was not defined:</p>
-
-<pre><code>&lt;Import Project="$(MSBuildThisFileDirectory)Xamarin.Forms.DefaultItems.props" Condition="'$(MSBuildSDKsPath)'!=''" /&gt;
-</code></pre>
-
-<p>MSBuild on the command line defines the MSBuildSDKsPath globally in
-its MSBuild.dll.config file. The MSBuild engine host, used when
-building a project in Visual Studio for Mac, now also defines the
-MSBuildSDKsPath property.</p>
-
-<p><strong>Fixed remove item added when removing a linked file</strong></p>
-
-<p>Deleting a file link in a .NET Core project would add a remove item
-for the file instead of removing the link from the project.</p>
 </div>
   
   
