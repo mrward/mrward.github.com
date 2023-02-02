@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop Log Monitor Addin Releases"
-date: 2022-07-03 13:00
+date: 2023-02-02 13:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.8
+
+2023-02-02
+
+ * Support Visual Studio for Mac 17.5
 
 ## Version 0.7
 
