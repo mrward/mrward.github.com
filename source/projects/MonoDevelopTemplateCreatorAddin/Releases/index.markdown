@@ -1,17 +1,26 @@
 ---
 layout: page
 title: "MonoDevelop Template Creator Addin Releases"
-date: 2022-10-29 15:00
+date: 2023-02-04 15:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.9
+
+2023-02-04
+
+ * Support Visual Studio for Mac 17.5
+
+## Version 0.8
 
 2022-10-29
 
  * Support Visual Studio for Mac 17.4 preview 5
 
 (17.4 build 2339)
+
 ## Version 0.7
 
 2022-07-03
