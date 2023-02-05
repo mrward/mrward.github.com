@@ -1,11 +1,19 @@
 ---
 layout: page
 title: "MonoDevelop .NET Core Extensions Addin Releases"
-date: 2022-08-29 15:00
+date: 2023-02-05 15:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.6
+
+2023-02-05
+
+ * Support Visual Studio for Mac 17.5
+ * Remove code to refresh ASP.NET Core project templates since this is no longer needed
+ * Remove support for custom .NET CLI location in global.json file
 
 ## Version 0.5
 
@@ -15,6 +23,7 @@ footer: true
  * Allow global default .NET runtime to be set from the Project - Default .NET menu
  * Custom .NET runtimes can be specified in Preferences - Build and Debug - .NET Runtimes
  * Supports Visual Studio for Mac 17.4
+ * Support custom .NET CLI location in the global.json file
 
 ## Version 0.4
 
