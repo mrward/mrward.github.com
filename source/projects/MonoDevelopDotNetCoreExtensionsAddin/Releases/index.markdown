@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop .NET Core Extensions Addin Releases"
-date: 2023-02-05 15:00
+date: 2023-03-27 15:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.7
+
+2023-03-27
+
+ * Ensure solution extension is run before main .NET Core extension so it does not affect the built-in global.json support
 
 ## Version 0.6
 
