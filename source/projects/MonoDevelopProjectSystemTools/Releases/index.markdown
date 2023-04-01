@@ -1,11 +1,17 @@
 ---
 layout: page
 title: "MonoDevelop Project System Tools Addin Releases"
-date: 2023-02-04 12:00
+date: 2023-04-01 12:00
 comments: true
 sharing: true
 footer: true
 ---
+
+## Version 0.13
+
+2023-04-01
+
+ * Fix binary logs not available for design time builds
 
 ## Version 0.12
 
